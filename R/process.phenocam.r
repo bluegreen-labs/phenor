@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 
-setwd("~/Desktop/transition_dates/")
+setwd("~/Dropbox/Data/tmp/transition_dates/")
 
 process.phenocam = function(path = ".",
                             direction = "rising",
@@ -30,7 +30,6 @@ process.phenocam = function(path = ".",
 
     # get individual sites form the filenames
     sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
-
     files = transition_files[which(sites == site)]
 
     # merge all transition date data
@@ -48,7 +47,7 @@ process.phenocam = function(path = ".",
     data = data[spread < 30,]
 
     # grab the location of the site by subsetting the
-    site_info = subset(metadata, site == site)
+    site_info = metadata[which(metadata$site == site),]
     lat = site_info$lat
     lon = site_info$lon
 
@@ -115,7 +114,7 @@ process.phenocam = function(path = ".",
   transition_files = list.files(path,"*_transition_dates.csv")
 
   # get individual sites form the filenames
-  sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
+  sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
   # construct validation data using the helper function
   # format_data() above
@@ -134,5 +133,4 @@ process.phenocam = function(path = ".",
 
 bla = process.phenocam()
 print(str(bla))
-
 saveRDS(bla, "/data/Dropbox/phenor_validation_data.rds")
