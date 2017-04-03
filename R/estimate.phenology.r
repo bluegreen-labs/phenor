@@ -23,14 +23,6 @@
 # calls a particular model and executes it using a given
 # set of parameters and data. Make sure to check the data
 # and parameter constraints. Data matrices must match.
-estimate.phenology = function(par, data, model){
-
-  # check the size of the data matrix served
-  # if the data is a matrix loop over all the
-  # rows and calculate the statistics as such
-  # if it's just a vector only run once (obviously)
-  results = do.call(model,list(data = data, par = par))
-
-  # return results
-  return(results)
+estimate.phenology = function(par, data, model, plot = FALSE){
+  return( do.call(model,list(data = data, par = par, plot = plot)) )
 }

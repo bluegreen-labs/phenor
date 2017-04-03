@@ -12,39 +12,48 @@
 #' @export
 #' @examples
 
-setwd("~/Dropbox/Data/tmp/transition_dates/")
-
 process.phenocam = function(path = ".",
                             direction = "rising",
                             gcc_value = "gcc_90",
-                            transition = 50,
+                            threshold = 50,
                             offset = 264){
 
   # helper function to process the data
-  format_data = function(site, transition_files, metadata){
+  format_data = function(site, transition_files, path, metadata){
 
     # for all sites merge the transition dates if there are multiple files
     # after merging, download the corresponding daymet data and create
     # the parts of the final structured list containing data for further
     # processing
+    transition_files_full = paste(path, transition_files,sep = "/")
 
     # get individual sites form the filenames
     sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
-    files = transition_files[which(sites == site)]
+    files = transition_files_full[which(sites == site)]
 
     # merge all transition date data
     data = do.call("rbind", lapply(files, function(fn)
       data.frame( read.table(fn, header = TRUE, sep = ",") )))
 
+    if(!any(grepl(threshold,names(data)))){
+      cat(sprintf('No transition dates for threshold %s
+                  at site %s !\n',threshold, site))
+      return(NA)
+    }
+
     # throw out all data but gcc_90
     data = data[data$direction == direction &
                   data$gcc_value == gcc_value,
-                  grep(transition,names(data))]
+                  grep(threshold,names(data))]
+
+    transition = as.Date(data[,grep(sprintf("^transition_%s$",threshold),names(data))])
+    lower = as.Date(data[,grep(sprintf("*%s_lower*",threshold),names(data))])
+    upper = as.Date(data[,grep(sprintf("*%s_upper*",threshold),names(data))])
 
     # kick out transition dates with large uncertainties (> 30 days)
     # these are most likely false (consider it to be a parameter)
-    spread = abs(as.Date(data$transition_50_lower_ci) - as.Date(data$transition_50_upper_ci))
-    data = data[spread < 30,]
+    spread = abs(lower - upper)
+    transition = transition[spread < 30] # make parameter?
 
     # grab the location of the site by subsetting the
     site_info = metadata[which(metadata$site == site),]
@@ -54,19 +63,26 @@ process.phenocam = function(path = ".",
     # min and max range of the phenology data
     # -1 for min_year as we need data from the previous year for cold
     # hardening
-    start_yr = as.numeric(min(format(as.Date(data$transition_50),"%Y"))) - 1
-    end_yr = as.numeric(max(format(as.Date(data$transition_50),"%Y")))
+    start_yr = as.numeric(min(format(transition,"%Y"))) - 1
+    end_yr = as.numeric(max(format(transition,"%Y")))
 
     # download daymet data for a given site
-    daymet_data = download.daymet(
-      site = i,
+    daymet_data = try(daymetr::download.daymet(
+      site = site,
       lat = lat,
       lon = lon,
       start_yr = 1980,
       end_yr = end_yr,
       internal = "data.frame",
       quiet = TRUE
-    )$data
+    )$data)
+
+    # trap sites outside daymet coverage
+    if (inherits(daymet_data,"try-error")){
+      cat(sprintf('Site: %s is located outside Daymet coverage
+                      will be pruned!\n', site))
+      return(NA)
+    }
 
     # calculate the mean daily temperature
     daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
@@ -74,34 +90,68 @@ process.phenocam = function(path = ".",
     # calculate the long term daily mean temperature and realign it so the first
     # day will be sept 21th (doy 264) and the matching DOY vector
     ltm = as.vector(by(daymet_data$tmean, INDICES = list(daymet_data$yday), mean))
-    ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
-    doy = c(offset:365,1:(offset - 1))
+
+    # shift data when offset is < 365
+    if (offset < 365){
+      ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy = c(offset:365,1:(offset - 1))
+    } else {
+      doy = 1:365
+    }
 
     # slice and dice the data
-    years = as.numeric(format(as.Date(data$transition_50),"%Y"))
+    years = unique(as.numeric(format(transition,"%Y")))
 
     # create output matrix (holding temperature)
     temperature = matrix(NA,
                          nrow = 365,
                          ncol = length(years))
 
+    # create output matrix (holding temperature)
+    precip = matrix(NA,
+                    nrow = 365,
+                    ncol = length(years))
+
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
     # the current year (make this a function parameter)
+    # for the default offset, if offset is 365 or larger
+    # use the current year only
     for (j in 1:length(years)) {
-      temperature[,j] = subset(daymet_data, (year == (years[j] - 1) & yday >= offset)|
-                          ( year == years[j] & yday < offset ) )$tmean
+      if (offset < 365) {
+        temperature[, j] = subset(daymet_data,
+                                  (year == (years[j] - 1) &
+                                     yday >= offset) |
+                                    (year == years[j] &
+                                       yday < offset))$tmean
+        precip[, j] = subset(daymet_data,
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$prcp..mm.day.
+      } else {
+        temperature[, j] = subset(daymet_data, year == years[j])$tmean
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+      }
     }
 
     # finally select all the transition dates for model validation
-    phenophase = as.numeric(format(as.Date(data$transition_50),"%j"))
+    phenophase_years = as.numeric(format(transition,"%Y"))
+    phenophase_doy = as.numeric(format(transition,"%j"))
+
+    # only select the first instance of a phenophase_doy
+    # currently the model frameworks do not handle multiple cycles
+    phenophase = unlist(lapply(years, function(x) {
+      phenophase_doy[which(phenophase_years == x)[1]]
+    }))
 
     # format the data
     data = list("location" = c(lat,lon),
                 "doy" = doy,
                 "ltm" = ltm,
-                "phenophase" = phenophase,
-                "tmean" = temperature)
+                "transition" = phenophase,
+                "year" = unique(phenophase_years),
+                "tmean" = temperature,
+                "precip" = precip)
 
     # return the formatted data
     return(data)
@@ -111,7 +161,8 @@ process.phenocam = function(path = ".",
   metadata = jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
 
   # list all files in the referred path
-  transition_files = list.files(path,"*_transition_dates.csv")
+  transition_files = list.files(path,
+                                "*_transition_dates.csv")
 
   # get individual sites form the filenames
   sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
@@ -121,16 +172,19 @@ process.phenocam = function(path = ".",
   validation_data = lapply(sites, function(x) {
     format_data(site = x,
                 transition_files = transition_files,
+                path = path,
                 metadata = metadata)
   })
 
   # rename list variables using the proper site names
   names(validation_data) = sites
 
+  # remove out of daymet range sites (prune sites)
+  na_loc = which(is.na(validation_data))
+  if (length(na_loc) != 0){
+    validation_data = validation_data[-na_loc]
+  }
+
   # return the formatted data
   return(validation_data)
 }
-
-bla = process.phenocam()
-print(str(bla))
-saveRDS(bla, "/data/Dropbox/phenor_validation_data.rds")

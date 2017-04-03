@@ -1,10 +1,13 @@
-Package: PhenoR
+Package: phenor
 Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Version: 1.0
+Authors@R: c(person("Hufkens","Koen", email="koen.hufkens@gmail.com",role=c("aut", "cre"))
+Description: Provides a convenient modelling framework for PhenoCam and MODIS data.
 Depends:
-    R (>= 3.0.0)
-License: What license is it under?
+    R (>= 3.2.5),
+    zoo (>= 1.7),
+    graphics (>= 3.2.5),
+    stats (>= 3.2.5)
+License: AGPLv3
 LazyData: true
 RoxygenNote: 5.0.1
