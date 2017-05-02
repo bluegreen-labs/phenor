@@ -1,6 +1,6 @@
 #' Calculates the estimated phenophases for a given set of parameters
 #' and a specified model (be sure to match parameter and requirements
-#' with the model.
+#' with the model. Wrapper around a do.call() call for convenience.
 #'
 #' @param data: a nested list of data with on location:
 #' 1. the date (doy or long format)
@@ -13,7 +13,7 @@
 #' 5. validation data (optional when just running a model not optimizing)
 #' @param par: a vector of parameter values, this is functions specific
 #' @param model: the model name to be used in optimizing the model
-#' @keywords phenology, model, sequential
+#' @keywords phenology, model, post-processing
 #' @export
 #' @examples
 #' estimate <- estimate.phenology(par,data,model)
@@ -23,6 +23,7 @@
 # calls a particular model and executes it using a given
 # set of parameters and data. Make sure to check the data
 # and parameter constraints. Data matrices must match.
-estimate.phenology = function(par, data, model, plot = FALSE){
-  return( do.call(model,list(data = data, par = par, plot = plot)) )
+
+estimate.phenology = function(par, data, model) {
+  do.call(model, list(data = data, par = par))
 }

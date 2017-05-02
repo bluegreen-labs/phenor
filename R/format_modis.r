@@ -8,8 +8,6 @@
 #' @export
 #' @examples
 
-setwd("~/Dropbox/Data/tmp/transition_dates/")
-
 process.modis = function(path = ".",
                             direction = "Increase",
                             offset = 264){
@@ -89,9 +87,9 @@ process.modis = function(path = ".",
     # format the data
     data = list("location" = c(lat, lon),
                 "doy" = doy,
-                "ltm" = ltm,
-                "phenophase" = phenophase,
-                "tmean" = temperature)
+                "Tm" = ltm,
+                "transition_dates" = phenophase,
+                "Ti" = temperature)
 
     # return the formatted data
     return(data) # fix re-use variables
@@ -113,6 +111,36 @@ process.modis = function(path = ".",
 
   # rename list variables using the proper site names
   names(validation_data) = sites
+
+  # Flatten nested structure for speed
+  # 100x increase in speed by doing so
+  # avoiding loops
+
+  if(any(grepl("transition_dates",names(validation_data)))){
+
+    l = ncol(validation_data$tmean)
+    Li = unlist(daylength(validation_data$doy, validation_data$location[1])[1])
+    validation_data$Li = matrix(rep(Li,l),length(Li),l)
+    validation_data$location = matrix(rep(validation_data$location,l),
+                                      2,
+                                      ncol(validation_data$tmean),
+                                      byrow = FALSE)
+
+  } else {
+
+    doy = validation_data[[1]]$doy
+    Li = do.call("cbind",lapply(validation_data,function(x){
+      l = ncol(x$tmean)
+      Li = unlist(daylength(x$doy, x$location[1])[1])
+      Li = matrix(rep(Li,l),length(Li),l)
+    }))
+    tmean = do.call("cbind",lapply(validation_data,function(x)x$tmean))
+    transition_dates = as.vector(do.call("c",lapply(validation_data,function(x)x$transition)))
+    site_names =
+
+    # recreate the validation data structure (new format)
+    validation_data = list("tmean" = tmean, "doy" = doy, "Li"=Li, "transition" = transition_dates)
+  }
 
   # return the formatted data
   return(validation_data)

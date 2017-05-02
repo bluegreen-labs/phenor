@@ -1,5 +1,6 @@
 #' Preprocessing of all PhenoCam data into a format which can be ingested
-#' by the optimization routines etc.
+#' by the optimization routines etc. the original nested list is flattened
+#' for speed.
 #'
 #' @param path: a path to 1 or 3-day PhenoCam time series
 #' (no validation checks will be done, so mixed files will lead to
@@ -41,7 +42,9 @@ process.phenocam = function(path = ".",
       return(NA)
     }
 
-    # throw out all data but gcc_90
+    print(site)
+
+    # throw out all data but the selected gcc value
     data = data[data$direction == direction &
                   data$gcc_value == gcc_value,
                   grep(threshold,names(data))]
@@ -145,13 +148,15 @@ process.phenocam = function(path = ".",
     }))
 
     # format the data
-    data = list("location" = c(lat,lon),
+    data = list("site" = site,
+                "location" = c(lat,lon),
                 "doy" = doy,
                 "ltm" = ltm,
-                "transition" = phenophase,
+                "transition_dates" = phenophase,
                 "year" = unique(phenophase_years),
-                "tmean" = temperature,
-                "precip" = precip)
+                "Ti" = as.matrix(temperature)
+                #"Pi" = as.matrix(precip)
+                )
 
     # return the formatted data
     return(data)
@@ -184,6 +189,36 @@ process.phenocam = function(path = ".",
   if (length(na_loc) != 0){
     validation_data = validation_data[-na_loc]
   }
+
+  # Flatten nested structure for speed
+  # 100x increase in speed by doing so
+  # avoiding loops, comes at the cost of readability (in part)
+  doy = validation_data[[1]]$doy
+  Li = do.call("cbind",lapply(validation_data,function(x){
+      l = ncol(x$Ti)
+      Li = unlist(daylength(x$doy, x$location[1])[1])
+      Li = matrix(rep(Li,l),length(Li),l)
+  }))
+
+  site = as.character(do.call("c",lapply(validation_data,function(x){
+      rep(x$site,ncol(x$Ti))
+  })))
+
+  location = do.call("cbind",lapply(validation_data,function(x){
+      matrix(rep(x$location,ncol(x$Ti)),2,ncol(x$Ti))
+  }))
+
+  Ti = do.call("cbind",lapply(validation_data,function(x)x$Ti))
+
+  transition_dates = as.vector(do.call("c",lapply(validation_data,function(x)x$transition)))
+
+  # recreate the validation data structure (new format)
+  validation_data = list("site" = site,
+                          "location" = location,
+                          "doy" = doy,
+                          "transition_dates" = transition_dates,
+                          "Ti" = Ti,
+                          "Li" = Li)
 
   # return the formatted data
   return(validation_data)

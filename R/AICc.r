@@ -1,4 +1,4 @@
-#' Calculates AIC values for a set of measured and predicted values
+#' Calculates AICc values for a set of measured and predicted values
 #' together with the number of model parameters used
 #'
 #' @param measured: a vector with measurement values to smooth
@@ -13,7 +13,6 @@
 #' model_AIC = AICc(measured, predicted, k)
 #'
 #' }
-
 
 # custom AIC function which accepts loess regressions
 AICc = function(measured, predicted, k){

@@ -1,13 +1,15 @@
 Package: phenor
-Title: What the Package Does (one line, title case)
+Title: An R phenology modelling framework
 Version: 1.0
-Authors@R: c(person("Hufkens","Koen", email="koen.hufkens@gmail.com",role=c("aut", "cre"))
+Author: Koen Hufkens [aut, cre] 
 Description: Provides a convenient modelling framework for PhenoCam and MODIS data.
 Depends:
     R (>= 3.2.5),
     zoo (>= 1.7),
     graphics (>= 3.2.5),
-    stats (>= 3.2.5)
+    stats (>= 3.2.5),
+    GenSA (>= 1.1.6),
+    rgenoud (>= 5.7)
 License: AGPLv3
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

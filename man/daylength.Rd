@@ -3,7 +3,8 @@
 \name{daylength}
 \alias{daylength}
 \title{Calculates day length (in hours) and the solar elevation above the
-ecliptic plane based upon latitude and a day of year value.}
+ecliptic plane based upon latitude and a day of year value.
+This routine uses Forsythe et al. 1995.}
 \usage{
 daylength(doy, latitude)
 }
@@ -15,13 +16,15 @@ daylength(doy, latitude)
 \description{
 Calculates day length (in hours) and the solar elevation above the
 ecliptic plane based upon latitude and a day of year value.
+This routine uses Forsythe et al. 1995.
 }
 \examples{
-ephem <- daylength(1,51)
 
-# hours of sunlight on day 1 of the year
+\dontrun{
+# calcualte the hours of sunlight and solar elevation on day of year 1
+ephem = daylength(1,51)
 print(ephem)
+}
 }
 \keyword{ephemerids}
 \keyword{solar,}
-

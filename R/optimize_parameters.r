@@ -26,8 +26,8 @@
 
 optimize.parameters = function(par = NULL,
                                data = data,
-                               cost = cost.function,
-                               model = "SEQ1.3",
+                               cost = rmse,
+                               model = "TT",
                                method = "GenSA",
                                lower = NULL,
                                upper = NULL,
