@@ -24,7 +24,7 @@
 #' # validation data
 #' }
 
-optimize.parameters = function(par = NULL,
+optimize_parameters = function(par = NULL,
                                data = data,
                                cost = rmse,
                                model = "TT",

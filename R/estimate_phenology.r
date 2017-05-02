@@ -24,6 +24,6 @@
 # set of parameters and data. Make sure to check the data
 # and parameter constraints. Data matrices must match.
 
-estimate.phenology = function(par, data, model) {
+estimate_phenology = function(par, data, model) {
   do.call(model, list(data = data, par = par))
 }

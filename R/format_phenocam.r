@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 
-process.phenocam = function(path = ".",
+format_phenocam = function(path = ".",
                             direction = "rising",
                             gcc_value = "gcc_90",
                             threshold = 50,
@@ -193,6 +193,8 @@ process.phenocam = function(path = ".",
   # Flatten nested structure for speed
   # 100x increase in speed by doing so
   # avoiding loops, comes at the cost of readability (in part)
+  # THIS PART SHOULD BE A SEPARATE FUNCTION
+  # flat_format() / CLEAN UP
   doy = validation_data[[1]]$doy
   Li = do.call("cbind",lapply(validation_data,function(x){
       l = ncol(x$Ti)

@@ -8,7 +8,7 @@
 #' @export
 #' @examples
 
-process.modis = function(path = ".",
+process_modis = function(path = ".",
                             direction = "Increase",
                             offset = 264){
 
