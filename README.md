@@ -2,7 +2,7 @@
 
 Here I combine three of my R packages to facilitate fast and reproducible phenology model development using both PhenoCam and MODIS phenology (MCD12Q2) data.
 
-I combine the query interface in [daymetr](https://github.com/khufkens/daymetr), to access DAYMET climatological data. The [phenocamr](https://github.com/khufkens/phenocamr) package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC using the MODISTools R package. Gathered or processed data is subsequently formated and fit to various phenology models using this phenor package.
+I combine the query interface in [daymetr](https://github.com/khufkens/daymetr), to access DAYMET climatological data. The [phenocamr](https://github.com/khufkens/phenocamr) package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC using the MODISTools R package. Gathered or processed data is subsequently formated and fit to various phenology models using the phenor package.
 
 ## Installation
 
@@ -26,7 +26,6 @@ Example code below shows that in few lines a modelling exercise can be set up. Y
 
 # process phenocam transition files into a consistent format
 phenocam_data = format_phenocam("/foo/bar/transition_dates/")
-
 ```
 
 Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017). The file is loaded using a standard data() call. The dataset is named *phenocam_DB*.
