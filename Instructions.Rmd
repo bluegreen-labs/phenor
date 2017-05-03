@@ -1,0 +1,99 @@
+---
+title: "Fast PhenoCam & MODIS Model Data Integration"
+author: "Koen Hufkens"
+date: "3/25/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# source all necessary files
+for (i in list.files("/data/Dropbox/Research_Projects/code_repository/bitbucket/PhenoR/R/","*.r", full.names = TRUE)){
+  print(i)
+  source(i)
+}
+
+```
+
+# Fast PhenoCam & MODIS model integration.
+
+Here I combine three of my R packages to facilitate fast and reproducible phenology model development using both PhenoCam and MODIS phenology (MCD12Q2) data.
+
+I combine the query interface in daymetr, to access DAYMET climatological data. The phenocamr package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC. Gathered and / or processed data is subsequently formated and fit to various models using the phenor package.
+
+Example code below shows that in few lines a modelling exercise can be set up.
+
+```{r, echo = TRUE}
+# process phenocam transition files into a consistent format
+phenocam_data = process.phenocam("~/Dropbox/Data/tmp/transition_dates/")
+
+# A similar routine allows for MODIS data (downloaded using MODISTools) to be ingested
+modis_data = process.modis("~/Dropbox/Data/tmp/transition_dates/")
+
+# The above routines, grab all necessary model climate data from DAYMET
+# and integrate it into a consistent data format.
+
+# # downloads of PhenoCam data are facilitated using the functions
+# # using the phenophase = TRUE flags, transition dates are estimated
+# # on the go. The command below downloads all deciduous broadleaf sites
+# # and estimates their respective phenophases.
+# download.phenocam(vegetation = "DB", phenophase = TRUE)
+```
+
+# Model development, and parameter estimation
+
+The gathered data can now be used in model validation. Out of the box 8 models are provided as described in the Eli's paper (Melaas et al. 2016, Global Change Biology paper). All models are listed in the phenology.models.r file and provided by loading the package. Your own model development can be done by creating similar functions which take in the data as described by the functions above.
+
+Also consider that formats are consistent between both process.*() models and one can mix data streams, or append to them as one sees fit.
+
+Below is the function to optimize the model parameters for the *SEQ1.3* model using Generalized Simulated Annealing (GenSA). Uppper and lower constraints to the parameter space have to be provided, and in case of GenSA initial parameters are estimated when par = NULL.
+
+The sites used are those used in Eli's paper, there is a slightly higher number of site years due to longer time series used.
+
+
+```{r, echo = TRUE}
+# optimize model parameters
+set.seed(1234)
+optim.par = optimize.parameters(par = NULL,
+                          data = phenocam_data,
+                          cost = cost.function,
+                          model = "SEQ1.3",
+                          method = "GenSA",
+                          lower = c(0,-20,0,0,0,0,1),
+                          upper = c(10,10,100,10,10,1000,365))
+```
+
+After a few minutes optimal parameters are provided. We can use these now to calculate our model values and some accuracy metrics.
+
+```{r, echo = TRUE}
+# extract the validation data by looping over the nested list which holds all data
+observed = as.vector(unlist(lapply(phenocam_data, function(x){x$phenophase})))
+
+# now run the model for all data in the nested list using the estimated parameters
+modelled = as.vector(unlist(lapply(phenocam_data, function(x){
+  estimate.phenology(
+    data = x,
+    model = "SEQ1.3",
+    par = optim.par$par
+  )}
+)))
+```
+
+Plot the results.
+
+```{r, echo = FALSE}
+# plot the data
+plot(observed, modelled,
+     xlab = "DOY (observed)",
+     ylab = "DOY (modelled)",
+     pch = 19)
+abline(0, 1, lty = 2, lwd = 2)
+```
+
+Reporting on the fit of the model results.
+
+```{r, echo = TRUE}
+# print the regression results
+print(summary(lm(modelled ~ observed)))
+```
