@@ -2,7 +2,7 @@
 
 Here I combine three of my R packages to facilitate fast and reproducible phenology model development using both PhenoCam and MODIS phenology (MCD12Q2) data.
 
-I combine the query interface in [daymetr](https://github.com/khufkens/daymetr), to access DAYMET climatological data. The [phenocamr](https://github.com/khufkens/phenocamr) package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC using the MODISTools R package. Gathered or processed data is subsequently formated and fit to various phenology models using the phenor package.
+I combine the query interface in [daymetr](https://github.com/khufkens/daymetr), to access DAYMET climatological data. The [phenocamr](https://github.com/khufkens/phenocamr) package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC using the MODISTools R package. Gathered or processed data is subsequently formated and fit to various phenology models using this phenor package.
 
 ## Installation
 
