@@ -1,6 +1,8 @@
 # leave unused parameters blank (will be translated into NA and ignored by the algorithm),,,,,,,,,,,,,,,,,,,,,,,,,,
 #,,,,,,,,,,,,,,,,,,,,,,,,,,
 model,boundary,t0,t0_chill,T_base,T_opt,T_min,T_max,T1,T2,Tc,a,b,c,f,w,C_a,C_b,C_c,C_dr,C_tr,C_pr,C_ini,F_b,F_c,F_crit,C_req
+LIN,lower,,,,,,,,,,-1000,-1000,,,,,,,,,,,,,,
+LIN,upper,,,,,,,,,,1000,1000,,,,,,,,,,,,,,
 TT,lower,1,,-5,,,,,,,,,,,,,,,,,,,,,0,
 TT,upper,365,,10,,,,,,,,,,,,,,,,,,,,,2000,
 TTs,lower,1,,,,,,,,,,0,0,,,,,,,,,,,,0,
