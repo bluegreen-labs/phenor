@@ -3,7 +3,7 @@
 #'
 #' @param data: a nested list of data
 #' @param par: a vector of parameter values, this is functions specific
-#' @keywords phenology, model
+#' @keywords phenology, model, sequential
 #' @export
 #' @examples
 #'

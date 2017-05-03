@@ -18,8 +18,7 @@
 
 model_validation = function(model = "TT",
                             control = list(max.call = 100),
-                            par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                                                 path.package("phenor"))){
+                            par_ranges = sprintf("%s/extdata/parameter_ranges.csv",path.package("phenor"))){
 
   # read in data
   data("phenocam_DB")
@@ -60,8 +59,6 @@ model_validation = function(model = "TT",
     par = optim.par$par
   )
 
-  RMSE_NULL = sqrt(mean((val - null(data)) ^ 2, na.rm = T))
-
   RMSE = rmse(par = optim.par$par, data = data, model = model)
   Ac = AICc(measured = val, predicted = out, k = length(optim.par$par))
 
@@ -72,7 +69,6 @@ model_validation = function(model = "TT",
        pch = 19)
   abline(0,1)
   legend("topleft",legend = sprintf("RMSE: %s",round(RMSE)),bty='n')
-  legend("top",legend = sprintf("RMSE NULL: %s",round(RMSE_NULL)),bty='n')
   legend("bottomright",legend = sprintf("AICc: %s",round(Ac$AICc)),bty='n')
   print(summary(lm(val ~ out)))
   return(optim.par$par)

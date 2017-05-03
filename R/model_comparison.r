@@ -19,13 +19,13 @@
 #' # validation data
 #' }
 
-model_comparison = function(random_seeds = c(1,12,40),
-                            models = c("LIN","TT","PTT","PTTs","AT","SQ"),
+
+model_comparison = function(random_seeds = c(1,12,40,10,79,15,82),
+                            models = c("TT"),
                             dataset = "phenocam_DB",
                             method = "GenSA",
                             control = list(max.call = 100),
-                            par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                                                 path.package("phenor"))){
+                            par_ranges = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/parameter_ranges.csv"){
 
   # read in data
   data("phenocam_DB")
@@ -50,6 +50,8 @@ model_comparison = function(random_seeds = c(1,12,40),
 
   # iterate all instances
   for (i in 1:nr_models) {
+
+    print(models[i])
 
     # select ranges
     d = par_ranges[par_ranges$model == models[i],]
@@ -101,6 +103,9 @@ model_comparison = function(random_seeds = c(1,12,40),
   # rename model output for clarity
   names(model_estimates) = models
 
+  # extract the observations for easy plotting etc
+  observations = data$transition_dates
+
   # return data
-  return(model_estimates)
+  return(list("model_estimates" = model_estimates, "observations" = observations))
 }

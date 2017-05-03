@@ -3,7 +3,7 @@
 #'
 #' @param data: a nested list of data
 #' @param par: a vector of parameter values, this is functions specific
-#' @keywords phenology, model
+#' @keywords phenology, model, sequential
 #' @export
 #' @examples
 #'
@@ -40,7 +40,7 @@ UN  = function(par, data){
   Rc[data$Ti < T_opt & data$Ti >= T_min] = (Rc[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
   Rc[data$Ti < T_max & data$Ti >= T_opt] = (Rc[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
   Rc[1:t0_chill,] = 0
-  Rc[t0:nrow(Rc),] = 0
+  #Rc[t0:nrow(Rc),] = 0
   Sc = apply(Rc,2, cumsum)
 
   # chilling requirement has to be met before
