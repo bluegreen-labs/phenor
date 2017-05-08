@@ -5,17 +5,10 @@
 \title{Thermal Time model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)}
 \usage{
-TT(par, data, plot = FALSE)
+TT(par, data)
 }
 \arguments{
-\item{data:}{a nested list of data with on location:
-1. the date (doy or long format)
-2. the temperature data
-3. the photoperiod data (NA when not needed)
-4. a vector or matrix with necessary constants (NA when not needed)
-   - long term mean temperature
-   - latitude
-   - etc...}
+\item{data:}{a nested list of data}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
@@ -29,6 +22,5 @@ Basler et al. 2016 (Agr. For. Meteorlogy)
 estimate = TT(data = data, par = par)
 }
 }
-\keyword{model,}
+\keyword{model}
 \keyword{phenology,}
-\keyword{sequential}

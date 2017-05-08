@@ -5,10 +5,11 @@
 \title{Model comparison routine to faciliate model development
 and quick comparisons of the skill of various models.}
 \usage{
-model_comparison(random_seeds = c(1, 12, 40, 10, 79, 15, 82),
-  models = c("TT"), dataset = "phenocam_DB", method = "GenSA",
+model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "PTT",
+  "PTTs", "AT", "SQ"), dataset = "phenocam_DB", method = "GenSA",
   control = list(max.call = 100),
-  par_ranges = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/parameter_ranges.csv")
+  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
+  path.package("phenor")))
 }
 \arguments{
 \item{random_seeds:}{a vector with random seeds for cross validation}

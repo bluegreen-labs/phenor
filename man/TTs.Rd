@@ -6,17 +6,10 @@
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)}
 \usage{
-TTs(par, data, plot = FALSE)
+TTs(par, data)
 }
 \arguments{
-\item{data:}{a nested list of data with on location:
-1. the date (doy or long format)
-2. the temperature data
-3. the photoperiod data (NA when not needed)
-4. a vector or matrix with necessary constants (NA when not needed)
-   - long term mean temperature
-   - latitude
-   - etc...}
+\item{data:}{a nested list of data}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
@@ -28,9 +21,8 @@ with a sigmoidal temperature response (Kramer 1994)
 \examples{
 
 \dontrun{
-estimate = TT(data = data, par = par)
+estimate = TTs(data = data, par = par)
 }
 }
-\keyword{model,}
+\keyword{model}
 \keyword{phenology,}
-\keyword{sequential}

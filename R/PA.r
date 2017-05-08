@@ -23,17 +23,17 @@ PA = function(par, data){
   t0 = round(par[1])
   t0_chill = round(par[2])
   T_base = par[3]
-  T_opt = par[4]
-  T_min = par[5]
-  T_max = par[6]
+  C_a = par[4]
+  C_b = par[5]
+  C_c = par[6]
   C_ini = par[7]
   F_crit = par[8]
   C_req = par[9]
 
   # chilling
   Rc = matrix(0,nrow(data$Ti),ncol(data$Ti)) # allocate empty matrix
-  Rc[data$Ti < T_opt & data$Ti >= T_min] = (data$Ti[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
-  Rc[data$Ti < T_max & data$Ti >= T_opt] = (data$Ti[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
+  Rc[data$Ti < T_opt & data$Ti >= T_min] = (Rc[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
+  Rc[data$Ti < T_max & data$Ti >= T_opt] = (Rc[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
   Rc[1:t0_chill,] = 0
   Sc = apply(Rc,2, cumsum)
 

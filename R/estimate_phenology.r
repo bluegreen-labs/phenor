@@ -25,5 +25,10 @@
 # and parameter constraints. Data matrices must match.
 
 estimate_phenology = function(par, data, model) {
+
+  # convert to a flat format for speed
+  data = flat_format(data = data)
+
+  # return model output
   do.call(model, list(data = data, par = par))
 }

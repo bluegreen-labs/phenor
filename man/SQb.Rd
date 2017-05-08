@@ -4,33 +4,25 @@
 \alias{SQb}
 \title{Sequential model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
-using a bell shaped response}
+using a bell shaped chilling response}
 \usage{
-SQb(par, data, plot = TRUE)
+SQb(par, data)
 }
 \arguments{
-\item{data:}{a nested list of data with on location:
-1. the date (doy or long format)
-2. the temperature data
-3. the photoperiod data (NA when not needed)
-4. a vector or matrix with necessary constants (NA when not needed)
-   - long term mean temperature
-   - latitude
-   - etc...}
+\item{data:}{a nested list of data}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
 \description{
 Sequential model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
-using a bell shaped response
+using a bell shaped chilling response
 }
 \examples{
 
 \dontrun{
-estimate = TT(data = data, par = par)
+estimate = SQb(data = data, par = par)
 }
 }
-\keyword{model,}
+\keyword{model}
 \keyword{phenology,}
-\keyword{sequential}

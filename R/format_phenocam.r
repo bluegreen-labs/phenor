@@ -14,10 +14,10 @@
 #' @examples
 
 format_phenocam = function(path = ".",
-                           direction = "rising",
-                           gcc_value = "gcc_90",
-                           threshold = 50,
-                           offset = 264){
+                            direction = "rising",
+                            gcc_value = "gcc_90",
+                            threshold = 50,
+                            offset = 264){
 
   # helper function to process the data
   format_data = function(site, transition_files, path, metadata){
@@ -147,11 +147,6 @@ format_phenocam = function(path = ".",
       phenophase_doy[which(phenophase_years == x)[1]]
     }))
 
-    # calculate daylength
-    l = ncol(temperature)
-    Li = unlist(daylength(doy = doy, latitude = lat)[1])
-    Li = matrix(rep(Li,l),length(Li),l)
-
     # format the data
     data = list("site" = site,
                 "location" = c(lat,lon),
@@ -159,8 +154,7 @@ format_phenocam = function(path = ".",
                 "ltm" = ltm,
                 "transition_dates" = phenophase,
                 "year" = unique(phenophase_years),
-                "Ti" = as.matrix(temperature),
-                "Li" = Li
+                "Ti" = as.matrix(temperature)
                 #"Pi" = as.matrix(precip)
                 )
 
@@ -195,6 +189,38 @@ format_phenocam = function(path = ".",
   if (length(na_loc) != 0){
     validation_data = validation_data[-na_loc]
   }
+
+  # Flatten nested structure for speed
+  # 100x increase in speed by doing so
+  # avoiding loops, comes at the cost of readability (in part)
+  # THIS PART SHOULD BE A SEPARATE FUNCTION
+  # flat_format() / CLEAN UP
+  doy = validation_data[[1]]$doy
+  Li = do.call("cbind",lapply(validation_data,function(x){
+      l = ncol(x$Ti)
+      Li = unlist(daylength(x$doy, x$location[1])[1])
+      Li = matrix(rep(Li,l),length(Li),l)
+  }))
+
+  site = as.character(do.call("c",lapply(validation_data,function(x){
+      rep(x$site,ncol(x$Ti))
+  })))
+
+  location = do.call("cbind",lapply(validation_data,function(x){
+      matrix(rep(x$location,ncol(x$Ti)),2,ncol(x$Ti))
+  }))
+
+  Ti = do.call("cbind",lapply(validation_data,function(x)x$Ti))
+
+  transition_dates = as.vector(do.call("c",lapply(validation_data,function(x)x$transition)))
+
+  # recreate the validation data structure (new format)
+  validation_data = list("site" = site,
+                          "location" = location,
+                          "doy" = doy,
+                          "transition_dates" = transition_dates,
+                          "Ti" = Ti,
+                          "Li" = Li)
 
   # return the formatted data
   return(validation_data)

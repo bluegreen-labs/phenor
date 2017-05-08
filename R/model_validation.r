@@ -17,17 +17,22 @@
 #' }
 
 model_validation = function(model = "TT",
+                            data = "phenocam_DB",
                             control = list(max.call = 100),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
   # read in data
-  data("phenocam_DB")
-  data = get("phenocam_DB")
+  # (ok this is a mess in naming variables)
+  data(list = data)
+  data = get(data)
+
+  # convert to a flat format for speed
+  data = flat_format(data)
+
   par_ranges = read.table(par_ranges,
                           header = TRUE,
                           sep = ",")
-
 
   # subset the parameter range
   if (!any(par_ranges$model == model)){

@@ -42,13 +42,13 @@ optimize_parameters = function(par = NULL,
 
   # convert to a flat format for speed
   # (increases speed > 20x)
-  data = flat_format(data = data)
+  data = flat_format(data)
 
   if ( method == "GenSA" ){
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
-    optim.par = GenSA(s
+    optim.par = GenSA(
       par = par,
       data = data,
       fn = cost,
@@ -80,8 +80,8 @@ optimize_parameters = function(par = NULL,
   }
 
   # other optimizers can be added here !
-s
-  s# return the optimization data (parameters)
+
+  # return the optimization data (parameters)
   # check formatting for post-processing
   return(optim.par)
 }
