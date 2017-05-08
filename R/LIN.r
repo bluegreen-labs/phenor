@@ -26,7 +26,7 @@ LIN = function(par, data, spring = c(60,151)){
   b = par[2]
 
   # calculate location of "spring" values
-  spring_loc = phenocam_DB$doy %in% seq(spring[1],spring[2])
+  spring_loc = data$doy %in% seq(spring[1],spring[2])
 
   # calculate the mean temperature for this range
   mean_spring_temp = apply(data$Ti,2,function(xt){

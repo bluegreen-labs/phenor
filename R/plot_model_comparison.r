@@ -11,11 +11,10 @@
 #' plot_model_comparison()
 #' }
 
-plot_model_comparison = function(comparison = NULL,
-                                 data = NULL){
+plot_model_comparison = function(comparison = NULL){
 
   # trap lack of data
-  if (is.null(comparison) | is.null(data)){
+  if (is.null(comparison)){
     stop("No comparison or reference data ")
   }
 
@@ -36,15 +35,18 @@ plot_model_comparison = function(comparison = NULL,
     "SM1b","blue",
     "PA","blue",
     "PAb","blue",
+    "PM1","blue",
+    "PM1b","blue",
     "UN","blue",
-    "UM1","blue"),17,2, byrow = TRUE))
+    "UM1","blue"
+    ),19,2, byrow = TRUE))
   colnames(colours) = c("model","colour")
 
   # calculate mean / sd RMSE of all model runs
   # (different parameters - by different seeds)
-  rmse_stats = lapply(comparison,function(x){
+  rmse_stats = lapply(comparison$modelled,function(x){
     rmse = apply(x$predicted_values,1,function(y){
-      sqrt(mean((y - data$transition_dates) ^ 2, na.rm = T))
+      sqrt(mean((y - comparison$measured) ^ 2, na.rm = T))
     })
     return(rmse)
     list("rmse"=mean(rmse,na.rm=TRUE),"sd"=sd(rmse,na.rm=TRUE))
@@ -55,7 +57,7 @@ plot_model_comparison = function(comparison = NULL,
   rmse_stats = do.call("cbind",rmse_stats)
 
   # calculate RMSE null model (single value)
-  rmse_null = sqrt(mean((data$transition_dates - null(data)) ^ 2, na.rm = T))
+  rmse_null = sqrt(mean((comparison$measured -  rep(round(mean(comparison$measured,na.rm=TRUE)), length(comparison$measured)) ) ^ 2, na.rm = T))
 
   # create boxplot with stats
   boxplot(rmse_stats,
