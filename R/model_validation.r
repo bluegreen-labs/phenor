@@ -17,15 +17,14 @@
 #' }
 
 model_validation = function(model = "TT",
-                            data = "phenocam_DB",
+                            dataset = "phenocam_DB",
                             control = list(max.call = 100),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
   # read in data
-  # (ok this is a mess in naming variables)
-  data(list = data)
-  data = get(data)
+  data(list = dataset)
+  data = get(dataset)
 
   # convert to a flat format for speed
   data = flat_format(data)

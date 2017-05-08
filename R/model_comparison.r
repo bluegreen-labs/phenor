@@ -28,8 +28,8 @@ model_comparison = function(random_seeds = c(1,12,40),
                                                  path.package("phenor"))){
 
   # read in data
-  data("phenocam_DB")
-  data = get("phenocam_DB")
+  data(list = dataset)
+  data = get(dataset)
   par_ranges = read.table(par_ranges,
                           header = TRUE,
                           sep = ",")
