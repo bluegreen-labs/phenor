@@ -1,5 +1,5 @@
 #' Model validation routine to faciliate model development
-#' and quick validation of a new model.
+#' and quick validation of a (new) model.
 #'
 #' @param par_ranges: a vector of starting parameter values (function specific)
 #' defaults to the parameter ranges as provided with the current models
