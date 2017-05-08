@@ -57,7 +57,11 @@ plot_model_comparison = function(comparison = NULL){
   rmse_stats = do.call("cbind",rmse_stats)
 
   # calculate RMSE null model (single value)
-  rmse_null = sqrt(mean((comparison$measured -  rep(round(mean(comparison$measured,na.rm=TRUE)), length(comparison$measured)) ) ^ 2, na.rm = T))
+  rmse_null = sqrt(mean((
+    comparison$measured -  rep(round(mean(
+      comparison$measured, na.rm = TRUE
+    )), length(comparison$measured))
+  ) ^ 2, na.rm = T))
 
   # create boxplot with stats
   boxplot(rmse_stats,
