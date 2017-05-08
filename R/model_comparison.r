@@ -20,16 +20,27 @@
 #' }
 
 model_comparison = function(random_seeds = c(1,12,40),
-                            models = c("LIN","TT","PTT","PTTs","AT","SQ"),
+                            models = c("LIN","TT","TTs","PTT","PTTs","M1","M1s",
+                                       "AT","SQ","SQb","SM1","SM1b","PA","PAb",
+                                       "PM1","PM1b"),
                             dataset = "phenocam_DB",
                             method = "GenSA",
-                            control = list(max.call = 100),
+                            control = list(max.call = 5000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
-  # read in data
-  data("phenocam_DB")
-  data = get("phenocam_DB")
+  # if the dataset does not exist
+  # in the workspace assume it to be loaded
+  # from package storage
+  if (is.character(dataset)){
+    data(list = dataset)
+    dataset = get(dataset)
+  }
+
+  # convert to a flat format for speed
+  data = flat_format(dataset)
+
+  # load parameter ranges
   par_ranges = read.table(par_ranges,
                           header = TRUE,
                           sep = ",")
@@ -101,6 +112,10 @@ model_comparison = function(random_seeds = c(1,12,40),
   # rename model output for clarity
   names(model_estimates) = models
 
+  # comparison
+  comparison = list("modelled" = model_estimates,
+                    "measured" = data$transition_dates)
+
   # return data
-  return(model_estimates)
+  return(comparison)
 }

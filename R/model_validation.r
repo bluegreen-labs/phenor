@@ -1,5 +1,5 @@
 #' Model validation routine to faciliate model development
-#' and quick validation of a new model.
+#' and quick validation of a (new) model.
 #'
 #' @param par_ranges: a vector of starting parameter values (function specific)
 #' defaults to the parameter ranges as provided with the current models
@@ -17,19 +17,23 @@
 #' }
 
 model_validation = function(model = "TT",
-                            data = "phenocam_DB",
+                            dataset = "phenocam_DB",
                             control = list(max.call = 100),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
-  # read in data
-  # (ok this is a mess in naming variables)
-  data(list = data)
-  data = get(data)
+  # if the dataset does not exist
+  # in the workspace assume it to be loaded
+  # from package storage
+  if (is.character(dataset)){
+    data(list = dataset)
+    dataset = get(dataset)
+  }
 
   # convert to a flat format for speed
-  data = flat_format(data)
+  data = flat_format(dataset)
 
+  # read in parameter ranges
   par_ranges = read.table(par_ranges,
                           header = TRUE,
                           sep = ",")
