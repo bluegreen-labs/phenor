@@ -33,10 +33,6 @@ optimize_parameters = function(par = NULL,
                                upper = NULL,
                                control = NULL) {
 
-  # load required libraries
-  require(rgenoud, quietly = TRUE)
-  require(GenSA, quietly = TRUE)
-
   # check if starting parameters are present
   if (is.null(lower) | is.null(upper)){
     stop('Please provide upper and lower boundaries to the parameter space.\n
@@ -44,11 +40,15 @@ optimize_parameters = function(par = NULL,
          for a wrong reason.')
   }
 
+  # convert to a flat format for speed
+  # (increases speed > 20x)
+  data = flat_format(data = data)
+
   if ( method == "GenSA" ){
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
-    optim.par = GenSA(
+    optim.par = GenSA(s
       par = par,
       data = data,
       fn = cost,
@@ -78,9 +78,10 @@ optimize_parameters = function(par = NULL,
                        data = data,
                        model = model)
   }
-  # other optimizers can be added here !
 
-  # return the optimization data (parameters)
+  # other optimizers can be added here !
+s
+  s# return the optimization data (parameters)
   # check formatting for post-processing
   return(optim.par)
 }
