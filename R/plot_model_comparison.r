@@ -11,7 +11,9 @@
 #' plot_model_comparison()
 #' }
 
-plot_model_comparison = function(comparison = NULL){
+plot_model_comparison = function(comparison = NULL,
+                                 ylab = "RMSE (days)",
+                                 names = TRUE){
 
   # trap lack of data
   if (is.null(comparison)){
@@ -63,16 +65,29 @@ plot_model_comparison = function(comparison = NULL){
     )), length(comparison$measured))
   ) ^ 2, na.rm = T))
 
+  # tick settings
+  par(tck = 0.03, lwd = 1.3)
+
+  if (names == 'TRUE'){
+    x_names = labels
+  } else {
+    x_names = rep(" ",ncol(rmse_stats))
+  }
+
   # create boxplot with stats
   boxplot(rmse_stats,
-          ylim = c(0, 16),
-          ylab = "RMSE (days)",
+          las = 2,
+          names = x_names,
+          ylim = c(0, rmse_null + rmse_null * 0.25),
+          ylab = ylab,
           whiskcol = col_sel,
           staplecol = col_sel,
           boxcol = col_sel,
           medcol = col_sel,
+          cex.lab = 1.5,
+          cex.axis = 1.5,
           outline = FALSE)
 
   # set a horizontal marker for the baseline NULL model
-  abline(h = rmse_null)
+  abline(h = rmse_null, lty = 2)
 }
