@@ -35,5 +35,16 @@ TT = function(par, data){
     doy[is.na(doy)] = 9999
     return(doy)
   })
-  return(doy)
+
+  # set export
+  if(is.null(data$site)){
+    r = raster(nrows = data$size[1], ncols = data$size[2])
+    extent(r) = data$extent
+    proj4string(r) = CRS(data$projection)
+    r[] = doy
+    r[r==9999] = NA
+    return(r)
+  } else {
+    return(doy)
+  }
 }

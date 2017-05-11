@@ -111,10 +111,10 @@ format_phenocam = function(path = ".",
                          nrow = 365,
                          ncol = length(years))
 
-    # create output matrix (holding temperature)
-    precip = matrix(NA,
-                    nrow = 365,
-                    ncol = length(years))
+    # create output matrix (holding precip)
+    #precip = matrix(NA,
+    #                nrow = 365,
+    #                ncol = length(years))
 
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
@@ -134,7 +134,7 @@ format_phenocam = function(path = ".",
                                   yday < offset))$prcp..mm.day.
       } else {
         temperature[, j] = subset(daymet_data, year == years[j])$tmean
-        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        #precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
       }
     }
 
