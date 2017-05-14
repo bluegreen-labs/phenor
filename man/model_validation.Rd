@@ -3,9 +3,10 @@
 \name{model_validation}
 \alias{model_validation}
 \title{Model validation routine to faciliate model development
-and quick validation of a new model.}
+and quick validation of a (new) model.}
 \usage{
-model_validation(model = "TT", control = list(max.call = 100),
+model_validation(model = "TT", dataset = "phenocam_DB",
+  control = list(max.call = 100),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
 }
@@ -18,7 +19,7 @@ and set forth by Basler (2016)}
 }
 \description{
 Model validation routine to faciliate model development
-and quick validation of a new model.
+and quick validation of a (new) model.
 }
 \examples{
 

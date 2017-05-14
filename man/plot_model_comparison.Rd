@@ -5,7 +5,8 @@
 \title{Model comparison  plotting routine to faciliate model development
 and quick comparisons of the skill of various models.}
 \usage{
-plot_model_comparison(comparison = NULL, data = NULL)
+plot_model_comparison(comparison = NULL, ylab = "RMSE (days)",
+  names = TRUE)
 }
 \arguments{
 \item{comparison:}{list returned by model_comparison()}
