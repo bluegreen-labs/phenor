@@ -50,10 +50,10 @@ format_daymet = function(path = ".",
   t_subset = daymet_subset(stack(t1,t2),
                            offset = offset)
   t_subset_brick = trim(brick(t_subset))
-  
+
   # convert temperature data to matrix
   Ti = t(as.matrix(t_subset_brick))
-  
+
   # extract georeferencing info to be passed along
   ext = extent(t_subset_brick)
   proj = projection(t_subset_brick)
@@ -105,6 +105,6 @@ format_daymet = function(path = ".",
   if (internal){
     return(data)
   } else {
-    save(data,file = sprintf("%s/phenor_data_%s_%s.rda",path, year, tile))
+    saveRDS(data, file = sprintf("%s/phenor_data_%s_%s.rds",path, year, tile))
   }
 }
