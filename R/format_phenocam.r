@@ -20,7 +20,11 @@ format_phenocam = function(path = ".",
                            offset = 264){
 
   # helper function to process the data
-  format_data = function(site, transition_files, path, metadata){
+  format_data = function(site,
+                         transition_files,
+                         path,
+                         end_yr,
+                         metadata){
 
     # provide some feedback
     cat(sprintf('Processing site: %s !\n', site))
@@ -64,14 +68,8 @@ format_phenocam = function(path = ".",
     lat = site_info$lat
     lon = site_info$lon
 
-    # min and max range of the phenology data
-    # -1 for min_year as we need data from the previous year for cold
-    # hardening
-    start_yr = as.numeric(min(format(transition,"%Y"))) - 1
-    end_yr = as.numeric(max(format(transition,"%Y")))
-
     # download daymet data for a given site
-    daymet_data = try(daymetr::download.daymet(
+    daymet_data = try(daymetr::download_daymet(
       site = site,
       lat = lat,
       lon = lon,
@@ -98,9 +96,10 @@ format_phenocam = function(path = ".",
     # shift data when offset is < 365
     if (offset < 365){
       ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy_neg = c((offset - 366):-1,1:(offset - 1))
       doy = c(offset:365,1:(offset - 1))
     } else {
-      doy = 1:365
+      doy = doy_neg = 1:365
     }
 
     # slice and dice the data
@@ -112,9 +111,9 @@ format_phenocam = function(path = ".",
                          ncol = length(years))
 
     # create output matrix (holding precip)
-    #precip = matrix(NA,
-    #                nrow = 365,
-    #                ncol = length(years))
+    precip = matrix(NA,
+                   nrow = 365,
+                   ncol = length(years))
 
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
@@ -129,12 +128,12 @@ format_phenocam = function(path = ".",
                                     (year == years[j] &
                                        yday < offset))$tmean
         precip[, j] = subset(daymet_data,
-                             (year == (years[j] - 1) & yday >= offset) |
-                               (year == years[j] &
-                                  yday < offset))$prcp..mm.day.
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$prcp..mm.day.
       } else {
         temperature[, j] = subset(daymet_data, year == years[j])$tmean
-        #precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
       }
     }
 
@@ -156,13 +155,13 @@ format_phenocam = function(path = ".",
     # format the data
     data = list("site" = site,
                 "location" = c(lat,lon),
-                "doy" = doy,
+                "doy" = doy_neg,
                 "ltm" = ltm,
                 "transition_dates" = phenophase,
                 "year" = unique(phenophase_years),
                 "Ti" = as.matrix(temperature),
-                "Li" = Li
-                #"Pi" = as.matrix(precip)
+                "Li" = Li,
+                "Pi" = as.matrix(precip)
                 )
 
     # return the formatted data
@@ -171,6 +170,21 @@ format_phenocam = function(path = ".",
 
   # query site list with metadata from the phenocam servers
   metadata = jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
+
+  # query max year as available through Daymet, lags by a year so
+  # subtract 1 year by default. If download fails subtract another year
+  end_yr = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
+
+  daymet_test = try(daymetr::download_daymet(
+    start_yr = end_yr,
+    end_yr = end_yr,
+    internal = "data.frame",
+    quiet = TRUE
+  ))
+
+  if (inherits(daymet_test,"try-error")){
+    end_yr = end_yr - 1
+  }
 
   # list all files in the referred path
   transition_files = list.files(path,
@@ -185,6 +199,7 @@ format_phenocam = function(path = ".",
     format_data(site = x,
                 transition_files = transition_files,
                 path = path,
+                end_yr = end_yr,
                 metadata = metadata)
   })
 
