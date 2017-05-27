@@ -42,8 +42,23 @@ AT = function(par, data, plot = TRUE){
   Sfc = Sf - (a + b * exp(c * Sc))
 
   doy = apply(Sfc, 2, function(x){
-    data$doy[which(x > 0)[1]]
+    doy = data$doy[which(x > 0)[1]]
+    doy[is.na(doy)] = 9999
+    return(doy)
     })
-  doy[is.na(doy)] = 9999
-  return(doy)
+
+  # set export format, either a rasterLayer
+  # or a vector
+  if(is.null(data$site)){
+    r = raster(nrows = data$georeferencing$size[1],
+               ncols = data$georeferencing$size[2])
+    extent(r) = data$georeferencing$extent
+    proj4string(r) = CRS(data$georeferencing$projection)
+    r[] = doy
+    r[r==9999] = NA
+    return(r)
+  } else {
+    return(doy)
+  }
+
 }

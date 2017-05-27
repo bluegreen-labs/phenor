@@ -71,7 +71,7 @@ format_phenocam = function(path = ".",
     end_yr = as.numeric(max(format(transition,"%Y")))
 
     # download daymet data for a given site
-    daymet_data = try(daymetr::download_daymet(
+    daymet_data = try(daymetr::download.daymet(
       site = site,
       lat = lat,
       lon = lon,
@@ -128,10 +128,10 @@ format_phenocam = function(path = ".",
                                      yday >= offset) |
                                     (year == years[j] &
                                        yday < offset))$tmean
-        #precip[, j] = subset(daymet_data,
-        #                     (year == (years[j] - 1) & yday >= offset) |
-        #                       (year == years[j] &
-        #                          yday < offset))$prcp..mm.day.
+        precip[, j] = subset(daymet_data,
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$prcp..mm.day.
       } else {
         temperature[, j] = subset(daymet_data, year == years[j])$tmean
         #precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.

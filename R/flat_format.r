@@ -42,6 +42,19 @@ flat_format = function(data = NULL){
   # concat all temperature data in one big matrix
   Ti = do.call("cbind",lapply(data,function(x)x$Ti))
 
+
+  # concat all precip data in one big matrix
+  Pi = do.call("cbind",lapply(data,function(x)x$Pi))
+
+  # concat all temperature data in one big matrix
+  # ltm = do.call("cbind",lapply(data,function(x)x$ltm))
+
+  # long term mean
+  ltm = matrix(NA,365,length(site))
+  for (i in 1:length(site)){
+    ltm[,i] = data[[which(names(data) == site[i])]]$ltm
+  }
+
   # concat all transition dates for validatino into
   # a long vector
   transition_dates = as.vector(do.call("c",lapply(data,function(x)x$transition)))
@@ -52,8 +65,10 @@ flat_format = function(data = NULL){
               "location" = location,
               "doy" = doy,
               "transition_dates" = transition_dates,
+              "ltm" = ltm,
               "Ti" = Ti,
-              "Li" = Li)
+              "Li" = Li,
+              "Pi" = Pi)
 
   # return the formatted, faster data format
   return(data)

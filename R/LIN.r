@@ -33,6 +33,20 @@ LIN = function(par, data, spring = c(60,151)){
     mean(xt[spring_loc])
   })
 
-  # return fit values
-  return( a * mean_spring_temp + b )
+  # linear regression
+  doy = a * mean_spring_temp + b
+
+  # set export format, either a rasterLayer
+  # or a vector
+  if(is.null(data$site)){
+    r = raster(nrows = data$georeferencing$size[1],
+               ncols = data$georeferencing$size[2])
+    extent(r) = data$georeferencing$extent
+    proj4string(r) = CRS(data$georeferencing$projection)
+    r[] = doy
+    r[r==9999] = NA
+    return(r)
+  } else {
+    return(doy)
+  }
 }

@@ -18,7 +18,7 @@
 
 model_validation = function(model = "TT",
                             dataset = "phenocam_DB",
-                            control = list(max.call = 100),
+                            control = list(max.call = 2000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
@@ -74,7 +74,7 @@ model_validation = function(model = "TT",
   RMSE = rmse(par = optim.par$par, data = data, model = model)
   Ac = AICc(measured = val, predicted = out, k = length(optim.par$par))
 
-  plot(val,out,xlim=c(50,180),ylim=c(50,180),
+  plot(val,out,
        main = paste(model,", itterations: ", control$max.call, sep=""),
        xlab = "onset DOY Measured",
        ylab = "onset DOY Modelled",

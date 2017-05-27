@@ -20,12 +20,13 @@
 #' }
 
 model_comparison = function(random_seeds = c(1,12,40),
-                            models = c("LIN","TT","TTs","PTT","PTTs","M1","M1s",
-                                       "AT","SQ","SQb","SM1","SM1b","PA","PAb",
-                                       "PM1","PM1b"),
+                            models = c("LIN","TT","TTs","PTT","PTTs",
+                                       "M1","M1s","AT","SQ","SQb","SM1",
+                                       "SM1b","PA","PAb","PM1","PM1b"),
                             dataset = "phenocam_DB",
                             method = "GenSA",
-                            control = list(max.call = 5000),
+                            control = list(max.call = 5000,
+                                           temperature = 10000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
@@ -58,6 +59,9 @@ model_comparison = function(random_seeds = c(1,12,40),
 
   # initiate list
   model_estimates = list()
+
+  # Both for loops can be parallelized,
+  # to speed up comparisons.
 
   # iterate all instances
   for (i in 1:nr_models) {
@@ -112,9 +116,15 @@ model_comparison = function(random_seeds = c(1,12,40),
   # rename model output for clarity
   names(model_estimates) = models
 
-  # comparison
+  # concat comparison data
   comparison = list("modelled" = model_estimates,
                     "measured" = data$transition_dates)
+
+  # check if it's a comparison between two models
+  # if so plot the arrrow graph
+  if (length(models)==2){
+
+  }
 
   # return data
   return(comparison)

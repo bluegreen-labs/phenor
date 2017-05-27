@@ -6,8 +6,7 @@
 and a specified model (be sure to match parameter and requirements
 with the model. Wrapper around a do.call() call for convenience.}
 \usage{
-estimate_phenology(par, data = NULL, model = "TT", path = ".",
-  reproject = TRUE)
+estimate_phenology(par, data, model)
 }
 \arguments{
 \item{data:}{a nested list of data with on location:
@@ -23,13 +22,6 @@ estimate_phenology(par, data = NULL, model = "TT", path = ".",
 \item{par:}{a vector of parameter values, this is functions specific}
 
 \item{model:}{the model name to be used in optimizing the model}
-
-\item{path:}{the path to daymet tile data formated using the
-format_daymet() function. All tiles in this directory will be 
-processed with the specified model and data mosaicked and reprojected
-if requested}
-
-\item{reproject:}{TRUE / FALSE, reproject to lat-lon (default = TRUE)}
 }
 \description{
 Calculates the estimated phenophases for a given set of parameters
@@ -37,17 +29,9 @@ and a specified model (be sure to match parameter and requirements
 with the model. Wrapper around a do.call() call for convenience.
 }
 \examples{
+estimate <- estimate.phenology(par,data,model)
 
-\dontrun{
 # estimate will be an estimated timing of a phenophase
-estimate = estimate.phenology(par,data,model)
-
-# if a path is specified and no other data all tiled
-# data in this directory will be processed into a map
-# if a dataset is provided at the data parameter side
-# only this particular tile will be processed.
-
-}
 }
 \keyword{model,}
 \keyword{phenology,}

@@ -36,13 +36,11 @@ TT = function(par, data){
     return(doy)
   })
 
-  # set export format, either a rasterLayer
-  # or a vector
+  # set export
   if(is.null(data$site)){
-    r = raster(nrows = data$georeferencing$size[1],
-               ncols = data$georeferencing$size[2])
-    extent(r) = data$georeferencing$extent
-    proj4string(r) = CRS(data$georeferencing$projection)
+    r = raster(nrows = data$size[1], ncols = data$size[2])
+    extent(r) = data$extent
+    proj4string(r) = CRS(data$projection)
     r[] = doy
     r[r==9999] = NA
     return(r)
