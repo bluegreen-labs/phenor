@@ -32,25 +32,51 @@ daylength = function(doy, latitude) {
   Phi = asin(0.39795 * cos(Omega))
 
   # eq. 3 / returns daylength D
-  DL = 24 - 24 / pi * acos((sin(p * conv) + sin(latitude * conv) *
-                              sin(Phi)) / (cos(latitude * conv) * cos(Phi)))
+  DL = suppressWarnings(24 - 24 / pi * acos((sin(p * conv) + sin(latitude * conv) *
+                              sin(Phi)) / (cos(latitude * conv) * cos(Phi))))
 
   # convert declination to solar elevation (above ecliptica) or
   # 90 - zenith angle
   solar_elev = 90 - acos(sin(latitude * conv) * sin(Phi) + cos(latitude * conv) * cos(Phi)) * 180 / pi
 
+  # addresses NA values in output due to the asymptotic nature of the 
+  # daylength function
+  if (latitude > 0){
   for (i in 1:length(DL)) {
-    l <- DL[i - 1] > 20
+    
+    l <- DL[i - 1] > 10
+    
     if (length(l) == 0) {
       l <- FALSE
     }
+    
     l[is.na(l)] <- FALSE
+    
     if (l  & is.na(DL[i])) {
       DL[i] <- 24
     }
     if (is.na(DL[i])) {
       DL[i - 1] <- 0
     }
+  }
+  } else {
+    for (i in 1:length(DL)) {
+      
+      l <- DL[i - 1] < 10
+      
+      if (length(l) == 0) {
+        l <- FALSE
+      }
+      
+      l[is.na(l)] <- FALSE
+      
+      if (l  & is.na(DL[i])) {
+        DL[i] <- 0
+      }
+      if (is.na(DL[i])) {
+        DL[i - 1] <- 24
+      }
+    } 
   }
   return(list(DL, solar_elev))
 }
