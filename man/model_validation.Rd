@@ -6,7 +6,7 @@
 and quick validation of a (new) model.}
 \usage{
 model_validation(model = "TT", dataset = "phenocam_DB",
-  control = list(max.call = 100),
+  control = list(max.call = 2000),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
 }
