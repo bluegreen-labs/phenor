@@ -5,8 +5,9 @@
 \title{Preprocessing CMIP5 model runs as hosted by:
 http://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html}
 \usage{
-format_cmip5(path = "~", year = 2016, offset = 264, model = "ACCESS1-0",
-  resolution = "1x1", scenario = "rcp85", internal = TRUE)
+format_cmip5(path = "~", year = 2016, offset = 264,
+  model = "IPSL-CM5A-MR", resolution = "1x1", scenario = "rcp85",
+  internal = TRUE)
 }
 \arguments{
 \item{path:}{a path to the gridded data (original max / min temp. files)}
@@ -17,7 +18,7 @@ format_cmip5(path = "~", year = 2016, offset = 264, model = "ACCESS1-0",
 
 \item{model:}{which CMIP5 model to use}
 
-\item{resolution:}{"1x1" or "1x16", "1x16" will result in a significant
+\item{resolution:}{"1x1" or "16th", "16th" will result in a significant
 calculation overhead}
 
 \item{scenario:}{"rcp85", "rcp45", "historical" here rcp covers 2006 - 2100

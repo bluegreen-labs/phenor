@@ -8,7 +8,7 @@
 #' @param year: year to process (requires year - 1 to be present / downloaded)
 #' @param offset: offset of the time series in DOY (default = 264, sept 21)
 #' @param model: which CMIP5 model to use
-#' @param resolution: "1x1" or "1x16", "1x16" will result in a significant
+#' @param resolution: "1x1" or "16th", "16th" will result in a significant
 #' calculation overhead
 #' @param scenario: "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 #' while historical data covers 1950 - 2005
@@ -21,7 +21,7 @@
 format_cmip5 = function(path = "~",
                         year = 2016,
                         offset = 264,
-                        model = "ACCESS1-0",
+                        model = "IPSL-CM5A-MR",
                         resolution = "1x1",
                         scenario = "rcp85",
                         internal = TRUE){
@@ -61,7 +61,7 @@ format_cmip5 = function(path = "~",
                       x,
                       filename)
 
-        # download the data
+        # download and return the data
         error = try(curl::curl_download(url = url,
                                         destfile = sprintf("%s/%s", path, filename)))
 
@@ -77,9 +77,12 @@ format_cmip5 = function(path = "~",
 
     # stack the temperature data to take the mean
     # using stackApply()
-    temp_data = raster::stack(temp_data[[1]],temp_data[[2]])
-    l = nlayers(temp_data)/2
-    mean_temp = raster::stackApply(temp_data,
+    temp_data_stack = raster::stack(temp_data[[1]],
+                              temp_data[[2]]) - 273.15
+    assign("test",temp_data_stack, envir = .GlobalEnv)
+
+    l = nlayers(temp_data_stack)/2
+    mean_temp = raster::stackApply(temp_data_stack,
                                    indices = rep(1:l,2),
                                    fun = mean,
                                    na.rm = TRUE)
@@ -88,7 +91,7 @@ format_cmip5 = function(path = "~",
     mean_temp = raster::shift(mean_temp, x = -360)
 
     # drop layer 366 on leap year
-    if (nlayers(mean_temp)==366){
+    if (nlayers(mean_temp) == 366){
       mean_temp = raster::dropLayer(mean_temp, 366)
     }
 
@@ -98,6 +101,9 @@ format_cmip5 = function(path = "~",
     } else {
       temperature = stack(temperature, mean_temp)
     }
+
+    # clear variable
+    rm(mean_temp)
   }
 
   # extract the yday and year strings
@@ -115,7 +121,7 @@ format_cmip5 = function(path = "~",
   }
 
   # subset raster data, correct for Kelvin scale
-  temperature = subset(temperature, layers) - 273.15
+  temperature = subset(temperature, layers)
 
   # shift data when offset is < 365
   if (offset < length(layers)){
@@ -170,6 +176,9 @@ format_cmip5 = function(path = "~",
                                       "projection" = proj,
                                       "size" = size)
   )
+
+  # assign a class for post-processing
+  class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
   # either internally or saved as an rda (binary R data file)

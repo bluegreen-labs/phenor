@@ -164,6 +164,9 @@ format_phenocam = function(path = ".",
                 "Pi" = as.matrix(precip)
                 )
 
+    # assign a class for post-processing
+    class(data) = "phenor_time_series_data"
+
     # return the formatted data
     return(data)
   }

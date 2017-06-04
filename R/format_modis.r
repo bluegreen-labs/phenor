@@ -37,7 +37,8 @@ process_modis = function(path = ".",
     lon = as.numeric(lapply(strsplit(lat_lon[2],"Samp"),"[[",1))
 
     # throw out all data but gcc_90
-    modis_data = modis_data[grep(direction, as.character(modis_data[,6])), 11:ncol(modis_data)]
+    modis_data = modis_data[grep(direction, as.character(modis_data[,6])),
+                            11:ncol(modis_data)]
     modis_data[modis_data == 32767] = NA
     modis_data = round(apply(modis_data, 1, median, na.rm = TRUE))
 
@@ -91,8 +92,11 @@ process_modis = function(path = ".",
                 "transition_dates" = phenophase,
                 "Ti" = temperature)
 
+    # assign a class for post-processing
+    class(data) = "phenor_time_series_data"
+
     # return the formatted data
-    return(data) # fix re-use variables
+    return(data)
   }
 
   # list all files in the referred path

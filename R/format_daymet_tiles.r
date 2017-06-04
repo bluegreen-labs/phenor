@@ -99,6 +99,8 @@ format_daymet_tiles = function(path = ".",
                                       "size" = size)
               )
 
+  # assign a class for post-processing
+  class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
   # either internally or saved as an rda (binary R data file)

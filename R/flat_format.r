@@ -70,6 +70,9 @@ flat_format = function(data = NULL){
               "Li" = Li,
               "Pi" = Pi)
 
+  # assign a class for post-processing
+  class(data) = "phenor_time_series_data"
+
   # return the formatted, faster data format
   return(data)
 }
