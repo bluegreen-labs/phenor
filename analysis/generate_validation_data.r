@@ -23,3 +23,19 @@ devtools::use_data(phenocam_EN, overwrite = TRUE)
 phenocam_GR = format_phenocam(path = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/data_record_6/GR",
                               threshold = 25)
 devtools::use_data(phenocam_GR, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_1 = raster::raster("../inst/extdata/igbp_1.tif")
+devtools::use_data(igbp_1, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_4 = raster::raster("../inst/extdata/igbp_4.tif")
+devtools::use_data(igbp_4, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_5 = raster::raster("../inst/extdata/igbp_5.tif")
+devtools::use_data(igbp_5, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_10 = raster::raster("../inst/extdata/igbp_10.tif")
+devtools::use_data(igbp_10, overwrite = TRUE)
