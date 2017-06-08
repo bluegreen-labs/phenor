@@ -51,7 +51,7 @@ plot_model_comparison = function(comparison = NULL,
       sqrt(mean((y - comparison$measured) ^ 2, na.rm = T))
     })
     return(rmse)
-    list("rmse"=mean(rmse,na.rm=TRUE),"sd"=sd(rmse,na.rm=TRUE))
+    list("rmse" = mean(rmse,na.rm=TRUE),"sd"=sd(rmse,na.rm=TRUE))
     })
 
   labels = names(rmse_stats)

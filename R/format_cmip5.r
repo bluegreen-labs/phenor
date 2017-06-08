@@ -79,7 +79,6 @@ format_cmip5 = function(path = "~",
     # using stackApply()
     temp_data_stack = raster::stack(temp_data[[1]],
                               temp_data[[2]]) - 273.15
-    assign("test",temp_data_stack, envir = .GlobalEnv)
 
     l = nlayers(temp_data_stack)/2
     mean_temp = raster::stackApply(temp_data_stack,
@@ -121,7 +120,7 @@ format_cmip5 = function(path = "~",
   }
 
   # subset raster data, correct for Kelvin scale
-  temperature = subset(temperature, layers)
+  temperature = raster::subset(temperature, layers)
 
   # shift data when offset is < 365
   if (offset < length(layers)){
@@ -131,7 +130,7 @@ format_cmip5 = function(path = "~",
   }
 
   # convert temperature data to matrix
-  Ti = t(as.matrix(temperature))
+  Ti = t(raster::as.matrix(temperature))
 
   # extract georeferencing info to be passed along
   ext = extent(temperature)
@@ -143,25 +142,19 @@ format_cmip5 = function(path = "~",
                            proj4string = CRS(proj))
   location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
 
-  # create daylength matrix
-  Li = matrix(rep(1:length(layers), prod(size[1:2])),
-              length(layers),
-              prod(size[1:2]))
-
-  latitude = matrix(location[1,],
-                    length(layers),
-                    prod(size[1:2]), byrow = TRUE)
-
-  # calculate daylength
-  Li = daylength(doy = Li, latitude = latitude)[1]
-  Li = Li[[1]]
-
   # create doy vector
   if (offset < length(layers)){
     doy = c(offset:length(layers),1:(offset - 1))
   } else {
     doy = 1:length(layers)
   }
+
+  # create daylength matrix
+  Li = lapply(location[1,],
+              FUN = function(x){
+                unlist(daylength(doy = doy, latitude = x)[1])
+                })
+  Li = t(do.call("rbind",Li))
 
   # recreate the validation data structure (new format)
   # but with concatted data
@@ -185,6 +178,6 @@ format_cmip5 = function(path = "~",
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_data_%s_%s.rds",path, year, tile))
+    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s.rds",path, year))
   }
 }

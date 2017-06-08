@@ -13,7 +13,6 @@ Depends:
     daymetr (>= 1.0),
     raster (>= 2.5),
     ncdf4 (>= 1.15),
-    sf (>= 0.4-1),
     sp (>= 1.2-4)
 License: AGPLv3
 LazyData: true

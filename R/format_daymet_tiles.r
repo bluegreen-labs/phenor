@@ -10,9 +10,9 @@
 #' @examples
 
 # create subset of layers to calculate phenology model output on
-format_daymet_tiles = function(path = ".",
+format_daymet_tiles = function(path = "~",
                          year = 2014,
-                         tiles = 11935,
+                         tile = 11935,
                          offset = 264,
                          internal = TRUE){
 
@@ -52,7 +52,7 @@ format_daymet_tiles = function(path = ".",
   t_subset_brick = trim(brick(t_subset))
 
   # convert temperature data to matrix
-  Ti = t(as.matrix(t_subset_brick))
+  Ti = t(raster::as.matrix(t_subset_brick))
 
   # extract georeferencing info to be passed along
   ext = extent(t_subset_brick)
@@ -66,25 +66,19 @@ format_daymet_tiles = function(path = ".",
                            proj4string = CRS(proj))
   location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
 
-  # create daylength matrix
-  Li = matrix(rep(1:365, prod(size[1:2])),
-              365,
-              prod(size[1:2]))
-
-  latitude = matrix(location[1,],
-                    365,
-                    prod(size[1:2]), byrow = TRUE)
-
-  # calculate daylength
-  Li = daylength(doy = Li, latitude = latitude)[1]
-  Li = Li[[1]]
-
   # create doy vector
   if (offset < 365){
     doy = c(offset:365,1:(offset - 1))
   } else {
     doy = 1:365
   }
+
+  # create daylength matrix
+  Li = lapply(location[1,],
+              FUN = function(x){
+                unlist(daylength(doy = doy, latitude = x)[1])
+              })
+  Li = t(do.call("rbind",Li))
 
   # recreate the validation data structure (new format)
   # but with concatted data

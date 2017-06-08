@@ -39,19 +39,19 @@ daylength = function(doy, latitude) {
   # 90 - zenith angle
   solar_elev = 90 - acos(sin(latitude * conv) * sin(Phi) + cos(latitude * conv) * cos(Phi)) * 180 / pi
 
-  # addresses NA values in output due to the asymptotic nature of the 
+  # addresses NA / inf values in output due to the asymptotic nature of the
   # daylength function
   if (latitude > 0){
   for (i in 1:length(DL)) {
-    
+
     l <- DL[i - 1] > 10
-    
+
     if (length(l) == 0) {
       l <- FALSE
     }
-    
+
     l[is.na(l)] <- FALSE
-    
+
     if (l  & is.na(DL[i])) {
       DL[i] <- 24
     }
@@ -61,22 +61,22 @@ daylength = function(doy, latitude) {
   }
   } else {
     for (i in 1:length(DL)) {
-      
+
       l <- DL[i - 1] < 10
-      
+
       if (length(l) == 0) {
         l <- FALSE
       }
-      
+
       l[is.na(l)] <- FALSE
-      
+
       if (l  & is.na(DL[i])) {
         DL[i] <- 0
       }
       if (is.na(DL[i])) {
         DL[i - 1] <- 24
       }
-    } 
+    }
   }
   return(list(DL, solar_elev))
 }

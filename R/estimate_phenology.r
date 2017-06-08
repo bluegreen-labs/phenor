@@ -57,7 +57,7 @@ estimate_phenology = function(par,
 
     # list all rda files
     files = list.files(path = path,
-                       pattern = "^phenor_data.*\\.rda$",
+                       pattern = "^phenor_.*\\.rds$",
                        full.names = TRUE)
 
     # cycle over all files and run the model

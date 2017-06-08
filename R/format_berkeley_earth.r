@@ -9,33 +9,72 @@
 #' @examples
 
 # create subset of layers to calculate phenology model output on
-format_berkeley_earth = function(file = "~/Downloads/Complete_TAVG_Daily_LatLong1_2010.nc",
-                               year = 2011,
-                               offset = 264,
-                               bounding_box = c(-180,-40,0,90),
-                               internal = TRUE){
+format_berkeley_earth = function(path = "~",
+                                 year = 2011,
+                                 offset = 264,
+                                 bounding_box = c(-126, -66, 23, 54),
+                                 internal = TRUE){
 
-  # some feedback
-  cat("calculating average daily temperatures, or load from file \n")
+  # set server
+  server = "http://berkeleyearth.lbl.gov/auto/Global/Gridded"
 
-  # read in netCDF data using the raster package
-  climatology = brick(file, varname = "climatology") # baseline averages
-  delta = brick(file, varname = "temperature") # anomaly
+  # set the decadal splits
+  split = seq(1880,as.numeric(format(Sys.Date(),"%Y")),10)
 
-  # crop data if necessary
-  if (!is.null(bounding_box)){
-    if(length(bounding_box)==4){
-      climatology = crop(climatology,extent(bounding_box))
-      delta = crop(delta,extent(bounding_box))
+  # download 2 files if on split decade
+  if (year %in% split){
+    # create download string
+    filenames = c(sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
+                          split[max(which(split <= year),na.rm=TRUE) - 1]),
+                  sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
+                          split[max(which(split <= year),na.rm=TRUE)]))
+
+  } else {
+    # create download string
+    filenames = sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
+                        split[max(which(split <= year),na.rm=TRUE)])
+  }
+
+  # download missing data
+  for (i in filenames){
+
+    # set download / filename strings
+    file_location = sprintf("%s/%s",path,i)
+    http_location = sprintf("%s/%s", server, i)
+
+    if(!file.exists(file_location)){
+      # try to download the data
+      error = try(curl::curl_download(http_location,
+                                      file_location,
+                                      mode="w",
+                                      quiet=TRUE),silent=TRUE)
+      if (inherits(error, "try-error")){
+        # remove file header
+        file.remove(file_location)
+        stop("failed to download the requested data, check your connection")
+      }
     } else {
-      stop("not enough coordinate points to properly crop data!")
+      cat("local file exists, skipping download \n")
     }
   }
 
-  # get dates from ncdf layers
-  nc = ncdf4::nc_open(file)
-  years = ncdf4::ncvar_get(nc,"year")
-  yday = ncdf4::ncvar_get(nc,"day_of_year")
+  # grab raster data from netcdf files
+  climatology = raster::brick(sprintf("%s/%s",path,filenames[1]),
+                              varname = "climatology")
+  delta = do.call("stack",
+                  lapply(filenames, FUN = function(x){
+                    raster::brick(sprintf("%s/%s",path,x),
+                                  varname = "temperature")}))
+
+  # get date elements from netcdf files
+  years = do.call("c",lapply(filenames,FUN = function(x){
+    nc = ncdf4::nc_open(sprintf("%s/%s",path,x))
+    ncdf4::ncvar_get(nc,"year")
+  }))
+  yday = do.call("c",lapply(filenames,FUN = function(x){
+    nc = ncdf4::nc_open(sprintf("%s/%s",path,x))
+    ncdf4::ncvar_get(nc,"day_of_year")
+  }))
 
   # select layers to subset
   layers = which((years == (year - 1) & yday >= offset) |
@@ -43,59 +82,65 @@ format_berkeley_earth = function(file = "~/Downloads/Complete_TAVG_Daily_LatLong
 
   # check if all layers are available in the dataset
   # needs a fix for crossing boundaries between decadal subsets !!
-  if (length(layers)!=365){
+  if (length(layers) < 365){
     stop("The selected Berkeley Earth dataset does not cover your data range!")
   }
 
-  # subset raster data
-  delta = subset(delta, layers)
+  # subset raster data, do this before cropping to make things faster
+  delta = raster::subset(delta, layers)
+
+  # crop data if necessary
+  if (!is.null(bounding_box)){
+    if(length(bounding_box)==4){
+      climatology = raster::crop(climatology,extent(bounding_box))
+      delta = raster::crop(delta,extent(bounding_box))
+    } else {
+      stop("not enough coordinate points to properly crop data!")
+    }
+  }
 
   # shift data when offset is < 365
-  if (offset < 365){
-    doy = c(offset:365,1:(offset - 1))
+  if (offset < length(layers)){
+    doy = c(offset:length(layers),1:(offset - 1))
   } else {
-    doy = 1:365
+    doy = 1:length(layers)
   }
 
   # calculate absolute temperatures not differences
   # with the mean
-  temperature = stackApply(stack(delta,climatology),
-             indices = c(doy,1:365),
-             fun = sum )
+  temperature = raster::stackApply(raster::stack(delta,climatology),
+                           indices = c(doy,1:length(layers)),
+                           fun = sum )
   temperature[temperature == 0] = NA
 
-  # convert temperature data to matrix
-  Ti = t(as.matrix(temperature))
+  # convert temperature data to matrix use the raster as.matrix() function!!
+  Ti = t(raster::as.matrix(temperature))
 
   # extract georeferencing info to be passed along
-  ext = extent(temperature)
-  proj = projection(temperature)
+  ext = raster::extent(temperature)
+  proj = raster::projection(temperature)
   size = dim(temperature)
 
+  cat("calculating daylength \n")
+
   # grab coordinates
-  location = SpatialPoints(coordinates(temperature),
+  location = sp::SpatialPoints(coordinates(temperature),
                            proj4string = CRS(proj))
-  location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
-
-  # create daylength matrix
-  Li = matrix(rep(1:365, prod(size[1:2])),
-              365,
-              prod(size[1:2]))
-
-  latitude = matrix(location[1,],
-                    365,
-                    prod(size[1:2]), byrow = TRUE)
-
-  # calculate daylength
-  Li = daylength(doy = Li, latitude = latitude)[1]
-  Li = Li[[1]]
+  location = t(sp::spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
-  if (offset < 365){
-    doy = c(offset:365,1:(offset - 1))
+  if (offset < length(layers)){
+    doy = c(offset:length(layers),1:(offset - 1))
   } else {
-    doy = 1:365
+    doy = 1:length(layers)
   }
+
+  # create daylength matrix
+  Li = lapply(location[1,],
+              FUN = function(x){
+                unlist(daylength(doy = doy, latitude = x)[1])
+              })
+  Li = t(do.call("rbind",Li))
 
   # recreate the validation data structure (new format)
   # but with concatted data
@@ -111,14 +156,12 @@ format_berkeley_earth = function(file = "~/Downloads/Complete_TAVG_Daily_LatLong
                                       "size" = size)
   )
 
-  # assign a class for post-processing
-  class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
   # either internally or saved as an rda (binary R data file)
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_data_%s_%s.rds",path, year, tile))
+    saveRDS(data, file = sprintf("%s/phenor_be_data_%s_%s.rds",path, year))
   }
 }

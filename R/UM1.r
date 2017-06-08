@@ -14,34 +14,31 @@
 UM1  = function(par, data){
 
   # exit the routine as some parameters are missing
-  if (length(par) != 9){
+  if (length(par) != 8){
     stop("model parameter(s) out of range (too many, too few)")
   }
 
   # extract the parameter values from the
   # par argument
   t0 = round(par[1])
-  t0_chill = round(par[2])
-  T_base = par[3]
-  T_opt = par[4]
-  T_min = par[5]
-  T_max = par[6]
-  f = par[7]
-  w = par[8]
-  C_req = par[9]
+  T_base = par[2]
+  T_opt = par[3]
+  T_min = par[4]
+  T_max = par[5]
+  f = par[6]
+  w = par[7]
+  C_req = par[8]
 
-  # sanity check
-  if (t0 <= t0_chill){
-    return(rep(9999,ncol(data$Ti)))
-  }
+  # chilling accumulation
+  Rc = matrix(0,nrow(data$Ti),ncol(data$Ti))
+  Rc[data$Ti < T_opt & data$Ti >= T_min] =
+    (data$Ti[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
+  Rc[data$Ti < T_max & data$Ti >= T_opt] =
+    (data$Ti[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
+  Rc[1:t0,] = 0
 
-  # chilling
-  Rc = matrix(0,nrow(data$Ti),ncol(data$Ti)) # allocate empty matrix
-  Rc[data$Ti < T_opt & data$Ti >= T_min] = (data$Ti[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
-  Rc[data$Ti < T_max & data$Ti >= T_opt] = (data$Ti[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
-  Rc[1:t0_chill,] = 0
-  Rc[t0:nrow(Rc),] = 0
-  Sc = apply(Rc,2, cumsum)
+  # bell shaped temperature response
+  Sc = apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
   # accumulation starts (binary choice)
@@ -54,7 +51,10 @@ UM1  = function(par, data){
   Rf[1:t0,] = 0
   Sf = apply(Rf, 2, cumsum)
 
-  # DOY meeting F_crit
+  # DOY meeting F_crit, subtract the forcing matrix
+  # from the F_crit matrix in order to speed things up
+  # only the location of transition from - to + is
+  # claculated to estimate the transition dates
   Sfc = Sf - (w * exp(f * Sc))
 
   doy = apply(Sfc, 2, function(x){

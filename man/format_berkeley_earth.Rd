@@ -4,10 +4,8 @@
 \alias{format_berkeley_earth}
 \title{Preprocessing of Berkeley Earth Gridded temperature data}
 \usage{
-
-  format_berkeley_earth(file = "~/Downloads/Complete_TAVG_Daily_LatLong1_2010.nc",
-  year = 2011, offset = 264, bounding_box = c(-180, -40, 0, 90),
-  internal = TRUE)
+format_berkeley_earth(path = ".", year = 2011, offset = 264,
+  bounding_box = c(-126, -66, 23, 54), internal = TRUE)
 }
 \arguments{
 \item{path:}{a path to the gridded data, only average temperature
