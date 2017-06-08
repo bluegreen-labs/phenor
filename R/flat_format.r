@@ -46,9 +46,6 @@ flat_format = function(data = NULL){
   # concat all precip data in one big matrix
   #Pi = do.call("cbind",lapply(data,function(x)x$Pi))
 
-  # concat all temperature data in one big matrix
-  # ltm = do.call("cbind",lapply(data,function(x)x$ltm))
-
   # long term mean
   ltm = matrix(NA,365,length(site))
   for (i in 1:length(site)){
