@@ -34,7 +34,7 @@ for (i in 1:length(datasets)){
 names(comparison) = datasets
 
 # save the data
-saveRDS(comparison,"/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/comparison.rda")
+saveRDS(comparison,"/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/comparison.rds")
 
 # run a similar analysis for the sites
 # as mentioned in Melaas et al. 2016
