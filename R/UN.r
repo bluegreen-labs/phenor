@@ -29,13 +29,14 @@ UN  = function(par, data){
   w = par[7]
   C_req = par[8]
 
-  # chilling accumulation
-  Rc = matrix(0,nrow(data$Ti),ncol(data$Ti))
-  Rc[data$Ti < T_opt & data$Ti >= T_min] =
-    (data$Ti[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
-  Rc[data$Ti < T_max & data$Ti >= T_opt] =
-    (data$Ti[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
+  # chilling accumulation using the
+  # bell shaped temperature response
+  Rc = triangular_temperature_response(data$Ti,
+                                       T_opt = T_opt,
+                                       T_min = T_min,
+                                       T_max = T_max)
   Rc[1:t0,] = 0
+  Sc = apply(Rc, 2, cumsum)
 
   # bell shaped temperature response
   Sc = apply(Rc, 2, cumsum)

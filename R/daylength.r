@@ -1,6 +1,9 @@
 #' Calculates day length (in hours) and the solar elevation above the
-#' ecliptic plane based upon latitude and a day of year value.
-#' This routine uses Forsythe et al. 1995.
+#' ecliptic plane based upon latitude and a day of year, and year values.
+#' according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)
+#'
+#' Due to heterogeneous date formats with years normalized to 365 days
+#' I do not apply a leap year correction.
 #'
 #' @param doy: a vector with doy values 1 - 365(6)
 #' @param latitude: a given latitude
@@ -10,73 +13,39 @@
 #'
 #' \dontrun{
 #' # calcualte the hours of sunlight and solar elevation on day of year 1
-#' ephem = daylength(1,51)
-#' print(ephem)
+#' length_of_day = daylength(1, 51, 2000)
+#' print(length_of_day)
 #' }
 
 daylength = function(doy, latitude) {
 
-  # convert to numeric to be sure
-  latitude = as.numeric(latitude)
+  # set constants
+  latitude = (pi / 180) * latitude
 
-  # define constant
-  p = 0
+  # Correct for winter solistice
+  doy = doy + 11
 
-  # degrees to radial conversion
-  conv = pi / 180
+  # earths ecliptic
+  j = pi / 182.625
+  axis = (pi / 180) * 23.439
 
-  # Forsythe et al. 1995 eq. 1
-  Omega = 0.2163108 + 2 * atan(0.9671396 * tan(0.00860 * (doy - 186)))
+  # calculate daylength for all days
+  dl = lapply(doy, function(x){
 
-  # eq. 2
-  Phi = asin(0.39795 * cos(Omega))
+    #Exposed radius part between sun's zenith and sun's circle
+    m = 1 - tan(latitude) * tan(axis * cos(j * x))
 
-  # eq. 3 / returns daylength D
-  DL = suppressWarnings(24 - 24 / pi * acos((sin(p * conv) + sin(latitude * conv) *
-                              sin(Phi)) / (cos(latitude * conv) * cos(Phi))))
+    # sun never appears or disappears
+    if (m < 0) { m = 0 }
+    if (m > 2) { m = 2 }
 
-  # convert declination to solar elevation (above ecliptica) or
-  # 90 - zenith angle
-  solar_elev = 90 - acos(sin(latitude * conv) * sin(Phi) + cos(latitude * conv) * cos(Phi)) * 180 / pi
+    # Exposed fraction of the sun's circle
+    b = acos(1 - m) / pi
 
-  # addresses NA / inf values in output due to the asymptotic nature of the
-  # daylength function
-  if (latitude > 0){
-  for (i in 1:length(DL)) {
+    # Daylength (lat,day)
+    return(b * 24)
+  })
 
-    l <- DL[i - 1] > 10
-
-    if (length(l) == 0) {
-      l <- FALSE
-    }
-
-    l[is.na(l)] <- FALSE
-
-    if (l  & is.na(DL[i])) {
-      DL[i] <- 24
-    }
-    if (is.na(DL[i])) {
-      DL[i - 1] <- 0
-    }
-  }
-  } else {
-    for (i in 1:length(DL)) {
-
-      l <- DL[i - 1] < 10
-
-      if (length(l) == 0) {
-        l <- FALSE
-      }
-
-      l[is.na(l)] <- FALSE
-
-      if (l  & is.na(DL[i])) {
-        DL[i] <- 0
-      }
-      if (is.na(DL[i])) {
-        DL[i - 1] <- 24
-      }
-    }
-  }
-  return(list(DL, solar_elev))
+  # return the daylength vector
+  return(unlist(dl))
 }
