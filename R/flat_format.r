@@ -44,7 +44,7 @@ flat_format = function(data = NULL){
 
 
   # concat all precip data in one big matrix
-  Pi = do.call("cbind",lapply(data,function(x)x$Pi))
+  #Pi = do.call("cbind",lapply(data,function(x)x$Pi))
 
   # concat all temperature data in one big matrix
   # ltm = do.call("cbind",lapply(data,function(x)x$ltm))
@@ -67,8 +67,9 @@ flat_format = function(data = NULL){
               "transition_dates" = transition_dates,
               "ltm" = ltm,
               "Ti" = Ti,
-              "Li" = Li,
-              "Pi" = Pi)
+              "Li" = Li
+              #"Pi" = Pi
+              )
 
   # assign a class for post-processing
   class(data) = "phenor_time_series_data"

@@ -1,5 +1,6 @@
 # Run model validation comparison for the different datasets
 # Save the resulting data as a rda file!
+library(phenor)
 
 # GenSA control parameters
 con = list(max.call = 40000,

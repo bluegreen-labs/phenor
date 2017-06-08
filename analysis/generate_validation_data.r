@@ -1,10 +1,5 @@
 # Generates validation data sets
-
-# pull data from github
-#system("git clone phenocamdata")
-
-# move into directory
-#setwd("~/phenocam_data/data_set_6")
+# this for internal development use only.
 
 # save data in the phenor package location
 setwd("/data/Dropbox/Research_Projects/code_repository/bitbucket/PhenoR/data/")
@@ -24,18 +19,20 @@ phenocam_GR = format_phenocam(path = "/data/Dropbox/Research_Projects/working/ph
                               threshold = 25)
 devtools::use_data(phenocam_GR, overwrite = TRUE)
 
-# commit igbp masks to the repo
-igbp_1 = raster::raster("../inst/extdata/igbp_1.tif")
-devtools::use_data(igbp_1, overwrite = TRUE)
-
-# commit igbp masks to the repo
-igbp_4 = raster::raster("../inst/extdata/igbp_4.tif")
-devtools::use_data(igbp_4, overwrite = TRUE)
-
-# commit igbp masks to the repo
-igbp_5 = raster::raster("../inst/extdata/igbp_5.tif")
-devtools::use_data(igbp_5, overwrite = TRUE)
-
-# commit igbp masks to the repo
-igbp_10 = raster::raster("../inst/extdata/igbp_10.tif")
-devtools::use_data(igbp_10, overwrite = TRUE)
+# commit igbp masks to the repo / USE brick() otherwise only a
+# reference to the file is written to file. With brick() data stored in
+# memory is written to file.
+# igbp_1 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_1.tif")
+# devtools::use_data(igbp_1, overwrite = TRUE)
+#
+# # commit igbp masks to the repo
+# igbp_4 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_4.tif")
+# devtools::use_data(igbp_4, overwrite = TRUE)
+#
+# # commit igbp masks to the repo
+# igbp_5 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_5.tif")
+# devtools::use_data(igbp_5, overwrite = TRUE)
+#
+# # commit igbp masks to the repo
+# igbp_10 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_10.tif")
+# devtools::use_data(igbp_10, overwrite = TRUE)
