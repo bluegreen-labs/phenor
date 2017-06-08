@@ -3,8 +3,8 @@
 \name{daylength}
 \alias{daylength}
 \title{Calculates day length (in hours) and the solar elevation above the
-ecliptic plane based upon latitude and a day of year value.
-This routine uses Forsythe et al. 1995.}
+ecliptic plane based upon latitude and a day of year, and year values.
+according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)}
 \usage{
 daylength(doy, latitude)
 }
@@ -14,16 +14,15 @@ daylength(doy, latitude)
 \item{latitude:}{a given latitude}
 }
 \description{
-Calculates day length (in hours) and the solar elevation above the
-ecliptic plane based upon latitude and a day of year value.
-This routine uses Forsythe et al. 1995.
+Due to heterogeneous date formats with years normalized to 365 days
+I do not apply a leap year correction.
 }
 \examples{
 
 \dontrun{
 # calcualte the hours of sunlight and solar elevation on day of year 1
-ephem = daylength(1,51)
-print(ephem)
+length_of_day = daylength(1, 51, 2000)
+print(length_of_day)
 }
 }
 \keyword{ephemerids}

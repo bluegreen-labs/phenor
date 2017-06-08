@@ -5,8 +5,8 @@
 \title{Preprocessing of Daymet tiled data into a format which can be ingested
 by the models in phenor}
 \usage{
-format_daymet_tiles(path = ".", year = 2014, tiles = 11935,
-  offset = 264, internal = TRUE)
+format_daymet_tiles(path = "~", year = 2014, tile = 11935, offset = 264,
+  internal = TRUE)
 }
 \arguments{
 \item{path:}{a path to tiled data}
