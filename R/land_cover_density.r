@@ -44,10 +44,7 @@ land_cover_density = function(dest_raster = NULL,
 
   # number the pixels for further reference
   zones = dest_raster
-  zones[] = matrix(1:(rows*cols),
-                   rows,
-                   cols,
-                   byrow=TRUE)
+  zones[] = 1:prod(rows,cols)
 
   # load from pacakge if no src data is provided
   # by default this reads in a median land cover
