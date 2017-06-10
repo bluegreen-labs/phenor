@@ -64,6 +64,11 @@ model_comparison = function(random_seeds = c(1,12,40),
   # Both for loops can be parallelized,
   # to speed up comparisons.
 
+  # implement a progress bar for graphical feedback
+  # this to gauge speed limitations
+  pb = txtProgressBar(min = 0, max = nr_models*nr_seeds, style = 3)
+  k = 0
+
   # iterate all instances
   for (i in 1:nr_models) {
 
@@ -78,6 +83,10 @@ model_comparison = function(random_seeds = c(1,12,40),
     predicted_values = matrix(NA,nr_seeds,nr_obs)
 
     for (j in 1:nr_seeds) {
+
+      # progress bar for the models
+      setTxtProgressBar(pb, k);
+      k = k + 1
 
       # set random seed for a given run
       set.seed(random_seeds[j])
@@ -113,6 +122,9 @@ model_comparison = function(random_seeds = c(1,12,40),
     # append to the list
     model_estimates[i] = list(tmp)
   }
+
+  # close the progress bar element
+  close(pb)
 
   # rename model output for clarity
   names(model_estimates) = models
