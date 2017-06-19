@@ -23,65 +23,72 @@ if ( !dir.exists(path) ){
 # necessary functions (TODO)
 setwd(path)
 
-# download daymet tiles and format the data
-# this might take a while (be warned), first
-# list all the tiles needed
-tiles = c(
-  11936, 12295, 12296, 12297,
-  12114, 12115, 12116, 12117,
-  11934, 11935, 11754, 11755,
-  11756, 12294, 11937)
-
-# download all daymet tiles, include the preceeding year
-# as we need this data too (see start_yr).
-daymetr::download_daymet_tiles(tiles = tiles,
-                               param = c("tmin","tmax"),
-                               start_yr = 2010,
-                               end_yr = 2011)
-
-# now calculate the mean daily temperature from tmin and tmax
-lapply(tiles, function(x)daymetr::daymet_tmean(path = path,
-                                               tile = x,
-                                               year = 2010,
-                                               internal = FALSE))
-
-lapply(tiles, function(x)daymetr::daymet_tmean(path = path,
-                                               tile = x,
-                                               year = 2011,
-                                               internal = FALSE))
-
-# now format all tiles acoording to the phenor format
-# (default settings)
-lapply(tiles, function(x)daymet_data = format_daymet_tiles(
-  path = path,
-  tile = x,
-  year = 2011,
-  internal = FALSE))
-
-# get cmip5 data for the end of the century
-cmip5_data = format_cmip5(year = 2100)
+# # download daymet tiles and format the data
+# # this might take a while (be warned), first
+# # list all the tiles needed
+# tiles = c(
+#   11936, 12295, 12296, 12297,
+#   12114, 12115, 12116, 12117,
+#   11934, 11935, 11754, 11755,
+#   11756, 12294, 11937)
+#
+# # download all daymet tiles, include the preceeding year
+# # as we need this data too (see start_yr).
+# daymetr::download_daymet_tiles(tiles = tiles,
+#                                param = c("tmin","tmax"),
+#                                start_yr = 2010,
+#                                end_yr = 2011)
+#
+# # now calculate the mean daily temperature from tmin and tmax
+# lapply(tiles, function(x)daymetr::daymet_tmean(path = path,
+#                                                tile = x,
+#                                                year = 2010,
+#                                                internal = FALSE))
+#
+# lapply(tiles, function(x)daymetr::daymet_tmean(path = path,
+#                                                tile = x,
+#                                                year = 2011,
+#                                                internal = FALSE))
+#
+# # now format all tiles acoording to the phenor format
+# # (default settings)
+# lapply(tiles, function(x)daymet_data = format_daymet_tiles(
+#   path = path,
+#   tile = x,
+#   year = 2011,
+#   internal = FALSE))
+#
+# # get cmip5 data for the end of the century
+cmip5_data_2100 = format_cmip5(year = 2100)
+cmip5_data_2011 = format_cmip5(year = 2011)
 
 # download berkeley earth data (global data but subset for CONUS)
 # for the same year as the Daymet data (scale comparison)
-be_data = format_berkeley_earth(year = 2011)
+#be_data = format_berkeley_earth(year = 2011)
 
 # create a set of demo parameters
 # optimize for default Deciduous Broadleaf
 # data (included in the phenor package)
 # I use the simplest Thermal Time model (TT)
 par = model_validation(model = "TT",
-                       control = list(max.call = 10000,
+                       control = list(max.call = 5000,
                                       temperature = 10000))
 
 # create maps using estimated parameters and
 # the estimate_phenology routine
-cmip5_map = estimate_phenology(par = par,
+cmip5_map_2100 = estimate_phenology(par = par,
                                model = "TT",
-                               data = cmip5_data)
+                               data = cmip5_data_2100)
 
-be_map = estimate_phenology(par = par,
-                            model = "TT",
-                            data = be_data)
+# create maps using estimated parameters and
+# the estimate_phenology routine
+cmip5_map_2011 = estimate_phenology(par = par,
+                                    model = "TT",
+                                    data = cmip5_data_2011)
+
+#be_map = estimate_phenology(par = par,
+#                            model = "TT",
+#                            data = be_data)
 
 daymet_map = estimate_phenology(par = par,
                                 model = "TT",
@@ -90,7 +97,7 @@ daymet_map = estimate_phenology(par = par,
 # Generate the final plot comparing model output
 # across various scales and time frames use
 # a pdf device for quality graphs
-pdf("~/Figure_xyz.pdf",12,14)
+pdf("~/Figure_5.pdf",12,14)
 
 # set margins and general layout
 # of subplots
@@ -108,7 +115,7 @@ cols = colorRampPalette(brewer.pal(9,'RdBu'))(100)
 zlim =  c(90,190)
 
 # what data do we want to map (generated above)
-mapdata = c("be_map","daymet_map","cmip5_map")
+mapdata = c("cmip5_map_2011","daymet_map","cmip5_map_2100")
 
 # loop over all datasets and plot them in the
 # correct order with adjusted settings
@@ -142,7 +149,7 @@ for (i in 1:3){
          lty = 1,
          lwd = 1.5,
          border = "black")
-    mtext("Berkeley Earth (2011)",
+    mtext("CMIP5 (IPSL-CM5A-MR, 2011)",
           side = 3,
           line = 1,
           cex = 1.3)
@@ -231,17 +238,15 @@ for (i in 1:3){
   }
 }
 
-# read in the mask file for deciduous broadleaf
-# pixels (1 degree grid) and only select those
-# with more than 1/4 of the pixel covered in
-# this particular vegetation type
-m = raster(sprintf("%s/extdata/igbp_4.tif",
-                   path.package("phenor")))
-m = m > 0.25
+# select those land cover pixels
+# with more than 1/4 of the pixel covered
+# igbp classes 1/4/5/10 are included in the
+# package as igbp_#
+m = igbp_4 > 0.25
 
 # plot a filtered version of the be_map data
 par(mar = c(1,1,1,1))
-image(be_map * m,
+image(cmip5_map_2011 * m,
       xlab = '',
       ylab = '',
       xaxt = 'n',
@@ -270,7 +275,7 @@ legend("bottomright",
 
 # colour legend
 par(mar = c(3,1,5,1))
-imageScale(be_map,
+imageScale(cmip5_map_2011,
            col = cols,
            zlim = zlim,
            cex = 1.5,

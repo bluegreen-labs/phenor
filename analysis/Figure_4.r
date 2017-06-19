@@ -6,6 +6,11 @@
 # a given model.
 library(phenor)
 
-# quick comparison with default settings (3 random seeds)
-comparison = model_comparison(models = c("TT","PTT"))
+# quick comparison with default settings (1 random seed)
+pdf("~/Figure_4.pdf",7,5)
+comparison = model_comparison(models = c("TT","PTT"),
+                              random_seeds = 1,
+                              control = list(max.call = 10000,
+                                             temperature = 10000))
 arrow_plot(comparison)
+dev.off()

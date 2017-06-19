@@ -13,7 +13,8 @@
 
 plot_model_comparison = function(comparison = NULL,
                                  ylab = "RMSE (days)",
-                                 names = TRUE){
+                                 names = TRUE,
+                                 ...){
 
   # trap lack of data
   if (is.null(comparison)){
@@ -74,11 +75,21 @@ plot_model_comparison = function(comparison = NULL,
     x_names = rep(" ",ncol(rmse_stats))
   }
 
+  # check for custom ylim values
+  dots = list(...)
+  if(length(dots)!=0){
+    if(names(dots)=="ylim"){
+      ylim_val = dots$ylim
+    }
+  } else {
+    ylim_val = c(0, rmse_null + rmse_null * 0.25)
+  }
+
   # create boxplot with stats
   boxplot(rmse_stats,
           las = 2,
           names = x_names,
-          ylim = c(0, rmse_null + rmse_null * 0.25),
+          ylim = ylim_val,
           ylab = ylab,
           whiskcol = col_sel,
           staplecol = col_sel,

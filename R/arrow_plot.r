@@ -29,8 +29,6 @@ arrow_plot = function(data = NULL,
     stop("please specify the models to compare")
   }
 
-
-
   # grab the site names
   sites = names(data$modelled)
 
@@ -50,11 +48,13 @@ arrow_plot = function(data = NULL,
   # provide the baseline plot (don't plot values)
   plot(data$measured,
        predicted_values[,1],
-       main = sprintf("Directional change from model:\n %s -> %s",sites[1],sites[2]),
+       main = sprintf("Directional change from model:\n %s -> %s",
+                      sites[1],sites[2]),
        type = "n",
        ylab = "Estimated values (DOY)",
        xlab = "Measured values (DOY)",
-       ylim = c(min_pred, max_pred))
+       ylim = c(min_pred, max_pred),
+       tck = 0.02)
 
   # plot a 1:1 line
   abline(0,1,
