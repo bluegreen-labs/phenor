@@ -2,9 +2,8 @@
 # Save the resulting data as a rda file!
 library(phenor)
 
-# 12 random seeds
-#seeds = 1:1000
-#seeds = sample(seeds, 12)
+# 12 random seeds (hard coded, but can be generated using code below)
+#seeds = sample(1:1000, 12)
 seeds = c(204,680,364,350,
           62,481,397,17,
           125,395,500,325)
@@ -38,12 +37,11 @@ for (i in 1:length(datasets)){
 names(comparison) = datasets
 
 # save the data
-saveRDS(comparison,"/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/comparison.rds")
+saveRDS(comparison,"~/comparison.rds")
 
 # run a similar analysis for the sites
 # as mentioned in Melaas et al. 2016
 # site are listed below
-
 sites_melaas = c(
   "harvard",
   "bartlettir",
@@ -68,5 +66,5 @@ melaas = model_comparison(dataset = phenocam_DB_subset,
                           control = con)
 
 # save the data
-saveRDS(melaas,"/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/melaas.rds")
+saveRDS(melaas,"~/melaas.rds")
 
