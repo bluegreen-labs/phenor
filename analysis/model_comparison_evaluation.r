@@ -45,9 +45,10 @@ for (i in 1:3){
   # bind everyting together
   df = data.frame(v,labels)
   df = rbind(df,null)
+  df$labels = as.factor(df$labels)
 
   # run ANOVA and HSD
-  fit = aov(v ~ labels, data = df)
+  fit = aov(log10(v) ~ labels, data = df)
   HSD = TukeyHSD(fit)
 
   # different from NULL model?
@@ -106,13 +107,11 @@ rmse_stats = do.call("cbind",rmse_stats)
 print("Melaas et al. separate optimization")
 print(sprintf("%s +_ %s", mean(rmse_stats), sd(rmse_stats)))
 
-# ANOVA Tukey HSD comparison
-for (i in 1:3){
-  dataset = lapply(melaas$modelled,function(x){
-    rmse = apply(x$predicted_values,1,function(y){
-      sqrt(mean((y - comparison[[i]]$measured) ^ 2, na.rm = T))
-    })
-    return(rmse)
+# calculate mean / sd RMSE of all model runs
+# (different parameters - by different seeds)
+error = lapply(comparison[[1]]$modelled,function(x){
+  error = apply(x$predicted_values,1,function(y){
+    y - comparison[[1]]$measured
   })
-}
-
+  return(error)
+})

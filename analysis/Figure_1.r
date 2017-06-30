@@ -1,15 +1,14 @@
 # Figure 1.
-
-# An example Gcc time series.
-# this code should be run within the directory which contains the code
-# set your working directory accordingly.
+library(phenor)
 
 # read in the model data structure (contains the geographic location)
-time_series = read.table("../data/data_record_5/bartlett_DB_0003_3day.csv",
+time_series = read.table(file.path(path.package("phenor"),
+                                   "extdata/bartlett_DB_0003_3day.csv"),
                          header = TRUE,
                          sep = ",")
 
-transition_dates = read.table("../data/data_record_6/bartlett_DB_0003_3day_transition_dates.csv",
+transition_dates = read.table(file.path(path.package("phenor"),
+                                        "extdata/bartlett_DB_0003_3day_transition_dates.csv"),
                          header = TRUE,
                          sep = ",")
 
@@ -22,7 +21,7 @@ falling = transition_dates[transition_dates$gcc_value=="gcc_90" &
                              transition_dates$direction == "falling",]
 
 # set device
-pdf("../output/Figure_1.pdf", 12, 5)
+pdf("~/Figure_1.pdf", 12, 4)
 par(tck = 0.02)
 plot(
   as.Date(time_series$date),
@@ -45,14 +44,14 @@ points(as.Date(time_series$date),
 points(
   as.Date(rising$transition_25),
   rising$threshold_50,
-  col = "green",
+  col = "blue",
   pch = 15,
   cex = 2
 )
 points(
   as.Date(falling$transition_25),
   falling$threshold_50,
-  col = "brown",
+  col = "red",
   pch = 19,
   cex = 2
 )
