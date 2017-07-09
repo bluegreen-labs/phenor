@@ -15,7 +15,7 @@ Imports:
 Depends:
     R (>= 3.2.5)
 Remotes:
-    github::khufkens/daymetr
+    github::khufkens/daymetr,
     github::khufkens/phenocamr
 License: AGPLv3
 LazyData: true
