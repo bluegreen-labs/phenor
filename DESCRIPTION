@@ -11,7 +11,9 @@ Imports:
     rgenoud (>= 5.7),
     raster (>= 2.5),
     ncdf4 (>= 1.15),
-    sp (>= 1.2-4)
+    sp (>= 1.2-4),
+    daymetr,
+    phenocamr
 Depends:
     R (>= 3.2.5)
 Remotes:
