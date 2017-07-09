@@ -1,7 +1,9 @@
 # Figure 1.
 library(phenor)
 
-# read in the model data structure (contains the geographic location)
+# read in the demo time series contained in the package,
+# alternatively the data can be found in the Nature Scientific Data
+# publication cited on the phenor github page
 time_series = read.table(file.path(path.package("phenor"),
                                    "extdata/bartlett_DB_0003_3day.csv"),
                          header = TRUE,
@@ -21,7 +23,7 @@ falling = transition_dates[transition_dates$gcc_value=="gcc_90" &
                              transition_dates$direction == "falling",]
 
 # set device
-pdf("~/Figure_1.pdf", 12, 4)
+pdf("~/Figure_1.pdf", 14, 4)
 par(tck = 0.02)
 plot(
   as.Date(time_series$date),

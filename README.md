@@ -1,16 +1,21 @@
 # phenor
 
-Here I combine three of my R packages to facilitate fast and reproducible phenology model development using both PhenoCam and MODIS phenology (MCD12Q2) data.
+The phenor R package is part of a phenology modelling framework in R leveraging measurements of vegetation phenology from the PhenoCam network and existing retrospective and projected climate data (e.g. Daymet, CMIP5, Berkeley Earth and others) in support of model comparisons and model development.
 
-I combine the query interface in [daymetr](https://github.com/khufkens/daymetr), to access DAYMET climatological data. The [phenocamr](https://github.com/khufkens/phenocamr) package provides easy access to raw PhenoCam Gcc time series and estimated phenological phases. MODIS data is provided through single pixel querying of the ORNL MODIS DAAC using the MODISTools R package. Gathered or processed data is subsequently formated and fit to various phenology models using the phenor package.
+The package is curently focussed on contiguous US and relies heavily on Daymet climate data queried using [daymetr](https://github.com/khufkens/daymetr) for model optimization. Phenological model validation data is primarily derived from PhenoCam time series (i.e. through [phenocamr](https://github.com/khufkens/phenocamr)). But functions are included to ingest different phenology data sources such as the MODIS MCD12Q2 phenology product using the MODISTools R package.
 
 ## Installation
 
 To install the toolbox in R run the following commands in a R terminal
 
 ```R
-require(devtools) # load the devtools library
-install_bitbucket("khufkens/phenor") # install the package
+if(!require(devtools)){install.package(devtools)}
+install_bitbucket("khufkens/phenor")
+```
+Additional PhenoCam data can be downloaded as:
+
+```
+git clone https://github.com/khufkens/phenocam_dataset.git
 ```
 
 ## Use
@@ -18,11 +23,12 @@ install_bitbucket("khufkens/phenor") # install the package
 Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr pacakge and process / format them correctly using format_phenocam()
 
 ```R
-# # downloads of PhenoCam data are facilitated using the functions
-# # using the phenophase = TRUE flags, transition dates are estimated
-# # on the go. The command below downloads all deciduous broadleaf sites
-# # and estimates their respective phenophases.
-# download.phenocam(vegetation = "DB", phenophase = TRUE)
+# downloads of PhenoCam data are facilitated using the functions
+# using the phenophase = TRUE flags, transition dates are estimated
+# on the go. The command below downloads all deciduous broadleaf sites
+# and estimates their respective phenophases.
+download_phenocam(vegetation = "DB",
+                  phenophase = TRUE)
 
 # process phenocam transition files into a consistent format
 phenocam_data = format_phenocam("/foo/bar/transition_dates/")
