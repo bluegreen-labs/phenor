@@ -6,7 +6,7 @@
 and quick comparisons of the skill of various models.}
 \usage{
 plot_model_comparison(comparison = NULL, ylab = "RMSE (days)",
-  names = TRUE)
+  names = TRUE, ...)
 }
 \arguments{
 \item{comparison:}{list returned by model_comparison()}

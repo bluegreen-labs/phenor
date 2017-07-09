@@ -1,24 +1,26 @@
 Package: phenor
 Title: An R phenology modelling framework
 Version: 1.0
-Author: Koen Hufkens [aut, cre] 
+Author@R: person("Koen","Hufkens",
+  email = "koen.hufkens@gmail.com",
+  role = c("aut", "cre"))
 Description: Provides a R phenology modelling framework leveraging PhenoCam data
-Imports:
-    zoo (>= 1.7),
-    graphics (>= 3.2.5),
-    stats (>= 3.2.5),
-    GenSA (>= 1.1.6),
-    rgenoud (>= 5.7),
-    raster (>= 2.5),
-    ncdf4 (>= 1.15),
-    sp (>= 1.2-4),
-    daymetr,
-    phenocamr
 Depends:
     R (>= 3.2.5)
-Remotes:
-    github::khufkens/daymetr,
-    github::khufkens/phenocamr
+Imports:
+    zoo,
+    graphics,
+    stats,
+    GenSA,
+    rgenoud,
+    raster,
+    ncdf4,
+    sp,
+    daymetr,
+    phenocamr
+Remotes: 
+  khufkens/daymetr,
+  khufkens/phenocamr
 License: AGPLv3
 LazyData: true
 RoxygenNote: 6.0.1
