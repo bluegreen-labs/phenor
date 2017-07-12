@@ -9,7 +9,8 @@ using a bell shaped chilling response}
 SQb(par, data)
 }
 \arguments{
-\item{data:}{a nested list of data}
+\item{data:}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }

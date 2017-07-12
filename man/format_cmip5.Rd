@@ -30,6 +30,15 @@ while historical data covers 1950 - 2005}
 Although one can access the 1/16th degree data, by default the 1x1 degree
 data should be preferred (due to preprocessing load).
 }
+\examples{
+
+\dontrun{
+# run with default settings
+# look for alternative models on the CMIP5
+# downscaled data page
+cmip5_data = format_cmip5()
+}
+}
 \keyword{model,}
 \keyword{phenology,}
 \keyword{preprocessing}

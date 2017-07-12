@@ -7,8 +7,13 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
+#' \dontrun{
+#' # run with default settings
+#' modis_data = format_modis()
+#'}
 
-process_modis = function(path = ".",
+process_modis = function(path = "~",
                          direction = "Increase",
                          offset = 264){
 

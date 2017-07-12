@@ -12,8 +12,16 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
+#' \dontrun{
+#' # run with default settings
+#' # looks for transition date files derived
+#' # through phenocamr in your home directory
+#' # change the path to match your setup
+#' phenocam_data = format_phenocam()
+#'}
 
-format_phenocam = function(path = ".",
+format_phenocam = function(path = "~",
                            direction = "rising",
                            gcc_value = "gcc_90",
                            threshold = 50,

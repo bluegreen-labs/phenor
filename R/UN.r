@@ -1,7 +1,8 @@
 #' Unified model as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
-#' @param data: a nested list of data
+#' @param data: input data (see reference for detailed description),
+#' data should be formatted using flat_format()
 #' @param par: a vector of parameter values, this is functions specific
 #' @keywords phenology, model
 #' @export

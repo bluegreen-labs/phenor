@@ -8,7 +8,8 @@ Basler et al. 2016 (Agr. For. Meteorlogy)}
 AT(par, data, plot = TRUE)
 }
 \arguments{
-\item{data:}{a nested list of data}
+\item{data:}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }

@@ -9,7 +9,8 @@ returns the mean across all validation dates}
 null(data)
 }
 \arguments{
-\item{data:}{a nested list of data}
+\item{data:}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 }
 \description{
 Null model as defined in

@@ -2,18 +2,19 @@
 % Please edit documentation in R/GR.r
 \name{GR}
 \alias{GR}
-\title{Thermal Time model as defined in
+\title{Thermal Time grassland model as defined in
 Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)}
 \usage{
 GR(par, data)
 }
 \arguments{
-\item{data:}{a nested list of data}
+\item{data:}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
 \description{
-Thermal Time model as defined in
+Thermal Time grassland model as defined in
 Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 }
 \examples{

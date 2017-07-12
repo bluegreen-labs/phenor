@@ -2,26 +2,20 @@
 % Please edit documentation in R/M1s.r
 \name{M1s}
 \alias{M1s}
-\title{M1 as defined in
+\title{M1 model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)}
 \usage{
 M1s(par, data, plot = FALSE)
 }
 \arguments{
-\item{data:}{a nested list of data with on location:
-1. the date (doy or long format)
-2. the temperature data
-3. the photoperiod data (NA when not needed)
-4. a vector or matrix with necessary constants (NA when not needed)
-   - long term mean temperature
-   - latitude
-   - etc...}
+\item{data:}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
 \description{
-M1 as defined in
+M1 model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)
 }

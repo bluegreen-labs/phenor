@@ -21,6 +21,17 @@ format_daymet_tiles(path = "~", year = 2014, tile = 11935, offset = 264,
 Preprocessing of Daymet tiled data into a format which can be ingested
 by the models in phenor
 }
+\examples{
+
+\dontrun{
+# run with default settings
+# looks for daymet average temperature
+# data in your home directory. These data
+# are calculated using daymet_tmean() from
+# the daymetr package
+daymet_data = format_daymet_tiles()
+}
+}
 \keyword{model,}
 \keyword{phenology,}
 \keyword{preprocessing}

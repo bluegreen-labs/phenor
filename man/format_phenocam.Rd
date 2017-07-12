@@ -6,7 +6,7 @@
 by the optimization routines etc. the original nested list is flattened
 for speed.}
 \usage{
-format_phenocam(path = ".", direction = "rising", gcc_value = "gcc_90",
+format_phenocam(path = "~", direction = "rising", gcc_value = "gcc_90",
   threshold = 50, offset = 264)
 }
 \arguments{
@@ -26,6 +26,16 @@ mixed results!)}
 Preprocessing of all PhenoCam data into a format which can be ingested
 by the optimization routines etc. the original nested list is flattened
 for speed.
+}
+\examples{
+
+\dontrun{
+# run with default settings
+# looks for transition date files derived
+# through phenocamr in your home directory
+# change the path to match your setup
+phenocam_data = format_phenocam()
+}
 }
 \keyword{model,}
 \keyword{phenology,}

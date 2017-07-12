@@ -8,6 +8,15 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
+#' \dontrun{
+#' # run with default settings
+#' # looks for daymet average temperature
+#' # data in your home directory. These data
+#' # are calculated using daymet_tmean() from
+#' # the daymetr package
+#' daymet_data = format_daymet_tiles()
+#'}
 
 # create subset of layers to calculate phenology model output on
 format_daymet_tiles = function(path = "~",
@@ -19,6 +28,7 @@ format_daymet_tiles = function(path = "~",
   # some feedback
   cat("calculating average daily temperatures, or load from file \n")
 
+  # read in the two summary tiles
   t1 = sprintf('%s/tmean_%s_%s.tif',path, year - 1, tile)
   t2 = sprintf('%s/tmean_%s_%s.tif',path, year, tile)
 

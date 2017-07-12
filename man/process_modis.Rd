@@ -5,7 +5,7 @@
 \title{Preprocessing of all PhenoCam data into a format which can be ingested
 by the optimization routines etc.}
 \usage{
-process_modis(path = ".", direction = "Increase", offset = 264)
+process_modis(path = "~", direction = "Increase", offset = 264)
 }
 \arguments{
 \item{path:}{a path to MODISTools MCD12Q2 phenology dates}
@@ -17,6 +17,13 @@ process_modis(path = ".", direction = "Increase", offset = 264)
 \description{
 Preprocessing of all PhenoCam data into a format which can be ingested
 by the optimization routines etc.
+}
+\examples{
+
+\dontrun{
+# run with default settings
+modis_data = format_modis()
+}
 }
 \keyword{model,}
 \keyword{phenology,}

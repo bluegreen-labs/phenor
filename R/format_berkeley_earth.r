@@ -7,6 +7,13 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
+#' \dontrun{
+#' # run with default settings
+#' # extracts values of the referenced publication
+#' # see github README
+#' be_data = format_berkeley_earth()
+#'}
 
 # create subset of layers to calculate phenology model output on
 format_berkeley_earth = function(path = "~",

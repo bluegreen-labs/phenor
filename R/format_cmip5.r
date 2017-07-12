@@ -16,6 +16,13 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
+#' \dontrun{
+#' # run with default settings
+#' # look for alternative models on the CMIP5
+#' # downscaled data page
+#' cmip5_data = format_cmip5()
+#'}
 
 # create subset of layers to calculate phenology model output on
 format_cmip5 = function(path = "~",

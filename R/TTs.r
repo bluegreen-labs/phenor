@@ -2,7 +2,8 @@
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' with a sigmoidal temperature response (Kramer 1994)
 #'
-#' @param data: a nested list of data
+#' @param data: input data (see reference for detailed description),
+#' data should be formatted using flat_format()
 #' @param par: a vector of parameter values, this is functions specific
 #' @keywords phenology, model
 #' @export

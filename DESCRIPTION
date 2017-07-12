@@ -23,4 +23,5 @@ Remotes:
   khufkens/phenocamr
 License: AGPLv3
 LazyData: true
+ByteCompile: true
 RoxygenNote: 6.0.1
