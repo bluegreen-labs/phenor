@@ -10,7 +10,8 @@ To install the toolbox in R run the following commands in a R terminal
 
 ```R
 if(!require(devtools)){install.package(devtools)}
-install_bitbucket("khufkens/phenor")
+devtools::install_github("khufkens/phenor")
+library(phenor)
 ```
 Additional PhenoCam data can be downloaded as:
 
@@ -77,6 +78,6 @@ modelled = estimate_phenology(data = data, par = optim.par$par)
 
 Easy model validation can be achieved using the model_validation() and model_comparison() functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters).
 
-### Dependencies
-
-The code depends on the following R packages: devtools, GenSA, rgenoud, zoo, daymetr and phenocamr
+### Acknowledgements
+ 
+Hufkens K., Basler J. D., Milliman T. Melaas E., Richardson A.D. 2017 An integrated phenology modelling framework in R: Phenology modelling with phenor. in review
