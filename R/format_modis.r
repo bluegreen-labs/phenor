@@ -50,16 +50,16 @@ process_modis = function(path = "~",
     # min and max range of the phenology data
     # -1 for min_year as we need data from the previous year for cold
     # hardening
-    start_yr = min(years) - 1
-    end_yr = max(years)
+    start = min(years) - 1
+    end = max(years)
 
     # download daymet data for a given site
     daymet_data = daymetr::download.daymet(
       site = site,
       lat = lat,
       lon = lon,
-      start_yr = 1980,
-      end_yr = end_yr,
+      start = 1980,
+      end = end_yr,
       internal = "data.frame",
       quiet = TRUE
     )$data

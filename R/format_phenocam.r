@@ -31,7 +31,7 @@ format_phenocam = function(path = "~",
   format_data = function(site,
                          transition_files,
                          path,
-                         end_yr,
+                         end,
                          metadata){
 
     # provide some feedback
@@ -81,8 +81,8 @@ format_phenocam = function(path = "~",
       site = site,
       lat = lat,
       lon = lon,
-      start_yr = 1980,
-      end_yr = end_yr,
+      start = 1980,
+      end = end,
       internal = "data.frame",
       quiet = TRUE
     )$data)
@@ -184,17 +184,17 @@ format_phenocam = function(path = "~",
 
   # query max year as available through Daymet, lags by a year so
   # subtract 1 year by default. If download fails subtract another year
-  end_yr = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
+  end = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
 
   daymet_test = try(daymetr::download_daymet(
-    start_yr = end_yr,
-    end_yr = end_yr,
+    start = end,
+    end = end,
     internal = "data.frame",
     quiet = TRUE
   ))
 
   if (inherits(daymet_test,"try-error")){
-    end_yr = end_yr - 1
+    end = end - 1
   }
 
   # list all files in the referred path
@@ -210,7 +210,7 @@ format_phenocam = function(path = "~",
     format_data(site = x,
                 transition_files = transition_files,
                 path = path,
-                end_yr = end_yr,
+                end = end,
                 metadata = metadata)
   })
 

@@ -21,18 +21,19 @@ devtools::use_data(phenocam_GR, overwrite = TRUE)
 
 # commit igbp masks to the repo / USE brick() otherwise only a
 # reference to the file is written to file. With brick() data stored in
-# memory is written to file.
-# igbp_1 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_1.tif")
-# devtools::use_data(igbp_1, overwrite = TRUE)
-#
-# # commit igbp masks to the repo
-# igbp_4 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_4.tif")
-# devtools::use_data(igbp_4, overwrite = TRUE)
-#
-# # commit igbp masks to the repo
-# igbp_5 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_5.tif")
-# devtools::use_data(igbp_5, overwrite = TRUE)
-#
-# # commit igbp masks to the repo
-# igbp_10 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_10.tif")
-# devtools::use_data(igbp_10, overwrite = TRUE)
+# memory is written to file. Only the resulting rda files are included in
+# the package, which merely constitutes a format change
+igbp_1 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_1.tif")
+devtools::use_data(igbp_1, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_4 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_4.tif")
+devtools::use_data(igbp_4, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_5 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_5.tif")
+devtools::use_data(igbp_5, overwrite = TRUE)
+
+# commit igbp masks to the repo
+igbp_10 = raster::brick("/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/modis_data/igbp_10.tif")
+devtools::use_data(igbp_10, overwrite = TRUE)
