@@ -78,6 +78,10 @@ modelled = estimate_phenology(data = data, par = optim.par$par)
 
 Easy model validation can be achieved using the model_validation() and model_comparison() functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters).
 
-### Acknowledgements
- 
+# Citation
+
 Hufkens K., Basler J. D., Milliman T. Melaas E., Richardson A.D. 2017 An integrated phenology modelling framework in R: Phenology modelling with phenor. in review
+
+# Acknowledgements
+
+This project was is supported by the National Science Foundation’s Macro-system Biology Program (award EF-1065029).
