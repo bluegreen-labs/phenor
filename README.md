@@ -4,6 +4,7 @@ The phenor R package is part of a phenology modelling framework in R leveraging 
 
 The package is curently focussed on contiguous US and relies heavily on Daymet climate data queried using [daymetr](https://github.com/khufkens/daymetr) for model optimization. Phenological model validation data is primarily derived from PhenoCam time series (i.e. through [phenocamr](https://github.com/khufkens/phenocamr)). But functions are included to ingest different phenology data sources such as the MODIS MCD12Q2 phenology product using the MODISTools R package. We refer to Hufkens et al. (2017, see below) for an in depth description and a worked example of the phenor R package.
 
+For full transparency the code used to generate the referenced publication is provided in the analysis folder of the package. This folder is not compiled into the R package using the installation instructions below. To run these scripts please clone the github repository. Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the R package. Most scripts to generate figures therefore rely on these precompiled datasets rather than clean runs.
 
 ## Installation
 
