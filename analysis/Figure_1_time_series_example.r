@@ -23,7 +23,7 @@ falling = transition_dates[transition_dates$gcc_value=="gcc_90" &
                              transition_dates$direction == "falling",]
 
 # set device
-pdf("~/Figure_1.pdf", 14, 4)
+pdf("~/Figure_1_time_series_example.pdf", 14, 4)
 par(tck = 0.02)
 plot(
   as.Date(time_series$date),
@@ -45,14 +45,14 @@ points(as.Date(time_series$date),
 # plot transition dates
 points(
   as.Date(rising$transition_25),
-  rising$threshold_50,
+  rising$threshold_25,
   col = "blue",
   pch = 15,
   cex = 2
 )
 points(
   as.Date(falling$transition_25),
-  falling$threshold_50,
+  falling$threshold_25,
   col = "red",
   pch = 19,
   cex = 2

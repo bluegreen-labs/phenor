@@ -42,6 +42,9 @@ for (i in 1:3){
   null = data.frame(rep(null,l),rep("NULL",l))
   names(null) = c("v","labels")
 
+  # print null values, for reporting
+  print(null[1,])
+
   # bind everyting together
   df = data.frame(v,labels)
   df = rbind(df,null)

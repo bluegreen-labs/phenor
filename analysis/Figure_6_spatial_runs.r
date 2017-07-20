@@ -1,3 +1,5 @@
+# Figure 6
+
 # Create spatial representations from scratch
 # for full transparency in processing. Take
 # into account that this might take a while
@@ -97,7 +99,7 @@ daymet_map = estimate_phenology(par = par,
 # Generate the final plot comparing model output
 # across various scales and time frames use
 # a pdf device for quality graphs
-pdf("~/Figure_5.pdf",12,14)
+pdf("~/Figure_6_spatial_runs.pdf",12,14)
 
 # set margins and general layout
 # of subplots

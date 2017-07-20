@@ -1,4 +1,4 @@
-# Figure 2.
+# Figure 4.
 
 # An overview map of the PhenoCam deciduous broadleaf sites as included
 # in the PhenoCam Data Paper (Richardson et al. 2017).

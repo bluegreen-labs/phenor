@@ -1,4 +1,4 @@
-# Figure 4.
+# Figure 3.
 #
 # Arrow plot comparing two model optimizations
 # and the difference in model output.
@@ -7,7 +7,7 @@
 library(phenor)
 
 # quick comparison with default settings (1 random seed)
-pdf("~/Figure_4.pdf",7,5)
+pdf("~/Figure_3_arrow_plot.pdf",7,5)
 comparison = model_comparison(models = c("TT","PTT"),
                               random_seeds = 1,
                               control = list(max.call = 10000,
