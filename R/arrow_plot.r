@@ -76,7 +76,8 @@ arrow_plot = function(data = NULL,
          x1 = data$measured,
          y1 = predicted_values[,2],
          length = 0.03,
-         col = col))
+         col = col,
+         lwd = 1.3))
 
   # plot points which haven't changed
   points(data$measured[loc],

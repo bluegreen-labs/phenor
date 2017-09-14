@@ -30,7 +30,7 @@
 format_eobs = function(path = "~/tmp/eobs/",
                         year = 2014,
                         offset = 264,
-                        resolution = "0.25",
+                        resolution = 0.25,
                         internal = TRUE){
 
   # measurements to average
@@ -81,6 +81,7 @@ format_eobs = function(path = "~/tmp/eobs/",
 
   # convert temperature data to matrix
   Ti = t(raster::as.matrix(temperature))
+  #Pi = t(raster::as.matrix(precipitation))
 
   # extract georeferencing info to be passed along
   ext = extent(temperature)
@@ -130,5 +131,4 @@ format_eobs = function(path = "~/tmp/eobs/",
   } else {
     saveRDS(data, file = sprintf("%s/phenor_eobs_data_%s.rds",path, year))
   }
-
 }
