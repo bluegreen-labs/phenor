@@ -4,7 +4,8 @@
 #'
 #' @param path: a path to the PEP725 data (species files only)
 #' @return concatted data of all data in the path as a tidy data frame
-#' listing PEP_ID, BBCH, YEAR, DAY, National_ID, LON, LAT, ALT, NAME
+#' including all normal parameters, and the species name and country code
+#' as derived from the file name
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -36,7 +37,7 @@ merge_pep725 = function(path = "~"){
                    tmp = utils::read.csv2(file, sep = ";")
                    filename = basename(file)
                    tmp$country = substr(filename,8,9)
-                   tmp$species = substr(filename,11,nchar(filename)-4)
+                   tmp$species = sub("_"," ",substr(test,11,nchar(filename)-4))
                    return(tmp)
                    })
                  )
