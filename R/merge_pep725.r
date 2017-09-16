@@ -13,6 +13,8 @@
 #' tidy_pep_data = merge_pep725()
 #'}
 
+# TODO: INTEGRATE ORIGINAL SPECIES NAME !!!
+
 merge_pep725 = function(path = "~"){
 
   # list all files
@@ -31,7 +33,11 @@ merge_pep725 = function(path = "~"){
   # station meta-data (name, lat, lon etc.)
   observation_data = do.call(rbind,
                  lapply(data_files, function(file){
-                   utils::read.csv2(file, sep = ";")
+                   tmp = utils::read.csv2(file, sep = ";")
+                   filename = basename(file)
+                   tmp$country = substr(filename,8,9)
+                   tmp$species = substr(filename,11,nchar(filename)-4)
+                   return(tmp)
                    })
                  )
 
@@ -50,6 +56,7 @@ merge_pep725 = function(path = "~"){
   # station location meta-data returning basically the original
   # database structure (as a tidy file)
   pep_data = merge(observation_data, station_locations, by = "PEP_ID")
+  names(pep_data) = tolower(names(pep_data))
 
   # return this dataframe
   return(pep_data)
