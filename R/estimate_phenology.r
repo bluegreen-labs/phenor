@@ -67,7 +67,9 @@ estimate_phenology = function(par,
       data = readRDS(files[i])
 
       # run the model
-      tmp = do.call("TT",list(data = data, par = par))
+      tmp = do.call(model,
+                    list(data = data,
+                         par = par))
 
       # clear the data file
       rm(data)
