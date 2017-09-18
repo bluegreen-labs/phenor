@@ -58,7 +58,7 @@ flat_format = function(data = NULL){
 
   # recreate the validation data structure (new format)
   # but with concatted data
-  data = list("site" = site,
+  flat_data = list("site" = site,
               "location" = location,
               "doy" = doy,
               "transition_dates" = transition_dates,
@@ -69,8 +69,8 @@ flat_format = function(data = NULL){
               )
 
   # assign a class for post-processing
-  class(data) = "phenor_time_series_data"
+  class(flat_data) = class(data)
 
   # return the formatted, faster data format
-  return(data)
+  return(flat_data)
 }
