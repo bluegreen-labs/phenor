@@ -61,7 +61,7 @@ PM1 = function(par, data, plot = TRUE){
 
   # set export format, either a rasterLayer
   # or a vector
-  if(is.null(data$site)){
+  if(class(data) == "phenor_map_data"){
     r = raster(nrows = data$georeferencing$size[1],
                ncols = data$georeferencing$size[2])
     extent(r) = data$georeferencing$extent

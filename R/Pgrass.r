@@ -1,3 +1,6 @@
+# NCC grassland model
+
+
 function(par = par, data = data){
 
 # assign parameters
@@ -14,7 +17,7 @@ Phmax		= par[9]
 Vmin 	= 0.001	# set to a small value but not 0
 Vmax 	= 1.		# set to 100% [GCC values are scaled between 0-1
 d     = 0		 	# decay flag
-                           
+
 # assign values to both the W and V arrays
 # these are initial conditions that influence the final
 # results to a great extent##
@@ -37,14 +40,14 @@ g = function(T,Topt){
   return(g)
 }
 
-# number of rows in the matrix 
+# number of rows in the matrix
 values = nrow(data$Pi) - 1
 sites = ncol(data$Pi)
 
 
 for (j in 1:sites){
 for (i in 1:values){ # -- main loop
-                           
+
   # first if statement traps initial conditions
   # where the values would be out of bound [looking
   # at place such as -1]
@@ -60,7 +63,7 @@ for (i in 1:values){ # -- main loop
     Dtl = Dt[i-L]
     Dtl1 = Dt[i-L-1]
   }
-                           
+
   # if there is more precipitation [SWC]
   # compared to the previous day then decay = 0
   # otherwise the decay parameter is set to 1
@@ -70,7 +73,7 @@ for (i in 1:values){ # -- main loop
   } else {
     d = 1
   }
-                           
+
   # set dormancy conditions based upon the
   # available radiation
   dor = (Ra[i] - Phmin)/(Phmax - Phmin)
@@ -80,16 +83,16 @@ for (i in 1:values){ # -- main loop
   if ( Ra[i] <= Phmin ){
     dor = 0
   }
-                           
+
   # SOIL WATER CONTENT SECTION:
   W[i+1] = W[i] + precip[i] - (1-V[i]) * (( Dt[i]/(Wcap - b1))^2) * evap[i] - g * b4 * V[i] * Dt[i]
-                           
+
   # don't allow negative SWC values
   W[i+1] = max(0.0,min(Wcap,W[i+1]))
-                           
+
   # VEGETATION GROWTH SECTION:
   V[i+1] = V[i] + g * dor * b2 * Dtl * (1 - V[i]/Vmax) - d * b3 * V[i] * (1-V[i])
-                           
+
   # do not allow negative vegetation cover or values > 1
   V[i+1] = max(Vmin,min(Vmax,V[i+1]))
 }
