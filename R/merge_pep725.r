@@ -37,7 +37,7 @@ merge_pep725 = function(path = "~"){
                    tmp = utils::read.csv2(file, sep = ";")
                    filename = basename(file)
                    tmp$country = substr(filename,8,9)
-                   tmp$species = sub("_"," ",substr(test,11,nchar(filename)-4))
+                   tmp$species = sub("_"," ",substr(filename,11,nchar(filename)-4))
                    return(tmp)
                    })
                  )
