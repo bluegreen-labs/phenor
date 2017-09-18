@@ -5,7 +5,9 @@
 #' @param year: year to process (requires year - 1 to be present)
 #' @param tiles: daymet tile number
 #' @param offset: offset of the time series in DOY (default = 264, sept 21)
-#' @keywords phenology, model, preprocessing
+#' @return Data file adhering to the phenor modelling input formatting. Data
+#' serves as input for model spatial model runs.
+#' @keywords phenology, model, preprocessing, climatology
 #' @export
 #' @examples
 #'
@@ -25,51 +27,52 @@ format_daymet_tiles = function(path = "~",
                          offset = 264,
                          internal = TRUE){
 
-  # some feedback
-  cat("calculating average daily temperatures, or load from file \n")
+  # format paths of the daymet tiles
+  tmean_1 = sprintf('%s/tmean_%s_%s.tif',path, year - 1, tile)
+  tmean_2 = sprintf('%s/tmean_%s_%s.tif',path, year, tile)
+  prcp_1 = sprintf('%s/prcp_%s_%s.nc',path, year - 1, tile)
+  prcp_2 = sprintf('%s/prcp_%s_%s.nc',path, year, tile)
+  vp_1 = sprintf('%s/vp_%s_%s.nc',path, year - 1, tile)
+  vp_2 = sprintf('%s/vp_%s_%s.nc',path, year, tile)
 
-  # read in the two summary tiles
-  t1 = sprintf('%s/tmean_%s_%s.tif',path, year - 1, tile)
-  t2 = sprintf('%s/tmean_%s_%s.tif',path, year, tile)
-
-  # calculating mean temperature or reading in files
-  if (file.exists(t1)) {
-    t1 = stack(t1)
+  # process the temperature data
+  if (file.exists(tmean_1) & file.exists(tmean_2) ) {
+    tmean_1 = stack(tmean_1); tmean_2 = stack(tmean_2)
+    tmean_subset = daymet_subset(stack(tmean_1,tmean_2), offset = offset)
+    tmean_subset_brick = trim(brick(tmean_subset))
+    Ti = t(raster::as.matrix(tmean_subset_brick))
   } else {
-    t1 = daymet_tmean(
-      path = path,
-      year = year - 1,
-      tile = tile,
-      internal = TRUE
-    )
+    stop("No average daily temperature files are found\n
+         please generate these files first using daymet_tmean()\n
+         from the daymetr package.")
   }
 
-  if (file.exists(t2)) {
-    t2 = stack(t2)
+  # process the precipitation data
+  if(file.exists(p1) & file.exists(p2)){
+    prcp_1 = stack(prcp_1); prcp_2 = stack(prcp_2)
+    prcp_subset = daymet_subset(stack(prcp_1,prcp_2), offset = offset)
+    prcp_subset_brick = trim(brick(prcp_subset))
+    Pi = t(raster::as.matrix(prcp_subset_brick))
   } else {
-    t2 = daymet_tmean(
-      path = path,
-      year = year,
-      tile = tile,
-      internal = TRUE
-    )
+    warning("Correct precipitation files are not provided, will return NULL.")
+    Pi = NULL
   }
 
-  cat("subset data \n")
-  # create a subset of the data
-  t_subset = daymet_subset(stack(t1,t2),
-                           offset = offset)
-  t_subset_brick = trim(brick(t_subset))
-
-  # convert temperature data to matrix
-  Ti = t(raster::as.matrix(t_subset_brick))
+  # process the VPD data
+  if(file.exists(vp_1) & file.exists(vp_2)){
+    vp_1 = stack(vp_1); vp_2 = stack(vp_2)
+    vp_subset = daymet_subset(stack(vp_1,vp_2), offset = offset)
+    vp_subset_brick = trim(brick(vp_subset))
+    VPDi = t(raster::as.matrix(vp_subset_brick))
+  } else {
+    warning("Correct vapour pressure files are not provided, will return NULL.")
+    VPDi = NULL
+  }
 
   # extract georeferencing info to be passed along
   ext = extent(t_subset_brick)
   proj = projection(t_subset_brick)
   size = dim(t_subset_brick)
-
-  cat("calculating daylength \n")
 
   # grab coordinates
   location = SpatialPoints(coordinates(t_subset_brick),
@@ -98,6 +101,9 @@ format_daymet_tiles = function(path = "~",
               "transition_dates" = NULL,
               "Ti" = Ti,
               "Li" = Li,
+              "Pi" = Pi,
+              "VPDi" = VPDi,
+              "altitude" = NULL,
               "georeferencing" = list("extent" = ext,
                                       "projection" = proj,
                                       "size" = size)
