@@ -78,7 +78,9 @@ model_validation = function(model = "TT",
   # basic statistics
   RMSE_NULL = sqrt(mean((data$transition_dates - null(data)) ^ 2, na.rm = T))
   RMSE = rmse(par = optim.par$par, data = data, model = model)
-  Ac = AICc(measured = data$transition_dates, predicted = out, k = length(optim.par$par))
+  Ac = AICc(measured = data$transition_dates,
+            predicted = out,
+            k = length(optim.par$par))
 
   # plot data if requested
   if (plot){
