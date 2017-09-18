@@ -48,7 +48,7 @@ optimize_parameters = function(par = NULL,
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
-    optim.par = GenSA(
+    optim.par = GenSA::GenSA(
       par = par,
       data = data,
       fn = cost,
@@ -69,7 +69,7 @@ optimize_parameters = function(par = NULL,
     if (is.null(par)){
       stop('The genoud algorithm needs defined strating parameters!')
     }
-    optim.par = genoud(fn = cost,
+    optim.par = rgenoud::genoud(fn = cost,
                        nvars = length(par),
                        max.generations = maxit,
                        Domains = cbind(lower,upper),
