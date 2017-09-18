@@ -27,14 +27,14 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_eobs = function(path = "~/tmp/eobs/",
+format_eobs = function(path = "~",
                         year = 2014,
                         offset = 264,
                         resolution = 0.25,
                         internal = TRUE){
 
   # measurements to average
-  measurements = c("tg","rr")
+  measurements = c("tg","rr","elev")
 
   # download or read data
   eobs_data = lapply(measurements,function(x){
@@ -69,29 +69,20 @@ format_eobs = function(path = "~/tmp/eobs/",
   }
 
   # subset raster data, correct for Kelvin scale
-  temperature = raster::subset(eobs_data[[1]], layers)
-  #precipitation = raster::subset(temperature, layers)
-
-  # shift data when offset is < 365
-  if (offset < length(layers)){
-    doy = c(offset:length(layers),1:(offset - 1))
-  } else {
-    doy = 1:length(layers)
-  }
-
-  # convert temperature data to matrix
-  Ti = t(raster::as.matrix(temperature))
-  #Pi = t(raster::as.matrix(precipitation))
+  Ti = t(raster::as.matrix(raster::subset(eobs_data[[1]], layers)))
+  Pi = t(raster::as.matrix(raster::subset(eobs_data[[2]], layers)))
+  altitude = t(raster::as.matrix(eobs_data[[3]]$layer))
 
   # extract georeferencing info to be passed along
-  ext = extent(temperature)
-  proj = projection(temperature)
-  size = dim(temperature)
+  ext = raster::extent(eobs_data[[1]])
+  proj = raster::projection(eobs_data[[1]])
+  size = dim(eobs_data[[1]])
 
   # grab coordinates
-  location = SpatialPoints(coordinates(temperature),
-                           proj4string = CRS(proj))
-  location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
+  location = SpatialPoints(sp::coordinates(eobs_data[[1]]),
+                           sp::proj4string = sp::CRS(proj))
+  location = t(sp::spTransform(location,
+                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
   if (offset < length(layers)){
@@ -115,7 +106,8 @@ format_eobs = function(path = "~/tmp/eobs/",
               "transition_dates" = NULL,
               "Ti" = Ti,
               "Li" = Li,
-              "Pi" = NULL,
+              "Pi" = Pi,
+              "altitude"= altitude,
               "georeferencing" = list("extent" = ext,
                                       "projection" = proj,
                                       "size" = size)
