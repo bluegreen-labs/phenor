@@ -16,7 +16,9 @@
 #' will be processed not the polar variety.
 #' calculation overhead
 #' @param internal: TRUE / FALSE, write data structure to file or not (as .rds)
-#' @keywords phenology, model, preprocessing
+#' @return Returns spatial model input data from long term E-OBS modelled data.
+#' This data can be run by models specified in the phenor package.
+#' @keywords phenology, model, preprocessing, climate data
 #' @export
 #' @examples
 #'
@@ -26,18 +28,14 @@
 #' eobs_data = format_eobs()
 #'}
 
-# create subset of layers to calculate phenology model output on
 format_eobs = function(path = "~",
                         year = 2014,
                         offset = 264,
                         resolution = 0.25,
                         internal = TRUE){
 
-  # measurements to average
-  measurements = c("tg","rr","elev")
-
   # download or read data
-  eobs_data = lapply(measurements,function(x){
+  eobs_data = lapply( c("tg","rr","elev"),function(x){
 
     # filename
     filename = sprintf("%s_%sdeg_reg_v15.0.nc",
@@ -80,7 +78,7 @@ format_eobs = function(path = "~",
 
   # grab coordinates
   location = SpatialPoints(sp::coordinates(eobs_data[[1]]),
-                           sp::proj4string = sp::CRS(proj))
+                           proj4string = sp::CRS(proj))
   location = t(sp::spTransform(location,
                                sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
