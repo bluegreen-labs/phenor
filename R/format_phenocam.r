@@ -97,9 +97,13 @@ format_phenocam = function(path = "~",
     # calculate the mean daily temperature
     daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
 
-    # calculate the long term daily mean temperature and realign it so the first
-    # day will be sept 21th (doy 264) and the matching DOY vector
-    ltm = as.vector(by(daymet_data$tmean, INDICES = list(daymet_data$yday), mean))
+    # calculate the long term daily mean temperature
+    # and realign it so the first day will be sept 21th (doy 264)
+    # and the matching DOY vector
+    ltm = as.vector(by(daymet_data$tmean,
+                       INDICES = list(daymet_data$yday),
+                       mean,
+                       na.rm = TRUE))
 
     # shift data when offset is < 365
     if (offset < 365){
