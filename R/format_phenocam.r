@@ -119,9 +119,9 @@ format_phenocam = function(path = "~",
                          ncol = length(years))
 
     # create output matrix (holding precip)
-    #precip = matrix(NA,
-    #               nrow = 365,
-    #               ncol = length(years))
+    precip = matrix(NA,
+                  nrow = 365,
+                  ncol = length(years))
 
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
@@ -135,13 +135,13 @@ format_phenocam = function(path = "~",
                                      yday >= offset) |
                                     (year == years[j] &
                                        yday < offset))$tmean
-        #precip[, j] = subset(daymet_data,
-        #                    (year == (years[j] - 1) & yday >= offset) |
-        #                      (year == years[j] &
-        #                         yday < offset))$prcp..mm.day.
+        precip[, j] = subset(daymet_data,
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$prcp..mm.day.
       } else {
         temperature[, j] = subset(daymet_data, year == years[j])$tmean
-        #precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
       }
     }
 
@@ -168,8 +168,8 @@ format_phenocam = function(path = "~",
                 "transition_dates" = phenophase,
                 "year" = unique(phenophase_years),
                 "Ti" = as.matrix(temperature),
-                "Li" = Li
-                #"Pi" = as.matrix(precip)
+                "Li" = Li,
+                "Pi" = as.matrix(precip)
                 )
 
     # assign a class for post-processing
