@@ -14,7 +14,7 @@
 #' @param count: minimum number of acquisitions per location
 #' @return returns a nested list of site locations, their respective
 #' phenological metrics and matching environmental data as extracted from
-#' the E-OBS product (corrected for altitude using a lapse rate of xyz)
+#' the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -27,8 +27,8 @@
 #' phenocam_data = format_pep725()
 #'}
 
-format_pep725 = function(pep_path = "~/Downloads/PEP725_DE_111_000/",
-                         eobs_path = "~/tmp/eobs/",
+format_pep725 = function(pep_path = "~",
+                         eobs_path = "~",
                          bbch = "11",
                          species = NULL,
                          offset = 264,
@@ -168,13 +168,11 @@ format_pep725 = function(pep_path = "~/Downloads/PEP725_DE_111_000/",
   sites = unique(pep_data$pep_id)
   years = unique(pep_data$year)
 
-  #-------------------- E-OBS -----------------------------
+  # loading E-OBS data for subsetting
   cat(sprintf("* Extracting E-OBS climatology for %s sites\n ", length(sites)))
-  # measurements to average
-  measurements = c("tg","rr","elev")
 
   # download or read data
-  eobs_data = lapply(measurements,function(x){
+  eobs_data = lapply(c("tg","rr","elev"),function(x){
     # filename
     filename = sprintf("%s_%sdeg_reg_v15.0.nc",
                        x,
