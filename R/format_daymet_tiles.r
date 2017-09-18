@@ -6,7 +6,10 @@
 #' @param tiles: daymet tile number
 #' @param offset: offset of the time series in DOY (default = 264, sept 21)
 #' @return Data file adhering to the phenor modelling input formatting. Data
-#' serves as input for model spatial model runs.
+#' serves as input for model spatial model runs. The only required data input
+#' is the mean daily temperature, precipitation and VPD can be included but
+#' are not mandatory. Depending on the models used, including only temperature
+#' will keep file sizes down and processing time lower.
 #' @keywords phenology, model, preprocessing, climatology
 #' @export
 #' @examples
@@ -48,7 +51,7 @@ format_daymet_tiles = function(path = "~",
   }
 
   # process the precipitation data
-  if(file.exists(p1) & file.exists(p2)){
+  if(file.exists(prcp_1) & file.exists(prcp_2)){
     prcp_1 = stack(prcp_1); prcp_2 = stack(prcp_2)
     prcp_subset = daymet_subset(stack(prcp_1,prcp_2), offset = offset)
     prcp_subset_brick = trim(brick(prcp_subset))
@@ -70,12 +73,12 @@ format_daymet_tiles = function(path = "~",
   }
 
   # extract georeferencing info to be passed along
-  ext = extent(t_subset_brick)
-  proj = projection(t_subset_brick)
-  size = dim(t_subset_brick)
+  ext = extent(tmean_subset_brick)
+  proj = projection(tmean_subset_brick)
+  size = dim(tmean_subset_brick)
 
   # grab coordinates
-  location = SpatialPoints(coordinates(t_subset_brick),
+  location = SpatialPoints(coordinates(tmean_subset_brick),
                            proj4string = CRS(proj))
   location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
 
