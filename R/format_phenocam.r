@@ -117,15 +117,30 @@ format_phenocam = function(path = "~",
     # slice and dice the data
     years = unique(as.numeric(format(transition,"%Y")))
 
-    # create output matrix (holding temperature)
-    temperature = matrix(NA,
-                         nrow = 365,
-                         ncol = length(years))
+    # create output matrix (holding mean temp.)
+    tmean = matrix(NA,
+                   nrow = 365,
+                   ncol = length(years))
+
+    # create output matrix (holding min temp.)
+    tmin = matrix(NA,
+                  nrow = 365,
+                  ncol = length(years))
+
+    # create output matrix (holding max temp.)
+    tmax = matrix(NA,
+                  nrow = 365,
+                  ncol = length(years))
+
+    # create output matrix (holding vpd)
+    vpd = matrix(NA,
+                 nrow = 365,
+                 ncol = length(years))
 
     # create output matrix (holding precip)
     precip = matrix(NA,
-                  nrow = 365,
-                  ncol = length(years))
+                    nrow = 365,
+                    ncol = length(years))
 
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
@@ -134,18 +149,39 @@ format_phenocam = function(path = "~",
     # use the current year only
     for (j in 1:length(years)) {
       if (offset < 365) {
-        temperature[, j] = subset(daymet_data,
+        tmean[, j] = subset(daymet_data,
                                   (year == (years[j] - 1) &
                                      yday >= offset) |
                                     (year == years[j] &
                                        yday < offset))$tmean
+
+        tmin[, j] = subset(daymet_data,
+                                  (year == (years[j] - 1) &
+                                     yday >= offset) |
+                                    (year == years[j] &
+                                       yday < offset))$tmin..deg.c.
+
+        tmax[, j] = subset(daymet_data,
+                           (year == (years[j] - 1) &
+                              yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmax..deg.c.
+
         precip[, j] = subset(daymet_data,
                            (year == (years[j] - 1) & yday >= offset) |
                              (year == years[j] &
                                 yday < offset))$prcp..mm.day.
+        vpd[, j] = subset(daymet_data,
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$vp..Pa.
+
       } else {
-        temperature[, j] = subset(daymet_data, year == years[j])$tmean
+        tmean[, j] = subset(daymet_data, year == years[j])$tmean
+        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
         precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
       }
     }
 
@@ -160,7 +196,7 @@ format_phenocam = function(path = "~",
     }))
 
     # calculate daylength
-    l = ncol(temperature)
+    l = ncol(tmean)
     Li = daylength(doy = doy, latitude = lat)
     Li = matrix(rep(Li,l),length(Li),l)
 
@@ -171,9 +207,12 @@ format_phenocam = function(path = "~",
                 "ltm" = ltm,
                 "transition_dates" = phenophase,
                 "year" = unique(phenophase_years),
-                "Ti" = as.matrix(temperature),
+                "Ti" = as.matrix(tmean),
+                "Tmini" = as.matrix(tmin),
+                "Tmaxi" = as.matrix(tmax),
                 "Li" = Li,
-                "Pi" = as.matrix(precip)
+                "Pi" = as.matrix(precip),
+                "VPDi" = as.matrix(vpd)
                 )
 
     # assign a class for post-processing
