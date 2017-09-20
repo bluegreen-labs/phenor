@@ -32,28 +32,32 @@ GR = function(par, data){
   P_star = ifelse(data$Li >= L_crit, 1, 0)
 
   # rainfall accumulation
-  R_star = data$Pi * P_star
-  R_star = rollapply(R_star,
-                width = 7,
-                FUN = sum,
-                align = "left",
-                fill = 0,
-                by.column = TRUE)
 
-  # find day on which in the past 7 days more than
-  # P_crit rain fell
-  R_star = apply(R_star, 2, function(xt) {
-    v = rep(0, length(xt))
-    l = which(xt >= P_crit)[1]
-    if (!is.na(l)) {
-      v[l:length(xt)] = 1
+  # THIS FUNCTION IS TOO SLOW, ONLY CALCULATE UNTIL
+  # THRESHOLD IS REACHED.
+  data$Pi = data$Pi * P_star
+  R_star = matrix(0,nrow(data$Pi),ncol(data$Pi))
+
+  # This avoids inefficient moving window
+  # approaches which are computationally
+  # expensive (break the routine when the
+  # criterium is met instead of a full run
+  # for a year)
+  for (i in 1:ncol(R_star)){
+    for (j in 1:nrow(R_star)){
+      if (j == nrow(R_star) - 7){
+        break
+      }
+      if(sum(data$Pi[j:(j+7),i]) >= P_crit){
+        R_star[j:nrow(R_star),i] = 1
+        break
+      }
     }
-    return(v)
-  })
+  }
 
   # create forcing/chilling rate vector
   # forcing
-  Rf = 1 / (1 + exp(-b * (data$Ti - c))) * R_star
+  Rf = 1 / (1 + exp(b * (data$Ti + c))) * R_star
 
   # DOY of budburst criterium
   doy = apply(Rf,2, function(xt){
@@ -61,5 +65,18 @@ GR = function(par, data){
     doy[is.na(doy)] = 9999
     return(doy)
   })
-  return(doy)
+
+  # set export format, either a rasterLayer
+  # or a vector
+  if(class(data) == "phenor_map_data"){
+    r = raster(nrows = data$georeferencing$size[1],
+               ncols = data$georeferencing$size[2])
+    extent(r) = data$georeferencing$extent
+    proj4string(r) = CRS(data$georeferencing$projection)
+    r[] = doy
+    r[r==9999] = NA
+    return(r)
+  } else {
+    return(doy)
+  }
 }
