@@ -31,11 +31,11 @@
 #' # parameterset par.
 #' }
 
-rmse = function(par, data, model) {
+rmse = function(par, data, model, ...) {
 
   # inset validity checks
   val = data$transition_dates
-  out = do.call(model,list(data = data, par = par))
+  out = do.call(model,list(data = data, par = par, ...))
 
   if (any(is.na(out))) {
     return(9999)

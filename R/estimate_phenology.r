@@ -24,7 +24,7 @@
 #'
 #' \dontrun{
 #' # estimate will be an estimated timing of a phenophase
-#' estimate = estimate.phenology(par,data,model)
+#' estimate = estimate.phenology(par, data, model)
 #'
 #' # if a path is specified and no other data all tiled
 #' # data in this directory will be processed into a map
@@ -41,7 +41,8 @@ estimate_phenology = function(par,
                               data = NULL,
                               model = "TT",
                               path =  ".",
-                              reproject = TRUE) {
+                              reproject = TRUE,
+                              ... ) {
 
   # if the data parameter is not null
   # run the standard procedure
@@ -51,11 +52,13 @@ estimate_phenology = function(par,
     data = flat_format(data = data)
 
     # return model output
-    do.call(model, list(data = data, par = par))
+    do.call(model, list(data = data,
+                        par = par,
+                        ... ))
 
   } else {
 
-    # list all rda files
+    # list all rds files
     files = list.files(path = path,
                        pattern = "^phenor_.*\\.rds$",
                        full.names = TRUE)
@@ -69,7 +72,8 @@ estimate_phenology = function(par,
       # run the model
       tmp = do.call(model,
                     list(data = data,
-                         par = par))
+                         par = par,
+                         ... ))
 
       # clear the data file
       rm(data)

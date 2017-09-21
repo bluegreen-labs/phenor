@@ -31,7 +31,8 @@ optimize_parameters = function(par = NULL,
                                method = "GenSA",
                                lower = NULL,
                                upper = NULL,
-                               control = NULL) {
+                               control = NULL,
+                               ... ) {
 
   # check if starting parameters are present
   if (is.null(lower) | is.null(upper)){
@@ -55,7 +56,8 @@ optimize_parameters = function(par = NULL,
       lower = lower,
       upper = upper,
       model = model,
-      control = control
+      control = control,
+      ...
     )
   }
 
@@ -76,7 +78,8 @@ optimize_parameters = function(par = NULL,
                        boundary.enforcement = 2,
                        data.type.int = FALSE,
                        data = data,
-                       model = model)
+                       model = model,
+                       ...)
   }
 
   # other optimizers can be added here !

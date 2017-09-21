@@ -10,6 +10,7 @@
 #' and set forth by Basler (2016)
 #' @param control: list of control parameters to be passed to the optimizer
 #' @param plot: TRUE / FALSE, plot model fit
+#' @param ...: additional parameters to be passed to the model
 #' @keywords phenology, model, validation
 #' @export
 #' @examples
@@ -26,7 +27,8 @@ model_validation = function(model = "TT",
                             control = list(max.call = 2000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor")),
-                            plot = TRUE){
+                            plot = TRUE,
+                            ... ){
 
   # if the dataset does not exist
   # in the workspace assume it to be loaded
@@ -56,6 +58,8 @@ model_validation = function(model = "TT",
   d = d[,3:ncol(d)]
   d = as.matrix(d)
 
+  print(c(...))
+
   # optimize paramters
   optim.par = optimize_parameters(
     par = NULL,
@@ -64,7 +68,8 @@ model_validation = function(model = "TT",
     method = "GenSA",
     lower = as.numeric(d[1,]),
     upper = as.numeric(d[2,]),
-    control = control
+    control = control,
+    ...
   )
 
   # estimate model output using optimized
@@ -72,7 +77,8 @@ model_validation = function(model = "TT",
   out = estimate_phenology(
     data = data,
     model = model,
-    par = optim.par$par
+    par = optim.par$par,
+    ...
   )
 
   # basic statistics
