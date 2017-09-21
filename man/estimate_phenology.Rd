@@ -7,7 +7,7 @@ and a specified model (be sure to match parameter and requirements
 with the model. Wrapper around a do.call() call for convenience.}
 \usage{
 estimate_phenology(par, data = NULL, model = "TT", path = ".",
-  reproject = TRUE)
+  reproject = TRUE, ...)
 }
 \arguments{
 \item{data:}{a nested list of data with on location:
@@ -40,7 +40,7 @@ with the model. Wrapper around a do.call() call for convenience.
 
 \dontrun{
 # estimate will be an estimated timing of a phenophase
-estimate = estimate.phenology(par,data,model)
+estimate = estimate.phenology(par, data, model)
 
 # if a path is specified and no other data all tiled
 # data in this directory will be processed into a map

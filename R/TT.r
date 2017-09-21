@@ -4,6 +4,7 @@
 #' @param data: input data (see reference for detailed description),
 #' data should be formatted using flat_format()
 #' @param par: a vector of parameter values, this is functions specific
+#' @return raster or vector with estimated phenophase timing (in DOY)
 #' @keywords phenology, model
 #' @export
 #' @examples
@@ -12,7 +13,7 @@
 #' estimate = TT(data = data, par = par)
 #'}
 
-TT = function(par, data){
+TT = function(par, data ){
 
   # exit the routine as some parameters are missing
   if (length(par) != 3){

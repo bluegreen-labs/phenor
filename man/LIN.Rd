@@ -16,6 +16,9 @@ data should be formatted using flat_format()}
 \item{spring:}{a vector defining spring as a couple of DOY values
 default is March, April, May or DOY 60 - 151}
 }
+\value{
+raster or vector with estimated phenophase timing (in DOY)
+}
 \description{
 Linear model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)

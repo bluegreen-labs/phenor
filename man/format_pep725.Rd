@@ -6,9 +6,8 @@
 by the optimization routines, the original nested list is flattened
 for speed.}
 \usage{
-format_pep725(pep_path = "~/Downloads/PEP725_DE_111_000/",
-  eobs_path = "~/tmp/eobs/", bbch = "11", species = NULL, offset = 264,
-  count = 60, resolution = 0.25)
+format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
+  species = NULL, offset = 264, count = 60, resolution = 0.25)
 }
 \arguments{
 \item{path:}{a path to the PEP725 data (species files only)}
@@ -24,7 +23,7 @@ format_pep725(pep_path = "~/Downloads/PEP725_DE_111_000/",
 \value{
 returns a nested list of site locations, their respective
 phenological metrics and matching environmental data as extracted from
-the E-OBS product (corrected for altitude using a lapse rate of xyz)
+the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
 }
 \description{
 Some pre-processing steps are required as downloading the PEP725 data is a

@@ -17,6 +17,13 @@ format_daymet_tiles(path = "~", year = 2014, tile = 11935, offset = 264,
 
 \item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
 }
+\value{
+Data file adhering to the phenor modelling input formatting. Data
+serves as input for model spatial model runs. The only required data input
+is the mean daily temperature, precipitation and VPD can be included but
+are not mandatory. Depending on the models used, including only temperature
+will keep file sizes down and processing time lower.
+}
 \description{
 Preprocessing of Daymet tiled data into a format which can be ingested
 by the models in phenor
@@ -32,6 +39,7 @@ by the models in phenor
 daymet_data = format_daymet_tiles()
 }
 }
+\keyword{climatology}
 \keyword{model,}
 \keyword{phenology,}
-\keyword{preprocessing}
+\keyword{preprocessing,}

@@ -21,6 +21,10 @@ calculation overhead}
 
 \item{internal:}{TRUE / FALSE, write data structure to file or not (as .rds)}
 }
+\value{
+Returns spatial model input data from long term E-OBS modelled data.
+This data can be run by models specified in the phenor package.
+}
 \description{
 Haylock, M.R., N. Hofstra, A.M.G. Klein Tank, E.J. Klok, P.D.
 Jones, M. New. 2008: A European daily high-resolution gridded dataset
@@ -39,6 +43,8 @@ netCDF files before processing.
 eobs_data = format_eobs()
 }
 }
+\keyword{climate}
+\keyword{data}
 \keyword{model,}
 \keyword{phenology,}
-\keyword{preprocessing}
+\keyword{preprocessing,}

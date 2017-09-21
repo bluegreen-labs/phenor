@@ -5,7 +5,7 @@
 \title{Calculates day length (in hours) and the solar elevation above the
 ecliptic plane based upon latitude and a day of year value.}
 \usage{
-rmse(par, data, model)
+rmse(par, data, model, ...)
 }
 \arguments{
 \item{par:}{a vector of parameter values, this is functions specific}

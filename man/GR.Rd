@@ -2,7 +2,8 @@
 % Please edit documentation in R/GR.r
 \name{GR}
 \alias{GR}
-\title{Thermal Time grassland model as defined in
+\title{Thermal Time grassland model which includes a pulse response
+precipitatoin trigger as defined in
 Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)}
 \usage{
 GR(par, data)
@@ -13,8 +14,12 @@ data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
+\value{
+raster or vector with estimated phenophase timing (in DOY)
+}
 \description{
-Thermal Time grassland model as defined in
+Thermal Time grassland model which includes a pulse response
+precipitatoin trigger as defined in
 Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 }
 \examples{

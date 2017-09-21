@@ -13,6 +13,9 @@ data should be formatted using flat_format()}
 
 \item{par:}{a vector of parameter values, this is functions specific}
 }
+\value{
+raster or vector with estimated phenophase timing (in DOY)
+}
 \description{
 Thermal Time model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)

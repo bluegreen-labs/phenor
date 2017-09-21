@@ -6,6 +6,7 @@
 #' @param par: a vector of parameter values, this is functions specific
 #' @param spring: a vector defining spring as a couple of DOY values
 #' default is March, April, May or DOY 60 - 151
+#' @return raster or vector with estimated phenophase timing (in DOY)
 #' @keywords phenology, model, sequential
 #' @export
 #' @examples

@@ -4,6 +4,7 @@
 #' @param data: input data (see reference for detailed description),
 #' data should be formatted using flat_format()
 #' @param par: a vector of parameter values, this is functions specific
+#' @return raster or vector with estimated phenophase timing (in DOY)
 #' @keywords phenology, model, sequential
 #' @export
 #' @examples
