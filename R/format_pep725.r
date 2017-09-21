@@ -110,8 +110,11 @@ format_pep725 = function(pep_path = "~",
                 "transition_dates" = pep_subset$day,
                 "year" = pep_subset$year,
                 "Ti" = Ti,
+                "Tmini" = NULL,
+                "Tmaxi" = NULL,
                 "Li" = Li,
-                "Pi" = Pi
+                "Pi" = Pi,
+                "VPDi" = NULL
     )
 
     # assign a class for post-processing

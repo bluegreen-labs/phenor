@@ -66,7 +66,7 @@ format_eobs = function(path = "~",
     stop("The selected dataset does not cover your data range!")
   }
 
-  # subset raster data, correct for Kelvin scale
+  # subset raster data
   Ti = t(raster::as.matrix(raster::subset(eobs_data[[1]], layers)))
   Pi = t(raster::as.matrix(raster::subset(eobs_data[[2]], layers)))
   altitude = t(raster::as.matrix(eobs_data[[3]]$layer))
@@ -103,9 +103,11 @@ format_eobs = function(path = "~",
               "doy" = doy,
               "transition_dates" = NULL,
               "Ti" = Ti,
+              "Tmini" = NULL,
+              "Tmaxi" = NULL,
               "Li" = Li,
               "Pi" = Pi,
-              "altitude"= altitude,
+              "VPDi" = NULL,
               "georeferencing" = list("extent" = ext,
                                       "projection" = proj,
                                       "size" = size)
