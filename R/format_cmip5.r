@@ -36,14 +36,14 @@ format_cmip5 = function(path = "~",
   server = "ftp://gdo-dcp.ucllnl.org/pub/dcp/archive/cmip5/loca/LOCA_2016-04-02"
 
   # measurements to average
-  measurements = c("tasmax","tasmin")
+  measurements = c("tasmax","tasmin","pr")
 
   # loop over the two years needed
   # depending on the offset
   for (i in c(year-1, year)){
 
     # download or read data
-    temp_data = lapply(measurements,function(x){
+    data = lapply(temp_measurements, function(x){
 
       # filename
       filename = sprintf("%s_day_%s_%s_r1i1p1_%s0101-%s1231.LOCA_2016-04-02.%s.nc",
@@ -84,8 +84,8 @@ format_cmip5 = function(path = "~",
 
     # stack the temperature data to take the mean
     # using stackApply()
-    temp_data_stack = raster::stack(temp_data[[1]],
-                              temp_data[[2]]) - 273.15
+    temp_data_stack = raster::stack(data[[1]],
+                              data[[2]])
 
     l = nlayers(temp_data_stack)/2
     mean_temp = raster::stackApply(temp_data_stack,
@@ -95,26 +95,38 @@ format_cmip5 = function(path = "~",
 
     # shift the data, longitudes run from 0 - 360
     mean_temp = raster::shift(mean_temp, x = -360)
+    min_temp = raster::shift(data[[2]], x = -360)
+    max_temp = raster::shift(data[[1]], x = -360)
+    precip = raster::shift(data[[3]], x = -360)
 
     # drop layer 366 on leap year
     if (nlayers(mean_temp) == 366){
       mean_temp = raster::dropLayer(mean_temp, 366)
+      min_temp = raster::dropLayer(min_temp, 366)
+      max_temp = raster::dropLayer(max_temp, 366)
+      precip = raster::dropLayer(precip, 366)
     }
 
     # combine data in one big stack
     if (year != i){
-      temperature = mean_temp
+      temp = mean_temp
+      Tmini = min_temp
+      Tmaxi = max_temp
+      Pi = precip
     } else {
-      temperature = stack(temperature, mean_temp)
+      temp = stack(temp, mean_temp)
+      Tmini = stack(Tmini, min_temp)
+      Tmaxi = stack(Tmaxi, max_temp)
+      Pi = stack(Pi, precip)
     }
 
     # clear variable
-    rm(mean_temp)
+    rm(c(mean_temp,min_temp,max_temp,precip))
   }
 
   # extract the yday and year strings
-  yday = floor(as.numeric(unlist(lapply(strsplit(names(temperature),"_"),"[[",2))))
-  years = unlist(lapply(strsplit(names(temperature),"\\."),"[[",2))
+  yday = floor(as.numeric(unlist(lapply(strsplit(names(temp),"_"),"[[",2))))
+  years = unlist(lapply(strsplit(names(temp),"\\."),"[[",2))
 
   # select layers to subset using this year and yday data
   layers = which((years == 1 & yday >= offset) |
@@ -126,23 +138,16 @@ format_cmip5 = function(path = "~",
     stop("The selected dataset does not cover your data range!")
   }
 
-  # subset raster data, correct for Kelvin scale
-  temperature = raster::subset(temperature, layers)
-
-  # shift data when offset is < 365
-  if (offset < length(layers)){
-    doy = c(offset:length(layers),1:(offset - 1))
-  } else {
-    doy = 1:length(layers)
-  }
-
-  # convert temperature data to matrix
-  Ti = t(raster::as.matrix(temperature))
+  # subset raster data
+  temp = raster::subset(temp, layers)
+  Tmini = raster::subset(Tmini, layers)
+  Tmaxi = raster::subset(Tmaxi, layers)
+  precip = raster::subset(precip, layers)
 
   # extract georeferencing info to be passed along
-  ext = extent(temperature)
-  proj = projection(temperature)
-  size = dim(temperature)
+  ext = extent(temp)
+  proj = projection(temp)
+  size = dim(temp)
 
   # grab coordinates
   location = SpatialPoints(coordinates(temperature),
@@ -169,9 +174,12 @@ format_cmip5 = function(path = "~",
               "location" = location,
               "doy" = doy,
               "transition_dates" = NULL,
-              "Ti" = Ti,
+              "Ti" = t(raster::as.matrix(temp)) - 273.15,
+              "Tmini" = t(raster::as.matrix(Tmini)) - 273.15,
+              "Tmaxi" = t(raster::as.matrix(Tmaxi)) - 273.15,
               "Li" = Li,
-              "Pi" = NULL,
+              "Pi" = t(raster::as.matrix(precip)),
+              "VPDi" = NULL,
               "georeferencing" = list("extent" = ext,
                                       "projection" = proj,
                                       "size" = size)
