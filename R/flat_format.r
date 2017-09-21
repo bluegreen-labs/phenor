@@ -41,10 +41,14 @@ flat_format = function(data = NULL){
 
   # concat all temperature data in one big matrix
   Ti = do.call("cbind",lapply(data,function(x)x$Ti))
-
+  Tmini = do.call("cbind",lapply(data,function(x)x$Tmini))
+  Tmaxi = do.call("cbind",lapply(data,function(x)x$Tmaxi))
 
   # concat all precip data in one big matrix
   Pi = do.call("cbind",lapply(data,function(x)x$Pi))
+
+  # concat all precip data in one big matrix
+  VPDi = do.call("cbind",lapply(data,function(x)x$VPDi))
 
   # long term mean
   ltm = matrix(NA,365,length(site))
@@ -64,8 +68,11 @@ flat_format = function(data = NULL){
               "transition_dates" = transition_dates,
               "ltm" = ltm,
               "Ti" = Ti,
+              "Tmini" = Tmini,
+              "Tmaxi" = Tmaxi,
               "Li" = Li,
-              "Pi" = Pi
+              "Pi" = Pi,
+              "VPDi" = VPDi
               )
 
   # assign a class for post-processing
