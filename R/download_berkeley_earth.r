@@ -1,4 +1,4 @@
-#' Download of Berkeley Earth Gridded temperature data
+#' Download Berkeley Earth Gridded mean daily temperature data
 #'
 #' @param path: a path where to save the gridded data
 #' @param year: year to process (requires year - 1 to be present)
@@ -27,26 +27,14 @@ download_berkeley_earth = function(path = "~",
   if (year %in% split){
     # create download string
     filenames = c(sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE) - 1]),
+                          split[max(which(split <= year),na.rm = TRUE) - 1]),
                   sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE)]),
-                  sprintf("Complete_TMAX_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE) - 1]),
-                  sprintf("Complete_TMAX_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE)]),
-                  sprintf("Complete_TMIN_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE) - 1]),
-                  sprintf("Complete_TMIN_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE)]))
+                          split[max(which(split <= year),na.rm = TRUE)]))
 
   } else {
     # create download string
     filenames = c(sprintf("Complete_TAVG_Daily_LatLong1_%s.nc",
-                        split[max(which(split <= year),na.rm=TRUE)]),
-                  sprintf("Complete_TMAX_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE)]),
-                  sprintf("Complete_TMIN_Daily_LatLong1_%s.nc",
-                          split[max(which(split <= year),na.rm=TRUE)]))
+                        split[max(which(split <= year),na.rm = TRUE)]))
   }
 
   # download missing data
