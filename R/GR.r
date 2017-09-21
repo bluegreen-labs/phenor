@@ -1,4 +1,5 @@
-#' Thermal Time grassland model as defined in
+#' Thermal Time grassland model which includes a pulse response
+#' precipitatoin trigger as defined in
 #' Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 #'
 #' @param data: input data (see reference for detailed description),
