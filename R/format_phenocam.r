@@ -150,20 +150,17 @@ format_phenocam = function(path = "~",
     for (j in 1:length(years)) {
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                                  (year == (years[j] - 1) &
-                                     yday >= offset) |
-                                    (year == years[j] &
-                                       yday < offset))$tmean
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                                  (year == (years[j] - 1) &
-                                     yday >= offset) |
-                                    (year == years[j] &
-                                       yday < offset))$tmin..deg.c.
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) &
-                              yday >= offset) |
+                           (year == (years[j] - 1) & yday >= offset) |
                              (year == years[j] &
                                 yday < offset))$tmax..deg.c.
 
@@ -175,7 +172,6 @@ format_phenocam = function(path = "~",
                              (year == (years[j] - 1) & yday >= offset) |
                                (year == years[j] &
                                   yday < offset))$vp..Pa.
-
       } else {
         tmean[, j] = subset(daymet_data, year == years[j])$tmean
         tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
