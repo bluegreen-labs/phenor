@@ -75,7 +75,9 @@ format_pep725 = function(pep_path = "~",
              na.rm = TRUE)))[1:365]
 
     # calculate lapse rate and correct temperatures
-    lapse_rate = as.vector((raster::extract(eobs_data[[3]], points[1]) - pep_subset$alt[1]) * 0.005)
+    lapse_rate = as.vector(
+      (raster::extract(eobs_data[[3]],
+                       points[1]) - pep_subset$alt[1]) * 0.005)
     temperature = rbind(temperature + lapse_rate, pep_subset$year)
     ltm = ltm + lapse_rate
 
