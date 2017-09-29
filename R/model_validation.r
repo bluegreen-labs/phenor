@@ -58,8 +58,6 @@ model_validation = function(model = "TT",
   d = d[,3:ncol(d)]
   d = as.matrix(d)
 
-  print(c(...))
-
   # optimize paramters
   optim.par = optimize_parameters(
     par = NULL,
