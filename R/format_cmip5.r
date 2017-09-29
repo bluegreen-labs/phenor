@@ -43,7 +43,7 @@ format_cmip5 = function(path = "~",
   for (i in c(year-1, year)){
 
     # download or read data
-    data = lapply(temp_measurements, function(x){
+    data = lapply(measurements, function(x){
 
       # filename
       filename = sprintf("%s_day_%s_%s_r1i1p1_%s0101-%s1231.LOCA_2016-04-02.%s.nc",
@@ -70,7 +70,10 @@ format_cmip5 = function(path = "~",
 
         # download and return the data
         error = try(curl::curl_download(url = url,
-                                        destfile = sprintf("%s/%s", path, filename)))
+                                        destfile = sprintf("%s/%s",
+                                                           path,
+                                                           filename),
+                                        quiet = TRUE))
 
         if (inherits(error, "try-error")){
           file.remove(sprintf("%s/%s", path, filename))
@@ -87,7 +90,7 @@ format_cmip5 = function(path = "~",
     temp_data_stack = raster::stack(data[[1]],
                               data[[2]])
 
-    l = nlayers(temp_data_stack)/2
+    l = raster::nlayers(temp_data_stack)/2
     mean_temp = raster::stackApply(temp_data_stack,
                                    indices = rep(1:l,2),
                                    fun = mean,
@@ -100,7 +103,7 @@ format_cmip5 = function(path = "~",
     precip = raster::shift(data[[3]], x = -360)
 
     # drop layer 366 on leap year
-    if (nlayers(mean_temp) == 366){
+    if (raster::nlayers(mean_temp) == 366){
       mean_temp = raster::dropLayer(mean_temp, 366)
       min_temp = raster::dropLayer(min_temp, 366)
       max_temp = raster::dropLayer(max_temp, 366)
@@ -114,14 +117,14 @@ format_cmip5 = function(path = "~",
       Tmaxi = max_temp
       Pi = precip
     } else {
-      temp = stack(temp, mean_temp)
-      Tmini = stack(Tmini, min_temp)
-      Tmaxi = stack(Tmaxi, max_temp)
-      Pi = stack(Pi, precip)
+      temp = raster::stack(temp, mean_temp)
+      Tmini = raster::stack(Tmini, min_temp)
+      Tmaxi = raster::stack(Tmaxi, max_temp)
+      Pi = raster::stack(Pi, precip)
     }
 
     # clear variable
-    rm(c(mean_temp,min_temp,max_temp,precip))
+    rm(list = c("mean_temp","min_temp","max_temp","precip"))
   }
 
   # extract the yday and year strings
@@ -142,15 +145,15 @@ format_cmip5 = function(path = "~",
   temp = raster::subset(temp, layers)
   Tmini = raster::subset(Tmini, layers)
   Tmaxi = raster::subset(Tmaxi, layers)
-  precip = raster::subset(precip, layers)
+  Pi = raster::subset(Pi, layers)
 
   # extract georeferencing info to be passed along
-  ext = extent(temp)
-  proj = projection(temp)
+  ext = raster::extent(temp)
+  proj = raster::projection(temp)
   size = dim(temp)
 
   # grab coordinates
-  location = SpatialPoints(coordinates(temperature),
+  location = SpatialPoints(coordinates(temp),
                            proj4string = CRS(proj))
   location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
 
@@ -178,7 +181,7 @@ format_cmip5 = function(path = "~",
               "Tmini" = t(raster::as.matrix(Tmini)) - 273.15,
               "Tmaxi" = t(raster::as.matrix(Tmaxi)) - 273.15,
               "Li" = Li,
-              "Pi" = t(raster::as.matrix(precip)),
+              "Pi" = t(raster::as.matrix(Pi)),
               "VPDi" = NULL,
               "georeferencing" = list("extent" = ext,
                                       "projection" = proj,
