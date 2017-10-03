@@ -6,13 +6,13 @@
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)}
 \usage{
-M1s(par, data, plot = FALSE)
+M1s(par, data)
 }
 \arguments{
-\item{data:}{input data (see reference for detailed description),
-data should be formatted using flat_format()}
+\item{par}{a vector of parameter values, this is functions specific}
 
-\item{par:}{a vector of parameter values, this is functions specific}
+\item{data}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 }
 \value{
 raster or vector with estimated phenophase timing (in DOY)

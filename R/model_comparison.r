@@ -1,22 +1,25 @@
 #' Model comparison routine to faciliate model development
 #' and quick comparisons of the skill of various models.
 #'
-#' @param random_seeds: a vector with random seeds for cross validation
-#' @param models: list of models to compare
-#' @param dataset: which standard dataset to use
-#' @param par_ranges: location of the parameter ranges of the models
+#' @param random_seeds a vector with random seeds for cross validation
+#' @param models list of models to compare
+#' @param dataset which standard or custom dataset to use
+#' @param method which optimization method to use, GenSA or rgenoud
+#' (default = GenSA)
+#' @param control additional optimization control parameters
+#' (default = list(max.call = 5000, temperature = 10000))
+#' @param par_ranges location of the parameter ranges of the models
 #' @keywords phenology, model, validation, comparison
 #' @export
 #' @examples
 #'
+#' # estimate will return the best estimated parameter set given the
+#' # validation data
 #' \dontrun{
 #' my_comparison <- model_comparison(random_seeds = c(38,1),
 #'  models = c("TT","PTT"),
 #'  dataset = "phenocam_DB",
 #'  par_ranges = "parameter_ranges.csv")
-#'
-#' # estimate will return the best estimated parameter set given the
-#' # validation data
 #' }
 
 model_comparison = function(random_seeds = c(1,12,40),
@@ -24,26 +27,18 @@ model_comparison = function(random_seeds = c(1,12,40),
                                        "M1","M1s","AT","SQ","SQb","SM1",
                                        "SM1b","PA","PAb","PM1",
                                        "PM1b","UN","UM1"),
-                            dataset = "phenocam_DB",
+                            dataset = phenocam_DB,
                             method = "GenSA",
                             control = list(max.call = 5000,
                                            temperature = 10000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
-  # if the dataset does not exist
-  # in the workspace assume it to be loaded
-  # from package storage
-  if (is.character(dataset)){
-    data(list = dataset)
-    dataset = get(dataset)
-  }
-
   # convert to a flat format for speed
   data = flat_format(dataset)
 
   # load parameter ranges
-  par_ranges = read.table(par_ranges,
+  par_ranges = utils::read.table(par_ranges,
                           header = TRUE,
                           sep = ",")
 
@@ -67,7 +62,7 @@ model_comparison = function(random_seeds = c(1,12,40),
   # implement a progress bar for graphical feedback
   # this to gauge speed limitations
   cat("This might take a while ... \n")
-  pb = txtProgressBar(min = 0, max = nr_models*nr_seeds, style = 3)
+  pb = utils::txtProgressBar(min = 0, max = nr_models*nr_seeds, style = 3)
   k = 0
 
   # iterate all instances
@@ -86,7 +81,7 @@ model_comparison = function(random_seeds = c(1,12,40),
     for (j in 1:nr_seeds) {
 
       # progress bar for the models
-      setTxtProgressBar(pb, k);
+      utils::setTxtProgressBar(pb, k);
       k = k + 1
 
       # set random seed for a given run

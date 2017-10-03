@@ -9,13 +9,13 @@ triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1,
   T_max = 15)
 }
 \arguments{
-\item{T:}{a vector or matrix of temperatures}
+\item{T}{a vector or matrix of temperatures}
 
-\item{T_opt:}{optimal temperature}
+\item{T_opt}{optimal temperature}
 
-\item{T_min:}{minimum viable temperature}
+\item{T_min}{minimum viable temperature}
 
-\item{T_max:}{maximum viable temperature}
+\item{T_max}{maximum viable temperature}
 }
 \description{
 Triangular temperature response function as defined in
@@ -23,8 +23,8 @@ Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 
-\dontrun{
 T_response = triangular_temperature_response(T = 0:45)
+\dontrun{
 plot(0:45, T_response, type = "l")
 }
 }

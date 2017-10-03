@@ -2,22 +2,17 @@
 #' and a specified model (be sure to match parameter and requirements
 #' with the model. Wrapper around a do.call() call for convenience.
 #'
-#' @param data: a nested list of data with on location:
-#' 1. the date (doy or long format)
-#' 2. the temperature data
-#' 3. the photoperiod data (NA when not needed)
-#' 4. a vector or matrix with necessary constants (NA when not needed)
-#'    - long term mean temperature
-#'    - latitude
-#'    - etc...
-#' 5. validation data (optional when just running a model not optimizing)
-#' @param par: a vector of parameter values, this is functions specific
-#' @param model: the model name to be used in optimizing the model
-#' @param path: the path to daymet tile data formated using the
+#' @param data a nested list of data formatted using one of the format_*()
+#' functions
+#' @param par a vector of parameter values, this is functions specific
+#' @param model the model name to be used in optimizing the model
+#' @param path the path to daymet tile data formated using the
 #' format_daymet() function. All tiles in this directory will be
 #' processed with the specified model and data mosaicked and reprojected
 #' if requested
-#' @param reproject: TRUE / FALSE, reproject to lat-lon (default = TRUE)
+#' @param reproject TRUE / FALSE, reproject to lat-lon (default = TRUE)
+#' @param ... extra arguments to pass to the function
+#' @return returns point based or gridded estimates of a particular phenopase
 #' @keywords phenology, model, post-processing
 #' @export
 #' @examples
@@ -83,14 +78,15 @@ estimate_phenology = function(par,
       if (i == 1){
         phenor_map = tmp
       } else {
-        phenor_map = mosaic(phenor_map, tmp, fun = mean)
+        phenor_map = raster::mosaic(phenor_map, tmp, fun = mean)
       }
     }
 
     # normal output will be lambert conformal conical,
     # if a lat-lon map is required reproject the results
     if (reproject){
-      phenor_map = trim(projectRaster(phenor_map, crs = CRS("+init=epsg:4326")))
+      phenor_map = raster::trim(raster::projectRaster(phenor_map,
+                                              crs = sp::CRS("+init=epsg:4326")))
     }
 
     # return the map

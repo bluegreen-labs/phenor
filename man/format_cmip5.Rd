@@ -10,32 +10,34 @@ format_cmip5(path = "~", year = 2016, offset = 264,
   internal = TRUE)
 }
 \arguments{
-\item{path:}{a path to the gridded data (original max / min temp. files)}
+\item{path}{a path to the gridded data (original max / min temp. files)}
 
-\item{year:}{year to process (requires year - 1 to be present / downloaded)}
+\item{year}{year to process (requires year - 1 to be present / downloaded)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 
-\item{model:}{which CMIP5 model to use}
+\item{model}{which CMIP5 model to use}
 
-\item{resolution:}{"1x1" or "16th", "16th" will result in a significant
+\item{resolution}{"1x1" or "16th", "16th" will result in a significant
 calculation overhead}
 
-\item{scenario:}{"rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
+\item{scenario}{"rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 while historical data covers 1950 - 2005}
 
-\item{internal:}{TRUE / FALSE, write data structure to file or not (as .rds)}
+\item{internal}{TRUE / FALSE, write data structure to file or not (as .rds)}
+}
+\value{
+data structure formatted for phenor model optimization and validation
 }
 \description{
 Although one can access the 1/16th degree data, by default the 1x1 degree
 data should be preferred (due to preprocessing load).
 }
 \examples{
-
-\dontrun{
 # run with default settings
 # look for alternative models on the CMIP5
 # downscaled data page
+\dontrun{
 cmip5_data = format_cmip5()
 }
 }

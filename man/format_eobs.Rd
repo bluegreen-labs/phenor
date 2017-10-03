@@ -9,17 +9,17 @@ format_eobs(path = "~", year = 2014, offset = 264, resolution = 0.25,
   internal = TRUE)
 }
 \arguments{
-\item{path:}{a path of the gridded data netCDF files}
+\item{path}{a path of the gridded data netCDF files}
 
-\item{year:}{year to process (requires year - 1 to be present / downloaded)}
+\item{year}{year to process (requires year - 1 to be present / downloaded)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 
-\item{resolution:}{0.25 or 0.50 degree data, only the normal rectangular data
+\item{resolution}{0.25 or 0.50 degree data, only the normal rectangular data
 will be processed not the polar variety.
 calculation overhead}
 
-\item{internal:}{TRUE / FALSE, write data structure to file or not (as .rds)}
+\item{internal}{TRUE / FALSE, write data structure to file or not (as .rds)}
 }
 \value{
 Returns spatial model input data from long term E-OBS modelled data.

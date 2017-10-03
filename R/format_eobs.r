@@ -9,13 +9,13 @@
 #' Please register before downloading data, unzip data into uncompressed
 #' netCDF files before processing.
 #'
-#' @param path: a path of the gridded data netCDF files
-#' @param year: year to process (requires year - 1 to be present / downloaded)
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
-#' @param resolution: 0.25 or 0.50 degree data, only the normal rectangular data
+#' @param path a path of the gridded data netCDF files
+#' @param year year to process (requires year - 1 to be present / downloaded)
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param resolution 0.25 or 0.50 degree data, only the normal rectangular data
 #' will be processed not the polar variety.
 #' calculation overhead
-#' @param internal: TRUE / FALSE, write data structure to file or not (as .rds)
+#' @param internal TRUE / FALSE, write data structure to file or not (as .rds)
 #' @return Returns spatial model input data from long term E-OBS modelled data.
 #' This data can be run by models specified in the phenor package.
 #' @keywords phenology, model, preprocessing, climate data
@@ -77,7 +77,7 @@ format_eobs = function(path = "~",
   size = dim(eobs_data[[1]])
 
   # grab coordinates
-  location = SpatialPoints(sp::coordinates(eobs_data[[1]]),
+  location = sp::SpatialPoints(sp::coordinates(eobs_data[[1]]),
                            proj4string = sp::CRS(proj))
   location = t(sp::spTransform(location,
                                sp::CRS("+init=epsg:4326"))@coords[,2:1])

@@ -5,13 +5,17 @@
 \title{Model comparison  plotting routine to faciliate model development
 and quick comparisons of the skill of various models.}
 \usage{
-plot_model_comparison(comparison = NULL, ylab = "RMSE (days)",
-  names = TRUE, ...)
+plot_model_comparison(data = NULL, ylab = "RMSE (days)", names = TRUE,
+  ...)
 }
 \arguments{
-\item{comparison:}{list returned by model_comparison()}
+\item{data}{list returned by model_comparison()}
 
-\item{data:}{data driving model_comparison()}
+\item{ylab}{cost function value to annotate y-axis (default = "RMSE (days)")}
+
+\item{names}{include model names, TRUE / FALSE (default = TRUE)}
+
+\item{...}{extra arguments to pass to the function}
 }
 \description{
 Model comparison  plotting routine to faciliate model development

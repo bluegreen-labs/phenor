@@ -9,13 +9,15 @@ format_daymet_tiles(path = "~", year = 2014, tile = 11935, offset = 264,
   internal = TRUE)
 }
 \arguments{
-\item{path:}{a path to tiled data}
+\item{path}{a path to tiled data}
 
-\item{year:}{year to process (requires year - 1 to be present)}
+\item{year}{year to process (requires year - 1 to be present)}
 
-\item{tiles:}{daymet tile number}
+\item{tile}{daymet tile number}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{internal}{return results as an R variable or save as an RDS file}
 }
 \value{
 Data file adhering to the phenor modelling input formatting. Data
@@ -30,12 +32,12 @@ by the models in phenor
 }
 \examples{
 
-\dontrun{
 # run with default settings
 # looks for daymet average temperature
 # data in your home directory. These data
 # are calculated using daymet_tmean() from
 # the daymetr package
+\dontrun{
 daymet_data = format_daymet_tiles()
 }
 }

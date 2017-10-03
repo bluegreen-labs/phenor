@@ -2,17 +2,21 @@
 #' and a specified model (be sure to match parameter and requirements
 #' with the model.
 #'
-#' @param par: a vector of starting parameter values (function specific)
-#' @param data: a nested list of data
-#' @param cost: the cost function to use in the optimization, it should return
+#' @param par a vector of starting parameter values (function specific)
+#' @param data nested data structure with validation data as returned
+#' by format_phenocam() or format_pep725(), or your own dataset adhering
+#' to the same data structure.
+#' @param cost the cost function to use in the optimization, it should return
 #' a RMSE or other value which needs to be minimized
-#' @param model: the model name to be used in optimizing the model
-#' @param method: optimization method to use
+#' @param model the model name to be used in optimizing the model
+#' @param method optimization method to use
 #'    - GenSA :  Generalized Simulated Annealing algorithm (default)
 #'    - genoud : GENetic Optimization Using Derivatives
-#' @param lower: lower limit of parameter values (function specific)
-#' @param upper: upper limit of parameter values (function specific)
-#' @param maxit: maximum number of iterations to run (if NULL until convergence)
+#' @param lower lower limit of parameter values (function specific)
+#' @param upper upper limit of parameter values (function specific)
+#' @param maxit maximum number of generations to run (genoud)
+#' @param control additional optimization control parameters (default = NULL)
+#' @param ... extra arguments to pass to the function
 #' @keywords phenology, model, optimization, simulated annealing, genoud, optim
 #' @export
 #' @examples
@@ -31,6 +35,7 @@ optimize_parameters = function(par = NULL,
                                method = "GenSA",
                                lower = NULL,
                                upper = NULL,
+                               maxit = NULL,
                                control = NULL,
                                ... ) {
 

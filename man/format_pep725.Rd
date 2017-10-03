@@ -4,21 +4,26 @@
 \alias{format_pep725}
 \title{Preprocessing of PEP725 data into a format which can be ingested
 by the optimization routines, the original nested list is flattened
-for speed.}
+for speed. The routine requires E-OBS data, which can be downloaded from
+the E-OBS website (http://www.ecad.eu/download/ensembles/ensembles.php).}
 \usage{
 format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
   species = NULL, offset = 264, count = 60, resolution = 0.25)
 }
 \arguments{
-\item{path:}{a path to the PEP725 data (species files only)}
+\item{pep_path}{path to the PEP725 data (species files only)}
 
-\item{bbch:}{which bbch}
+\item{eobs_path}{path to regular grid E-OBS data.}
 
-\item{species:}{species to select from merged PEP725 file}
+\item{bbch}{which phenophase (bbch) to use (default = 11)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{species}{species to select from merged PEP725 file}
 
-\item{count:}{minimum number of acquisitions per location}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{count}{minimum number of acquisitions per location}
+
+\item{resolution}{resolution of the E-OBS data (0.25 or 0.5, default = 0.25)}
 }
 \value{
 returns a nested list of site locations, their respective
@@ -33,11 +38,11 @@ scientific data in one folder.
 }
 \examples{
 
-\dontrun{
 # run with default settings
 # looks for transition date files derived
 # through phenocamr in your home directory
 # change the path to match your setup
+\dontrun{
 phenocam_data = format_pep725()
 }
 }

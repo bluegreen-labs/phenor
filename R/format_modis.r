@@ -1,15 +1,14 @@
 #' Preprocessing of all PhenoCam data into a format which can be ingested
 #' by the optimization routines etc.
 #'
-#' @param path: a path to MODISTools MCD12Q2 phenology dates
-#' @param direction: Increase (= default), Maximum, Decrease, Minimum
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
+#' @param path a path to MODISTools MCD12Q2 phenology dates
+#' @param direction Increase, Maximum, Decrease or Minimum (default = Increase)
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
 #'
 #' \dontrun{
-#' # run with default settings
 #' modis_data = format_modis()
 #'}
 
@@ -31,7 +30,7 @@ process_modis = function(path = "~",
     files = transition_files_full[which(sites == site)]
 
     # merge all transition date data
-    modis_data = read.table(files, header = FALSE, sep = ",")
+    modis_data = utils::read.table(files, header = FALSE, sep = ",")
 
     # grab the site years from the product name
     years = unique(as.numeric(substring(modis_data[,8],2,5)))
@@ -45,7 +44,7 @@ process_modis = function(path = "~",
     modis_data = modis_data[grep(direction, as.character(modis_data[,6])),
                             11:ncol(modis_data)]
     modis_data[modis_data == 32767] = NA
-    modis_data = round(apply(modis_data, 1, median, na.rm = TRUE))
+    modis_data = round(apply(modis_data, 1, stats::median, na.rm = TRUE))
 
     # min and max range of the phenology data
     # -1 for min_year as we need data from the previous year for cold
@@ -54,7 +53,7 @@ process_modis = function(path = "~",
     end = max(years)
 
     # download daymet data for a given site
-    daymet_data = daymetr::download.daymet(
+    daymet_data = daymetr::download_daymet(
       site = site,
       lat = lat,
       lon = lon,

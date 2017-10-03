@@ -5,13 +5,13 @@
 \title{Photothermal Time model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)}
 \usage{
-PTT(par, data, plot = FALSE)
+PTT(par, data)
 }
 \arguments{
-\item{data:}{input data (see reference for detailed description),
-data should be formatted using flat_format()}
+\item{par}{a vector of parameter values, this is functions specific}
 
-\item{par:}{a vector of parameter values, this is functions specific}
+\item{data}{input data (see reference for detailed description),
+data should be formatted using flat_format()}
 }
 \value{
 raster or vector with estimated phenophase timing (in DOY)

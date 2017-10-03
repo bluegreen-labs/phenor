@@ -10,26 +10,24 @@ estimate_phenology(par, data = NULL, model = "TT", path = ".",
   reproject = TRUE, ...)
 }
 \arguments{
-\item{data:}{a nested list of data with on location:
-1. the date (doy or long format)
-2. the temperature data
-3. the photoperiod data (NA when not needed)
-4. a vector or matrix with necessary constants (NA when not needed)
-   - long term mean temperature
-   - latitude
-   - etc...
-5. validation data (optional when just running a model not optimizing)}
+\item{par}{a vector of parameter values, this is functions specific}
 
-\item{par:}{a vector of parameter values, this is functions specific}
+\item{data}{a nested list of data formatted using one of the format_*()
+functions}
 
-\item{model:}{the model name to be used in optimizing the model}
+\item{model}{the model name to be used in optimizing the model}
 
-\item{path:}{the path to daymet tile data formated using the
+\item{path}{the path to daymet tile data formated using the
 format_daymet() function. All tiles in this directory will be
 processed with the specified model and data mosaicked and reprojected
 if requested}
 
-\item{reproject:}{TRUE / FALSE, reproject to lat-lon (default = TRUE)}
+\item{reproject}{TRUE / FALSE, reproject to lat-lon (default = TRUE)}
+
+\item{...}{extra arguments to pass to the function}
+}
+\value{
+returns point based or gridded estimates of a particular phenopase
 }
 \description{
 Calculates the estimated phenophases for a given set of parameters

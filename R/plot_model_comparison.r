@@ -1,8 +1,10 @@
 #' Model comparison  plotting routine to faciliate model development
 #' and quick comparisons of the skill of various models.
 #'
-#' @param comparison: list returned by model_comparison()
-#' @param data: data driving model_comparison()
+#' @param data list returned by model_comparison()
+#' @param ylab cost function value to annotate y-axis (default = "RMSE (days)")
+#' @param names include model names, TRUE / FALSE (default = TRUE)
+#' @param ... extra arguments to pass to the function
 #' @keywords phenology, model, data, comparison, plotting
 #' @export
 #' @examples
@@ -11,13 +13,13 @@
 #' plot_model_comparison()
 #' }
 
-plot_model_comparison = function(comparison = NULL,
+plot_model_comparison = function(data = NULL,
                                  ylab = "RMSE (days)",
                                  names = TRUE,
                                  ...){
 
   # trap lack of data
-  if (is.null(comparison)){
+  if (is.null(data)){
     stop("No comparison or reference data ")
   }
 
@@ -47,12 +49,12 @@ plot_model_comparison = function(comparison = NULL,
 
   # calculate mean / sd RMSE of all model runs
   # (different parameters - by different seeds)
-  rmse_stats = lapply(comparison$modelled,function(x){
+  rmse_stats = lapply(data$modelled,function(x){
     rmse = apply(x$predicted_values,1,function(y){
-      sqrt(mean((y - comparison$measured) ^ 2, na.rm = T))
+      sqrt(mean((y - data$measured) ^ 2, na.rm = T))
     })
     return(rmse)
-    list("rmse" = mean(rmse,na.rm=TRUE),"sd"=sd(rmse,na.rm=TRUE))
+    list("rmse" = mean(rmse,na.rm=TRUE),"sd"=stats::sd(rmse,na.rm=TRUE))
     })
 
   labels = names(rmse_stats)
@@ -61,14 +63,15 @@ plot_model_comparison = function(comparison = NULL,
 
   # calculate RMSE null model (single value)
   rmse_null = sqrt(mean((
-    comparison$measured -  rep(round(mean(
-      comparison$measured, na.rm = TRUE
-    )), length(comparison$measured))
+    data$measured -  rep(round(mean(
+      data$measured, na.rm = TRUE
+    )), length(data$measured))
   ) ^ 2, na.rm = T))
 
   # tick settings
   par(tck = 0.03, lwd = 1.3)
 
+  # list model names
   if (names == 'TRUE'){
     x_names = labels
   } else {
@@ -86,7 +89,7 @@ plot_model_comparison = function(comparison = NULL,
   }
 
   # create boxplot with stats
-  boxplot(rmse_stats,
+  graphics::boxplot(rmse_stats,
           las = 2,
           names = x_names,
           ylim = ylim_val,
@@ -100,5 +103,5 @@ plot_model_comparison = function(comparison = NULL,
           outline = FALSE)
 
   # set a horizontal marker for the baseline NULL model
-  abline(h = rmse_null, lty = 2)
+  graphics::abline(h = rmse_null, lty = 2)
 }

@@ -8,11 +8,11 @@ by the optimization routines etc.}
 process_modis(path = "~", direction = "Increase", offset = 264)
 }
 \arguments{
-\item{path:}{a path to MODISTools MCD12Q2 phenology dates}
+\item{path}{a path to MODISTools MCD12Q2 phenology dates}
 
-\item{direction:}{Increase (= default), Maximum, Decrease, Minimum}
+\item{direction}{Increase, Maximum, Decrease or Minimum (default = Increase)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 }
 \description{
 Preprocessing of all PhenoCam data into a format which can be ingested
@@ -21,7 +21,6 @@ by the optimization routines etc.
 \examples{
 
 \dontrun{
-# run with default settings
 modis_data = format_modis()
 }
 }

@@ -7,19 +7,25 @@ and quick comparisons of the skill of various models.}
 \usage{
 model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs",
   "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b", "PA", "PAb",
-  "PM1", "PM1b", "UN", "UM1"), dataset = "phenocam_DB", method = "GenSA",
+  "PM1", "PM1b", "UN", "UM1"), dataset = phenocam_DB, method = "GenSA",
   control = list(max.call = 5000, temperature = 10000),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
 }
 \arguments{
-\item{random_seeds:}{a vector with random seeds for cross validation}
+\item{random_seeds}{a vector with random seeds for cross validation}
 
-\item{models:}{list of models to compare}
+\item{models}{list of models to compare}
 
-\item{dataset:}{which standard dataset to use}
+\item{dataset}{which standard or custom dataset to use}
 
-\item{par_ranges:}{location of the parameter ranges of the models}
+\item{method}{which optimization method to use, GenSA or rgenoud
+(default = GenSA)}
+
+\item{control}{additional optimization control parameters
+(default = list(max.call = 5000, temperature = 10000))}
+
+\item{par_ranges}{location of the parameter ranges of the models}
 }
 \description{
 Model comparison routine to faciliate model development
@@ -27,14 +33,13 @@ and quick comparisons of the skill of various models.
 }
 \examples{
 
+# estimate will return the best estimated parameter set given the
+# validation data
 \dontrun{
 my_comparison <- model_comparison(random_seeds = c(38,1),
  models = c("TT","PTT"),
  dataset = "phenocam_DB",
  par_ranges = "parameter_ranges.csv")
-
-# estimate will return the best estimated parameter set given the
-# validation data
 }
 }
 \keyword{comparison}

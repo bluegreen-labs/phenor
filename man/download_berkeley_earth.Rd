@@ -7,9 +7,9 @@
 download_berkeley_earth(path = "~", year = 2011)
 }
 \arguments{
-\item{path:}{a path where to save the gridded data}
+\item{path}{a path where to save the gridded data}
 
-\item{year:}{year to process (requires year - 1 to be present)}
+\item{year}{year to process (requires year - 1 to be present)}
 }
 \value{
 nothing is returned to the R working environment, files are
@@ -20,8 +20,8 @@ Download Berkeley Earth Gridded mean daily temperature data
 }
 \examples{
 
-\dontrun{
 # donwload all gridded data for year 2014
+\dontrun{
 be_data = download_berkeley_earth(year = 2011)
 }
 }

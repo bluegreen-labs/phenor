@@ -3,7 +3,7 @@ Title: An R phenology modelling framework
 Version: 1.1
 Author: Koen Hufkens <koen.hufkens@gmail.com>
 Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
-Description: Provides a R phenology modelling framework leveraging PhenoCam data
+Description: Provides an R phenology modelling framework.
 Depends:
     R (>= 3.3.1)
 Imports:
@@ -12,6 +12,8 @@ Imports:
     stats (>= 3.3.1),
     GenSA (>= 1.1.6),
     rgenoud (>= 5.7),
+    curl (>= 2.8.1),
+    jsonlite (>= 1.5),
     raster (>= 2.5),
     ncdf4 (>= 1.16),
     sp (>= 1.2),
@@ -20,7 +22,7 @@ Imports:
 Remotes: 
   khufkens/daymetr,
   khufkens/phenocamr
-License: AGPLv3
+License: file LICENSE
 LazyData: true
 ByteCompile: true
 RoxygenNote: 6.0.1

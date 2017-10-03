@@ -9,9 +9,12 @@ according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)}
 daylength(doy, latitude)
 }
 \arguments{
-\item{doy:}{a vector with doy values 1 - 365(6)}
+\item{doy}{a vector with doy values 1 - 365(6)}
 
-\item{latitude:}{a given latitude}
+\item{latitude}{a given latitude}
+}
+\value{
+a daylength vector
 }
 \description{
 Due to heterogeneous date formats with years normalized to 365 days

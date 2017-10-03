@@ -2,7 +2,7 @@
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' returns the mean across all validation dates
 #'
-#' @param data: input data (see reference for detailed description),
+#' @param data input data (see reference for detailed description),
 #' data should be formatted using flat_format()
 #' @keywords phenology, model, sequential
 #' @export

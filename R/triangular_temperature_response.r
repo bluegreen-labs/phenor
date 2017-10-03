@@ -1,16 +1,16 @@
 #' Triangular temperature response function as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
-#' @param T: a vector or matrix of temperatures
-#' @param T_opt: optimal temperature
-#' @param T_min: minimum viable temperature
-#' @param T_max: maximum viable temperature
+#' @param T a vector or matrix of temperatures
+#' @param T_opt optimal temperature
+#' @param T_min minimum viable temperature
+#' @param T_max maximum viable temperature
 #' @keywords phenology, model, temperature response
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' T_response = triangular_temperature_response(T = 0:45)
+#' \dontrun{
 #' plot(0:45, T_response, type = "l")
 #'}
 

@@ -9,7 +9,7 @@ parameter value.}
 merge_pep725(path = "~")
 }
 \arguments{
-\item{path:}{a path to the PEP725 data (species files only)}
+\item{path}{a path to the PEP725 data (species files only)}
 }
 \value{
 concatted data of all data in the path as a tidy data frame

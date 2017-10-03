@@ -7,27 +7,34 @@ and a specified model (be sure to match parameter and requirements
 with the model.}
 \usage{
 optimize_parameters(par = NULL, data = data, cost = rmse, model = "TT",
-  method = "GenSA", lower = NULL, upper = NULL, control = NULL, ...)
+  method = "GenSA", lower = NULL, upper = NULL, maxit = NULL,
+  control = NULL, ...)
 }
 \arguments{
-\item{par:}{a vector of starting parameter values (function specific)}
+\item{par}{a vector of starting parameter values (function specific)}
 
-\item{data:}{a nested list of data}
+\item{data}{nested data structure with validation data as returned
+by format_phenocam() or format_pep725(), or your own dataset adhering
+to the same data structure.}
 
-\item{cost:}{the cost function to use in the optimization, it should return
+\item{cost}{the cost function to use in the optimization, it should return
 a RMSE or other value which needs to be minimized}
 
-\item{model:}{the model name to be used in optimizing the model}
+\item{model}{the model name to be used in optimizing the model}
 
-\item{method:}{optimization method to use
+\item{method}{optimization method to use
 - GenSA :  Generalized Simulated Annealing algorithm (default)
 - genoud : GENetic Optimization Using Derivatives}
 
-\item{lower:}{lower limit of parameter values (function specific)}
+\item{lower}{lower limit of parameter values (function specific)}
 
-\item{upper:}{upper limit of parameter values (function specific)}
+\item{upper}{upper limit of parameter values (function specific)}
 
-\item{maxit:}{maximum number of iterations to run (if NULL until convergence)}
+\item{maxit}{maximum number of generations to run (genoud)}
+
+\item{control}{additional optimization control parameters (default = NULL)}
+
+\item{...}{extra arguments to pass to the function}
 }
 \description{
 Calculates the estimated phenophases for a given set of parameters

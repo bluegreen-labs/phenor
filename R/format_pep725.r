@@ -1,17 +1,20 @@
 #' Preprocessing of PEP725 data into a format which can be ingested
 #' by the optimization routines, the original nested list is flattened
-#' for speed.
+#' for speed. The routine requires E-OBS data, which can be downloaded from
+#' the E-OBS website (http://www.ecad.eu/download/ensembles/ensembles.php).
 #'
 #' Some pre-processing steps are required as downloading the PEP725 data is a
 #' mess (this database needs an API). So, for the species of interest
 #' download the separate zipped files. Unzip all files and put the respective
 #' scientific data in one folder.
 #'
-#' @param path: a path to the PEP725 data (species files only)
-#' @param bbch: which bbch
-#' @param species: species to select from merged PEP725 file
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
-#' @param count: minimum number of acquisitions per location
+#' @param pep_path path to the PEP725 data (species files only)
+#' @param eobs_path path to regular grid E-OBS data.
+#' @param bbch which phenophase (bbch) to use (default = 11)
+#' @param species species to select from merged PEP725 file
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param count minimum number of acquisitions per location
+#' @param resolution resolution of the E-OBS data (0.25 or 0.5, default = 0.25)
 #' @return returns a nested list of site locations, their respective
 #' phenological metrics and matching environmental data as extracted from
 #' the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
@@ -19,11 +22,11 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' # run with default settings
 #' # looks for transition date files derived
 #' # through phenocamr in your home directory
 #' # change the path to match your setup
+#' \dontrun{
 #' phenocam_data = format_pep725()
 #'}
 

@@ -4,23 +4,23 @@
 #' Although one can access the 1/16th degree data, by default the 1x1 degree
 #' data should be preferred (due to preprocessing load).
 #'
-#' @param path: a path to the gridded data (original max / min temp. files)
-#' @param year: year to process (requires year - 1 to be present / downloaded)
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
-#' @param model: which CMIP5 model to use
-#' @param resolution: "1x1" or "16th", "16th" will result in a significant
+#' @param path a path to the gridded data (original max / min temp. files)
+#' @param year year to process (requires year - 1 to be present / downloaded)
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param model which CMIP5 model to use
+#' @param resolution "1x1" or "16th", "16th" will result in a significant
 #' calculation overhead
-#' @param scenario: "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
+#' @param scenario "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 #' while historical data covers 1950 - 2005
-#' @param internal: TRUE / FALSE, write data structure to file or not (as .rds)
+#' @param internal TRUE / FALSE, write data structure to file or not (as .rds)
+#' @return data structure formatted for phenor model optimization and validation
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
-#'
-#' \dontrun{
 #' # run with default settings
 #' # look for alternative models on the CMIP5
 #' # downscaled data page
+#' \dontrun{
 #' cmip5_data = format_cmip5()
 #'}
 
@@ -153,9 +153,11 @@ format_cmip5 = function(path = "~",
   size = dim(temp)
 
   # grab coordinates
-  location = SpatialPoints(coordinates(temp),
-                           proj4string = CRS(proj))
-  location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
+  location = sp::SpatialPoints(
+    sp::coordinates(temp),
+    proj4string = sp::CRS(proj))
+  location = t(sp::spTransform(location,
+                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
   if (offset < length(layers)){

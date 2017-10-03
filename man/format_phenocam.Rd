@@ -10,17 +10,17 @@ format_phenocam(path = "~", direction = "rising", gcc_value = "gcc_90",
   threshold = 50, offset = 264)
 }
 \arguments{
-\item{path:}{a path to 1 or 3-day PhenoCam time series
+\item{path}{a path to 1 or 3-day PhenoCam time series
 (no validation checks will be done, so mixed files will lead to
 mixed results!)}
 
-\item{direction:}{rising = spring, falling = autumn}
+\item{direction}{rising = spring, falling = autumn}
 
-\item{gcc_valuel:}{gcc_90, gcc_mean, gcc_50 etc.}
+\item{gcc_value}{gcc_90, gcc_mean, gcc_50 etc.}
 
-\item{transition:}{10, 25, 50 = default (threshold)}
+\item{threshold}{10, 25, 50 = default (threshold)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 }
 \description{
 Preprocessing of all PhenoCam data into a format which can be ingested
@@ -29,11 +29,11 @@ for speed.
 }
 \examples{
 
-\dontrun{
 # run with default settings
 # looks for transition date files derived
 # through phenocamr in your home directory
 # change the path to match your setup
+\dontrun{
 phenocam_data = format_phenocam()
 }
 }

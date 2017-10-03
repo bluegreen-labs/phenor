@@ -8,11 +8,15 @@ together with the number of model parameters used}
 AICc(measured, predicted, k)
 }
 \arguments{
-\item{measured:}{a vector with measurement values to smooth}
+\item{measured}{a vector with measurement values to smooth}
 
-\item{predicted:}{a vector with dates / time steps}
+\item{predicted}{a vector with dates / time steps}
 
-\item{k:}{optional values to weigh the loess fit with}
+\item{k}{optional values to weigh the loess fit with}
+}
+\value{
+returns the AIC for measured and predicted values
+for use in model comparison and selection
 }
 \description{
 Calculates AICc values for a set of measured and predicted values

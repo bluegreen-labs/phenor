@@ -1,10 +1,11 @@
 #' Preprocessing of Daymet tiled data into a format which can be ingested
 #' by the models in phenor
 #'
-#' @param path: a path to tiled data
-#' @param year: year to process (requires year - 1 to be present)
-#' @param tiles: daymet tile number
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
+#' @param path a path to tiled data
+#' @param year year to process (requires year - 1 to be present)
+#' @param tile daymet tile number
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param internal return results as an R variable or save as an RDS file
 #' @return Data file adhering to the phenor modelling input formatting. Data
 #' serves as input for model spatial model runs. The only required data input
 #' is the mean daily temperature, precipitation and VPD can be included but
@@ -14,12 +15,12 @@
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' # run with default settings
 #' # looks for daymet average temperature
 #' # data in your home directory. These data
 #' # are calculated using daymet_tmean() from
 #' # the daymetr package
+#' \dontrun{
 #' daymet_data = format_daymet_tiles()
 #'}
 
@@ -38,11 +39,14 @@ format_daymet_tiles = function(path = "~",
   vp_1 = sprintf('%s/vp_%s_%s.nc',path, year - 1, tile)
   vp_2 = sprintf('%s/vp_%s_%s.nc',path, year, tile)
 
+  # MOVE INTO A FUNCTION !!
   # process the temperature data
   if (file.exists(tmean_1) & file.exists(tmean_2) ) {
-    tmean_1 = stack(tmean_1); tmean_2 = stack(tmean_2)
-    tmean_subset = daymet_subset(stack(tmean_1,tmean_2), offset = offset)
-    tmean_subset_brick = trim(brick(tmean_subset))
+    tmean_1 = raster::stack(tmean_1)
+    tmean_2 = raster::stack(tmean_2)
+    tmean_subset = daymetr::daymet_subset(raster::stack(tmean_1,tmean_2),
+                                 offset = offset)
+    tmean_subset_brick = raster::trim(raster::brick(tmean_subset))
     Ti = t(raster::as.matrix(tmean_subset_brick))
   } else {
     stop("No average daily temperature files are found\n
@@ -52,9 +56,11 @@ format_daymet_tiles = function(path = "~",
 
   # process the precipitation data
   if(file.exists(prcp_1) & file.exists(prcp_2)){
-    prcp_1 = stack(prcp_1); prcp_2 = stack(prcp_2)
-    prcp_subset = daymet_subset(stack(prcp_1,prcp_2), offset = offset)
-    prcp_subset_brick = trim(brick(prcp_subset))
+    prcp_1 = raster::stack(prcp_1)
+    prcp_2 = raster::stack(prcp_2)
+    prcp_subset = daymetr::daymet_subset(raster::stack(prcp_1,prcp_2),
+                                offset = offset)
+    prcp_subset_brick = raster::trim(raster::brick(prcp_subset))
     Pi = t(raster::as.matrix(prcp_subset_brick))
   } else {
     warning("Correct precipitation files are not provided, will return NULL.")
@@ -63,9 +69,11 @@ format_daymet_tiles = function(path = "~",
 
   # process the VPD data
   if(file.exists(vp_1) & file.exists(vp_2)){
-    vp_1 = stack(vp_1); vp_2 = stack(vp_2)
-    vp_subset = daymet_subset(stack(vp_1,vp_2), offset = offset)
-    vp_subset_brick = trim(brick(vp_subset))
+    vp_1 = raster::stack(vp_1)
+    vp_2 = raster::stack(vp_2)
+    vp_subset = daymetr::daymet_subset(raster::stack(vp_1,vp_2),
+                              offset = offset)
+    vp_subset_brick = raster::trim(raster::brick(vp_subset))
     VPDi = t(raster::as.matrix(vp_subset_brick))
   } else {
     warning("Correct vapour pressure files are not provided, will return NULL.")
@@ -73,14 +81,15 @@ format_daymet_tiles = function(path = "~",
   }
 
   # extract georeferencing info to be passed along
-  ext = extent(tmean_subset_brick)
-  proj = projection(tmean_subset_brick)
+  ext = raster::extent(tmean_subset_brick)
+  proj = raster::projection(tmean_subset_brick)
   size = dim(tmean_subset_brick)
 
   # grab coordinates
-  location = SpatialPoints(coordinates(tmean_subset_brick),
-                           proj4string = CRS(proj))
-  location = t(spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
+  location = sp::SpatialPoints(sp::coordinates(tmean_subset_brick),
+                           proj4string = sp::CRS(proj))
+  location = t(sp::spTransform(location,
+                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
   if (offset < 365){

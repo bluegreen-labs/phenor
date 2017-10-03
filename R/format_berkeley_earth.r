@@ -1,9 +1,13 @@
 #' Preprocessing of Berkeley Earth Gridded temperature data
 #'
-#' @param path: a path to the gridded data, only average temperature
+#' @param path a path to the gridded data, only average temperature
 #' data will be considered
-#' @param year: year to process (requires year - 1 to be present)
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
+#' @param year year to process (requires year - 1 to be present)
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param bounding_box geographic coordinates constraining the output, defined
+#' as bottom left, top right c(lon1, lat1, lon2, lat2) (default =
+#' c(-126, -66, 23, 54))
+#' @param internal return results as an R variable or save as an RDS file
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -77,8 +81,8 @@ format_berkeley_earth = function(path = "~",
   # crop data if necessary, no checks yet
   if (!is.null(bounding_box)){
     if(length(bounding_box)==4){
-      climatology = raster::crop(climatology, extent(bounding_box))
-      delta = raster::crop(delta, extent(bounding_box))
+      climatology = raster::crop(climatology, raster::extent(bounding_box))
+      delta = raster::crop(delta, raster::extent(bounding_box))
     } else {
       stop("not enough coordinate points to properly crop data!")
     }
@@ -109,9 +113,10 @@ format_berkeley_earth = function(path = "~",
   cat("calculating daylength \n")
 
   # grab coordinates
-  location = sp::SpatialPoints(coordinates(temperature),
-                               proj4string = CRS(proj))
-  location = t(sp::spTransform(location, CRS("+init=epsg:4326"))@coords[,2:1])
+  location = sp::SpatialPoints(sp::coordinates(temperature),
+                               proj4string = sp::CRS(proj))
+  location = t(sp::spTransform(location,
+                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
   if (offset < length(layers)){

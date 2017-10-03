@@ -9,20 +9,20 @@ land_cover_density(dest_raster = NULL, src_raster = NULL,
   lc_classes = c(1, 4, 5, 10), path = "~", internal = FALSE)
 }
 \arguments{
-\item{dest_raster:}{area to calculate the statistics for, with a coarser
+\item{dest_raster}{area to calculate the statistics for, with a coarser
 resolution than the 500m MCD12Q1 data}
 
-\item{src_raster:}{a MCD12Q1 map in epsg:4326, if NULL the internal
+\item{src_raster}{a MCD12Q1 map in epsg:4326, if NULL the internal
 CONUS map will be used. This maps is produced by calculating the most
 common land cover class between 2001 - 2009 for CONUS.}
 
-\item{lc_classes:}{land cover classes to calculate the statistics for.
+\item{lc_classes}{land cover classes to calculate the statistics for.
 only IGBP classes (1 - 16) are supported. Takes a vector e.g. c(1, 4)}
 
-\item{path:}{path to output your generated data to if not outputting
+\item{path}{path to output your generated data to if not outputting
 it to the R console / workspace, default = "~"}
 
-\item{internal:}{TRUE / FALSE, if true no files are written to disk and
+\item{internal}{TRUE / FALSE, if true no files are written to disk and
 a raster stack is returned to the R command line}
 }
 \description{
@@ -31,14 +31,12 @@ the destination raster. Both maps should be in EPSG:4326.
 }
 \examples{
 
-\dontrun{
-lc_dens = land_cover_density(lc_classes = c(1, 4))
-
 # will return a land cover density map for
 # the evergreen needleleaf class (1) and
 # the deciduous broadleaf classs (4) in layers
 # 1 and 2 of the raster stack lc_dens
-
+\dontrun{
+lc_dens = land_cover_density(lc_classes = c(1, 4))
 }
 }
 \keyword{comparison}

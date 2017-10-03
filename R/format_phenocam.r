@@ -2,22 +2,22 @@
 #' by the optimization routines etc. the original nested list is flattened
 #' for speed.
 #'
-#' @param path: a path to 1 or 3-day PhenoCam time series
+#' @param path a path to 1 or 3-day PhenoCam time series
 #' (no validation checks will be done, so mixed files will lead to
 #' mixed results!)
-#' @param direction: rising = spring, falling = autumn
-#' @param gcc_valuel: gcc_90, gcc_mean, gcc_50 etc.
-#' @param transition: 10, 25, 50 = default (threshold)
-#' @param offset: offset of the time series in DOY (default = 264, sept 21)
+#' @param direction rising = spring, falling = autumn
+#' @param gcc_value gcc_90, gcc_mean, gcc_50 etc.
+#' @param threshold 10, 25, 50 = default (threshold)
+#' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' # run with default settings
 #' # looks for transition date files derived
 #' # through phenocamr in your home directory
 #' # change the path to match your setup
+#' \dontrun{
 #' phenocam_data = format_phenocam()
 #'}
 
@@ -49,7 +49,7 @@ format_phenocam = function(path = "~",
 
     # merge all transition date data
     data = do.call("rbind", lapply(files, function(fn)
-      data.frame( read.table(fn, header = TRUE, sep = ",") )))
+      data.frame(utils::read.table(fn, header = TRUE, sep = ",") )))
 
     if(!any(grepl(threshold,names(data)))){
       cat(sprintf('No transition dates for threshold %s

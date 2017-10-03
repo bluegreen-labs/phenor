@@ -8,12 +8,12 @@ Basler et al. 2016 (Agr. For. Meteorlogy)}
 LIN(par, data, spring = c(60, 151))
 }
 \arguments{
-\item{data:}{input data (see reference for detailed description),
+\item{par}{a vector of parameter values, this is functions specific}
+
+\item{data}{input data (see reference for detailed description),
 data should be formatted using flat_format()}
 
-\item{par:}{a vector of parameter values, this is functions specific}
-
-\item{spring:}{a vector defining spring as a couple of DOY values
+\item{spring}{a vector defining spring as a couple of DOY values
 default is March, April, May or DOY 60 - 151}
 }
 \value{

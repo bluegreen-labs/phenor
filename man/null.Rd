@@ -9,7 +9,7 @@ returns the mean across all validation dates}
 null(data)
 }
 \arguments{
-\item{data:}{input data (see reference for detailed description),
+\item{data}{input data (see reference for detailed description),
 data should be formatted using flat_format()}
 }
 \description{

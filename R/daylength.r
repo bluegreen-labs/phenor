@@ -5,8 +5,9 @@
 #' Due to heterogeneous date formats with years normalized to 365 days
 #' I do not apply a leap year correction.
 #'
-#' @param doy: a vector with doy values 1 - 365(6)
-#' @param latitude: a given latitude
+#' @param doy a vector with doy values 1 - 365(6)
+#' @param latitude a given latitude
+#' @return a daylength vector
 #' @keywords solar, ephemerids
 #' @export
 #' @examples

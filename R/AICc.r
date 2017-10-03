@@ -1,9 +1,11 @@
 #' Calculates AICc values for a set of measured and predicted values
 #' together with the number of model parameters used
 #'
-#' @param measured: a vector with measurement values to smooth
-#' @param predicted: a vector with dates / time steps
-#' @param k: optional values to weigh the loess fit with
+#' @param measured a vector with measurement values to smooth
+#' @param predicted a vector with dates / time steps
+#' @param k optional values to weigh the loess fit with
+#' @return returns the AIC for measured and predicted values
+#' for use in model comparison and selection
 #' @keywords model selection, AIC, Akaike's Information Criterion
 #' @export
 #' @examples

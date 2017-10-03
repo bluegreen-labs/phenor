@@ -1,15 +1,15 @@
 #' Download Berkeley Earth Gridded mean daily temperature data
 #'
-#' @param path: a path where to save the gridded data
-#' @param year: year to process (requires year - 1 to be present)
+#' @param path a path where to save the gridded data
+#' @param year year to process (requires year - 1 to be present)
 #' @return nothing is returned to the R working environment, files are
 #' downloaded and stored on disk
 #' @keywords phenology, model, data
 #' @export
 #' @examples
 #'
-#' \dontrun{
 #' # donwload all gridded data for year 2014
+#' \dontrun{
 #' be_data = download_berkeley_earth(year = 2011)
 #'}
 

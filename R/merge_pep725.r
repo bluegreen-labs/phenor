@@ -2,7 +2,7 @@
 #' data, with each observation a line, each column a different
 #' parameter value.
 #'
-#' @param path: a path to the PEP725 data (species files only)
+#' @param path a path to the PEP725 data (species files only)
 #' @return concatted data of all data in the path as a tidy data frame
 #' including all normal parameters, and the species name and country code
 #' as derived from the file name

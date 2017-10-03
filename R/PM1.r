@@ -1,9 +1,9 @@
 #' Parallel M1 model as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
-#' @param data: input data (see reference for detailed description),
+#' @param data input data (see reference for detailed description),
 #' data should be formatted using flat_format()
-#' @param par: a vector of parameter values, this is functions specific
+#' @param par a vector of parameter values, this is functions specific
 #' @return raster or vector with estimated phenophase timing (in DOY)
 #' @keywords phenology, model, sequential
 #' @export
@@ -14,7 +14,7 @@
 #'}
 
 # Basler parallel M1 b (bell shaped curve)
-PM1 = function(par, data, plot = TRUE){
+PM1 = function(par, data){
 
   # exit the routine as some parameters are missing
   if (length(par) != 8){
@@ -62,15 +62,5 @@ PM1 = function(par, data, plot = TRUE){
 
   # set export format, either a rasterLayer
   # or a vector
-  if(class(data) == "phenor_map_data"){
-    r = raster(nrows = data$georeferencing$size[1],
-               ncols = data$georeferencing$size[2])
-    extent(r) = data$georeferencing$extent
-    proj4string(r) = CRS(data$georeferencing$projection)
-    r[] = doy
-    r[r==9999] = NA
-    return(r)
-  } else {
-    return(doy)
-  }
+  shape_model_output(data = data, doy = doy)
 }

@@ -8,12 +8,18 @@ format_berkeley_earth(path = "~", year = 2011, offset = 264,
   bounding_box = c(-126, -66, 23, 54), internal = TRUE)
 }
 \arguments{
-\item{path:}{a path to the gridded data, only average temperature
+\item{path}{a path to the gridded data, only average temperature
 data will be considered}
 
-\item{year:}{year to process (requires year - 1 to be present)}
+\item{year}{year to process (requires year - 1 to be present)}
 
-\item{offset:}{offset of the time series in DOY (default = 264, sept 21)}
+\item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{bounding_box}{geographic coordinates constraining the output, defined
+as bottom left, top right c(lon1, lat1, lon2, lat2) (default =
+c(-126, -66, 23, 54))}
+
+\item{internal}{return results as an R variable or save as an RDS file}
 }
 \description{
 Preprocessing of Berkeley Earth Gridded temperature data
