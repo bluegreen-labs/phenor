@@ -1,0 +1,25 @@
+#
+# Transition date estimate for boundarywaters
+#
+# Site: boundarywaters
+# Veg Type: DB
+# ROI ID Number: 0001
+# Aggregation period: 3
+# Year min: 2006
+# Year max: 2006
+# Final Processing Date: 2017-04-18
+# Final Processing Time: 17:23:33
+# Spline RMSE gcc_mean: 0.00226
+# Spline RMSE gcc_50: 0.00208
+# Spline RMSE gcc_75: 0.0018
+# Spline RMSE gcc_90: 0.00167
+#
+sitename,veg_type,roi_id,direction,gcc_value,transition_10,transition_25,transition_50,transition_10_lower_ci,transition_25_lower_ci,transition_50_lower_ci,transition_10_upper_ci,transition_25_upper_ci,transition_50_upper_ci,threshold_10,threshold_25,threshold_50,min_gcc,max_gcc
+boundarywaters,DB,0001,rising,gcc_90,2006-05-01,2006-05-22,2006-05-26,2006-04-30,2006-05-21,2006-05-25,2006-05-04,2006-05-23,2006-05-27,0.33199,0.34503,0.36898,0.32453,0.40931
+boundarywaters,DB,0001,rising,gcc_75,2006-05-02,2006-05-22,2006-05-26,2006-04-29,2006-05-21,2006-05-25,2006-05-04,2006-05-23,2006-05-27,0.33236,0.34382,0.36706,0.32415,0.40654
+boundarywaters,DB,0001,rising,gcc_50,2006-05-01,2006-05-23,2006-05-27,2006-04-29,2006-05-22,2006-05-26,2006-05-05,2006-05-24,2006-05-28,0.33075,0.34198,0.36752,0.32372,0.40192
+boundarywaters,DB,0001,rising,gcc_mean,2006-05-02,2006-05-23,2006-05-27,2006-04-28,2006-05-22,2006-05-25,2006-05-05,2006-05-24,2006-05-28,0.33106,0.34246,0.36762,0.32345,0.40006
+boundarywaters,DB,0001,falling,gcc_90,2006-09-16,2006-09-13,2006-09-06,2006-09-17,2006-09-14,2006-09-08,2006-09-14,2006-09-11,2006-09-05,0.34344,0.35119,0.37274,0.33721,0.40582
+boundarywaters,DB,0001,falling,gcc_75,2006-09-16,2006-09-12,2006-09-06,2006-09-17,2006-09-13,2006-09-08,2006-09-14,2006-09-11,2006-09-05,0.34226,0.35326,0.37198,0.33632,0.40428
+boundarywaters,DB,0001,falling,gcc_50,2006-09-18,2006-09-14,2006-09-08,2006-09-19,2006-09-15,2006-09-09,2006-09-16,2006-09-12,2006-09-07,0.33507,0.34448,0.3648,0.32814,0.40059
+boundarywaters,DB,0001,falling,gcc_mean,2006-09-18,2006-09-14,2006-09-08,2006-09-20,2006-09-15,2006-09-09,2006-09-16,2006-09-12,2006-09-07,0.33556,0.34484,0.36455,0.3288,0.39946
