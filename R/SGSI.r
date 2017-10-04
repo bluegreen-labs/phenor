@@ -16,7 +16,7 @@
 SGSI = function(par, data){
 
   # exit the routine as some parameters are missing
-  if (length(par) != 2){
+  if (length(par) != 7){
     stop("model parameter(s) out of range (too many, too few)")
   }
 
