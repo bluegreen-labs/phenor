@@ -70,7 +70,7 @@ SGSI = function(par, data){
   # DOY of budburst criterium as calculated
   # by cummulating the GSI hence AGSI
   doy = apply(GSI,2, function(xt){
-    doy = data$doy[which(mean(xt) >= F_crit)[1]]
+    doy = data$doy[which(zoo::rollapply(xt, 21, mean) >= F_crit)[1]]
     doy[is.na(doy)] = 9999
     return(doy)
   })
