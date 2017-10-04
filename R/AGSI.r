@@ -1,5 +1,8 @@
-#' Accumulated growing season index model
+#' Accumulated growing season index model (1)
 #' as defined by Xin et al. 2015 (Rem. Sens. Env.)
+#'
+#' The starting point of accumulation is not clearly indicated
+#' in the publication so we assume December 21.
 #'
 #' @param data input data (see reference for detailed description),
 #' data should be formatted using flat_format()
@@ -16,45 +19,60 @@
 AGSI = function(par, data){
 
   # exit the routine as some parameters are missing
-  if (length(par) != 2){
-    stop("model parameter(s) out of range (too many, too few)")
+  if (length(par) != 7){
+    stop(sprintf("model parameter(s) out of range (too many, too few, %s provided)",
+                 length(par)))
+  }
+
+  # exit the routine if data is missing
+  if (is.null(data$Tmini) |
+      is.null(data$Tmaxi) |
+      is.null(data$VPDi)  |
+      is.null(data$Li)
+      ){
+    stop("Not all required driver data is available")
+  }
+
+  # set start of accumulation period
+  t0 = which(data$doy == -11)
+  if (length(t0)==0){
+    t0 = 1
   }
 
   # extract the parameter values from the
   # par argument for readability
-  t0 = round(par[1])
-  F_crit = par[2]
+  Tmmin = par[1]
+  Tmmax = par[2]
+  F_crit = par[3]
+  VPDmin = par[4]
+  VPDmax = par[5]
+  photo_min = par[6]
+  photo_max = par[7]
 
-  # set constants as defined by
-  # jolly et al. 2005 (Glob. Change. Biol.)
-  # these are physiological limits
-  Tmmin = -2
-  Tmmax = 5
-  VPDmin = 900
-  VPDmax = 4100
-  photo_min = 10
-  photo_max = 11
-
-  # calculate matrices
+  # rescaling all parameters between 0 - 1 for the
+  # acceptable ranges, if outside these ranges
+  # set to 1 (unity) or 0 respectively
   Tmin = (data$Tmini - Tmmin)/(Tmmax - Tmmin)
   VPD = (data$VPDi - VPDmin)/(VPDmax - VPDmin)
   photo = (data$Li - photo_min)/(photo_max - photo_min)
 
-  # criteria
-  Tmin[which(Tmin <= Tmmin)] = 0
-  Tmin[which(Tmin >= Tmmax)] = 1
+  # set outliers to 1 or 0
+  Tmin[which(data$Tmini <= Tmmin)] = 0
+  Tmin[which(data$Tmini >= Tmmax)] = 1
 
-  VPD[which(VPD >= VPDmax)] = 0
-  VPD[which(VPD <= VPDmin)] = 1
+  VPD[which(data$VPDi >= VPDmax)] = 0
+  VPD[which(data$VPDi <= VPDmin)] = 1
 
-  photo[which(photo <= photo_min)] = 0
-  photo[which(photo >= photo_max)] = 0
+  photo[which(data$Li <= photo_min)] = 0
+  photo[which(data$Li >= photo_max)] = 1
 
-  # calculate the index for every day
+  # calculate the index for every value
+  # but set values for time t0 to 0
   GSI = Tmin * VPD * photo
   GSI[1:t0,] = 0
 
-  # DOY of budburst criterium
+  # DOY of budburst criterium as calculated
+  # by cummulating the GSI hence AGSI
   doy = apply(GSI,2, function(xt){
     doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
     doy[is.na(doy)] = 9999
