@@ -1,5 +1,6 @@
 #' (re)shape model output based  upon the class of the input data
-#' and valid model estimates
+#' and valid model estimates. Mainly, reshapes data to a spatial
+#' raster format when required.
 #'
 #' @param data input data generated using the format_*() functions
 #' @param doy phenophase estimates as a doy value
