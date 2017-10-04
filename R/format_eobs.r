@@ -38,7 +38,7 @@ format_eobs = function(path = "~",
   eobs_data = lapply( c("tg","rr","elev"),function(x){
 
     # filename
-    filename = sprintf("%s_%sdeg_reg_v15.0.nc",
+    filename = sprintf("%s_%sdeg_reg_v16.0.nc",
                     x,
                     resolution)
 
