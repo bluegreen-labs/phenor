@@ -2,12 +2,16 @@
 #' by the optimization routines etc. the original nested list is flattened
 #' for speed.
 #'
-#' @param path a path to 1 or 3-day PhenoCam time series
+#' @param path a path to 1 or 3-day PhenoCam transition date estimates
 #' (no validation checks will be done, so mixed files will lead to
-#' mixed results!)
-#' @param direction rising = spring, falling = autumn
-#' @param gcc_value gcc_90, gcc_mean, gcc_50 etc.
-#' @param threshold 10, 25, 50 = default (threshold)
+#' mixed or duplicated results!)
+#' @param direction The phenophase considered, "rising" for spring and
+#' "falling" for autumn. When using fall the offset should be 365.
+#' (default = rising)
+#' @param gcc_value The gcc time series from which the phenophase estimates
+#' were derived either (default = gcc_90)
+#' @param threshold Threshold (% of seasonal amplitude) used in estimating
+#' the phenophases (10, 25, 50) (default = 50)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
 #' @export
