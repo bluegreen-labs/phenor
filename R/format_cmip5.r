@@ -1,8 +1,15 @@
 #' Preprocessing CMIP5 model runs as hosted by:
 #' http://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html
 #'
+#' The function will format the data into the correct phenor structure for
+#' post-processing.
+#'
+#' NOTE:
 #' Although one can access the 1/16th degree data, by default the 1x1 degree
-#' data should be preferred (due to preprocessing load).
+#' data should be preferred (due to preprocessing load). Furthermore, certain
+#' firewalls will block timely access to the data which will result in failure
+#' to proceed. In this case download the data first from the website and process
+#' it by directing the function to the correct download path.
 #'
 #' @param path a path to the gridded data (original max / min temp. files)
 #' @param year year to process (requires year - 1 to be present / downloaded)
