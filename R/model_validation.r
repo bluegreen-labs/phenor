@@ -81,7 +81,7 @@ model_validation = function(model = "TT",
   # plot data if requested
   if (plot){
     plot(data$transition_dates,out,
-         main = paste(model,", itterations: ", control$max.call, sep=""),
+         main = paste(model,", iterations: ", control$max.call, sep=""),
          xlab = "onset DOY Measured",
          ylab = "onset DOY Modelled",
          pch = 19,
