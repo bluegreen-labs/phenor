@@ -63,7 +63,7 @@ model_comparison = function(random_seeds = c(1,12,40),
   # this to gauge speed limitations
   cat("This might take a while ... \n")
   pb = utils::txtProgressBar(min = 0, max = nr_models*nr_seeds, style = 3)
-  k = 0
+  k = 1
 
   # iterate all instances
   for (i in 1:nr_models) {
