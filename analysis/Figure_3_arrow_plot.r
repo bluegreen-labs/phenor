@@ -12,6 +12,6 @@ comparison = model_comparison(models = c("TT","PTT"),
                               control = list(max.call = 40000,
                                              temperature = 10000))
 # plot the data nicely
-pdf("~/Figure_3_arrow_plot.pdf",7,5)
-arrow_plot(comparison)
+pdf("~/Figure_3_arrow_plot.pdf",10,7)
+  arrow_plot(comparison, lwd = 2.5, length = 0.05)
 dev.off()
