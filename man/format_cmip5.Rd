@@ -30,8 +30,16 @@ while historical data covers 1950 - 2005}
 data structure formatted for phenor model optimization and validation
 }
 \description{
+The function will format the data into the correct phenor structure for
+post-processing.
+}
+\details{
+NOTE:
 Although one can access the 1/16th degree data, by default the 1x1 degree
-data should be preferred (due to preprocessing load).
+data should be preferred (due to preprocessing load). Furthermore, certain
+firewalls will block timely access to the data which will result in failure
+to proceed. In this case download the data first from the website and process
+it by directing the function to the correct download path.
 }
 \examples{
 # run with default settings

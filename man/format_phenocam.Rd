@@ -10,15 +10,19 @@ format_phenocam(path = "~", direction = "rising", gcc_value = "gcc_90",
   threshold = 50, offset = 264)
 }
 \arguments{
-\item{path}{a path to 1 or 3-day PhenoCam time series
+\item{path}{a path to 1 or 3-day PhenoCam transition date estimates
 (no validation checks will be done, so mixed files will lead to
-mixed results!)}
+mixed or duplicated results!)}
 
-\item{direction}{rising = spring, falling = autumn}
+\item{direction}{The phenophase considered, "rising" for spring and
+"falling" for autumn. When using fall the offset should be 365.
+(default = rising)}
 
-\item{gcc_value}{gcc_90, gcc_mean, gcc_50 etc.}
+\item{gcc_value}{The gcc time series from which the phenophase estimates
+were derived either (default = gcc_90)}
 
-\item{threshold}{10, 25, 50 = default (threshold)}
+\item{threshold}{Threshold (% of seasonal amplitude) used in estimating
+the phenophases (10, 25, 50) (default = 50)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 }
