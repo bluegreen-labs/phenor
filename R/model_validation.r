@@ -30,6 +30,14 @@ model_validation = function(model = "TT",
                             plot = TRUE,
                             ... ){
 
+  # if the dataset does not exist
+  # in the workspace assume it to be loaded
+  # from package storage
+  if (is.character(dataset)){
+    data(list = dataset)
+    dataset = get(dataset)
+  }
+
   # convert to a flat format for speed
   data = flat_format(dataset)
 
