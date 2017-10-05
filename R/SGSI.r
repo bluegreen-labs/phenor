@@ -1,6 +1,10 @@
 #' Standard growing season index model
 #' as defined by Xin et al. 2015 (Rem. Sens. Env.)
 #'
+#' No clear accumulation start dat was set in the above mentioned
+#' manuscript, as such we assume a start date of 21th of Dec, or 1th of Jan.
+#' depending on the offset used in the generated validation data.
+#'
 #' @param data input data (see reference for detailed description),
 #' data should be formatted using flat_format()
 #' @param par a vector of parameter values, this is functions specific
@@ -31,7 +35,7 @@ SGSI = function(par, data){
 
   # set start of accumulation period
   t0 = which(data$doy == -11)
-  if (length(t0)==0){
+  if (length(t0) == 0){
     t0 = 1
   }
 
@@ -70,7 +74,7 @@ SGSI = function(par, data){
   # DOY of budburst criterium as calculated
   # by cummulating the GSI hence AGSI
   doy = apply(GSI,2, function(xt){
-    doy = data$doy[which(zoo::rollapply(xt, 21, mean) >= F_crit)[1]]
+    doy = data$doy[which(zoo::rollmean(xt, 21, na.pad = TRUE) >= F_crit)[1]]
     doy[is.na(doy)] = 9999
     return(doy)
   })
