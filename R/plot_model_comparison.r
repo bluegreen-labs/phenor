@@ -43,8 +43,10 @@ plot_model_comparison = function(data = NULL,
     "PM1","blue",
     "PM1b","blue",
     "UN","blue",
-    "UM1","blue"
-    ),19,2, byrow = TRUE))
+    "UM1","blue",
+    "SGSI","blue",
+    "AGSI","blue"
+    ),21,2, byrow = TRUE))
   colnames(colours) = c("model","colour")
 
   # calculate mean / sd RMSE of all model runs
