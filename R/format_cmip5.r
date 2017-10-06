@@ -84,7 +84,7 @@ format_cmip5 = function(path = "~",
 
         if (inherits(error, "try-error")){
           file.remove(sprintf("%s/%s", path, filename))
-          stop('File not found')
+          stop('Server not reachable, remember R does not support passive FTP!')
         } else {
           r = raster::brick(sprintf("%s/%s", path, filename))
         }
