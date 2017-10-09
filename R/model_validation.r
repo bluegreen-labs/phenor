@@ -23,23 +23,15 @@
 #' }
 
 model_validation = function(model = "TT",
-                            dataset = phenocam_DB,
+                            data = get("phenocam_DB"),
                             control = list(max.call = 2000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor")),
                             plot = TRUE,
                             ... ){
 
-  # if the dataset does not exist
-  # in the workspace assume it to be loaded
-  # from package storage
-  if (is.character(dataset)){
-    data(list = dataset)
-    dataset = get(dataset)
-  }
-
   # convert to a flat format for speed
-  data = flat_format(dataset)
+  data = flat_format(data)
 
   # read in parameter ranges
   par_ranges = utils::read.table(par_ranges,

@@ -27,23 +27,15 @@ model_comparison = function(random_seeds = c(1,12,40),
                                        "M1","M1s","AT","SQ","SQb","SM1",
                                        "SM1b","PA","PAb","PM1",
                                        "PM1b","UN","UM1","SGSI","AGSI"),
-                            dataset = phenocam_DB,
+                            data = get("phenocam_DB"),
                             method = "GenSA",
                             control = list(max.call = 5000,
                                            temperature = 10000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor"))){
 
-  # if the dataset does not exist
-  # in the workspace assume it to be loaded
-  # from package storage
-  if (is.character(dataset)){
-    data(list = dataset)
-    dataset = get(dataset)
-  }
-
   # convert to a flat format for speed
-  data = flat_format(dataset)
+  data = flat_format(data)
 
   # load parameter ranges
   par_ranges = utils::read.table(par_ranges,
