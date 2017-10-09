@@ -1,4 +1,4 @@
-#' Photothermal Chilling Degree Day (CDD) adapted from
+#' Chilling Degree Day (CDD) adapted from
 #' Jeong & Medvigny 2014 (Global Ecology & Biogeography)
 #'
 #' @param data input data (see reference for detailed description),
@@ -26,10 +26,8 @@ CDD = function(par, data){
   F_crit = par[3]
 
   # create forcing/chilling rate vector
-  # forcing
-  Rf = data$Ti - T_base
-  Rf[Rf > 0] = 0 # flipped for chilling
-  Rf = (1 - (data$Li / 24)) * Rf
+  Rf = data$Tmini - T_base
+  Rf[Rf > 0] = 0
   Rf[1:t0,] = 0
 
   # DOY of budburst criterium
