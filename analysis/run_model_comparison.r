@@ -10,7 +10,7 @@ seeds = c(204,680,364,350,
 
 # GenSA control parameters
 con = list(max.call = 40000,
-           temperature = 20000)
+           temperature = 10000)
 
 # phenor datasets to evaluate
 datasets = c("phenocam_DB",
