@@ -17,8 +17,9 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Standard growing season index model
-as defined by Xin et al. 2015 (Rem. Sens. Env.)
+No clear accumulation start dat was set in the above mentioned
+manuscript, as such we assume a start date of 21th of Dec, or 1th of Jan.
+depending on the offset used in the generated validation data.
 }
 \examples{
 
