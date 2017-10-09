@@ -7,7 +7,8 @@
 # run_model_comparison.r code.
 library(phenor)
 
-# load data included with the package
+# load data included with the package, but not as an easy loaded dataset
+# as this is a result not true demo data
 comparison = readRDS(file.path(path.package("phenor"),"extdata/comparison.rds"))
 melaas = readRDS(file.path(path.package("phenor"),"extdata/melaas.rds"))
 
@@ -42,7 +43,6 @@ text(0.55,0.2,
      cex = 1.5,
      col = "blue",
      pos = 4)
-
 
 par(mar=c(0,5,1,1))
 plot_model_comparison(melaas, names = FALSE, ylim = c(0,20))
