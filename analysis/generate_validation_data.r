@@ -2,12 +2,19 @@
 # this for internal development use only.
 
 # save data in the phenor package location
-setwd("/data/Dropbox/Research_Projects/code_repository/bitbucket/PhenoR/data/")
+setwd("/data/Dropbox/Research_Projects/code_repository/bitbucket/phenor/data/")
 
 # generate DB dataset
 phenocam_DB = format_phenocam(path = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/data_record_6/DB",
                               threshold = 25)
 devtools::use_data(phenocam_DB, overwrite = TRUE)
+
+# generate DB autumn dataset
+phenocam_DB_autumn = format_phenocam(path = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/data_record_6/DB",
+                              threshold = 25,
+                              direction = "falling",
+                              offset = 365)
+devtools::use_data(phenocam_DB_autumn, overwrite = TRUE)
 
 # generate EN dataset
 phenocam_EN = format_phenocam(path = "/data/Dropbox/Research_Projects/working/phenocam_model_comparison/data/data_record_6/EN",
