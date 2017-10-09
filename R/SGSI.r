@@ -56,7 +56,7 @@ SGSI = function(par, data){
   VPD = (data$VPDi - VPDmin)/(VPDmax - VPDmin)
   photo = (data$Li - photo_min)/(photo_max - photo_min)
 
-  # set outliers to 1 or 0
+  # set outliers to 1 or 0 (step function)
   Tmin[which(data$Tmini <= Tmmin)] = 0
   Tmin[which(data$Tmini >= Tmmax)] = 1
 
