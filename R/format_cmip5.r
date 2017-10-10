@@ -1,25 +1,16 @@
-#' Preprocessing CMIP5 model runs as hosted by:
-#' http://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html
-#'
-#' The function will format the data into the correct phenor structure for
-#' post-processing.
-#'
-#' NOTE:
-#' Although one can access the 1/16th degree data, by default the 1x1 degree
-#' data should be preferred (due to preprocessing load). Furthermore, certain
-#' firewalls will block timely access to the data which will result in failure
-#' to proceed. In this case download the data first from the website and process
-#' it by directing the function to the correct download path.
+#' Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
+#' (NEX-GDDP).
 #'
 #' @param path a path to the gridded data (original max / min temp. files)
 #' @param year year to process (requires year - 1 to be present / downloaded)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param model which CMIP5 model to use
-#' @param resolution "1x1" or "16th", "16th" will result in a significant
-#' calculation overhead
 #' @param scenario "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 #' while historical data covers 1950 - 2005
-#' @param internal TRUE / FALSE, write data structure to file or not (as .rds)
+#' @param extent vector with coordinates defining the region of interest defined
+#' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))
+#' @param internal TRUE / FALSE, write data structure to file as RDS
+#' (default = FALSE)
 #' @return data structure formatted for phenor model optimization and validation
 #' @keywords phenology, model, preprocessing
 #' @export
@@ -36,13 +27,16 @@ format_cmip5 = function(path = "~",
                         year = 2016,
                         offset = 264,
                         model = "IPSL-CM5A-MR",
-                        resolution = "1x1",
                         scenario = "rcp85",
+                        extent = c(-128,-65, 24, 50),
                         internal = TRUE){
-  # set server
-  server = "ftp://gdo-dcp.ucllnl.org/pub/dcp/archive/cmip5/loca/LOCA_2016-04-02"
 
-  # measurements to average
+  # list all netCDF files in the path
+  files = list.files(path = path,
+                     pattern = "*\\.nc",
+                     full.names = FALSE)
+
+  # measurements to include in the processing routine
   measurements = c("tasmax","tasmin","pr")
 
   # loop over the two years needed
@@ -53,42 +47,20 @@ format_cmip5 = function(path = "~",
     data = lapply(measurements, function(x){
 
       # filename
-      filename = sprintf("%s_day_%s_%s_r1i1p1_%s0101-%s1231.LOCA_2016-04-02.%s.nc",
-                         x,
-                         model,
-                         scenario,
-                         i,
-                         i,
-                         resolution)
+      filename = files[which(grepl(i,files) &
+                       grepl(x,files) &
+                       grepl(scenario,files) &
+                       grepl(toupper(model),files)
+                       )]
 
       # if the file exist use the local file
-      if (file.exists(sprintf("%s/%s", path, filename))){
+      if (length(filename) != 0){
         r = raster::brick(sprintf("%s/%s", path, filename))
         return(r)
       } else {
-        # url
-        url = sprintf("%s/%s/%s/%s/r1i1p1/%s/%s",
-                      server,
-                      model,
-                      resolution,
-                      scenario,
-                      x,
-                      filename)
-
-        # download and return the data
-        error = try(curl::curl_download(url = url,
-                                        destfile = sprintf("%s/%s",
-                                                           path,
-                                                           filename),
-                                        quiet = TRUE))
-
-        if (inherits(error, "try-error")){
-          file.remove(sprintf("%s/%s", path, filename))
-          stop('Server not reachable, remember R does not support passive FTP!')
-        } else {
-          r = raster::brick(sprintf("%s/%s", path, filename))
-        }
-        return(r)
+        stop("Required files not available!
+  Data will not be downloaded automatically due to large file sizes.
+  Please download data using the download_cmip5() function.")
       }
     })
 
@@ -97,55 +69,67 @@ format_cmip5 = function(path = "~",
     temp_data_stack = raster::stack(data[[1]],
                               data[[2]])
 
+    # shift the data, longitudes run from 0 - 360
+    temp_data_stack = raster::shift(temp_data_stack, x = -360)
+    min_temp = raster::shift(data[[2]], x = -360)
+    max_temp = raster::shift(data[[1]], x = -360)
+    precip = raster::shift(data[[3]], x = -360)
+
+    # crop data for faster processing
+    temp_data_stack = raster::crop(temp_data_stack, raster::extent(extent))
+    min_temp = raster::crop(min_temp, raster::extent(extent))
+    max_temp = raster::crop(max_temp, raster::extent(extent))
+    precip = raster::crop(precip, raster::extent(extent))
+
+    # calculate mean temperature on cropped data for speed
     l = raster::nlayers(temp_data_stack)/2
     mean_temp = raster::stackApply(temp_data_stack,
                                    indices = rep(1:l,2),
                                    fun = mean,
                                    na.rm = TRUE)
 
-    # shift the data, longitudes run from 0 - 360
-    mean_temp = raster::shift(mean_temp, x = -360)
-    min_temp = raster::shift(data[[2]], x = -360)
-    max_temp = raster::shift(data[[1]], x = -360)
-    precip = raster::shift(data[[3]], x = -360)
-
-    # drop layer 366 on leap year
-    if (raster::nlayers(mean_temp) == 366){
-      mean_temp = raster::dropLayer(mean_temp, 366)
-      min_temp = raster::dropLayer(min_temp, 366)
-      max_temp = raster::dropLayer(max_temp, 366)
-      precip = raster::dropLayer(precip, 366)
-    }
-
     # combine data in one big stack
     if (year != i){
-      temp = mean_temp
-      Tmini = min_temp
-      Tmaxi = max_temp
-      Pi = precip
+        temp = mean_temp
+        Tmini = min_temp
+        Tmaxi = max_temp
+        Pi = precip
     } else {
+      # combine data with previous year's
       temp = raster::stack(temp, mean_temp)
       Tmini = raster::stack(Tmini, min_temp)
       Tmaxi = raster::stack(Tmaxi, max_temp)
       Pi = raster::stack(Pi, precip)
     }
 
-    # clear variable
+    # clear intermediate variables
     rm(list = c("mean_temp","min_temp","max_temp","precip"))
   }
 
   # extract the yday and year strings
-  yday = floor(as.numeric(unlist(lapply(strsplit(names(temp),"_"),"[[",2))))
-  years = unlist(lapply(strsplit(names(temp),"\\."),"[[",2))
+  dates = as.Date(names(Tmini),"X%Y.%m.%d")
+  yday = as.numeric(format(dates,"%j"))
+  years = as.numeric(format(dates,"%Y"))
+
+  # calculate if the previous year was a leap year
+  # to account for this offset
+  leap_year = ifelse((year-1%%4==0 & year-1%%100!=0) | year-1%%400==0,
+                     TRUE,
+                     FALSE)
 
   # select layers to subset using this year and yday data
-  layers = which((years == 1 & yday >= offset) |
-                   (years == 2 & yday < offset))
+  # account for leap years included in the NEX data
+  if(leap_year){
+    layers = which((years == (year - 1) & yday >= offset) |
+                   (years == year & yday < (offset - 1)))
+  } else {
+    layers = which((years == (year - 1) & yday >= offset) |
+                     (years == year & yday < offset))
+  }
 
   # check if all layers are available in the dataset
-  # needs a fix for crossing boundaries between decadal subsets !!
   if (length(layers) < 365){
-    stop("The selected dataset does not cover your data range!")
+   stop("The selected dataset does not cover your data range!")
   }
 
   # subset raster data
@@ -208,3 +192,5 @@ format_cmip5 = function(path = "~",
     saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s.rds",path, year))
   }
 }
+
+format_cmip5(path = "~", internal = FALSE)
