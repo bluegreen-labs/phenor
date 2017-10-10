@@ -176,9 +176,9 @@ format_cmip5 = function(path = "~",
   # create daylength matrix
   Li = lapply(location[1,],
               FUN = function(x){
-                unlist(daylength(doy = doy, latitude = x)[1])
+                  daylength(doy = doy, latitude = x)
                 })
-  Li = t(do.call("rbind",Li))
+  Li = t(do.call("rbind", Li))
 
   # recreate the validation data structure (new format)
   # but with concatted data

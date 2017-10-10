@@ -101,7 +101,7 @@ format_daymet_tiles = function(path = "~",
   # create daylength matrix
   Li = lapply(location[1,],
               FUN = function(x){
-                unlist(daylength(doy = doy, latitude = x)[1])
+                daylength(doy = doy, latitude = x)
               })
   Li = t(do.call("rbind",Li))
 
