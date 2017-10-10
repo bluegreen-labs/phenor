@@ -1,6 +1,4 @@
-#' Download CMIP5 model runs as hosted by:
-#' http://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html
-#' or the NASA Earth Exchange (NEX) project
+#' Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
 #' https://nex.nasa.gov/nex/
 #'
 #' @param path a path where to save the gridded data
@@ -80,4 +78,3 @@ download_cmip5 = function(path = "~",
   # feedback
   cat("Download complete! \n")
 }
-download_cmip5()
