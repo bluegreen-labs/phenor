@@ -4,7 +4,7 @@
 #' https://nex.nasa.gov/nex/
 #'
 #' @param path a path where to save the gridded data
-#' @param year year to process (requires year - 1 to be present)
+#' @param year year to process (also requests year - 1)
 #' @return nothing is returned to the R working environment, files are
 #' downloaded and stored on disk
 #' @keywords phenology, model, data
@@ -32,8 +32,8 @@ download_cmip5 = function(path = "~",
   selection = do.call("c",lapply(files, function(x){
     # grep the files for multiple selection
     # criteria
-    if(all(c(grepl(year,x),
-             grepl(paste(variable,collapse="|"),x),
+    if(all(c(grepl(paste(c(year,year - 1), collapse = "|"),x),
+             grepl(paste(variable,collapse = "|"),x),
              grepl(scenario,x),
              grepl(toupper(model),x)))){
         return(x)
