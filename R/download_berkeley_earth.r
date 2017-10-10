@@ -10,7 +10,7 @@
 #'
 #' # donwload all gridded data for year 2014
 #' \dontrun{
-#' be_data = download_berkeley_earth(year = 2011)
+#' download_berkeley_earth(year = 2011)
 #'}
 
 # create subset of layers to calculate phenology model output on
@@ -43,12 +43,13 @@ download_berkeley_earth = function(path = "~",
     file_location = sprintf("%s/%s",path,i)
     http_location = sprintf("%s/%s", server, i)
 
+    # try to download the data
     if(!file.exists(file_location)){
-      # try to download the data
-      error = try(curl::curl_download(http_location,
-                                      file_location,
-                                      mode="w",
-                                      quiet=TRUE),silent=TRUE)
+      error = try(httr::GET(url = http_location,
+                            httr::write_disk(path=file_location,
+                                             overwrite = TRUE),
+                            httr::progress()),
+                  silent = TRUE)
       if (inherits(error, "try-error")){
         file.remove(file_location)
         stop("failed to download the requested data, check your connection")
