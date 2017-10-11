@@ -48,7 +48,7 @@ land_cover_density = function(dest_raster = NULL,
   # by default this reads in a median land cover
   # class for the period 2001 - 2009 for CONUS
   if(is.null(src_raster)){
-    lc = raster::raster("./test/MCD12Q1_IGBP_median_2001_2009.tif")
+    lc = raster::raster(file.path(path.package("phenor"),"extdata/MCD12Q1_IGBP_median_2001_2009.tif"))
   } else {
     if(attr(src_raster, "package") == "raster"){
       lc = src_raster
@@ -102,28 +102,27 @@ land_cover_density = function(dest_raster = NULL,
     # normalize
     tmp_cover = tmp_cover/max_v
 
-    if (!internal){
-      # write everything to file
-      raster::writeRaster(tmp_cover,
-                          paste(path,'igbp_',i,'.tif',sep = ""),
-                          overwrite = TRUE,
-                          options = c("COMPRESS=DEFLATE"))
+    if (i != lc_classes[1]){
+      lc_cover = tmp_coverage
     } else {
-      if (i != lc_classes[1]){
-        cover = tmp_coverage
-      } else {
-        cover = raster::stack(lc_cover,
-                      tmp_cover)
-      }
+      lc_cover = raster::stack(lc_cover, tmp_cover)
     }
   }
 
   # assign names to the layers
   names(lc_cover) = lc_classes
 
-  # return the data as a raster stack
-  # beware when using the internal option
-  # this file might get really big depending
-  # on the level op upscaling
-  return(lc_cover)
+  if(internal){
+    # return the data as a raster stack
+    # beware when using the internal option
+    # this file might get really big depending
+    # on the level op upscaling
+    return(lc_cover)
+  } else {
+    # write everything to file
+    raster::writeRaster(lc_cover,
+                        sprintf('%s/igbp.tif',path),
+                        overwrite = TRUE,
+                        options = c("COMPRESS=DEFLATE"))
+  }
 }
