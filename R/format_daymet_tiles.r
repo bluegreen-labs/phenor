@@ -126,10 +126,10 @@ format_daymet_tiles = function(path = "~",
   class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
-  # either internally or saved as an rda (binary R data file)
+  # either internally or saved as an rds (binary R data file)
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_data_%s_%s.rds",path, year, tile))
+    saveRDS(data, file = sprintf("%s/phenor_daymet_data_%s_%s.rds",path, year, tile))
   }
 }

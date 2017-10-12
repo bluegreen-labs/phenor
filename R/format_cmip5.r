@@ -185,12 +185,10 @@ format_cmip5 = function(path = "~",
   class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
-  # either internally or saved as an rda (binary R data file)
+  # either internally or saved as an rds (binary R data file)
   if (internal){
     return(data)
   } else {
     saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s.rds",path, year))
   }
 }
-
-format_cmip5(path = "~", internal = FALSE)
