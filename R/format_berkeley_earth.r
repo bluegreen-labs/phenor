@@ -151,7 +151,7 @@ format_berkeley_earth = function(path = "~",
 
 
   # return the formatted, faster data format
-  # either internally or saved as an rda (binary R data file)
+  # either internally or saved as an rds (binary R data file)
   if (internal){
     return(data)
   } else {
