@@ -87,7 +87,7 @@ format_phenocam = function(path = "~",
       lon = lon,
       start = 1980,
       end = end,
-      internal = "data.frame",
+      internal = TRUE,
       quiet = TRUE
     )$data)
 
@@ -267,5 +267,17 @@ format_phenocam = function(path = "~",
   }
 
   # return the formatted data
-  return(validation_data)
+  # either internally or saved as an rds (binary R data file)
+  if (internal){
+    return(validation_data)
+  } else {
+    saveRDS(validation_data,
+            file = sprintf("%s/phenor_phenocam_data_%s_%s_%s_%s.rds",
+                            path,
+                            direction,
+                            gcc_value,
+                            threshold,
+                            offset))
+  }
+
 }
