@@ -7,7 +7,7 @@ by the optimization routines etc. the original nested list is flattened
 for speed.}
 \usage{
 format_phenocam(path = "~", direction = "rising", gcc_value = "gcc_90",
-  threshold = 50, offset = 264)
+  threshold = 50, offset = 264, internal = TRUE)
 }
 \arguments{
 \item{path}{a path to 1 or 3-day PhenoCam transition date estimates
@@ -25,6 +25,9 @@ were derived either (default = gcc_90)}
 the phenophases (10, 25, 50) (default = 50)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{internal}{return data as structured list to R workspace or write
+to RDS file (default = TRUE)}
 }
 \description{
 Preprocessing of all PhenoCam data into a format which can be ingested

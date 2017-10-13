@@ -5,9 +5,8 @@
 \title{Model validation routine to faciliate model development
 and quick validation of a (new) model.}
 \usage{
-model_validation(model = "TT", data = get("phenocam_DB"),
-  control = list(max.call = 2000),
-  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
+model_validation(model = "TT", data = phenocam_DB, control = list(max.call
+  = 2000), par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")), plot = TRUE, ...)
 }
 \arguments{
