@@ -215,9 +215,6 @@ format_phenocam = function(path = "~",
                 "VPDi" = as.matrix(vpd)
                 )
 
-    # assign a class for post-processing
-    class(data) = "phenor_time_series_data"
-
     # return the formatted data
     return(data)
   }
@@ -259,6 +256,9 @@ format_phenocam = function(path = "~",
 
   # rename list variables using the proper site names
   names(validation_data) = sites
+
+  # assign a class for post-processing
+  class(validation_data) = "phenor_time_series_data"
 
   # remove out of daymet range sites (prune sites)
   na_loc = which(is.na(validation_data))
