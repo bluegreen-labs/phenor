@@ -149,6 +149,8 @@ format_berkeley_earth = function(path = "~",
                                       "size" = size)
   )
 
+  # assign a class for post-processing
+  class(data) = "phenor_map_data"
 
   # return the formatted, faster data format
   # either internally or saved as an rds (binary R data file)
