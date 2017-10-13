@@ -22,7 +22,7 @@ Download Berkeley Earth Gridded mean daily temperature data
 
 # donwload all gridded data for year 2014
 \dontrun{
-be_data = download_berkeley_earth(year = 2011)
+download_berkeley_earth(year = 2011)
 }
 }
 \keyword{data}
