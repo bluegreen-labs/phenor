@@ -13,6 +13,8 @@
 #' @param threshold Threshold (% of seasonal amplitude) used in estimating
 #' the phenophases (10, 25, 50) (default = 50)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param internal return data as structured list to R workspace or write
+#' to RDS file (default = TRUE)
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -29,7 +31,8 @@ format_phenocam = function(path = "~",
                            direction = "rising",
                            gcc_value = "gcc_90",
                            threshold = 50,
-                           offset = 264){
+                           offset = 264,
+                           internal = TRUE){
 
   # helper function to process the data
   format_data = function(site,
