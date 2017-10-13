@@ -120,6 +120,9 @@ process_modis = function(path = "~",
   # rename list variables using the proper site names
   names(validation_data) = sites
 
+  # assign a class for post-processing
+  class(validation_data) = "phenor_time_series_data"
+
   # return the formatted data
   return(validation_data)
 }
