@@ -2,12 +2,12 @@
 % Please edit documentation in R/format_cmip5.r
 \name{format_cmip5}
 \alias{format_cmip5}
-\title{Preprocessing CMIP5 model runs as hosted by:
-http://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html}
+\title{Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
+(NEX-GDDP).}
 \usage{
 format_cmip5(path = "~", year = 2016, offset = 264,
-  model = "IPSL-CM5A-MR", resolution = "1x1", scenario = "rcp85",
-  internal = TRUE)
+  model = "IPSL-CM5A-MR", scenario = "rcp85", extent = c(-128, -65, 24,
+  50), internal = TRUE)
 }
 \arguments{
 \item{path}{a path to the gridded data (original max / min temp. files)}
@@ -18,28 +18,21 @@ format_cmip5(path = "~", year = 2016, offset = 264,
 
 \item{model}{which CMIP5 model to use}
 
-\item{resolution}{"1x1" or "16th", "16th" will result in a significant
-calculation overhead}
-
 \item{scenario}{"rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 while historical data covers 1950 - 2005}
 
-\item{internal}{TRUE / FALSE, write data structure to file or not (as .rds)}
+\item{extent}{vector with coordinates defining the region of interest defined
+as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))}
+
+\item{internal}{TRUE / FALSE, write data structure to file as RDS
+(default = FALSE)}
 }
 \value{
 data structure formatted for phenor model optimization and validation
 }
 \description{
-The function will format the data into the correct phenor structure for
-post-processing.
-}
-\details{
-NOTE:
-Although one can access the 1/16th degree data, by default the 1x1 degree
-data should be preferred (due to preprocessing load). Furthermore, certain
-firewalls will block timely access to the data which will result in failure
-to proceed. In this case download the data first from the website and process
-it by directing the function to the correct download path.
+Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
+(NEX-GDDP).
 }
 \examples{
 # run with default settings

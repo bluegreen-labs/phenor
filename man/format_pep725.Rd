@@ -3,9 +3,7 @@
 \name{format_pep725}
 \alias{format_pep725}
 \title{Preprocessing of PEP725 data into a format which can be ingested
-by the optimization routines, the original nested list is flattened
-for speed. The routine requires E-OBS data, which can be downloaded from
-the E-OBS website (http://www.ecad.eu/download/ensembles/ensembles.php).}
+by the optimization routines.}
 \usage{
 format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
   species = NULL, offset = 264, count = 60, resolution = 0.25)
@@ -32,9 +30,13 @@ the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
 }
 \description{
 Some pre-processing steps are required as downloading the PEP725 data is a
-mess (this database needs an API). So, for the species of interest
-download the separate zipped files. Unzip all files and put the respective
-scientific data in one folder.
+mess. So, for the species of interest download the separate zipped files.
+Unzip all files and put the respective scientific data in one folder.
+}
+\details{
+The routine requires E-OBS climate, which can be downloaded from
+the E-OBS website and should be put unzipped in a single folder.
+(http://www.ecad.eu/download/ensembles/ensembles.php).
 }
 \examples{
 
@@ -43,7 +45,8 @@ scientific data in one folder.
 # through phenocamr in your home directory
 # change the path to match your setup
 \dontrun{
-phenocam_data = format_pep725()
+phenocam_data = format_pep725(pep_path = "~/pep_data/",
+                              eobs_path = "~/eobs_data/")
 }
 }
 \keyword{model,}

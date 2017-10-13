@@ -17,9 +17,11 @@ including all normal parameters, and the species name and country code
 as derived from the file name
 }
 \description{
-Preprocessing of PEP725 data, merges separate files into tidy
-data, with each observation a line, each column a different
-parameter value.
+Mind that the PEP725 database is badly managed. For example the Irish
+station file includes site description with semi-colons in the description
+of a semi-colon delimited file format. This will crash the routine. I will
+not provide a bug fix for these known issues with the underlying
+PEP725 database due to mismanagement on their part.
 }
 \examples{
 

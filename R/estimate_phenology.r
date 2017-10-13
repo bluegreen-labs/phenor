@@ -43,6 +43,12 @@ estimate_phenology = function(par,
   # run the standard procedure
   if(!is.null(data)){
 
+    # when provided with a file name,
+    # load the rds file (name data)
+    if(is.character(data)){
+      data = readRDS(data)
+    }
+
     # convert to a flat format for speed
     data = flat_format(data = data)
 
@@ -53,10 +59,15 @@ estimate_phenology = function(par,
 
   } else {
 
-    # list all rds files
+    # list all daymet rds files
     files = list.files(path = path,
-                       pattern = "^phenor_.*\\.rds$",
+                       pattern = "^phenor_daymet_.*\\.rds$",
                        full.names = TRUE)
+
+    # trap error when no files are found
+    if(length(files)==0){
+      stop("no Daymet files found for processing...")
+    }
 
     # cycle over all files and run the model
     for (i in 1:length(files)){

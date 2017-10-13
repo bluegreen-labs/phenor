@@ -7,7 +7,7 @@ and quick comparisons of the skill of various models.}
 \usage{
 model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs",
   "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b", "PA", "PAb",
-  "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"), dataset = phenocam_DB,
+  "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"), data = get("phenocam_DB"),
   method = "GenSA", control = list(max.call = 5000, temperature = 10000),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
@@ -17,8 +17,6 @@ model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs",
 
 \item{models}{list of models to compare}
 
-\item{dataset}{which standard or custom dataset to use}
-
 \item{method}{which optimization method to use, GenSA or rgenoud
 (default = GenSA)}
 
@@ -26,6 +24,8 @@ model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs",
 (default = list(max.call = 5000, temperature = 10000))}
 
 \item{par_ranges}{location of the parameter ranges of the models}
+
+\item{dataset}{which standard or custom dataset to use}
 }
 \description{
 Model comparison routine to faciliate model development
