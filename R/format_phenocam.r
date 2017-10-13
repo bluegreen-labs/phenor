@@ -229,7 +229,7 @@ format_phenocam = function(path = "~",
   daymet_test = try(daymetr::download_daymet(
     start = end,
     end = end,
-    internal = "data.frame",
+    internal = TRUE,
     quiet = TRUE
   ))
 
