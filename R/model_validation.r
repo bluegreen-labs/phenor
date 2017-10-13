@@ -23,7 +23,7 @@
 #' }
 
 model_validation = function(model = "TT",
-                            data = get("phenocam_DB"),
+                            data = phenocam_DB,
                             control = list(max.call = 2000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                                  path.package("phenor")),
