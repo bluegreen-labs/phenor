@@ -29,29 +29,34 @@ GR = function(par, data){
   P_crit = par[4]
   L_crit = par[5]
 
-  # find day on which in the past 7 days more than
-  # P_crit rain fell
+  # Light requirement must be met
+  # and daylength increasing (as per original specs)
   P_star = ifelse(data$Li >= L_crit, 1, 0)
+  P_star[diff(data$Li) < 0] = 0
 
   # rainfall accumulation
-
-  # THIS FUNCTION IS TOO SLOW, ONLY CALCULATE UNTIL
-  # THRESHOLD IS REACHED.
   data$Pi = data$Pi * P_star
-  R_star = matrix(0,nrow(data$Pi),ncol(data$Pi))
+  rows = nrow(data$Pi)
+  cols = ncol(data$Pi)
 
   # This avoids inefficient moving window
   # approaches which are computationally
   # expensive (break the routine when the
   # criterium is met instead of a full run
   # for a year)
-  for (i in 1:ncol(R_star)){
-    for (j in 1:nrow(R_star)){
-      if (j == nrow(R_star) - 7){
+
+  # assign output matrix
+  R_star = matrix(0,rows,cols)
+
+  # fill in values where required
+  # until P_crit is met
+  for (i in 1:cols){
+    for (j in 1:rows){
+      if (j == rows - 7){
         break
       }
       if(sum(data$Pi[j:(j+7),i]) >= P_crit){
-        R_star[j:nrow(R_star),i] = 1
+        R_star[j:rows,i] = 1
         break
       }
     }
