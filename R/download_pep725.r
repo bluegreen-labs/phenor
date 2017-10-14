@@ -1,4 +1,12 @@
-#' Download PEP725 data
+#' Automatically download PEP725 data
+#'
+#' Uses the httr and rvest packages to scrape the PEP725 website for
+#' phenology data. Login credentials are required so this does not
+#' constitute a breach of the license agreement / data policy. Please
+#' register here for access to the data:
+#' http://www.pep725.eu/data_download/registration.php
+#' and carefully read the data use policy:
+#' http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf
 #'
 #' @param email email used in creating your pep725 download login
 #' @param password password as created for the pep725 download login
