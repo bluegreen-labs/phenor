@@ -148,7 +148,8 @@ format_pep725 = function(pep_path = "~",
                 "Tmaxi" = Tmaxi,
                 "Li" = Li,
                 "Pi" = Pi,
-                "VPDi" = NULL
+                "VPDi" = NULL,
+                "georeferencing" = NULL
     )
 
     # return the list
