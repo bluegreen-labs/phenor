@@ -89,12 +89,22 @@ process_modis = function(path = "~",
     modis_doy = as.numeric(format(seq(as.Date("2001/1/1"),Sys.Date(), "days"),"%j"))
     phenophase = modis_doy[modis_data]
 
-    # format the data
-    data = list("location" = c(lat, lon),
-                "doy" = doy,
-                "Tm" = ltm,
-                "transition_dates" = phenophase,
-                "Ti" = temperature)
+  # recreate the validation data structure (new format)
+  # but with concatted data
+  data = list("site" = site,
+              "location" = c(lat, lon),
+              "doy" = doy_neg,
+              "ltm" = ltm,
+              "transition_dates" = phenophase,
+              "year" = pep_subset$year,
+              "Ti" = Ti, # temperature
+              "Tmini" = Tmini,
+              "Tmaxi" = Tmaxi,
+              "Li" = Li,
+              "Pi" = Pi,
+              "VPDi" = VPDi,
+              "georeferencing" = NULL
+  )
 
     # assign a class for post-processing
     class(data) = "phenor_time_series_data"
