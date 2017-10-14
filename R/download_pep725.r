@@ -55,13 +55,9 @@ download_pep725 = function(email = NULL,
   # login to set cookie (will not expire until end of session)
   httr::POST("http://www.pep725.eu/login.php", body = login, encode = "form")
 
-  all_pep_data = lapply(species_numbers, function(number){
-
-    # create temporary folder for species processing
-    if(internal){
-      path = tempdir()
-      print(path)
-    }
+  # download data for all species number(s), will merge
+  # data if internal = TRUE otherwise return NULL
+  all_pep_data = do.call("rbind",lapply(species_numbers, function(number){
 
     # select the species of interest and pull the table listing
     # all download files
@@ -81,25 +77,36 @@ download_pep725 = function(email = NULL,
     # select the relevant data, and unzip to specified path
     # use merge_pep725() to merge the downloaded data
     # into a tidy data format
-    lapply(species_links, function(link){
+    do.call("rbind",lapply(species_links, function(link){
 
       # create a temporary file
       tmp = tempfile()
 
       # download all files for a specific species
-      httr::GET(link, httr::write_disk(path = tmp, overwrite = TRUE))
+      httr::GET(link, httr::write_disk(path = tmp,
+                                       overwrite = TRUE))
 
+      # only return data if internal processing is TRUE
+      # (file.rename might not be consistent in behaviour
+      # hence file.copy() / file.remove() )
+      if (internal){
+        pep_data = merge_pep725(path = tmp)
+        file.remove(tmp)
+        return(pep_data)
+      } else {
+        file.copy(tmp, sprintf("%s/PEP725_%s.tar.gz",
+                               path,
+                               strsplit(link,"=")[[1]][2]),
+                  overwrite = TRUE)
+        file.remove(tmp)
+      }
+    }))
+  }))
 
-    })
-  })
-
-  # return all pep data if internal
-  # processing is requested
-  if(internal){
+  # return results if internal flag is set
+  # this suppresses file.remove() feedback
+  # which
+  if (internal){
     return(all_pep_data)
   }
 }
-
-test = download_pep725(credentials = "~/pep725login.txt",
-                species = c(115,148),
-                internal = TRUE)
