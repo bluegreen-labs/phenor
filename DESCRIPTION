@@ -13,6 +13,7 @@ Imports:
     GenSA (>= 1.1.6),
     rgenoud (>= 5.7),
     httr (>= 1.3.1),
+    rvest (>= 0.3.2),
     jsonlite (>= 1.5),
     raster (>= 2.5),
     ncdf4 (>= 1.16),
