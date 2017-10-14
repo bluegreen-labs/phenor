@@ -2,7 +2,7 @@
 % Please edit documentation in R/download_pep725.r
 \name{download_pep725}
 \alias{download_pep725}
-\title{Download PEP725 data}
+\title{Automatically download PEP725 data}
 \usage{
 download_pep725(email = NULL, password = NULL, credentials = NULL,
   species = 115, path = "~", internal = TRUE)
@@ -32,7 +32,13 @@ of tidy data. internal overrides the path command.}
 will return csv files of PEP725 data for the selected species
 }
 \description{
-Download PEP725 data
+Uses the httr and rvest packages to scrape the PEP725 website for
+phenology data. Login credentials are required so this does not
+constitute a breach of the license agreement / data policy. Please
+register here for access to the data:
+http://www.pep725.eu/data_download/registration.php
+and carefully read the data use policy:
+http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf
 }
 \keyword{model,}
 \keyword{phenology,}
