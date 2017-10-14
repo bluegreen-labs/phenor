@@ -40,6 +40,12 @@ http://www.pep725.eu/data_download/registration.php
 and carefully read the data use policy:
 http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf
 }
+\examples{
+\dontrun{
+download_pep725(credentials = "~/pep725_login.txt",
+                species = 115)
+}
+}
 \keyword{model,}
 \keyword{phenology,}
 \keyword{preprocessing}
