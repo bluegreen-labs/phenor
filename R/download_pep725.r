@@ -36,7 +36,7 @@ download_pep725 = function(email = NULL,
                            credentials = NULL,
                            species = 115,
                            path = "~",
-                           internal = TRUE){
+                           internal = FALSE){
 
   # check the validity of the species, return list of
   # numbers to query or stop()
@@ -75,7 +75,7 @@ download_pep725 = function(email = NULL,
                               encode = "form")
 
     # extract the links to download
-    species_links = rvest::read_html(species_html) %>%
+    species_links = xml2::read_html(species_html) %>%
       rvest::html_nodes("td a") %>%
       rvest::html_attr("href")
 
