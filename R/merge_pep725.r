@@ -2,7 +2,8 @@
 #' data, with each observation a line, each column a different
 #' parameter value.
 #'
-#' @param path a path to the PEP725 data (as tar.gz files, not unzipped)
+#' @param path a path to the PEP725 data (either a directory containing tar.gz
+#' files or a single tar.gz file)
 #' @return concatted data of all data in the path as a tidy data frame
 #' including all normal parameters, and the species name and country code
 #' as derived from the file name
@@ -16,11 +17,17 @@
 
 merge_pep725 = function(path = "~"){
 
-  # create tmp directory
+  # get tmp directory
   tmpdir = tempdir()
 
-  # list all files
-  archive_files = list.files(path, "*.tar.gz", full.names = TRUE)
+  # if a path to a directory is given, list all tar.gz files
+  # if not, assume the linked file is a tar.gz PEP725 file
+  # (no formal checks for this are in place)
+  if (dir.exists(path)){
+    archive_files = list.files(path, "*.tar.gz", full.names = TRUE)
+  } else {
+    archive_files = path
+  }
 
   # return data from a do call, binding the different
   # data sets by row
