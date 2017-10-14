@@ -26,9 +26,8 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
-#'
 #' \dontrun{
-#' download_pep725(credentials = "~/pep725_login.txt,
+#' download_pep725(credentials = "~/pep725_login.txt",
 #'                 species = 115)
 #'}
 
@@ -76,9 +75,9 @@ download_pep725 = function(email = NULL,
                               encode = "form")
 
     # extract the links to download
-    species_links = read_html(species_html) %>%
-      html_nodes("td a") %>%
-      html_attr("href")
+    species_links = rvest::read_html(species_html) %>%
+      rvest::html_nodes("td a") %>%
+      rvest::html_attr("href")
 
     # loop over all files for all countries
     # of a particular species, download the (zipped) files
