@@ -9,7 +9,8 @@ parameter value.}
 merge_pep725(path = "~")
 }
 \arguments{
-\item{path}{a path to the PEP725 data (species files only)}
+\item{path}{a path to the PEP725 data (either a directory containing tar.gz
+files or a single tar.gz file)}
 }
 \value{
 concatted data of all data in the path as a tidy data frame
@@ -17,11 +18,9 @@ including all normal parameters, and the species name and country code
 as derived from the file name
 }
 \description{
-Mind that the PEP725 database is badly managed. For example the Irish
-station file includes site description with semi-colons in the description
-of a semi-colon delimited file format. This will crash the routine. I will
-not provide a bug fix for these known issues with the underlying
-PEP725 database due to mismanagement on their part.
+Preprocessing of PEP725 data, merges separate files into tidy
+data, with each observation a line, each column a different
+parameter value.
 }
 \examples{
 
