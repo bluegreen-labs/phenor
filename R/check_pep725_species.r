@@ -1,4 +1,19 @@
-check_pep725_species = function(species = 115,
+#' Checks if PEP725 species name or number exists or can be generated
+#'
+#' @param species A species to download, either specified by its
+#' species number or species name.
+#' @param list List all species numbers and names as verbose output
+#' @return a validated list of species numbers, if not a warning is thrown
+#' and any depended routines halted.
+#' @keywords phenology, model, preprocessing
+#' @export
+#' @examples
+#'
+#' \dontrun{
+#' check_pep725_species(species = 115)
+#'}
+
+check_pep725_species = function(species = NULL,
                                 list = FALSE){
 
   # grab species info from the data selection page
@@ -25,12 +40,6 @@ check_pep725_species = function(species = 115,
     print(species_info, row.names = FALSE)
   }
 
-  # return a complete list of numbers if requested
-  # (unlisted feature)
-  if ("complete" == tolower(species)){
-    return(species_info$number)
-  }
-
   # if the input is a character vector grep for results
   # this will work on partial matches as well
   if(is.character(species)){
@@ -50,5 +59,4 @@ check_pep725_species = function(species = 115,
   } else {
     stop("Species (number) not listed in PEP725 database!")
   }
-
 }
