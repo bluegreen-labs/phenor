@@ -1,10 +1,18 @@
 # phenor
 
-The phenor R package is part of a phenology modelling framework in R leveraging measurements of vegetation phenology from the PhenoCam network and existing retrospective and projected climate data (e.g. Daymet, CMIP5, Berkeley Earth and others) in support of model comparisons and model development.
+The phenor R package is a phenology modelling framework in R.
 
-The package is curently focussed on contiguous US and relies heavily on Daymet climate data queried using [daymetr](https://github.com/khufkens/daymetr) for model optimization. Phenological model validation data is primarily derived from PhenoCam time series (i.e. through [phenocamr](https://github.com/khufkens/phenocamr)). But functions are included to ingest different phenology data sources such as the MODIS MCD12Q2 phenology product using the MODISTools R package. We refer to Hufkens et al. (2017, see below) for an in depth description and a worked example of the phenor R package.
+The package is curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for model optimization.
 
-For full transparency the code used to generate the referenced publication is provided in the analysis folder of the package. This folder is not compiled into the R package using the installation instructions below. To run these scripts please clone the github repository. Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the R package. Some scripts to generate model comparison figures and summary statistics therefore rely on these precompiled datasets rather than clean runs.
+The package supports global CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the [NASA Earth Exchange global downscaled daily projections](https://nex.nasa.gov/nex/projects/1356/).
+
+Phenological model validation data are derived from:
+
+- PhenoCam time series through the [phenocamr](https://github.com/khufkens/phenocamr) R package
+- the MODIS MCD12Q2 phenology product using the [MODISTools R package](http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full)
+- the [Pan European Phenology Project (PEP725)](http://www.pep725.eu/) 
+
+We refer to Hufkens et al. (2017, see below) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in the analysis folder of this repository. Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the R package. Some scripts to generate model comparison figures and summary statistics on precompiled datasets rather than clean runs. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function.
 
 ## Installation
 
@@ -20,6 +28,8 @@ Additional PhenoCam data (Richarson et al. 2017) can be downloaded as:
 ```
 git clone https://github.com/khufkens/phenocam_dataset.git
 ```
+
+or from the ORNL DAAC archive as described in the paper.
 
 ## Use
 
@@ -37,7 +47,7 @@ download_phenocam(vegetation = "DB",
 phenocam_data = format_phenocam("/foo/bar/transition_dates/")
 ```
 
-Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017). The file is loaded using a standard **data()** call or reference them directly (e.g. *phenocam_DB*).
+Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017) precompiled with Daymet climate variables. The file is loaded using a standard **data()** call or reference them directly (e.g. *phenocam_DB*).
 
 ```R
 # load the included data using
@@ -46,7 +56,7 @@ data("phenocam_DB")
 
 ### Model development, and parameter estimation
 
-The gathered data can now be used in model validation. Currently 17 models as described by Basler (2016) are provided in the pacakge. These models include: null, LIN, TT, TTs, PTT, PTTs, M1, M1s, PA, Pab, SM1, SM1b, SQ, SQb, UN, UM1, PM1 and PM1b models as described in Basler (2016). Parameter values associated with the models are provided in a separate file included in the package.
+The gathered data can now be used in model validation. Currently 17 models as described by Basler (2016) are provided in the pacakge. These models include: null, LIN, TT, TTs, PTT, PTTs, M1, M1s, PA, Pab, SM1, SM1b, SQ, SQb, UN, UM1, PM1 and PM1b models as described in Basler (2016). In addition three spring grassland phenology models: GR, SGSI and AGSI are included as described in Garcia-Mozo et al. 2009 and Xin et al. 2015. Finally, one autumn chilling degree day model (CDD, Jeong et al. 2012) is provided. Parameter values associated with the models are provided in a separate file included in the package.
 
 ```R
 # comma separated parameter file inlcuded in the package
@@ -58,7 +68,7 @@ par_ranges = read.table(path,
                         sep = ",")
 ```
 
-Your own model development can be done by creating similar functions which take in the data as described by the functions above. Below is the function to optimize the model parameters for the *TT* (thermal time) model using Generalized Simulated Annealing (GenSA). Uppper and lower constraints to the parameter space have to be provided, and in case of GenSA initial parameters are estimated when par = NULL.
+Your own model development can be done by creating similar functions which take in the described data format and parameters. Below is the function to optimize the model parameters for the *TT* (thermal time) model using Generalized Simulated Annealing (GenSA). Uppper and lower constraints to the parameter space have to be provided, and in case of GenSA initial parameters are estimated when par = NULL.
 
 ```R
 # optimize model parameters
@@ -80,7 +90,7 @@ modelled = estimate_phenology(data = data,
                               par = optim.par$par)
 ```
 
-Easy model validation can be achieved using the **model_validation()** and **model_comparison()** functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters).
+Easy model validation can be achieved using the **model_validation()** and **model_comparison()** functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters). I hope this gets you started.
 
 ## References
 
