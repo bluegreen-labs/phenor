@@ -23,13 +23,13 @@ check_pep725_species = function(species = NULL,
   data_selection = httr::GET("http://www.pep725.eu/data_download/data_selection.php")
 
   # extract the species numbers and names from the page
-  number = rvest::read_html(data_selection) %>%
+  number = xml2::read_html(data_selection) %>%
     rvest::html_nodes("form select") %>%
     rvest::html_children() %>%
     rvest::html_attr("value") %>%
     as.numeric()
 
-  name = rvest::read_html(data_selection) %>%
+  name = xml2::read_html(data_selection) %>%
     rvest::html_nodes("form select") %>%
     rvest::html_children() %>%
     rvest::html_text() %>%
