@@ -5,7 +5,7 @@
 \title{Preprocessing of Berkeley Earth Gridded temperature data}
 \usage{
 format_berkeley_earth(path = "~", year = 2011, offset = 264,
-  bounding_box = c(-126, -66, 23, 54), internal = TRUE)
+  extent = c(-126, -66, 23, 54), internal = TRUE)
 }
 \arguments{
 \item{path}{a path to the gridded data, only average temperature
@@ -15,7 +15,7 @@ data will be considered}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 
-\item{bounding_box}{geographic coordinates constraining the output, defined
+\item{extent}{geographic coordinates constraining the output, defined
 as bottom left, top right c(lon1, lat1, lon2, lat2) (default =
 c(-126, -66, 23, 54))}
 
