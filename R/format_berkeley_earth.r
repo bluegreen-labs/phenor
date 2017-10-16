@@ -4,7 +4,7 @@
 #' data will be considered
 #' @param year year to process (requires year - 1 to be present)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
-#' @param bounding_box geographic coordinates constraining the output, defined
+#' @param extent geographic coordinates constraining the output, defined
 #' as bottom left, top right c(lon1, lat1, lon2, lat2) (default =
 #' c(-126, -66, 23, 54))
 #' @param internal return results as an R variable or save as an RDS file
@@ -23,7 +23,7 @@
 format_berkeley_earth = function(path = "~",
                                  year = 2011,
                                  offset = 264,
-                                 bounding_box = c(-126, -66, 23, 54),
+                                 extent = c(-126, -66, 23, 54),
                                  internal = TRUE){
 
   # download all data if it doesn't exist
@@ -79,10 +79,10 @@ format_berkeley_earth = function(path = "~",
   delta = raster::subset(delta, layers)
 
   # crop data if necessary, no checks yet
-  if (!is.null(bounding_box)){
-    if(length(bounding_box)==4){
-      climatology = raster::crop(climatology, raster::extent(bounding_box))
-      delta = raster::crop(delta, raster::extent(bounding_box))
+  if (!is.null(extent)){
+    if(length(extent)==4){
+      climatology = raster::crop(climatology, raster::extent(extent))
+      delta = raster::crop(delta, raster::extent(extent))
     } else {
       stop("not enough coordinate points to properly crop data!")
     }
