@@ -5,7 +5,7 @@
 \title{Automatically download PEP725 data}
 \usage{
 download_pep725(email = NULL, password = NULL, credentials = NULL,
-  species = 115, path = "~", internal = TRUE)
+  species = 115, path = "~", internal = FALSE)
 }
 \arguments{
 \item{email}{email used in creating your pep725 download login}
