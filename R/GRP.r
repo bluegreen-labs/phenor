@@ -1,4 +1,4 @@
-#' Thermal Time grassland model which includes a pulse response
+#' Thermal Time grassland pollen model which includes a pulse response
 #' precipitatoin trigger as defined in
 #' Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 #'
@@ -11,10 +11,10 @@
 #' @examples
 #'
 #' \dontrun{
-#' estimate = GR(data = data, par = par)
+#' estimate = GRP(data = data, par = par)
 #'}
 
-GR = function(par, data){
+GRP = function(par, data){
 
   # exit the routine as some parameters are missing
   if (length(par) != 5){
