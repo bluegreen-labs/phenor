@@ -25,10 +25,10 @@
 #' download_npn(species = 3, internal = FALSE)
 #'}
 
-download_npn = function(species = "3",
-                        phenophase = NULL,
-                        start = "2010-01-01",
-                        end = "2012-01-01",
+download_npn = function(species = 3,
+                        phenophase = 371,
+                        start = "2000-01-01",
+                        end = "2017-01-01",
                         extent = NULL,
                         request = "rest_test",
                         internal = TRUE,
@@ -53,11 +53,12 @@ download_npn = function(species = "3",
                    query = query,
                    httr::progress())
 
-  # convert data to data.frame
+  # convert data to a clean data frame
   data = as.data.frame(jsonlite::fromJSON(httr::content(data, as = "text")))
 
-  # check if the data is valid, if so return the data frame
-  # or write to disk for later processing
+  # check if the data is valid (contains data)
+  # if so return the data frame or write to disk for later processing
+  # if not return an error
   if(length(data) == 0){
     stop("Query returned no data, check your input parameters!")
   } else {
