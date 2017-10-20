@@ -2,7 +2,8 @@
 #' by the optimization routines etc.
 #'
 #' @param path a path to MODISTools MCD12Q2 phenology dates
-#' @param direction Increase, Maximum, Decrease or Minimum (default = Increase)
+#' @param phenophase Phenological phase, Increase, Maximum,
+#' Decrease or Minimum (default = Increase)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
 #' @export
@@ -12,17 +13,13 @@
 #' modis_data = format_modis()
 #'}
 
-process_modis = function(path = "~",
-                         direction = "Increase",
+format_modis = function(path = "~",
+                         phenophase = "Increase",
+                         cycle = 1,
                          offset = 264){
 
   # helper function to process the data
   format_data = function(site, transition_files, path){
-
-    # for all sites merge the transition dates if there are multiple files
-    # after merging, download the corresponding daymet data and create
-    # the parts of the final structured list containing data for further
-    # processing
 
     # get individual sites form the filenames
     sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
@@ -40,9 +37,15 @@ process_modis = function(path = "~",
     lat = as.numeric(gsub("Lat","",lat_lon[1]))
     lon = as.numeric(lapply(strsplit(lat_lon[2],"Samp"),"[[",1))
 
-    # throw out all data but gcc_90
-    modis_data = modis_data[grep(direction, as.character(modis_data[,6])),
-                            11:ncol(modis_data)]
+    # get a selection matching phenophase and cycle criteria
+    selection = apply(sapply(
+      c(sprintf("Num_Modes_%02d",cycle),phenophase),
+      grepl,
+      modis_data[,6],
+      ignore.case=TRUE), 1, all)
+
+    # grab the values, set NA flag and take the median
+    modis_data = modis_data[selection, 11:ncol(modis_data)]
     modis_data[modis_data == 32767] = NA
     modis_data = round(apply(modis_data, 1, stats::median, na.rm = TRUE))
 
@@ -53,15 +56,22 @@ process_modis = function(path = "~",
     end = max(years)
 
     # download daymet data for a given site
-    daymet_data = daymetr::download_daymet(
+    daymet_data = try(daymetr::download_daymet(
       site = site,
       lat = lat,
       lon = lon,
       start = 1980,
-      end = end_yr,
-      internal = "data.frame",
+      end = end,
+      internal = TRUE,
       quiet = TRUE
-    )$data
+    )$data)
+
+    # trap sites outside daymet coverage
+    if (inherits(daymet_data,"try-error")){
+      cat(sprintf('Site: %s is located outside Daymet coverage
+                  will be pruned!\n', site))
+      return(NULL)
+    }
 
     # calculate the mean daily temperature
     daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
@@ -70,41 +80,106 @@ process_modis = function(path = "~",
     # day will be sept 21th (doy 264) and the matching DOY vector
     ltm = as.vector(by(daymet_data$tmean, INDICES = list(daymet_data$yday), mean))
     ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
-    doy = c(offset:365,1:(offset - 1))
 
-    # create output matrix (holding temperature)
-    temperature = matrix(NA,
-                         nrow = 365,
-                         ncol = length(years))
+    # shift data when offset is < 365
+    if (offset < 365){
+      ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy_neg = c((offset - 366):-1,1:(offset - 1))
+      doy = c(offset:365,1:(offset - 1))
+    } else {
+      doy = doy_neg = 1:365
+    }
+
+    # create output matrix (holding mean temp.)
+    tmean = matrix(NA,
+                   nrow = 365,
+                   ncol = length(years))
+
+    # create output matrix (holding min temp.)
+    tmin = matrix(NA,
+                  nrow = 365,
+                  ncol = length(years))
+
+    # create output matrix (holding max temp.)
+    tmax = matrix(NA,
+                  nrow = 365,
+                  ncol = length(years))
+
+    # create output matrix (holding vpd)
+    vpd = matrix(NA,
+                 nrow = 365,
+                 ncol = length(years))
+
+    # create output matrix (holding precip)
+    precip = matrix(NA,
+                    nrow = 365,
+                    ncol = length(years))
 
     # create a matrix containing the mean temperature between
     # sept 21th in the previous year until sept 21th in
     # the current year (make this a function parameter)
+    # for the default offset, if offset is 365 or larger
+    # use the current year only
     for (j in 1:length(years)) {
-      temperature[,j] = subset(daymet_data, (year == (years[j] - 1) & yday >= offset)|
-                          ( year == years[j] & yday < offset ) )$tmean
+      if (offset < 365) {
+        tmean[, j] = subset(daymet_data,
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmean
+
+        tmin[, j] = subset(daymet_data,
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmin..deg.c.
+
+        tmax[, j] = subset(daymet_data,
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmax..deg.c.
+
+        precip[, j] = subset(daymet_data,
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$prcp..mm.day.
+        vpd[, j] = subset(daymet_data,
+                          (year == (years[j] - 1) & yday >= offset) |
+                            (year == years[j] &
+                               yday < offset))$vp..Pa.
+      } else {
+        tmean[, j] = subset(daymet_data, year == years[j])$tmean
+        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
+      }
     }
 
     # finally select all the transition dates for model validation
     modis_doy = as.numeric(format(seq(as.Date("2001/1/1"),Sys.Date(), "days"),"%j"))
     phenophase = modis_doy[modis_data]
 
-  # recreate the validation data structure (new format)
-  # but with concatted data
-  data = list("site" = site,
-              "location" = c(lat, lon),
-              "doy" = doy_neg,
-              "ltm" = ltm,
-              "transition_dates" = phenophase,
-              "year" = pep_subset$year,
-              "Ti" = Ti, # temperature
-              "Tmini" = Tmini,
-              "Tmaxi" = Tmaxi,
-              "Li" = Li,
-              "Pi" = Pi,
-              "VPDi" = VPDi,
-              "georeferencing" = NULL
-  )
+
+    # calculate daylength
+    l = ncol(tmean)
+    Li = daylength(doy = doy, latitude = lat)
+    Li = matrix(rep(Li,l),length(Li),l)
+
+    # recreate the validation data structure (new format)
+    # but with concatted data
+    data = list("site" = site,
+                "location" = c(lat,lon),
+                "doy" = doy_neg,
+                "ltm" = ltm,
+                "transition_dates" = phenophase,
+                "year" = years,
+                "Ti" = as.matrix(tmean),
+                "Tmini" = as.matrix(tmin),
+                "Tmaxi" = as.matrix(tmax),
+                "Li" = Li,
+                "Pi" = as.matrix(precip),
+                "VPDi" = as.matrix(vpd),
+                "georeferencing" = NULL
+    )
 
     # assign a class for post-processing
     class(data) = "phenor_time_series_data"
@@ -119,9 +194,16 @@ process_modis = function(path = "~",
   # get individual sites form the filenames
   sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
-  # construct validation data using the helper function
-  # format_data() above
+  # track progress
+  cat(sprintf('Processing %s sites\n', length(sites)))
+  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  env = environment()
+  i = 0
+
+  # get data
   validation_data = lapply(sites, function(x) {
+    setTxtProgressBar(pb, i + 1)
+    assign("i", i+1, envir = env)
     format_data(site = x,
                 transition_files = transition_files,
                 path = path)
