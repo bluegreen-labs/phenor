@@ -30,14 +30,18 @@ flat_format = function(data = NULL){
   Li = do.call("cbind",lapply(data,function(x)x$Li))
 
   # concat sitenames into a vector using a do.call()
-  site = as.character(do.call("c",lapply(data,function(x){
-    rep(x$site,ncol(x$Ti))
+  site = as.character(do.call("c",lapply(data, function(x){
+    if(!is.null(x)){
+      rep(x$site, ncol(x$Ti))
+    }
   })))
 
   # concat locations data into a matrix with the first row
   # being the latitude and the second longitude
   location = do.call("cbind",lapply(data,function(x){
-    matrix(rep(x$location,ncol(x$Ti)),2,ncol(x$Ti))
+    if(!is.null(x)){
+      matrix(rep(x$location, ncol(x$Ti)), 2, ncol(x$Ti))
+    }
   }))
 
   # concat all temperature data in one big matrix
@@ -73,7 +77,8 @@ flat_format = function(data = NULL){
               "Tmaxi" = Tmaxi,
               "Li" = Li,
               "Pi" = Pi,
-              "VPDi" = VPDi
+              "VPDi" = VPDi,
+              "georeferencing" = NULL
               )
 
   # assign a class for post-processing
