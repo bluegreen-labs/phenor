@@ -4,18 +4,12 @@
 \alias{download_pep725}
 \title{Automatically download PEP725 data}
 \usage{
-download_pep725(email = NULL, password = NULL, credentials = NULL,
-  species = 115, path = "~", internal = FALSE)
+download_pep725(credentials = NULL, species = 115, path = "~",
+  internal = FALSE)
 }
 \arguments{
-\item{email}{email used in creating your pep725 download login}
-
-\item{password}{password as created for the pep725 download login}
-
-\item{credentials}{file with your email and password credentials, this is
-the preferred method of storing your credentials over the explicit email and
-password parameters as these might be forgotten in scripts and publicly
-uploaded / shared. The credentials file is a file which lists your email and
+\item{credentials}{Text file with your PEP725 email and password credentials.
+The credentials file is a file which lists your email and
 password on two separate lines (in this order).}
 
 \item{species}{A species to download, either specified by its

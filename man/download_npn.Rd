@@ -4,8 +4,8 @@
 \alias{download_npn}
 \title{Automatically download USA-NPN data using the API interface}
 \usage{
-download_npn(species = "3", phenophase = NULL, start = "2010-01-01",
-  end = "2012-01-01", extent = NULL, request = "rest_test",
+download_npn(species = 3, phenophase = 371, start = "2000-01-01",
+  end = "2017-01-01", extent = NULL, request = "rest_test",
   internal = TRUE, path = "~")
 }
 \arguments{
