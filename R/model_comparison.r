@@ -3,7 +3,7 @@
 #'
 #' @param random_seeds a vector with random seeds for cross validation
 #' @param models list of models to compare
-#' @param dataset which standard or custom dataset to use
+#' @param data which standard or custom dataset to use
 #' @param method which optimization method to use, GenSA or rgenoud
 #' (default = GenSA)
 #' @param control additional optimization control parameters
@@ -27,7 +27,7 @@ model_comparison = function(random_seeds = c(1,12,40),
                                        "M1","M1s","AT","SQ","SQb","SM1",
                                        "SM1b","PA","PAb","PM1",
                                        "PM1b","UN","UM1","SGSI","AGSI"),
-                            data = get("phenocam_DB"),
+                            data = phenocam_DB,
                             method = "GenSA",
                             control = list(max.call = 5000,
                                            temperature = 10000),
