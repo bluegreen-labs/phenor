@@ -227,15 +227,22 @@ format_pep725 = function(pep_path = "~",
   yday = as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%j"))
   years = as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%Y"))
 
-  # construct validation data using the helper function
-  # format_data() above
+  # track progress
+  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  env = environment()
+  i = 0
+  cat(sprintf('Processing %s sites\n', sites))
+
+  # process data
   validation_data = lapply(sites, function(x) {
-    cat(sprintf(" |_ processing: %s of %s sites\r",
-                which(sites == x),
-                length(sites)))
+    setTxtProgressBar(pb, i + 1)
+    assign("i", i+1, envir = env)
     format_data(site = x,
                 offset = offset)
   })
+
+  # close progress bar
+  close(pb)
 
   # add proper list names (this should be the same name as the
   # site name added by the format_data() helper function)

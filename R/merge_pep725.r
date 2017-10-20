@@ -17,6 +17,9 @@
 
 merge_pep725 = function(path = "~"){
 
+  # set encoding to circumvent messy encoding in database
+  Sys.setlocale("LC_ALL", "C")
+
   # get tmp directory
   tmpdir = tempdir()
 
@@ -24,7 +27,7 @@ merge_pep725 = function(path = "~"){
   # if not, assume the linked file is a tar.gz PEP725 file
   # (no formal checks for this are in place)
   if (dir.exists(path)){
-    archive_files = list.files(path, "*.tar.gz", full.names = TRUE)
+    archive_files = list.files(path, "^PEP725.*\\.tar\\.gz$", full.names = TRUE)
   } else {
     archive_files = path
   }
@@ -59,14 +62,25 @@ merge_pep725 = function(path = "~"){
 
     station_locations = utils::read.csv2(sprintf("%s/%s",tmpdir,station_file),
                                          sep = ";",
-                                         stringsAsFactors = FALSE)
-    station_locations$LON = as.numeric(station_locations$LON)
-    station_locations$LAT = as.numeric(station_locations$LAT)
+                                         stringsAsFactors = FALSE,
+                                         skip = 1,
+                                         header = FALSE)
 
     # discard any columns > 6 (errors in NAME field)
     if(ncol(station_locations) > 6){
       station_locations = station_locations[,-c(7:ncol(station_locations))]
     }
+
+    # manually assign column names to avoid errors with malformed data
+    colnames(station_locations) = c("PEP_ID",
+                                    "National_ID",
+                                    "LON",
+                                    "LAT",
+                                    "ALT",
+                                    "NAME")
+    # convert to numeric
+    station_locations$LON = as.numeric(station_locations$LON)
+    station_locations$LAT = as.numeric(station_locations$LAT)
 
     # do a left merge to combine the observational data and the
     # station location meta-data returning basically the original

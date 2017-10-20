@@ -50,7 +50,7 @@ format_phenocam = function(path = "~",
     # processing
     transition_files_full = paste(path, transition_files,sep = "/")
 
-    # get individual sites form the filenames
+    # get individual sites from the filenames
     sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
     files = transition_files_full[which(sites == site)]
 
@@ -58,10 +58,9 @@ format_phenocam = function(path = "~",
     data = do.call("rbind", lapply(files, function(fn)
       data.frame(utils::read.table(fn, header = TRUE, sep = ",") )))
 
+    # if not transition dates exist, return NULL
     if(!any(grepl(threshold,names(data)))){
-      cat(sprintf('No transition dates for threshold %s
-                  at site %s !\n',threshold, site))
-      return(NA)
+      return(NULL)
     }
 
     # throw out all data but the selected gcc value
@@ -96,9 +95,7 @@ format_phenocam = function(path = "~",
 
     # trap sites outside daymet coverage
     if (inherits(daymet_data,"try-error")){
-      cat(sprintf('Site: %s is located outside Daymet coverage
-                      will be pruned!\n', site))
-      return(NA)
+      return(NULL)
     }
 
     # calculate the mean daily temperature
@@ -203,8 +200,8 @@ format_phenocam = function(path = "~",
     Li = daylength(doy = doy, latitude = lat)
     Li = matrix(rep(Li,l),length(Li),l)
 
-    # format the data
-    data = list("site" = site,
+    # format and return the data
+    return(list("site" = site,
                 "location" = c(lat,lon),
                 "doy" = doy_neg,
                 "ltm" = ltm,
@@ -215,11 +212,9 @@ format_phenocam = function(path = "~",
                 "Tmaxi" = as.matrix(tmax),
                 "Li" = Li,
                 "Pi" = as.matrix(precip),
-                "VPDi" = as.matrix(vpd)
-                )
-
-    # return the formatted data
-    return(data)
+                "VPDi" = as.matrix(vpd),
+                "georeferencing" = NULL
+                ))
   }
 
   # query site list with metadata from the phenocam servers
@@ -247,15 +242,25 @@ format_phenocam = function(path = "~",
   # get individual sites form the filenames
   sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
-  # construct validation data using the helper function
-  # format_data() above
+  # track progress
+  cat(sprintf('Processing %s sites\n', sites))
+  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  env = environment()
+  i = 0
+
+  # process data
   validation_data = lapply(sites, function(x) {
+    setTxtProgressBar(pb, i + 1)
+    assign("i", i+1, envir = env)
     format_data(site = x,
                 transition_files = transition_files,
                 path = path,
                 end = end,
                 metadata = metadata)
   })
+
+  # close progress bar
+  close(pb)
 
   # rename list variables using the proper site names
   names(validation_data) = sites
