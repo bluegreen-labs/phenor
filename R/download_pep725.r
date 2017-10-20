@@ -8,12 +8,8 @@
 #' and carefully read the data use policy:
 #' http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf
 #'
-#' @param email email used in creating your pep725 download login
-#' @param password password as created for the pep725 download login
-#' @param credentials file with your email and password credentials, this is
-#' the preferred method of storing your credentials over the explicit email and
-#' password parameters as these might be forgotten in scripts and publicly
-#' uploaded / shared. The credentials file is a file which lists your email and
+#' @param credentials Text file with your PEP725 email and password credentials.
+#' The credentials file is a file which lists your email and
 #' password on two separate lines (in this order).
 #' @param species A species to download, either specified by its
 #' species number or species name. list species numbers and names with
@@ -31,9 +27,7 @@
 #'                 species = 115)
 #'}
 
-download_pep725 = function(email = NULL,
-                           password = NULL,
-                           credentials = NULL,
+download_pep725 = function(credentials = NULL,
                            species = 115,
                            path = "~",
                            internal = FALSE){
@@ -43,10 +37,11 @@ download_pep725 = function(email = NULL,
   species_numbers = check_pep725_species(species = species)
 
   # check if email / password or credential file is available
-  if(any(is.null(email) | is.null(password)) & is.null(credentials)){
-    stop("Matching login credentials (email / password) or a credentials file are required")
+  if(any(!file.exists(credentials) & is.null(credentials))){
+    stop("Credentials file not given or does not exist, check path !")
   } else {
-    credentials = as.vector(unlist(read.table(credentials, stringsAsFactors = FALSE)))
+    credentials = as.vector(unlist(read.table(credentials,
+                                              stringsAsFactors = FALSE)))
     email = credentials[1]
     password = credentials[2]
   }
