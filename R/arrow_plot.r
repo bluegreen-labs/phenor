@@ -34,14 +34,25 @@ arrow_plot = function(data = NULL,
   if (is.null(data)){
     stop("please specify the models to compare")
   }
-
+  if (is.null(models)){ 
   # grab the site names
-  sites = names(data$modelled)
-
+  sites = names(data$modelled)[c(1,2)] # if more than two models are present in the dataset and no argument provided, compare the first two models
+    model_col = c(1,2)
+  } else {
+      if (length(models)!=2){
+        stop("you can only plot the comparison of two models at a time")
+        }
+      model_col= c(match(models[1],names(data$modelled)),  match(models[2],names(data$modelled)))
+      if ( NA %in% model_col){
+        stop("the specified models are not in the provided dataset")
+      }
+    sites = models
+  }
+  
   # summarize the predicted values (take the mean across runs)
   predicted_values = t(do.call("rbind", lapply(data$modelled, function(x) {
     apply(x$predicted_values, 2, mean)
-  })))
+  })))[,model_col]
 
   # calculate locations which do not change
   loc = which(apply(predicted_values,1,diff) == 0)
