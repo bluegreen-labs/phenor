@@ -10,8 +10,9 @@ Phenological model validation data are derived from:
 - PhenoCam time series through the [phenocamr](https://github.com/khufkens/phenocamr) R package
 - the MODIS MCD12Q2 phenology product using the [MODISTools R package](http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full)
 - the [Pan European Phenology Project (PEP725)](http://www.pep725.eu/) 
+- the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/) 
 
-We refer to Hufkens et al. (2017, see below) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in the analysis folder of this repository. Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the R package. Some scripts to generate model comparison figures and summary statistics on precompiled datasets rather than clean runs. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function.
+We refer to Hufkens et al. (2017) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a separate repository. Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the R package. While some scripts to generate model comparison figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly.
 
 ## Installation
 
