@@ -1,0 +1,22 @@
+citHeader("To cite phenor in publications use:")
+
+citEntry(entry = "Article",
+         title        = "An integrated phenology modelling framework in R: modelling vegetation phenology with {phenor}",
+         author       = personList(as.person("Koen Hufkens"),
+                                   as.person("David Basler"),
+                                   as.person("Tom Milliman"),
+                                   as.person("Eli K. Melaas"),
+                                   as.person("Andrew D. Richardson")),
+         journal      = "Methods in Ecology & Evolution",
+         year         = "2017",
+         volume       = "x",
+         number       = "x",
+         pages        = "x--y",
+         url          = ".. ",
+
+         textVersion  =
+           paste("Hufkens et al. (2017).",
+                 "An integrated phenology modelling framework in R:",
+                 "modelling vegetation phenology with phenor",
+                 "Methods in Ecology & Evolution, x(x), x-x.")
+)
