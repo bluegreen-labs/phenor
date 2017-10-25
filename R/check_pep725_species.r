@@ -13,6 +13,7 @@
 #' check_pep725_species(species = 115)
 #'}
 
+#' @importFrom magrittr %>%
 check_pep725_species = function(species = NULL,
                                 list = FALSE){
 
@@ -41,8 +42,13 @@ check_pep725_species = function(species = NULL,
 
   # provide verbose output listing all
   # species names and numbers
-  if(toupper(list)){
-    print(species_info, row.names = FALSE)
+  if(list){
+    if (is.null(species)){
+      return(species_info)
+    } else {
+      print(species_info,
+            row.names = FALSE)
+    }
   }
 
   # if the input is a character vector grep for results
