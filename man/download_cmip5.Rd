@@ -12,6 +12,13 @@ download_cmip5(path = "~", year = 2016, model = "miroc5",
 \item{path}{a path where to save the gridded data}
 
 \item{year}{year to process (also requests year - 1)}
+
+\item{model}{CMIP5 model data to download (character vector)}
+
+\item{scenario}{which RCP scenario to select for (default = "rcp85")}
+
+\item{variable}{which climate variables to download (tasmin, tasmax, pr)
+(default = c("tasmin","tasmax","pr"))}
 }
 \value{
 nothing is returned to the R working environment, files are

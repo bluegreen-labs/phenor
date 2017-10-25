@@ -14,6 +14,8 @@ format_modis(path = "~", phenophase = "Increase", cycle = 1,
 \item{phenophase}{Phenological phase, Increase, Maximum,
 Decrease or Minimum (default = Increase)}
 
+\item{cycle}{retrieve data from which cycle, 1th or 2th (default = 1)}
+
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 }
 \description{

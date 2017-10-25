@@ -3,6 +3,10 @@
 #'
 #' @param path a path where to save the gridded data
 #' @param year year to process (also requests year - 1)
+#' @param model CMIP5 model data to download (character vector)
+#' @param scenario which RCP scenario to select for (default = "rcp85")
+#' @param variable which climate variables to download (tasmin, tasmax, pr)
+#' (default = c("tasmin","tasmax","pr"))
 #' @return nothing is returned to the R working environment, files are
 #' downloaded and stored on disk
 #' @keywords phenology, model, data
@@ -31,8 +35,8 @@ download_cmip5 = function(path = "~",
     # grep the files for multiple selection
     # criteria
     if(all(c(grepl(paste(c(year,year - 1), collapse = "|"),x),
-             grepl(paste(variable,collapse = "|"),x),
-             grepl(scenario,x),
+             grepl(paste(variable, collapse = "|"),x),
+             grepl(scenario, x),
              grepl(toupper(model),x)))){
         return(x)
       }else{
@@ -53,7 +57,7 @@ download_cmip5 = function(path = "~",
     file_location = sprintf("%s/%s",path,basename(i))
 
     # feedback on which file is being downloaded
-    cat(sprintf("Downloading: %s \n",basename(i)))
+    cat(paste0("Downloading: ",basename(i)))
 
     # try to download the data if the file does not
     # exist
