@@ -1,5 +1,7 @@
 #' Model comparison  plotting routine to faciliate model development
-#' and quick comparisons of the skill of various models.
+#' and quick comparisons of the skill of various models. Add your model
+#' to the list in your branch or fork to make this work with novel model
+#' formulations.
 #'
 #' @param data list returned by model_comparison()
 #' @param ylab cost function value to annotate y-axis (default = "RMSE (days)")
