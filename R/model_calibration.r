@@ -16,13 +16,13 @@
 #' @examples
 #'
 #' \dontrun{
-#' model_validation(model,par_ranges = "parameter_ranges.csv")
+#' model_calibration(model,par_ranges = "parameter_ranges.csv")
 #'
 #' # estimate will return the best estimated parameter set given the
 #' # validation data
 #' }
 
-model_validation = function(model = "TT",
+model_calibration = function(model = "TT",
                             data = phenocam_DB,
                             control = list(max.call = 2000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
