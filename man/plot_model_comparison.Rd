@@ -3,7 +3,9 @@
 \name{plot_model_comparison}
 \alias{plot_model_comparison}
 \title{Model comparison  plotting routine to faciliate model development
-and quick comparisons of the skill of various models.}
+and quick comparisons of the skill of various models. Add your model
+to the list in your branch or fork to make this work with novel model
+formulations.}
 \usage{
 plot_model_comparison(data = NULL, ylab = "RMSE (days)", names = TRUE,
   ...)
@@ -19,7 +21,9 @@ plot_model_comparison(data = NULL, ylab = "RMSE (days)", names = TRUE,
 }
 \description{
 Model comparison  plotting routine to faciliate model development
-and quick comparisons of the skill of various models.
+and quick comparisons of the skill of various models. Add your model
+to the list in your branch or fork to make this work with novel model
+formulations.
 }
 \examples{
 

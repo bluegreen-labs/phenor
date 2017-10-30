@@ -24,7 +24,7 @@ download_pep725()
 download_cmip5()
 download_berkeley_earth()
 
-model_validation()
+model_calibration()
 model_comparison()
 optimize_parameters()
 estimate_phenology()

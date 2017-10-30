@@ -30,7 +30,7 @@ Download a limited subset of the data described in Richardson et al. (2017) from
 git clone https://github.com/khufkens/phenocam_dataset.git
 ```
 
-or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1511).
+or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=15111).
 
 ## Use
 
@@ -113,7 +113,7 @@ An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provid
 
 Hufkens K., Basler J. D., Milliman T. Melaas E., Richardson A.D. 2017 An integrated phenology modelling framework in R: Phenology modelling with phenor. Methods in Ecology & Evolution (in review).
 
-Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M., Johnston, M.R., Keenan, T.F., Klosterman, S.T., Kosmala, M., Melaas, E.K., Friedl, M.A., Frolking, S. 2017. Tracking vegetation phenology across diverse North American biomes using PhenoCam imagery. Scientific Data (accepted).
+Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M., Johnston, M.R., Keenan, T.F., Klosterman, S.T., Kosmala, M., Melaas, E.K., Friedl, M.A., Frolking, S. 2017. Tracking vegetation phenology across diverse North American biomes using PhenoCam imagery. Scientific Data (in review).
 
 ## Acknowledgements
 
