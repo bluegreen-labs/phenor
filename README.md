@@ -95,7 +95,7 @@ Easy model validation can be achieved using the **model_validation()** and **mod
 
 ### Model projections and spatial data
 
-The package allows you to download gridded CMIP5 forecast data from the NASA Earth Exchange global daily downscaled climate projections project. Hindcast data are provided for E-OBS, gridded Daymet data and global Berkeley Earth data (at 1/4th degree, 1km and 1 degree resolutions respectively).
+The package allows you to download gridded CMIP5 forecast data from the NASA Earth Exchange global daily downscaled climate projections project. Hindcast data are provided for global NASA Earth Exchange, Berkeley Earth, E-OBS and gridded Daymet  data (at 1/4<sup>th</sup> degree, 1 degree, 1/4<sup>th</sup> degree, 1km resolutions respectively).
 
 ```R
 # running data on spatial data (determined by the class assigned by
