@@ -12,7 +12,7 @@ Phenological model calibration / validation data are derived from:
 
 We refer to Hufkens et al. (2017) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
 
-Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). While some scripts to generate model comparison figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data (although the data is not behind a login wall).
+Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). As such, some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data (although the data is not behind a login wall).
 
 ## Installation
 
@@ -57,7 +57,7 @@ data("phenocam_DB")
 
 ### Model development, and parameter estimation
 
-The gathered data can now be used in model calibration / validation. Currently 17 models as described by Basler (2016) are provided in the pacakge. These models include: null, LIN, TT, TTs, PTT, PTTs, M1, M1s, PA, Pab, SM1, SM1b, SQ, SQb, UN, UM1, PM1 and PM1b models as described in Basler (2016). In addition three spring grassland (pollen) phenology models: GR, SGSI and AGSI are included as described in Garcia-Mozo et al. 2009 and Xin et al. 2015. Finally, one autumn chilling degree day model (CDD, Jeong et al. 2012) is provided. Parameter values associated with the models are provided in a separate file included in the package.
+The gathered data can now be used in model calibration / validation. Currently 17 models as described by Basler (2016) are provided in the pacakge. These models include: null, LIN, TT, TTs, PTT, PTTs, M1, M1s, PA, Pab, SM1, SM1b, SQ, SQb, UN, UM1, PM1 and PM1b models as described in Basler (2016). In addition three spring grassland (pollen) phenology models: GR, SGSI and AGSI are included as described in Garcia-Mozo et al. 2009 and Xin et al. 2015. Finally, one autumn chilling degree day model (CDD, Jeong et al. 2012) is provided. Parameter values associated with the models are provided in a separate file included in the package but can be specified separately for model development.
 
 ```R
 # comma separated parameter file inlcuded in the package
