@@ -211,12 +211,9 @@ format_pep725 = function(pep_path = "~",
   # read E-OBS data
   eobs_data = lapply(c("tg","rr","elev","tn","tx"),function(x){
     # filename
-    filename = sprintf("%s_%sdeg_reg_v16.0.nc",
-                       x,
-                       resolution)
-
+    filename=list.files(eobs_path,sprintf("%s_%sdeg_reg[^/]*\\.nc",x,resolution))
     # if the file exist use the local file
-    if (file.exists(sprintf("%s/%s", eobs_path, filename))){
+    if (length(filename)>0){
       r = raster::brick(sprintf("%s/%s", eobs_path, filename))
       return(r)
     } else {
