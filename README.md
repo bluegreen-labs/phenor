@@ -19,7 +19,7 @@ Keep in mind that some of the scripts will take a significant amount of time to 
 To install the toolbox in R run the following commands in a R terminal
 
 ```R
-if(!require(devtools)){install.package(devtools)}
+if(!require(devtools)){install.packages(devtools)}
 devtools::install_github("khufkens/phenor")
 library(phenor)
 ```
