@@ -55,14 +55,16 @@ merge_pep725 = function(path = "~"){
     # unzip only the selected files into the output path
     # use path.expand to deal with the fact that untar
     # does not work with relative paths
-    error= try(untar(file,
+    error = try(untar(file,
                files = pep_files,
                exdir = path.expand(tmpdir)))
 
     # Catch errors on Windows systems
     # skip those files for now
     if(inherits(error,"try-error")){
-      warning("Special characters are not allowed in the data")
+      warning("Internal untar failed: special characters are not allowed.
+               Install GNU tar to avoid this issue.
+              (https://www.gnu.org/software/tar/)")
       return(NULL)
     }
 
