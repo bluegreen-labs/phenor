@@ -44,13 +44,13 @@ merge_pep725 = function(path = "~"){
 
     # check the contents of the tar.gz file
     # and only select true data files (discard README and descriptor)
-    pep_files = untar(file, list=TRUE)
+    pep_files = untar(file, list = TRUE)
     pep_files = pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt", pep_files)]
 
     # extract only the true data files and station info files
     # drop the BBCH and README data (but don't delete it - delist)
-    data_file = pep_files[!grepl("stations",pep_files)]
-    station_file = pep_files[grepl("stations",pep_files)]
+    data_file = pep_files[!grepl("stations", pep_files)]
+    station_file = pep_files[grepl("stations", pep_files)]
 
     # unzip only the selected files into the output path
     # use path.expand to deal with the fact that untar
@@ -72,8 +72,6 @@ merge_pep725 = function(path = "~"){
     observation_data = utils::read.csv2(sprintf("%s/%s",tmpdir,data_file),
                                         sep = ";",
                                         stringsAsFactors = FALSE)
-    observation_data$country = substr(data_file,8,9)
-    observation_data$species = sub("_"," ",substr(data_file,11,nchar(data_file)-4))
 
     station_locations = utils::read.csv2(sprintf("%s/%s",tmpdir,station_file),
                                          sep = ";",
@@ -93,9 +91,15 @@ merge_pep725 = function(path = "~"){
                                     "LAT",
                                     "ALT",
                                     "NAME")
-    # convert to numeric
+
+    # convert to numeric and add fields
     station_locations$LON = as.numeric(station_locations$LON)
     station_locations$LAT = as.numeric(station_locations$LAT)
+
+    observation_data$country = substr(data_file,8,9)
+    observation_data$species = sub("_",
+                                   " ",
+                                   substr(data_file,11,nchar(data_file) - 4))
 
     # do a left merge to combine the observational data and the
     # station location meta-data returning basically the original
