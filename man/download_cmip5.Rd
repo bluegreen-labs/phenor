@@ -25,8 +25,10 @@ nothing is returned to the R working environment, files are
 downloaded and stored on disk
 }
 \description{
-Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
-https://nex.nasa.gov/nex/
+CMIP 5 models included are:
+ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
+BNU-ESM, GFDL-ESM2G, MIROC5, CanESM2, GFDL-ESM2M, MPI-ESM-LR, CCSM4, INMCM4,
+MPI-ESM-MR, CESM1-BGC, IPSL-CM5A-LR, MRI-CGCM3, CNRM-CM5, IPSL-CM5A-MR, NorESM1-M
 }
 \examples{
 
