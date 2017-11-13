@@ -76,12 +76,16 @@ download_cmip5 = function(path = "~",
     # feedback on which file is being downloaded
     cat(paste0("Downloading: ", basename(i), "\n"))
 
+    # sleep for a bit to give the server a break
+    # and not get kicked
+    Sys.sleep(1)
+
     # try to download the data if the file does not
     # exist
     if(!file.exists(file_location)){
       error = try(
         httr::with_config(httr::config(CURLOPT_MAXCONNECTS = 2),
-        httr::GET(url = i,
+          httr::GET(url = i,
                         httr::authenticate(user = 'NEXGDDP',
                                            password = '',
                                            type = "basic"),
@@ -89,10 +93,6 @@ download_cmip5 = function(path = "~",
                                          overwrite = TRUE),
                         httr::progress())),
                   silent = TRUE)
-
-      # sleep for a bit to give the server a break
-      # and not get kicked
-      Sys.sleep(1)
 
       # check if things downloaded fine
       if (inherits(error, "try-error")){
