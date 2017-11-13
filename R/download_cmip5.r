@@ -43,7 +43,8 @@ download_cmip5 = function(path = "~",
                           variable = c("tasmin","tasmax","pr")){
 
   # set global config
-  httr::set_config(httr::config(CURLOPT_MAXCONNECTS = 1), override = TRUE)
+  httr::set_config(httr::config(CURLOPT_MAXCONNECTS = 1),
+                   override = TRUE)
 
   # get file listing of available data
   files = read.table("https://nex.nasa.gov/static/media/dataset/nex-gddp-nccs-ftp-files.csv",
@@ -95,6 +96,9 @@ download_cmip5 = function(path = "~",
                                          overwrite = FALSE),
                         httr::progress()),
                   silent = TRUE)
+
+      # garbage collection
+      gc()
 
       # check if things downloaded fine
       if (inherits(error, "try-error")){
