@@ -37,7 +37,7 @@ land_cover_density = function(src_raster = NULL,
   if(is.null(src_raster)){
     stop("No source raster provided.")
   } else {
-    if(isTRUE(attr(src_raster, "package") == "raster")){
+    if(attr(class(src_raster), "package") == "raster"){
       lc = src_raster
     } else {
       lc = raster::raster(src_raster)
@@ -48,7 +48,7 @@ land_cover_density = function(src_raster = NULL,
   if(is.null(dest_raster)){
     stop("No destination raster provided.")
   } else {
-    if(isTRUE(attr(src_raster, "package") == "raster")){
+    if(attr(class(src_raster), "package") == "raster"){
       dest_raster = src_raster
     } else {
       dest_raster = raster::raster(dest_raster)
