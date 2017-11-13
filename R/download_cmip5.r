@@ -3,7 +3,7 @@
 #'
 #' CMIP 5 models included are:
 #' ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
-#' BNU-ESM, GFDL-ESM2G, MIROC5, CanESM2, GFDL-ESM2M, MPI-ESM-LR, CCSM4, INMCM4,
+#' BNU-ESM, GFDL-ESM2G, MIROC5, CanESM2, GFDL-ESM2M, MPI-ESM-LR, CCSM4, INM-CM4,
 #' MPI-ESM-MR, CESM1-BGC, IPSL-CM5A-LR, MRI-CGCM3, CNRM-CM5, IPSL-CM5A-MR, NorESM1-M
 #'
 #' @param path a path where to save the gridded data
@@ -62,16 +62,17 @@ download_cmip5 = function(path = "~",
     file_location = sprintf("%s/%s",path,basename(i))
 
     # feedback on which file is being downloaded
-    cat(paste0("Downloading: ",basename(i)))
+    cat(paste0("Downloading: ", basename(i), "\n"))
 
     # try to download the data if the file does not
     # exist
     if(!file.exists(file_location)){
       error = try(httr::GET(url = i,
-                        httr::authenticate(user='NEXGDDP',
-                                           password='',
+                        httr::authenticate(user = 'NEXGDDP',
+                                           password = '',
                                            type = "basic"),
-                        httr::write_disk(path=file_location, overwrite = TRUE),
+                        httr::write_disk(path = file_location,
+                                         overwrite = TRUE),
                         httr::progress()),
                   silent = TRUE)
 
