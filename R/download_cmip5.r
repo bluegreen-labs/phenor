@@ -42,12 +42,6 @@ download_cmip5 = function(path = "~",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
 
-  # set maximum concurrent connections to 3
-  # to avoid clogging up the server which leads
-  # to dropped downloads
-  cat("Setting CURL download settings:\n")
-  httr::config(CURLOPT_MAXCONNECTS = 3)
-
   # get file listing of available data
   files = read.table("https://nex.nasa.gov/static/media/dataset/nex-gddp-nccs-ftp-files.csv",
                      header = TRUE,
@@ -85,13 +79,15 @@ download_cmip5 = function(path = "~",
     # try to download the data if the file does not
     # exist
     if(!file.exists(file_location)){
-      error = try(httr::GET(url = i,
+      error = try(
+        httr::with_config(httr::config(CURLOPT_MAXCONNECTS = 2),
+        httr::GET(url = i,
                         httr::authenticate(user = 'NEXGDDP',
                                            password = '',
                                            type = "basic"),
                         httr::write_disk(path = file_location,
                                          overwrite = TRUE),
-                        httr::progress()),
+                        httr::progress())),
                   silent = TRUE)
 
       # sleep for a bit to give the server a break
