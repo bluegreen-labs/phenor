@@ -27,11 +27,33 @@
 #' lc_dens = land_cover_density(lc_classes = c(1, 4))
 #' }
 
-land_cover_density = function(dest_raster = NULL,
-                              src_raster = NULL,
+land_cover_density = function(src_raster = NULL,
+                              dest_raster = NULL,
                               lc_classes = c(1,4,5,10),
                               path = "~",
                               internal = FALSE){
+
+  # MCD12Q1 land cover class file
+  if(is.null(src_raster)){
+    stop("No source raster provided.")
+  } else {
+    if(isTRUE(attr(src_raster, "package") == "raster")){
+      lc = src_raster
+    } else {
+      lc = raster::raster(src_raster)
+    }
+  }
+
+  # destination raster
+  if(is.null(dest_raster)){
+    stop("No destination raster provided.")
+  } else {
+    if(isTRUE(attr(src_raster, "package") == "raster")){
+      dest_raster = src_raster
+    } else {
+      dest_raster = raster::raster(dest_raster)
+    }
+  }
 
   # set projection (lat long)
   lat_lon = sp::CRS("+init=epsg:4326")
@@ -44,27 +66,13 @@ land_cover_density = function(dest_raster = NULL,
   zones = dest_raster
   zones[] = 1:prod(rows,cols)
 
-  # load from pacakge if no src data is provided
-  # by default this reads in a median land cover
-  # class for the period 2001 - 2009 for CONUS
-  if(is.null(src_raster)){
-    lc = raster::raster(file.path(path.package("phenor"),"extdata/MCD12Q1_IGBP_median_2001_2009.tif"))
-  } else {
-    if(attr(src_raster, "package") == "raster"){
-      lc = src_raster
-    } else {
-      lc = raster::raster(src_raster)
-    }
-  }
-
   # now loop over all land cover classes you want
   # to extract from the original map for the grid
   # cells you set by the dest_raster
-
   for (i in lc_classes){
 
     # get cell numbers for all pixels of class i
-    cell_v = raster::Which(lc == i, cells=TRUE)
+    cell_v = raster::Which(lc == i, cells = TRUE)
 
     # extract coordinates for all pixels of class i
     xy = raster::xyFromCell(lc, cell = cell_v)
@@ -84,7 +92,7 @@ land_cover_density = function(dest_raster = NULL,
     count_v = by(data = subs_matrix[,2],
                  INDICES = subs_matrix[,1],
                  FUN = function(x,...){length(x)},
-                 na.rm=TRUE)
+                 na.rm = TRUE)
 
     # get the maximum count
     max_v = max(count_v)
@@ -97,10 +105,10 @@ land_cover_density = function(dest_raster = NULL,
                          as.vector(count_v))
 
     # substitute values
-    tmp_cover = raster::subs(zones, smatrix, which=2)
+    tmp_cover = raster::subs(zones, smatrix, which = 2)
 
     # normalize
-    tmp_cover = tmp_cover/max_v
+    tmp_cover = tmp_cover / max_v
 
     if (i != lc_classes[1]){
       lc_cover = tmp_coverage
