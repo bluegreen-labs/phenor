@@ -1,5 +1,7 @@
 #' Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
-#' https://nex.nasa.gov/nex/
+#' https://nex.nasa.gov/nex/ for model projections. When downloading data for
+#' a particular year the antecedent year will be downloaded as well as the
+#' format_cmip5() routine often requires a matching dataset.
 #'
 #' CMIP 5 models included are:
 #' ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
@@ -18,9 +20,19 @@
 #' @export
 #' @examples
 #'
-#' # donwload all gridded data for year 2014
+#' # donwload all gridded data for year 2011 (and 2010)
+#' # and format the data correctly.
 #' \dontrun{
-#' download_cmip5(year = 2011)
+#' download_cmip5(year = 2011,
+#'                path = tempdir(),
+#'                model = "miroc5",
+#'                scenario = "rcp85")
+#'
+#' cmip5_data = format_cmip5(path = tempdir(),
+#'                           offset = 264,
+#'                           model = "miroc5",
+#'                           scenario = "rcp85",
+#'                           year = 2011)
 #'}
 
 # create subset of layers to calculate phenology model output on
@@ -29,6 +41,12 @@ download_cmip5 = function(path = "~",
                           model = "miroc5",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
+
+  # set maximum concurrent connections to 3
+  # to avoid clogging up the server which leads
+  # to dropped downloads
+  cat("Setting CURL download settings:\n")
+  httr::config(CURLOPT_MAXCONNECTS = 3)
 
   # get file listing of available data
   files = read.table("https://nex.nasa.gov/static/media/dataset/nex-gddp-nccs-ftp-files.csv",
@@ -59,7 +77,7 @@ download_cmip5 = function(path = "~",
   lapply(selection, function(i){
 
     # set download / filename strings
-    file_location = sprintf("%s/%s",path,basename(i))
+    file_location = sprintf("%s/%s", path, basename(i))
 
     # feedback on which file is being downloaded
     cat(paste0("Downloading: ", basename(i), "\n"))
@@ -76,6 +94,11 @@ download_cmip5 = function(path = "~",
                         httr::progress()),
                   silent = TRUE)
 
+      # sleep for a bit to give the server a break
+      # and not get kicked
+      Sys.sleep(1)
+
+      # check if things downloaded fine
       if (inherits(error, "try-error")){
         file.remove(file_location)
         stop("failed to download the requested data, check your connection")

@@ -10,7 +10,7 @@ format_cmip5(path = "~", year = 2016, offset = 264,
   50), internal = TRUE)
 }
 \arguments{
-\item{path}{a path to the gridded data (original max / min temp. files)}
+\item{path}{a path to the gridded data (original max / min temp. / precip files)}
 
 \item{year}{year to process (requires year - 1 to be present / downloaded)}
 

@@ -1,7 +1,7 @@
 #' Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
 #' (NEX-GDDP).
 #'
-#' @param path a path to the gridded data (original max / min temp. files)
+#' @param path a path to the gridded data (original max / min temp. / precip files)
 #' @param year year to process (requires year - 1 to be present / downloaded)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param model which CMIP5 model to use
@@ -37,7 +37,7 @@ format_cmip5 = function(path = "~",
                      full.names = FALSE)
 
   # measurements to include in the processing routine
-  measurements = c("tasmax","tasmin","pr")
+  measurements = c("tasmax", "tasmin", "pr")
 
   # loop over the two years needed
   # depending on the offset

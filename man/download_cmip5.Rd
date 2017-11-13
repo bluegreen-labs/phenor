@@ -3,7 +3,9 @@
 \name{download_cmip5}
 \alias{download_cmip5}
 \title{Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
-https://nex.nasa.gov/nex/}
+https://nex.nasa.gov/nex/ for model projections. When downloading data for
+a particular year the antecedent year will be downloaded as well as the
+format_cmip5() routine often requires a matching dataset.}
 \usage{
 download_cmip5(path = "~", year = 2016, model = "miroc5",
   scenario = "rcp85", variable = c("tasmin", "tasmax", "pr"))
@@ -32,9 +34,19 @@ MPI-ESM-MR, CESM1-BGC, IPSL-CM5A-LR, MRI-CGCM3, CNRM-CM5, IPSL-CM5A-MR, NorESM1-
 }
 \examples{
 
-# donwload all gridded data for year 2014
+# donwload all gridded data for year 2011 (and 2010)
+# and format the data correctly.
 \dontrun{
-download_cmip5(year = 2011)
+download_cmip5(year = 2011,
+               path = tempdir(),
+               model = "miroc5",
+               scenario = "rcp85")
+
+cmip5_data = format_cmip5(path = tempdir(),
+                          offset = 264,
+                          model = "miroc5",
+                          scenario = "rcp85",
+                          year = 2011)
 }
 }
 \keyword{data}
