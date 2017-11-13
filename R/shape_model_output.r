@@ -1,4 +1,4 @@
-#' (re)shape model output based  upon the class of the input data
+#' (re)shape model output based upon the class of the input data
 #' and valid model estimates. Mainly, reshapes data to a spatial
 #' raster format when required.
 #'
