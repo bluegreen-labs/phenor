@@ -2,7 +2,7 @@
 % Please edit documentation in R/shape_model_output.r
 \name{shape_model_output}
 \alias{shape_model_output}
-\title{(re)shape model output based  upon the class of the input data
+\title{(re)shape model output based upon the class of the input data
 and valid model estimates. Mainly, reshapes data to a spatial
 raster format when required.}
 \usage{
@@ -17,7 +17,7 @@ shape_model_output(data, doy)
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-(re)shape model output based  upon the class of the input data
+(re)shape model output based upon the class of the input data
 and valid model estimates. Mainly, reshapes data to a spatial
 raster format when required.
 }

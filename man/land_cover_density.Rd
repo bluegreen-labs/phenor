@@ -5,16 +5,16 @@
 \title{Calculates land cover density values based upon a MODIS MCD12Q1
 land cover input map (src_raster) and a coarser destination raster.}
 \usage{
-land_cover_density(dest_raster = NULL, src_raster = NULL,
+land_cover_density(src_raster = NULL, dest_raster = NULL,
   lc_classes = c(1, 4, 5, 10), path = "~", internal = FALSE)
 }
 \arguments{
-\item{dest_raster}{area to calculate the statistics for, with a coarser
-resolution than the 500m MCD12Q1 data}
-
 \item{src_raster}{a MCD12Q1 map in epsg:4326, if NULL the internal
 CONUS map will be used. This maps is produced by calculating the most
 common land cover class between 2001 - 2009 for CONUS.}
+
+\item{dest_raster}{area to calculate the statistics for, with a coarser
+resolution than the 500m MCD12Q1 data}
 
 \item{lc_classes}{land cover classes to calculate the statistics for.
 only IGBP classes (1 - 16) are supported. Takes a vector e.g. c(1, 4)}
