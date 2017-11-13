@@ -42,6 +42,9 @@ download_cmip5 = function(path = "~",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
 
+  # set global config
+  httr::set_config(httr::config(CURLOPT_MAXCONNECTS = 1), override = TRUE)
+
   # get file listing of available data
   files = read.table("https://nex.nasa.gov/static/media/dataset/nex-gddp-nccs-ftp-files.csv",
                      header = TRUE,
@@ -84,14 +87,13 @@ download_cmip5 = function(path = "~",
     # exist
     if(!file.exists(file_location)){
       error = try(
-        httr::with_config(httr::config(CURLOPT_MAXCONNECTS = 2),
           httr::GET(url = i,
                         httr::authenticate(user = 'NEXGDDP',
                                            password = '',
                                            type = "basic"),
                         httr::write_disk(path = file_location,
-                                         overwrite = TRUE),
-                        httr::progress())),
+                                         overwrite = FALSE),
+                        httr::progress()),
                   silent = TRUE)
 
       # check if things downloaded fine
