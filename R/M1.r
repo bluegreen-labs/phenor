@@ -31,7 +31,7 @@ M1 = function(par, data){
   # forcing
   Rf = data$Ti - T_base
   Rf[Rf < 0] = 0
-  Rf = ((data$Li / 24) ^ k) * Rf
+  Rf = ((data$Li / 10) ^ k) * Rf
   Rf[1:t0,] = 0
 
   # DOY of budburst criterium
