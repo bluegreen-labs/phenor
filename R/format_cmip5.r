@@ -189,6 +189,10 @@ format_cmip5 = function(path = "~",
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s.rds",path, year))
+    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s_%s_%s.rds",
+                                 path,
+                                 model,
+                                 year,
+                                 scenario))
   }
 }
