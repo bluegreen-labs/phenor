@@ -25,12 +25,12 @@
 #' \dontrun{
 #' download_cmip5(year = 2011,
 #'                path = tempdir(),
-#'                model = "miroc5",
+#'                model = "MIROC5",
 #'                scenario = "rcp85")
 #'
 #' cmip5_data = format_cmip5(path = tempdir(),
 #'                           offset = 264,
-#'                           model = "miroc5",
+#'                           model = "MIROC5",
 #'                           scenario = "rcp85",
 #'                           year = 2011)
 #'}
@@ -38,7 +38,7 @@
 # create subset of layers to calculate phenology model output on
 download_cmip5 = function(path = "~",
                           year = 2016,
-                          model = "miroc5",
+                          model = "MIROC5",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
 
@@ -54,7 +54,7 @@ download_cmip5 = function(path = "~",
     if(all(c(grepl(paste(c(year,year - 1), collapse = "|"),x),
              grepl(paste(variable, collapse = "|"),x),
              grepl(scenario, x),
-             grepl(toupper(model),x)))){
+             grepl(model,x)))){
         return(x)
       }else{
         return(NULL)
