@@ -194,5 +194,7 @@ format_cmip5 = function(path = "~",
                                  model,
                                  year,
                                  scenario))
+    # clean up
+    gc()
   }
 }
