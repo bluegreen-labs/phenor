@@ -50,7 +50,7 @@ format_cmip5 = function(path = "~",
       filename = files[which(grepl(i,files) &
                        grepl(x,files) &
                        grepl(scenario,files) &
-                       grepl(toupper(model),files)
+                       grepl(toupper(model),toupper(files))
                        )]
 
       # if the file exist use the local file

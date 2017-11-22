@@ -54,7 +54,7 @@ download_cmip5 = function(path = "~",
     if(all(c(grepl(paste(c(year,year - 1), collapse = "|"),x),
              grepl(paste(variable, collapse = "|"),x),
              grepl(scenario, x),
-             grepl(model,x)))){
+             grepl(toupper(model),toupper(x))))){
         return(x)
       }else{
         return(NULL)
