@@ -110,8 +110,8 @@ land_cover_density = function(src_raster = NULL,
     # normalize
     tmp_cover = tmp_cover / max_v
 
-    if (i != lc_classes[1]){
-      lc_cover = tmp_coverage
+    if (i != lc_classes[1] ){
+      lc_cover = tmp_cover
     } else {
       lc_cover = raster::stack(lc_cover, tmp_cover)
     }
