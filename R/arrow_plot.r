@@ -85,8 +85,8 @@ arrow_plot = function(data = NULL,
   # rising arrows are red, falling arrows are blue
   col = apply(predicted_values,1,diff)
   col = ifelse(col >= 0,
-               grDevices::rgb(239,138,98, maxColorValue = 255),
-               grDevices::rgb(103,169,207, maxColorValue = 255))
+               "#ef8a62",
+               "#67a9cf")
 
   # set unchanged points colours to transparent
   col[loc] = grDevices::rgb(0,0,0,0)

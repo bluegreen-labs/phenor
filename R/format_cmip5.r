@@ -50,7 +50,7 @@ format_cmip5 = function(path = "~",
       filename = files[which(grepl(i,files) &
                        grepl(x,files) &
                        grepl(scenario,files) &
-                       grepl(toupper(model),files)
+                       grepl(toupper(model),toupper(files))
                        )]
 
       # if the file exist use the local file
@@ -189,6 +189,12 @@ format_cmip5 = function(path = "~",
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s.rds",path, year))
+    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s_%s_%s.rds",
+                                 path,
+                                 model,
+                                 year,
+                                 scenario))
+    # clean up
+    gc()
   }
 }

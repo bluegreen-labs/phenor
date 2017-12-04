@@ -32,7 +32,7 @@ M1s = function(par, data){
   # create forcing/chilling rate vector
   # forcing
   Rf = 1 / (1 + exp(-b * (data$Ti - c)))
-  Rf = ((data$Li / 24) ^ k) * Rf
+  Rf = ((data$Li / 10) ^ k) * Rf
   Rf[1:t0,] = 0
 
   # DOY of budburst criterium

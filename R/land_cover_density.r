@@ -37,7 +37,7 @@ land_cover_density = function(src_raster = NULL,
   if(is.null(src_raster)){
     stop("No source raster provided.")
   } else {
-    if(attr(class(src_raster), "package") == "raster"){
+    if(!file.exists(src_raster)){
       lc = src_raster
     } else {
       lc = raster::raster(src_raster)
@@ -48,7 +48,7 @@ land_cover_density = function(src_raster = NULL,
   if(is.null(dest_raster)){
     stop("No destination raster provided.")
   } else {
-    if(attr(class(src_raster), "package") == "raster"){
+    if(!file.exists(src_raster)){
       dest_raster = src_raster
     } else {
       dest_raster = raster::raster(dest_raster)
@@ -69,10 +69,10 @@ land_cover_density = function(src_raster = NULL,
   # now loop over all land cover classes you want
   # to extract from the original map for the grid
   # cells you set by the dest_raster
-  for (i in lc_classes){
+  for (i in 1:length(lc_classes)){
 
     # get cell numbers for all pixels of class i
-    cell_v = raster::Which(lc == i, cells = TRUE)
+    cell_v = raster::Which(lc == lc_classes[i], cells = TRUE)
 
     # extract coordinates for all pixels of class i
     xy = raster::xyFromCell(lc, cell = cell_v)
@@ -87,7 +87,7 @@ land_cover_density = function(src_raster = NULL,
     subs_matrix = data.frame(zone_numbers,
                              rep(1, length(cell_v)))
 
-    # count the number of forest pixels in a given cell
+    # count the number of xyz pixels in a given cell
     # of the dest_raster format
     count_v = by(data = subs_matrix[,2],
                  INDICES = subs_matrix[,1],
@@ -95,7 +95,7 @@ land_cover_density = function(src_raster = NULL,
                  na.rm = TRUE)
 
     # get the maximum count
-    max_v = max(count_v)
+    max_v = max(count_v, na.rm = TRUE)
 
     # get cell ids
     id = as.numeric(names(count_v))
@@ -108,10 +108,10 @@ land_cover_density = function(src_raster = NULL,
     tmp_cover = raster::subs(zones, smatrix, which = 2)
 
     # normalize
-    tmp_cover = tmp_cover / max_v
+    tmp_cover = tmp_cover/max_v
 
-    if (i != lc_classes[1]){
-      lc_cover = tmp_coverage
+    if (lc_classes[i] == lc_classes[1] ){
+      lc_cover = tmp_cover
     } else {
       lc_cover = raster::stack(lc_cover, tmp_cover)
     }

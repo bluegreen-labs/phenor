@@ -25,12 +25,12 @@
 #' \dontrun{
 #' download_cmip5(year = 2011,
 #'                path = tempdir(),
-#'                model = "miroc5",
+#'                model = "MIROC5",
 #'                scenario = "rcp85")
 #'
 #' cmip5_data = format_cmip5(path = tempdir(),
 #'                           offset = 264,
-#'                           model = "miroc5",
+#'                           model = "MIROC5",
 #'                           scenario = "rcp85",
 #'                           year = 2011)
 #'}
@@ -38,23 +38,29 @@
 # create subset of layers to calculate phenology model output on
 download_cmip5 = function(path = "~",
                           year = 2016,
-                          model = "miroc5",
+                          model = "MIROC5",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
 
+
+  # data file list, on amazon S3 server (which is a bit more stable
+  # than the GDDP ftp server)
+  file_list = "https://nex.nasa.gov/static/media/dataset/nex-gddp-s3-files.csv"
+
   # get file listing of available data
-  files = read.table("https://nex.nasa.gov/static/media/dataset/nex-gddp-nccs-ftp-files.csv",
+  files = read.table(file_list,
+                     sep = ',',
                      header = TRUE,
-                     stringsAsFactors = FALSE)$ftpurl
+                     stringsAsFactors = FALSE)$s3url
 
   # selection
   selection = do.call("c",lapply(files, function(x){
     # grep the files for multiple selection
     # criteria
-    if(all(c(grepl(paste(c(year,year - 1), collapse = "|"),x),
-             grepl(paste(variable, collapse = "|"),x),
+    if(all(c(grepl(paste(c(year,year - 1), collapse = "|"), x),
+             grepl(paste(variable, collapse = "|"), x),
              grepl(scenario, x),
-             grepl(toupper(model),x)))){
+             grepl(paste(model, collapse = "|"), x)))){
         return(x)
       }else{
         return(NULL)
@@ -86,9 +92,6 @@ download_cmip5 = function(path = "~",
       error = try(
         httr::with_config(httr::config(maxconnects = 1),
           httr::GET(url = i,
-                        httr::authenticate(user = 'NEXGDDP',
-                                           password = '',
-                                           type = "basic"),
                         httr::write_disk(path = file_location,
                                          overwrite = FALSE),
                         httr::progress())),
