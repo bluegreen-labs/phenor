@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
+
 # phenor
 
 The phenor R package is a phenology modelling framework in R.
