@@ -6,7 +6,8 @@
 by the optimization routines.}
 \usage{
 format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
-  species = NULL, offset = 264, count = 60, resolution = 0.25)
+  species = NULL, offset = 264, count = 60, resolution = 0.25,
+  pep_data = NULL)
 }
 \arguments{
 \item{pep_path}{path to the PEP725 data (species files only)}
@@ -22,6 +23,8 @@ format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
 \item{count}{minimum number of acquisitions per location}
 
 \item{resolution}{resolution of the E-OBS data (0.25 or 0.5, default = 0.25)}
+
+\item{pep_data}{prefiltered subset of the merged PEP725 data obtained through merge_PEP725(), else the complete data contained in pep_path will be used}
 }
 \value{
 returns a nested list of site locations, their respective
