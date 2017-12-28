@@ -1,6 +1,9 @@
 sudo: required
 dist: trusty
 
+before_install:
+  - sudo apt-get install netcdf-bin
+
 language: r
 cache: packages
 
