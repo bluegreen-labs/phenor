@@ -3,7 +3,7 @@ dist: trusty
 group: deprecated-2017Q4
 
 before_install:
-  - sudo apt-get install netcdf-bin
+  - sudo apt-get install netcdf-bin libnetcdf-dev
 
 language: r
 cache: packages
