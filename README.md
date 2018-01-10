@@ -1,8 +1,9 @@
 [![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
+[![DOI](https://www.zenodo.org/badge/86112766.svg)](https://www.zenodo.org/badge/latestdoi/86112766)
 
 # phenor
 
-The phenor R package is a phenology modelling framework in R.
+The phenor R package is a phenology modelling framework in R. The framework leverages measurements of vegetation phenology from four common phenology observation datasets combined with (global) retrospective and projected climate data (see below).
 
 The package curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for underlying climate driver data in model optimization. The package supports global gridded CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the [NASA Earth Exchange global downscaled daily projections](https://nex.nasa.gov/nex/projects/1356/).
 
@@ -14,7 +15,7 @@ Phenological model calibration / validation data are derived from:
 
 We refer to Hufkens et al. (2017) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
 
-Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). As such, some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data (although the data is not behind a login wall).
+Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). As such, some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
 
 ## Installation
 
