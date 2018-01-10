@@ -4,11 +4,9 @@
 #' The algorithm counts the number of occurences in a given pixel of
 #' the destination raster. Both maps should be in EPSG:4326.
 #'
+#' @param lc_raster a MCD12Q1 map in epsg:4326.
 #' @param dest_raster area to calculate the statistics for, with a coarser
 #' resolution than the 500m MCD12Q1 data
-#' @param src_raster a MCD12Q1 map in epsg:4326, if NULL the internal
-#' CONUS map will be used. This maps is produced by calculating the most
-#' common land cover class between 2001 - 2009 for CONUS.
 #' @param lc_classes land cover classes to calculate the statistics for.
 #' only IGBP classes (1 - 16) are supported. Takes a vector e.g. c(1, 4)
 #' @param path path to output your generated data to if not outputting
@@ -21,42 +19,55 @@
 #'
 #' # will return a land cover density map for
 #' # the evergreen needleleaf class (1) and
-#' # the deciduous broadleaf classs (4) in layers
-#' # 1 and 2 of the raster stack lc_dens
+#' # the deciduous broadleaf classs (4)
 #' \dontrun{
-#' lc_dens = land_cover_density(lc_classes = c(1, 4))
+#' lc_dens = land_cover_density(lc_classes = c(1, 4),
+#'                              lc_raster = "~/MCD12Q1_igbp_map.tif"
+#'                              dest_raster = "~/1_degree_lat_lon_map.tif")
 #' }
 
-land_cover_density = function(src_raster = NULL,
+land_cover_density = function(lc_raster = NULL,
                               dest_raster = NULL,
                               lc_classes = c(1,4,5,10),
                               path = "~",
                               internal = FALSE){
 
   # MCD12Q1 land cover class file
-  if(is.null(src_raster)){
+  if(is.null(lc_raster)){
     stop("No source raster provided.")
   } else {
-    if(!file.exists(src_raster)){
-      lc = src_raster
+    if(!class(lc_raster) != "RasterLayer"){
+      if(is.character(lc_raster)){
+        if(!file.exists(deparse(substitute(lc_raster)))){
+          stop("No source raster provided.")
+        }
+      }
     } else {
-      lc = raster::raster(src_raster)
+        lc_raster = raster::raster(lc_raster)
     }
   }
 
   # destination raster
   if(is.null(dest_raster)){
-    stop("No destination raster provided.")
+    stop("No source raster provided.")
   } else {
-    if(!file.exists(src_raster)){
-      dest_raster = src_raster
+    if(!class(dest_raster) != "RasterLayer"){
+      if(is.character(dest_raster)){
+        if(!file.exists(deparse(substitute(dest_raster)))){
+          stop("No source raster provided.")
+        }
+      }
     } else {
       dest_raster = raster::raster(dest_raster)
     }
   }
 
-  # set projection (lat long)
-  lat_lon = sp::CRS("+init=epsg:4326")
+  # clean up existing files, should some remain in tempdir
+  # due to interupted processing
+  img_files <- list.files(tempdir(),glob2rx("fractional_land_cover_*.tif"), full.names = TRUE)
+  if(length(img_files)!=0) {
+    file.remove(img_files)
+  }
 
   # extract size info from the destination raster
   rows = nrow(dest_raster)
@@ -69,16 +80,19 @@ land_cover_density = function(src_raster = NULL,
   # now loop over all land cover classes you want
   # to extract from the original map for the grid
   # cells you set by the dest_raster
-  for (i in 1:length(lc_classes)){
+  lapply(lc_classes, function(i){
+
+    # feedback
+    cat(sprintf("processing land cover class: %s \n", i))
 
     # get cell numbers for all pixels of class i
-    cell_v = raster::Which(lc == lc_classes[i], cells = TRUE)
+    cell_v = raster::Which(lc_raster == i, cells = TRUE)
 
     # extract coordinates for all pixels of class i
-    xy = raster::xyFromCell(lc, cell = cell_v)
+    xy = raster::xyFromCell(lc_raster, cell = cell_v)
 
     # read in the coordinates and assign them a projection
-    ll = sp::SpatialPoints(xy, lat_lon)
+    ll = sp::SpatialPoints(xy, sp::CRS("+init=epsg:4326"))
 
     # get the zone number for pixels with location ll
     zone_numbers = raster::extract(zones, ll)
@@ -110,26 +124,32 @@ land_cover_density = function(src_raster = NULL,
     # normalize
     tmp_cover = tmp_cover/max_v
 
-    if (lc_classes[i] == lc_classes[1] ){
-      lc_cover = tmp_cover
-    } else {
-      lc_cover = raster::stack(lc_cover, tmp_cover)
-    }
-  }
+    # store data in a temporary tif file
+    # (doesn't take up memory which needs to be cleared for efficiency)
+    # output data
+    writeRaster(tmp_cover,
+                sprintf("%s/fractional_land_cover_%02d.tif", tempdir(), i),
+                overwrite = TRUE)
+
+    # clear junk from memory
+    gc()
+  })
+
+  # list tif files
+  fractional_cover = raster::stack(list.files(tempdir(),
+                                              glob2rx("fractional_land_cover_*.tif"),
+                                              full.names = TRUE))
 
   # assign names to the layers
-  names(lc_cover) = lc_classes
+  names(fractional_cover) = paste0("igbp_", lc_classes)
 
   if(internal){
     # return the data as a raster stack
-    # beware when using the internal option
-    # this file might get really big depending
-    # on the level op upscaling
-    return(lc_cover)
+    return(fractional_cover)
   } else {
     # write everything to file
-    raster::writeRaster(lc_cover,
-                        sprintf('%s/igbp.tif',path),
+    raster::writeRaster(fractional_cover,
+                        sprintf('%s/fractional_land_cover.tif',path),
                         overwrite = TRUE,
                         options = c("COMPRESS=DEFLATE"))
   }

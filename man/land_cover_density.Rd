@@ -5,13 +5,11 @@
 \title{Calculates land cover density values based upon a MODIS MCD12Q1
 land cover input map (src_raster) and a coarser destination raster.}
 \usage{
-land_cover_density(src_raster = NULL, dest_raster = NULL,
-  lc_classes = c(1, 4, 5, 10), path = "~", internal = FALSE)
+land_cover_density(lc_raster = NULL, dest_raster = NULL, lc_classes = c(1,
+  4, 5, 10), path = "~", internal = FALSE)
 }
 \arguments{
-\item{src_raster}{a MCD12Q1 map in epsg:4326, if NULL the internal
-CONUS map will be used. This maps is produced by calculating the most
-common land cover class between 2001 - 2009 for CONUS.}
+\item{lc_raster}{a MCD12Q1 map in epsg:4326.}
 
 \item{dest_raster}{area to calculate the statistics for, with a coarser
 resolution than the 500m MCD12Q1 data}
@@ -33,10 +31,11 @@ the destination raster. Both maps should be in EPSG:4326.
 
 # will return a land cover density map for
 # the evergreen needleleaf class (1) and
-# the deciduous broadleaf classs (4) in layers
-# 1 and 2 of the raster stack lc_dens
+# the deciduous broadleaf classs (4)
 \dontrun{
-lc_dens = land_cover_density(lc_classes = c(1, 4))
+lc_dens = land_cover_density(lc_classes = c(1, 4),
+                             lc_raster = "~/MCD12Q1_igbp_map.tif"
+                             dest_raster = "~/1_degree_lat_lon_map.tif")
 }
 }
 \keyword{comparison}
