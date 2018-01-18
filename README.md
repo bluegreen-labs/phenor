@@ -13,7 +13,8 @@ Phenological model calibration / validation data are derived from:
 - the [Pan European Phenology Project (PEP725)](http://www.pep725.eu/) 
 - the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/) 
 
-We refer to Hufkens et al. (2017) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
+We refer to [Hufkens et al. (2017)](
+http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/abstract) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
 
 Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). As such, some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
 
@@ -114,10 +115,11 @@ An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provid
 
 ## References
 
-Hufkens K., Basler J. D., Milliman T. Melaas E., Richardson A.D. 2017 An integrated phenology modelling framework in R: Phenology modelling with phenor. Methods in Ecology & Evolution (in review).
+Hufkens K., Basler J. D., Milliman T. Melaas E., Richardson A.D. 2017 An integrated phenology modelling framework in R: Phenology modelling with phenor. Methods in Ecology & Evolution ([in press](
+http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/abstract)).
 
-Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M., Johnston, M.R., Keenan, T.F., Klosterman, S.T., Kosmala, M., Melaas, E.K., Friedl, M.A., Frolking, S. 2017. Tracking vegetation phenology across diverse North American biomes using PhenoCam imagery. Scientific Data (in review).
+Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M., Johnston, M.R., Keenan, T.F., Klosterman, S.T., Kosmala, M., Melaas, E.K., Friedl, M.A., Frolking, S. 2017. Tracking vegetation phenology across diverse North American biomes using PhenoCam imagery. Scientific Data (in press).
 
 ## Acknowledgements
 
-This project was is supported by the National Science Foundation’s Macro-system Biology Program (award EF-1065029).
+This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697).
