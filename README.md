@@ -14,7 +14,7 @@ Phenological model calibration / validation data are derived from:
 - the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/) 
 
 We refer to [Hufkens et al. (2017)](
-http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/abstract) below for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
+http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/abstract) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). 
 
 Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). As such, some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
 
