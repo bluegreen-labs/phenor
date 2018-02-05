@@ -1,5 +1,6 @@
 #' DormPhot model as defined in
 #' Caffarra, Donnelly and Chuine 2011 (Clim. Res.)
+#' parameter ranges are taken from Basler et al. 2016
 #'
 #' @param data input data (see reference for detailed description),
 #' data should be formatted using flat_format()
@@ -20,39 +21,39 @@ DP <- function(par, data){
     stop("model parameter(s) out of range (too many, too few)")
   }
 
+  # extract the parameter values from the
+  # par argument for readability
+  a = par[1]
+  b = par[2]
+  c = par[3]
+  d = par[4]
+  e = par[5]
+  f = par[6]
+  g = par[7]
+  F_crit = par[8]
+  C_crit = par[9]
+  L_crit = par[10]
+  D_crit = par[11]
+
   # set the t0 value if necessary (~Sept. 1)
   t0 = which(data$doy < 1 & data$doy == -121)
 
-  # extract the parameter values from the
-  # par argument for readability
-  F_crit = par[7]
-  C_crit = par[8]
-  L_crit = par[10]
-  D_crit =
-  a =
-  b = par[11]
-  c =
-  d =
-  e =
-  f = par[12]
-  g = par[13]
-
   # dormancy induction
-  DR = 1/(1 + exp(a * (data$Ti - b))) * 1/(1 + exp(10 * (data$Li - L_crit))) # a b L_crit
+  DR = 1/(1 + exp(a * (data$Ti - b))) * 1/(1 + exp(10 * (data$Li - L_crit)))
   if (!length(t0) == 0){
     DR[1:t0,] = 0
   }
   DS = apply(DR,2, cumsum)
 
   # chilling
-  CR = 1/(1 + exp(c * (data$Ti - d)^2 + (data$Ti - d) )) # c d t1
+  CR = 1/(1 + exp(c * (data$Ti - d)^2 + (data$Ti - d) ))
   CR[DS < D_crit] = 0
   CS = apply(CR,2, cumsum)
 
   # forcing
-  dl50 = 24 / (1 + exp(f * (CS - C_crit))) # f C_crit
-  t50 = 60 / (1 + exp(g * (data$Li - dl50))) # g
-  Rf = 1/(1 + exp(e * (data$Ti - t50))) # e
+  dl50 = 24 / (1 + exp(f * (CS - C_req))) # f >= 0
+  t50 = 60 / (1 + exp(g * (data$Li - dl50))) # g >= 0
+  Rf = 1/(1 + exp(e * (data$Ti - t50))) # e <= 0
   Rf[DS < D_crit] = 0
 
   # DOY of budburst criterium
