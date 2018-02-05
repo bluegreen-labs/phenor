@@ -27,7 +27,7 @@ DP <- function(par, data){
   b = par[2]
   c = par[3]
   d = par[4]
-  e = par[5]
+  e = par[5] # range?
   f = par[6]
   g = par[7]
   F_crit = par[8]
@@ -51,7 +51,7 @@ DP <- function(par, data){
   CS = apply(CR,2, cumsum)
 
   # forcing
-  dl50 = 24 / (1 + exp(f * (CS - C_req))) # f >= 0
+  dl50 = 24 / (1 + exp(f * (CS - C_crit))) # f >= 0
   t50 = 60 / (1 + exp(g * (data$Li - dl50))) # g >= 0
   Rf = 1/(1 + exp(e * (data$Ti - t50))) # e <= 0
   Rf[DS < D_crit] = 0
