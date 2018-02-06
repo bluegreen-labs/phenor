@@ -27,7 +27,7 @@ DP <- function(par, data){
   b = par[2]
   c = par[3]
   d = par[4]
-  e = par[5] # range?
+  e = par[5]
   f = par[6]
   g = par[7]
   F_crit = par[8]
@@ -39,6 +39,8 @@ DP <- function(par, data){
   t0 = which(data$doy < 1 & data$doy == -121)
 
   # dormancy induction
+  # (this is all vectorized doing cell by cell multiplications with
+  # the sub matrices in the nested list)
   DR = 1/(1 + exp(a * (data$Ti - b))) * 1/(1 + exp(10 * (data$Li - L_crit)))
   if (!length(t0) == 0){
     DR[1:t0,] = 0
