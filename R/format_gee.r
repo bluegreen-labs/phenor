@@ -7,7 +7,6 @@
 #' @param path a path to GEE provided MCD12Q2 phenology dates
 #' @param phenophase Phenological phase, Increase, Maximum,
 #' Decrease or Minimum (default = Increase)
-#' @param cycle retrieve data from which cycle, 1th or 2th (default = 1)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
 #' @export
