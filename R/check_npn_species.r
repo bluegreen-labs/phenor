@@ -25,16 +25,18 @@ check_npn_species = function(species = NULL,
   # check if the genus exists, if provided
   if(!is.null(species)){
 
-    if(any(species %in% species_list$species_id |
-           grepl(tolower(species), tolower(paste(species_list$genus, species_list$species)))
-    )){
+    # find species subset results, search (grep) in both Genus species,
+    # common name fields and species ID fields
+    species_subset = species_list[species_list$species_id %in% species |
+      grepl(tolower(species), tolower(paste(species_list$genus,
+                                            species_list$species))) |
+      grepl(tolower(species),tolower(species_list$common_name)),]
 
-      # print info if requested
+    # if there is a result return either true or the
+    # list of subset values
+    if(nrow(species_subset)!= 0){
       if(list){
-        return(species_list[grepl(tolower(species),
-                                 tolower(paste(species_list$genus,
-                                               species_list$species))) |
-                             species_list$species_id %in% species,])
+        return(species_subset)
       } else {
         return(TRUE)
       }
