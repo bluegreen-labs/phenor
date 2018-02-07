@@ -7,7 +7,10 @@
 check_npn_species(species = NULL, list = TRUE)
 }
 \arguments{
-\item{species}{An USA-NPN species (character or number)}
+\item{species}{An USA-NPN species (character or number).
+Will search in both Genus species and common name fields and will match
+any term within those fields. The search relies on regular expressions so
+this can be used to be more specific.}
 
 \item{list}{List all species numbers and names as verbose output}
 }
