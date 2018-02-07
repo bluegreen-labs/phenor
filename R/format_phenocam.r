@@ -41,9 +41,6 @@ format_phenocam = function(path = "~",
                          end,
                          metadata){
 
-    # provide some feedback
-    cat(sprintf('Processing site: %s !\n', site))
-
     # for all sites merge the transition dates if there are multiple files
     # after merging, download the corresponding daymet data and create
     # the parts of the final structured list containing data for further
@@ -91,7 +88,8 @@ format_phenocam = function(path = "~",
       end = end,
       internal = TRUE,
       quiet = TRUE
-    )$data)
+    )$data,
+    silent = TRUE)
 
     # trap sites outside daymet coverage
     if (inherits(daymet_data,"try-error")){
@@ -243,7 +241,7 @@ format_phenocam = function(path = "~",
   sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
   # track progress
-  cat(sprintf('Processing %s sites\n', sites))
+  cat(sprintf('Processing %s sites\n', length(sites)))
   pb = txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
