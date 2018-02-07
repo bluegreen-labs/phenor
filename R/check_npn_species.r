@@ -44,8 +44,6 @@ check_npn_species = function(species = NULL,
   } else {
 
     # if nothing is requested for filtering, just return the full list
-    # and a warning
     return(species_list)
-    warning("No phenophase provided for further validation.")
   }
 }
