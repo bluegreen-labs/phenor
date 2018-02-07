@@ -13,12 +13,10 @@ format_gee(path = "~", phenophase = "Increase", offset = 264)
 \arguments{
 \item{path}{a path to GEE provided MCD12Q2 phenology dates}
 
-\item{phenophase}{Phenological phase, Increase, Maximum,
+\item{phenophase}{Phenological phase, Increase(1), Maximum,
 Decrease or Minimum (default = Increase)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
-
-\item{cycle}{retrieve data from which cycle, 1th or 2th (default = 1)}
 }
 \description{
 Preprocessing of all PhenoCam data into a format which can be ingested
