@@ -33,16 +33,17 @@ SQ = function(par, data){
 
   # sanity check
   if (t0 <= t0_chill){
-    return(rep(9999,ncol(data$Ti)))
+    return(rep(9999, ncol(data$Ti)))
   }
 
   # chilling
-  Rc = matrix(0,nrow(data$Ti),ncol(data$Ti)) # allocate empty matrix
-  Rc[data$Ti < T_opt & data$Ti >= T_min] = (data$Ti[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
-  Rc[data$Ti < T_max & data$Ti >= T_opt] = (data$Ti[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
+  Rc = triangular_temperature_response(data$Ti,
+                                       T_opt = T_opt,
+                                       T_min = T_min,
+                                       T_max = T_max)
   Rc[1:t0_chill,] = 0
   Rc[t0:nrow(Rc),] = 0
-  Sc = apply(Rc,2, cumsum)
+  Sc = apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
   # accumulation starts (binary choice)

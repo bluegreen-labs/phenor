@@ -37,9 +37,10 @@ SM1 = function(par, data){
   }
 
   # chilling
-  Rc = matrix(0,nrow(data$Ti),ncol(data$Ti))
-  Rc[data$Ti < T_opt & data$Ti >= T_min] = (Rc[data$Ti < T_opt & data$Ti >= T_min] - T_min)/(T_opt - T_min)
-  Rc[data$Ti < T_max & data$Ti >= T_opt] = (Rc[data$Ti < T_max & data$Ti >= T_opt] - T_opt)/(T_max - T_opt)
+  Rc = triangular_temperature_response(data$Ti,
+                                       T_opt = T_opt,
+                                       T_min = T_min,
+                                       T_max = T_max)
   Rc[1:t0_chill,] = 0
   Rc[t0:nrow(Rc),] = 0
   Sc = apply(Rc,2, cumsum)
