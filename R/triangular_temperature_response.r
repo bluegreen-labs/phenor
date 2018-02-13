@@ -21,8 +21,8 @@ triangular_temperature_response = function(T = -10:45,
 
   # find locations of rising and falling
   # part of the triangular function
-  loc_rising = T < T_opt & T >= T_min
-  loc_falling = T <= T_max & T >= T_opt
+  loc_rising = which(T < T_opt & T >= T_min)
+  loc_falling = which(T <= T_max & T >= T_opt)
 
   # fill this vector according to a triangular
   # ruleset function
