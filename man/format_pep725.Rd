@@ -32,8 +32,8 @@ phenological metrics and matching environmental data as extracted from
 the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
 }
 \description{
-Some pre-processing steps are required as downloading the PEP725 data is a
-mess. So, for the species of interest download the separate zipped files.
+Some pre-processing steps are required as downloading the PEP725.
+So, for the species of interest download the separate zipped files.
 Unzip all files and put the respective scientific data in one folder.
 }
 \details{
