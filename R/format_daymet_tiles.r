@@ -26,10 +26,10 @@
 
 # create subset of layers to calculate phenology model output on
 format_daymet_tiles = function(path = "~",
-                         year = 2014,
-                         tile = 11935,
-                         offset = 264,
-                         internal = TRUE){
+                               year = 2014,
+                               tile = 11935,
+                               offset = 264,
+                               internal = TRUE){
 
   # format paths of the daymet tiles
   tmean_1 = sprintf('%s/tmean_%s_%s.tif',path, year - 1, tile)
@@ -44,7 +44,7 @@ format_daymet_tiles = function(path = "~",
   if (file.exists(tmean_1) & file.exists(tmean_2) ) {
     tmean_1 = raster::stack(tmean_1)
     tmean_2 = raster::stack(tmean_2)
-    tmean_subset = daymetr::daymet_tile_offset(raster::stack(tmean_1,tmean_2),
+    tmean_subset = daymetr::daymet_grid_offset(raster::stack(tmean_1,tmean_2),
                                  offset = offset)
     tmean_subset_brick = raster::trim(raster::brick(tmean_subset))
     Ti = t(raster::as.matrix(tmean_subset_brick))
@@ -58,7 +58,7 @@ format_daymet_tiles = function(path = "~",
   if(file.exists(prcp_1) & file.exists(prcp_2)){
     prcp_1 = raster::stack(prcp_1)
     prcp_2 = raster::stack(prcp_2)
-    prcp_subset = daymetr::daymet_tile_offset(raster::stack(prcp_1,prcp_2),
+    prcp_subset = daymetr::daymet_grid_offset(raster::stack(prcp_1,prcp_2),
                                 offset = offset)
     prcp_subset_brick = raster::trim(raster::brick(prcp_subset))
     Pi = t(raster::as.matrix(prcp_subset_brick))
@@ -71,7 +71,7 @@ format_daymet_tiles = function(path = "~",
   if(file.exists(vp_1) & file.exists(vp_2)){
     vp_1 = raster::stack(vp_1)
     vp_2 = raster::stack(vp_2)
-    vp_subset = daymetr::daymet_tile_offset(raster::stack(vp_1,vp_2),
+    vp_subset = daymetr::daymet_grid_offset(raster::stack(vp_1,vp_2),
                               offset = offset)
     vp_subset_brick = raster::trim(raster::brick(vp_subset))
     VPDi = t(raster::as.matrix(vp_subset_brick))
