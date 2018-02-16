@@ -1,18 +1,15 @@
+language: R
 sudo: required
-dist: trusty
-group: deprecated-2017Q4
+cache: packages
+warnings_are_errors: false
 
 before_install:
-  - sudo apt-get install netcdf-bin libnetcdf-dev
-
-language: r
-cache: packages
-
+    - sudo apt-get install --yes udunits-bin libudunits2-dev
+    - sudo apt-get install --yes libproj-dev libgeos-dev libgdal-dev libgdal1-dev
+    - sudo apt-get install --yes libnetcdf-dev netcdf-bin
 r:
   - release
   - devel
-
-warnings_are_errors: false
 
 r_packages:
   - devtools
