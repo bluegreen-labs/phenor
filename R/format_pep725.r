@@ -1,8 +1,8 @@
 #' Preprocessing of PEP725 data into a format which can be ingested
 #' by the optimization routines.
 #'
-#' Some pre-processing steps are required as downloading the PEP725 data is a
-#' mess. So, for the species of interest download the separate zipped files.
+#' Some pre-processing steps are required as downloading the PEP725.
+#' So, for the species of interest download the separate zipped files.
 #' Unzip all files and put the respective scientific data in one folder.
 #'
 #' The routine requires E-OBS climate, which can be downloaded from
