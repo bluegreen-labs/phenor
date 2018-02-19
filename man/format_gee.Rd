@@ -13,11 +13,7 @@ format_gee(path = "~", phenophase = "Increase", offset = 264)
 \arguments{
 \item{path}{a path to GEE provided MCD12Q2 phenology dates}
 
-<<<<<<< HEAD
-\item{phenophase}{Phenological phase, Increase(1), Maximum,
-=======
 \item{phenophase}{Phenological phase, Increase, Maximum,
->>>>>>> format_gee
 Decrease or Minimum (default = Increase)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}

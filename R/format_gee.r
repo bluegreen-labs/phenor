@@ -5,7 +5,7 @@
 #' (https://khufkens.github.io/gee_subset/)
 #'
 #' @param path a path to GEE provided MCD12Q2 phenology dates
-#' @param phenophase Phenological phase, Increase(1), Maximum,
+#' @param phenophase Phenological phase, Increase, Maximum,
 #' Decrease or Minimum (default = Increase)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @keywords phenology, model, preprocessing
