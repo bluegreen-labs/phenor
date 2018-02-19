@@ -11,6 +11,7 @@
 #' format_daymet_tiles()
 #' format_berkeley_earth()
 #' format_eobs()
+#' format_gee()
 #'
 #' download_npn()
 #' download_pep725()
