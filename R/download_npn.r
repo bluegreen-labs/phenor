@@ -10,13 +10,10 @@
 #' @param extent geographic coordinates constraining the output, defined
 #' as bottom left, top right c(lon1, lat1, lon2, lat2) if null returns all
 #' data (default = NULL)
-#' @param request request src denomination (default = rest_test), should not
-#' be altered for most
 #' @param internal completes download internally in a temporary directory and
 #' merges the data subsequently using merge_pep725(), returns a nested list
 #' of tidy data. internal overrides the path command.
-#' @param path the path (+ filename) where to save
-#' the downloaded data as an rds file (default = ./npn_data.rds)
+#' @param path the path where to save the downloaded data
 #' @return will return a data farme for the selected species,
 #' phenophase, temporal and spatial extent or save the data to an RDS file
 #' @keywords phenology, model, preprocessing
@@ -31,9 +28,11 @@ download_npn = function(species = 3,
                         start = "2000-01-01",
                         end = "2017-01-01",
                         extent = NULL,
-                        request = "rest_test",
                         internal = TRUE,
-                        path = "./npn_data.rds"){
+                        path = "."){
+
+  # request parameter for logging
+  request = "rest_test"
 
   # set url base
   url = "http://www.usanpn.org/npn_portal/observations/getSummarizedData.json?"
@@ -72,7 +71,6 @@ download_npn = function(species = 3,
 
       # write data to file as R data file
       # limiting file size
-      cat(sprintf("writing query to file: %s\n",filename))
       saveRDS(data,
               sprintf("%s/phenor_npn_data_%s_%s_%s_%s.rds",
                       path.expand(path),

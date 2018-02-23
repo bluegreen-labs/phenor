@@ -5,8 +5,7 @@
 \title{Automatically download USA-NPN data using the API interface}
 \usage{
 download_npn(species = 3, phenophase = 371, start = "2000-01-01",
-  end = "2017-01-01", extent = NULL, request = "rest_test",
-  internal = TRUE, path = "./npn_data.rds")
+  end = "2017-01-01", extent = NULL, internal = TRUE, path = ".")
 }
 \arguments{
 \item{species}{A species to download, either specified by its
@@ -24,15 +23,11 @@ is provided by check_npn_phenophases()}
 as bottom left, top right c(lon1, lat1, lon2, lat2) if null returns all
 data (default = NULL)}
 
-\item{request}{request src denomination (default = rest_test), should not
-be altered for most}
-
 \item{internal}{completes download internally in a temporary directory and
 merges the data subsequently using merge_pep725(), returns a nested list
 of tidy data. internal overrides the path command.}
 
-\item{path}{the path (+ filename) where to save
-the downloaded data as an rds file (default = ./npn_data.rds)}
+\item{path}{the path where to save the downloaded data}
 }
 \value{
 will return a data farme for the selected species,
