@@ -6,7 +6,7 @@
 \usage{
 download_npn(species = 3, phenophase = 371, start = "2000-01-01",
   end = "2017-01-01", extent = NULL, request = "rest_test",
-  internal = TRUE, path = "~")
+  internal = TRUE, path = "./npn_data.rds")
 }
 \arguments{
 \item{species}{A species to download, either specified by its
@@ -31,7 +31,8 @@ be altered for most}
 merges the data subsequently using merge_pep725(), returns a nested list
 of tidy data. internal overrides the path command.}
 
-\item{path}{the path where to save the downloaded data}
+\item{path}{the path (+ filename) where to save
+the downloaded data as an rds file (default = ./npn_data.rds)}
 }
 \value{
 will return a data farme for the selected species,

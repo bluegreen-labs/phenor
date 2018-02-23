@@ -15,7 +15,8 @@
 #' @param internal completes download internally in a temporary directory and
 #' merges the data subsequently using merge_pep725(), returns a nested list
 #' of tidy data. internal overrides the path command.
-#' @param path the path where to save the downloaded data
+#' @param path the path (+ filename) where to save
+#' the downloaded data as an rds file (default = ./npn_data.rds)
 #' @return will return a data farme for the selected species,
 #' phenophase, temporal and spatial extent or save the data to an RDS file
 #' @keywords phenology, model, preprocessing
@@ -32,7 +33,7 @@ download_npn = function(species = 3,
                         extent = NULL,
                         request = "rest_test",
                         internal = TRUE,
-                        path = "~"){
+                        path = "./npn_data.rds"){
 
   # set url base
   url = "http://www.usanpn.org/npn_portal/observations/getSummarizedData.json?"
