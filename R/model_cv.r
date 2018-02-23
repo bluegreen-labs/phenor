@@ -46,8 +46,7 @@ model_cv<-function( k=10,
                     par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
                                          path.package("phenor"))){
 
-  #get a specified subset out of flat data set
-
+  # get a specified subset out of flat data set
   get_cv_subset <- function(data,ids){
     CV_subset <- list(
       site = data$site[ids, drop = FALSE],

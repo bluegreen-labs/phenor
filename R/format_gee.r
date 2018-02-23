@@ -17,8 +17,8 @@
 #'}
 
 format_gee = function(path = "~",
-                         phenophase = "Increase",
-                         offset = 264){
+                      phenophase = "Increase",
+                      offset = 264){
 
   # helper function to process the data
   format_data = function(site, transition_files, path){
