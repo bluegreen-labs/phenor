@@ -5,7 +5,7 @@ test_that("test data downloads",{
 
   # download npn data
   npn_data = try(download_npn(species = 3,
-                              path = paste0(tempdir(),"/npn_test.rds"),
+                              path = tempdir(),
                               internal = FALSE))
 
   # download npn data internal
