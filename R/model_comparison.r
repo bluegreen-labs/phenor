@@ -9,6 +9,8 @@
 #' @param control additional optimization control parameters
 #' (default = list(max.call = 5000, temperature = 10000))
 #' @param par_ranges location of the parameter ranges of the models
+#' @param ncores number of cores to use to calculate model comparisons,
+#' system specific and defaults to 1 threat (default = 1)
 #' @keywords phenology, model, validation, comparison
 #' @export
 #' @examples
@@ -32,7 +34,8 @@ model_comparison = function(random_seeds = c(1,12,40),
                             control = list(max.call = 5000,
                                            temperature = 10000),
                             par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                                                 path.package("phenor"))){
+                                                 path.package("phenor")),
+                            ncores = 1){
 
   # convert to a flat format for speed
   data = flat_format(data)
@@ -62,7 +65,7 @@ model_comparison = function(random_seeds = c(1,12,40),
   # implement a progress bar for graphical feedback
   # this to gauge speed limitations
   cat("This might take a while ... \n")
-  pb = utils::txtProgressBar(min = 0, max = nr_models*nr_seeds, style = 3)
+  pb = utils::txtProgressBar(min = 0, max = nr_models, style = 3)
   k = 1
 
   # iterate all instances
@@ -74,18 +77,19 @@ model_comparison = function(random_seeds = c(1,12,40),
     d = d[,3:ncol(d)]
     d = as.matrix(d)
 
-    # create temp matrices
-    tmp_parameters = matrix(NA,nr_seeds,ncol(d))
-    predicted_values = matrix(NA,nr_seeds,nr_obs)
+    # Parallel compute model runs for the various
+    # seeds. Only do so for # seeds > 2
+    cl <- snow::makeCluster(ncores)
 
-    for (j in 1:nr_seeds) {
+    # optimize models
+    optimized_data = snow::parLapply(cl, random_seeds, function(random_seed){
 
-      # progress bar for the models
-      utils::setTxtProgressBar(pb, k);
-      k = k + 1
+      # load library in individual workers
+      # similar the foreach .package argument
+      library(phenor)
 
       # set random seed for a given run
-      set.seed(random_seeds[j])
+      set.seed(random_seed)
 
       # optimize the model parameters using
       # GenSA algorithm
@@ -101,19 +105,38 @@ model_comparison = function(random_seeds = c(1,12,40),
 
       # put optimial parameters in the output
       # matrix
-      tmp_parameters[j,1:length(par$par)] = par$par
+      tmp_parameters = par$par
 
       # add model output using the estiamted parameters
-      predicted_values[j,] = estimate_phenology(
+      predicted_values = estimate_phenology(
         data = data,
         model = models[i],
         par = par$par
       )
-    }
+
+      # return data
+      return(list("parameters" = tmp_parameters,
+                  "predicted_values" = predicted_values))
+    })
+
+    # stop cluster
+    snow::stopCluster(cl)
+
+    # collect garbage, especially unclosed connections
+    # or memory stacks
+    gc()
+
+    # progress bar for the models
+    utils::setTxtProgressBar(pb, k);
+    k = k + 1
 
     # stuff everything in a list
-    tmp = list("parameters" = tmp_parameters,
-               "predicted_values" = predicted_values)
+    tmp = list("parameters" = do.call("rbind",
+                                      lapply(optimized_data,
+                                             function(x)x$parameters)),
+               "predicted_values" = do.call("rbind",
+                                            lapply(optimized_data,
+                                             function(x)x$predicted_values)))
 
     # append to the list
     model_estimates[i] = list(tmp)
