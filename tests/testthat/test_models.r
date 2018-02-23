@@ -1,7 +1,7 @@
 # Phenor unit tests
 
 # test all phenology models
-test_that("pixel location download check",{
+test_that("test model runs",{
 
   # load parameter ranges
   models = utils::read.table(sprintf("%s/extdata/parameter_ranges.csv",
