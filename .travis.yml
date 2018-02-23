@@ -13,3 +13,7 @@ r:
 
 r_packages:
   - devtools
+  - covr
+
+after_success:
+- Rscript -e 'covr::codecov()'
