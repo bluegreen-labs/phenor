@@ -24,6 +24,9 @@ Imports:
     snow,
     daymetr,
     phenocamr
+Suggests:
+    covr,
+    testthat
 Remotes: 
   khufkens/daymetr,
   khufkens/phenocamr
