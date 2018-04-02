@@ -5,7 +5,7 @@ Author: Koen Hufkens <koen.hufkens@gmail.com>
 Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
 Description: Provides an R phenology modelling framework.
 Depends:
-    R (>= 3.3.1),
+    R (>= 3.3.1)
 Imports:
     methods,
     magrittr,
@@ -27,8 +27,7 @@ Imports:
 Suggests:
     covr,
     testthat
-Remotes: 
-  khufkens/daymetr,
+Remotes:
   khufkens/phenocamr
 License: AGPL-3
 LazyData: true
