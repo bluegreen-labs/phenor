@@ -35,7 +35,7 @@ Download a limited subset of the data described in Richardson et al. (2017) from
 git clone https://github.com/khufkens/phenocam_dataset.git
 ```
 
-or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=15111).
+or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1511).
 
 ## Use
 
