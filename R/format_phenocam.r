@@ -285,5 +285,4 @@ format_phenocam = function(path = "~",
                             threshold,
                             offset))
   }
-
 }
