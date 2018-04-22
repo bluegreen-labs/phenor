@@ -191,8 +191,8 @@ model_cv<-function( k=10,
   names(cv_stat) <- models
 
   # combine and return
-  results <- list(results,cv_stat)
-  names(results) <- c("cv_predictions","cv_statistics")
+  results <- list(results, cv_stat)
+  names(results) <- c("cv_predictions", "cv_statistics")
   return (results)
 }
 
