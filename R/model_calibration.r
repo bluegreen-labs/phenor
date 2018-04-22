@@ -51,7 +51,7 @@ model_calibration = function(model = "TT",
   d = as.matrix(d)
 
   # optimize paramters
-  optim.par = optimize_parameters(
+  optim_par = optimize_parameters(
     par = NULL,
     data = data,
     model = model,
@@ -67,16 +67,16 @@ model_calibration = function(model = "TT",
   out = estimate_phenology(
     data = data,
     model = model,
-    par = optim.par$par,
+    par = optim_par$par,
     ...
   )
 
   # basic statistics
   RMSE_NULL = sqrt(mean((data$transition_dates - null(data)) ^ 2, na.rm = T))
-  RMSE = rmse(par = optim.par$par, data = data, model = model)
+  RMSE = rmse(par = optim_par$par, data = data, model = model)
   Ac = AICc(measured = data$transition_dates,
             predicted = out,
-            k = length(optim.par$par))
+            k = length(optim_par$par))
 
   # plot data if requested
   if (plot){
@@ -96,7 +96,7 @@ model_calibration = function(model = "TT",
   print(summary(lm(data$transition_dates ~ out)))
 
   # return optimized parameters and stats
-  return(list("par" = optim.par$par,
+  return(list("par" = optim_par$par,
               "rmse" = RMSE,
               "rmse_null" = RMSE_NULL,
               "aic" = Ac))
