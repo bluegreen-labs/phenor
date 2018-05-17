@@ -87,6 +87,23 @@ optimize_parameters = function(par = NULL,
                        ...)
   }
 
+  if (tolower(method) == "deoptim"){
+    # optimize model parameters using
+    # DiffeRential Evolution Adaptive Metropolis (DREAM)
+
+    # stop if no starting parameters are provided
+    if (is.null(par)){
+      stop('The DEoptim algorithm needs defined strating parameters!')
+    }
+
+    optim.par = DEoptim::DEoptim(fn = cost,
+                                 lower = lower,
+                                 upper = upper,
+                                 data = data,
+                                 model = model,
+                                 ...)
+  }
+
   # other optimizers can be added here !
 
   # return the optimization data (parameters)
