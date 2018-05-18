@@ -23,7 +23,8 @@ Imports:
     sp,
     snow,
     daymetr,
-    phenocamr
+    phenocamr,
+    BayesianTools
 Suggests:
     covr,
     testthat

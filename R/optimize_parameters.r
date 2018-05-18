@@ -92,22 +92,6 @@ optimize_parameters = function(par = NULL,
                        ...)
   }
 
-  if (tolower(method) == "deoptim"){
-    # DEoptim
-
-    # stop if no starting parameters are provided
-    if (is.null(par)){
-      stop('The DEoptim algorithm needs defined strating parameters!')
-    }
-
-    optim_par = DEoptim::DEoptim(fn = cost,
-                                 lower = lower,
-                                 upper = upper,
-                                 data = data,
-                                 model = model,
-                                 ...)
-  }
-
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
