@@ -2,10 +2,7 @@
 % Please edit documentation in R/cost_functions.r
 \name{rmse}
 \alias{rmse}
-\title{Calculates the a cost function for model optimization.
-Different cost functions can be specified
-if they adhere to the same basic structure in their parameters.
-Currently only RMSE is provided as a cost function,}
+\title{A Root Mean Squared Error cost function for model optimization.}
 \usage{
 rmse(par, data, model, ...)
 }
@@ -27,10 +24,7 @@ will be added over time, preliminary list:
 the RMSE comparing observed and estimated values
 }
 \description{
-Calculates the a cost function for model optimization.
-Different cost functions can be specified
-if they adhere to the same basic structure in their parameters.
-Currently only RMSE is provided as a cost function,
+A Root Mean Squared Error cost function for model optimization.
 }
 \examples{
 
