@@ -16,7 +16,7 @@
 #' @param upper upper limit of parameter values (function specific)
 #' @param maxit maximum number of generations to run (genoud)
 #' @param control additional optimization control parameters (default = NULL)
-#' @param ... extra arguments to pass to the function
+#' @param ... extra arguments to pass to the function, mostly BayesianTools
 #' @keywords phenology, model, optimization, simulated annealing, genoud, optim
 #' @export
 #' @examples
@@ -44,6 +44,11 @@ optimize_parameters = function(par = NULL,
     stop('Please provide upper and lower boundaries to the parameter space.\n
          Not defining your parameters space might yield good fits,\n
          for a wrong reason.')
+  }
+
+  # check if starting parameters are balanced
+  if (length(lower) != length(upper)){
+    stop('Parameter boundaries should be balanced')
   }
 
   # convert to a flat format for speed
@@ -101,6 +106,33 @@ optimize_parameters = function(par = NULL,
                                  data = data,
                                  model = model,
                                  ...)
+  }
+
+  # BayesianTools
+  if (tolower(method) == "bayesiantools"){
+
+    # stop if no starting parameters are provided
+    if (is.null(par)){
+      stop('The BayesianTools algorithm needs defined strating parameters!')
+    }
+
+    if(cost != "likelihood"){
+      stop('The BayesianTools requires a likelihood function!')
+    }
+
+    # setup the bayes run
+    setup = createBayesianSetup(cost,
+                                 lower = c(lower, 0.01),
+                                 upper = c(upper, 30))
+
+    # run the MCMC routine, pass the sampler
+    # via ...
+    out = runMCMC(bayesianSetup = setup,
+                    settings = control,
+                    ...)
+
+    # correct formatting in line with other outputs
+    optim_par = list("par" = MAP(out1)$parametersMAP[1:length(lower)])
   }
 
   # return the optimization data (parameters)
