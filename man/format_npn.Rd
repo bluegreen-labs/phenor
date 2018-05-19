@@ -2,9 +2,7 @@
 % Please edit documentation in R/format_npn.r
 \name{format_npn}
 \alias{format_npn}
-\title{Preprocessing of USA-NPN data into a format which can be ingested
-by the optimization routines. Data is aggregated on a individual_id basis,
-rather than on the user defined site_id.}
+\title{Pre-processing of USA-NPN data}
 \usage{
 format_npn(data = NULL, phenophase = 371, offset = 264, internal = TRUE)
 }
@@ -19,9 +17,9 @@ format_npn(data = NULL, phenophase = 371, offset = 264, internal = TRUE)
 to RDS file (default = TRUE)}
 }
 \description{
-Preprocessing of USA-NPN data into a format which can be ingested
-by the optimization routines. Data is aggregated on a individual_id basis,
-rather than on the user defined site_id.
+Combines data into a format which can be ingested
+by the optimization routines. Data is aggregated on an
+individual_id basis, rather than on the user defined site_id.
 }
 \examples{
 

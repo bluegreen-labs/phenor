@@ -4,7 +4,7 @@
 \alias{likelihood}
 \title{A likelihood cost function for model optimization.}
 \usage{
-likelihood(par, data, model, ...)
+likelihood(par)
 }
 \arguments{
 \item{par}{a vector of parameter values, this is functions specific}

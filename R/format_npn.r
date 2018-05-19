@@ -1,6 +1,8 @@
-#' Preprocessing of USA-NPN data into a format which can be ingested
-#' by the optimization routines. Data is aggregated on a individual_id basis,
-#' rather than on the user defined site_id.
+#' Pre-processing of USA-NPN data
+#'
+#' Combines data into a format which can be ingested
+#' by the optimization routines. Data is aggregated on an
+#' individual_id basis, rather than on the user defined site_id.
 #'
 #' @param data an USA-NPN data frame as returned by download_npn()
 #' @param phenophase a phenophase to include as validation statistic
@@ -191,14 +193,14 @@ format_npn = function(data = NULL,
   sites = unique(data$individual_id)
 
   # track progress
-  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
   cat(sprintf('Processing %s individuals (sites)\n', length(sites)))
 
   # process data
   validation_data = lapply(sites, function(x) {
-    setTxtProgressBar(pb, i + 1)
+    utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x)
   })

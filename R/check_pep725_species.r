@@ -12,8 +12,9 @@
 #' \dontrun{
 #' check_pep725_species(species = 115)
 #'}
-
+#'
 #' @importFrom magrittr %>%
+
 check_pep725_species = function(species = NULL,
                                 list = FALSE){
 

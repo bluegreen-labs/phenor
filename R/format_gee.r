@@ -43,7 +43,9 @@ format_gee = function(path = "~",
 
     # grab the values, set NA flag and take the median
     modis_data = modis_data[,grep(phenophase,colnames(modis_data))]
-    modis_data = unlist(by(modis_data, INDICES = list(years), stats::median, na.rm = TRUE))
+    modis_data = unlist(by(modis_data,
+                           INDICES = list(years),
+                           stats::median, na.rm = TRUE))
 
     # count the days from the start date, and report the DOY
     phenophase = as.numeric(format(start_date + modis_data, "%j"))
