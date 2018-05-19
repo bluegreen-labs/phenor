@@ -95,28 +95,25 @@ optimize_parameters = function(par = NULL,
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
-    # stop if no starting parameters are provided
-    if (is.null(par)){
-      stop('The BayesianTools algorithm needs defined strating parameters!')
-    }
-
-    if(cost != "likelihood"){
-      stop('The BayesianTools requires a likelihood function!')
-    }
+    # dangerous shit
+    assign("tmp_data", data, envir = .GlobalEnv)
+    assign("tmp_model", model, envir = .GlobalEnv)
 
     # setup the bayes run
-    setup = createBayesianSetup(cost,
+    setup = BayesianTools::createBayesianSetup(likelihood = likelihood,
                                  lower = c(lower, 0.01),
                                  upper = c(upper, 30))
 
     # run the MCMC routine, pass the sampler
     # via ...
-    out = runMCMC(bayesianSetup = setup,
-                    settings = control,
-                    ...)
+    out = BayesianTools::runMCMC(bayesianSetup = setup,
+                    settings = control)
+
+    # remove copy of data and model name
+    try(rm("tmp_data","tmp_model"))
 
     # correct formatting in line with other outputs
-    optim_par = list("par" = MAP(out1)$parametersMAP[1:length(lower)])
+    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP[1:length(lower)])
   }
 
   # return the optimization data (parameters)
