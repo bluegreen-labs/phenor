@@ -21,7 +21,9 @@
 #' cost_value = rmse(par, data, model="TTs")
 #' }
 
-rmse = function(par, data, model, ...) {
+rmse = function(par,
+                data,
+                model, ...) {
 
   # inset validity checks
   val = data$transition_dates
@@ -59,21 +61,22 @@ rmse = function(par, data, model, ...) {
 #' cost_value = likelihood(par, data, model="TTs")
 #' }
 #'
-likelihood = function(par, data, model, ...) {
+likelihood = function(par) {
 
   # inset validity checks
   val = data$transition_dates
-  out = do.call(model,list(data = data, par = par, ...))
+  out = do.call(tmp_model,list(data = tmp_data,
+                           par = par[1:(length(par)-1)]))
 
   if (any(is.na(out))) {
     return(9999)
   } else {
     # return the RMSE between the validation data and
     # the output of the model
-    BayesianTools::singlelikelihoods = dnorm(val,
-                                             mean = out,
-                                             sd = 1/(par[length(par)]^2),
-                                             log = T)
+    singlelikelihoods = dnorm(val,
+                              mean = out,
+                              sd = 1/(par[length(par)]^2),
+                              log = T)
     return(sum(singlelikelihoods))
   }
 }
