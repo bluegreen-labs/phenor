@@ -83,7 +83,7 @@ model_calibration = function(model = "TT",
   # plot data if requested
   if (plot){
     plot(data$transition_dates,out,
-         main = paste(model,", iterations: ", control$max.call, sep=""),
+         main = paste0(model,", iterations: ", control$max.call),
          xlab = "onset DOY Measured",
          ylab = "onset DOY Modelled",
          pch = 19,
@@ -101,5 +101,6 @@ model_calibration = function(model = "TT",
   return(list("par" = optim_par$par,
               "rmse" = RMSE,
               "rmse_null" = RMSE_NULL,
-              "aic" = Ac))
+              "aic" = Ac,
+              "opt_output" = optim_par$opt_output))
 }
