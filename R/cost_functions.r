@@ -64,12 +64,12 @@ rmse = function(par,
 likelihood = function(par) {
 
   # inset validity checks
-  val = data$transition_dates
+  val = tmp_data$transition_dates
   out = do.call(tmp_model,list(data = tmp_data,
                            par = par[1:(length(par)-1)]))
 
   if (any(is.na(out))) {
-    return(9999)
+    return(-9999)
   } else {
     # return the RMSE between the validation data and
     # the output of the model

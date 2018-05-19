@@ -95,7 +95,8 @@ optimize_parameters = function(par = NULL,
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
-    # dangerous shit
+    # dangerous but necessary to get the optimizer
+    # to work within the phenor framework
     assign("tmp_data", data, envir = .GlobalEnv)
     assign("tmp_model", model, envir = .GlobalEnv)
 
@@ -104,16 +105,16 @@ optimize_parameters = function(par = NULL,
                                  lower = c(lower, 0.01),
                                  upper = c(upper, 30))
 
-    # run the MCMC routine, pass the sampler
-    # via ...
     out = BayesianTools::runMCMC(bayesianSetup = setup,
-                    settings = control)
+                                 sampler = control$sampler,
+                                 settings = control$settings)
 
     # remove copy of data and model name
-    try(rm("tmp_data","tmp_model"))
+    rm("tmp_data","tmp_model", envir = .GlobalEnv)
 
     # correct formatting in line with other outputs
-    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP[1:length(lower)])
+    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP[1:length(lower)],
+                     "opt_output" = out)
   }
 
   # return the optimization data (parameters)
