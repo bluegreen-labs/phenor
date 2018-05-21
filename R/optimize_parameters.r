@@ -97,8 +97,12 @@ optimize_parameters = function(par = NULL,
 
     # dangerous but necessary to get the optimizer
     # to work within the phenor framework
-    assign("tmp_data", data, envir = .GlobalEnv)
-    assign("tmp_model", model, envir = .GlobalEnv)
+    assign("tmp_data",
+           data,
+           envir = .GlobalEnv)
+    assign("tmp_model",
+           model,
+           envir = .GlobalEnv)
 
     # setup the bayes run
     setup = BayesianTools::createBayesianSetup(likelihood = likelihood,
