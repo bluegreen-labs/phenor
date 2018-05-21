@@ -69,7 +69,7 @@ likelihood = function(par) {
                            par = par[1:(length(par)-1)]))
 
   if (any(is.na(out))) {
-    return(-9999)
+    return(0)
   } else {
     # return the RMSE between the validation data and
     # the output of the model
