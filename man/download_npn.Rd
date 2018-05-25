@@ -23,9 +23,7 @@ is provided by check_npn_phenophases()}
 as bottom left, top right c(lon1, lat1, lon2, lat2) if null returns all
 data (default = NULL)}
 
-\item{internal}{completes download internally in a temporary directory and
-merges the data subsequently using merge_pep725(), returns a nested list
-of tidy data. internal overrides the path command.}
+\item{internal}{completes download internally in a temporary directory}
 
 \item{path}{the path where to save the downloaded data}
 }
