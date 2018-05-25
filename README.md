@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
 [![codecov](https://codecov.io/gh/khufkens/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/khufkens/phenor)
-[![DOI](https://www.zenodo.org/badge/86112766.svg)](https://www.zenodo.org/badge/latestdoi/86112766)
 
 # phenor
 
