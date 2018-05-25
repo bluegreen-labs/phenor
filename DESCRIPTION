@@ -28,8 +28,6 @@ Imports:
 Suggests:
     covr,
     testthat
-Remotes:
-  khufkens/phenocamr
 License: AGPL-3
 LazyData: true
 ByteCompile: true
