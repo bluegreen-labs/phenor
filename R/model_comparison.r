@@ -68,32 +68,104 @@ model_comparison = function(random_seeds = c(1,12,40),
   pb = utils::txtProgressBar(min = 0, max = nr_models, style = 3)
   k = 1
 
-  # iterate all instances
-  for (i in 1:nr_models) {
+  if (tolower(method) != "bayesiantools"){
+    # iterate all instances
+    for (i in 1:nr_models) {
 
-    # select ranges
-    d = par_ranges[par_ranges$model == models[i],]
-    d = d[,!is.na(d[1,])]
-    d = d[,3:ncol(d)]
-    d = as.matrix(d)
+      # select ranges
+      d = par_ranges[par_ranges$model == models[i],]
+      d = d[,!is.na(d[1,])]
+      d = d[,3:ncol(d)]
+      d = as.matrix(d)
 
-    # Parallel compute model runs for the various
-    # seeds. Only do so for # seeds > 2
+      # Parallel compute model runs for the various
+      # seeds. Only do so for # seeds > 2
+      cl <- snow::makeCluster(ncores)
+
+      # optimize models
+      optimized_data = snow::parLapply(cl, random_seeds, function(random_seed){
+
+        # load library in individual workers
+        # similar the foreach .package argument
+        library(phenor)
+
+        # set random seed for a given run
+        set.seed(random_seed)
+
+        # optimize the model parameters using
+        # GenSA algorithm
+        par = optimize_parameters(
+          par = NULL,
+          data = data,
+          model = models[i],
+          method = method,
+          lower = as.numeric(d[1,]),
+          upper = as.numeric(d[2,]),
+          control = control
+        )
+
+        # add model output using the estiamted parameters
+        predicted_values = estimate_phenology(
+          data = data,
+          model = models[i],
+          par = par$par
+        )
+
+        # return data
+        return(list("parameters" = par$par,
+                    "predicted_values" = predicted_values))
+      })
+
+      # stop cluster
+      snow::stopCluster(cl)
+
+      # progress bar for the models
+      utils::setTxtProgressBar(pb, k);
+      k = k + 1
+
+      # stuff everything in a list
+      tmp = list("parameters" = do.call("rbind",
+                                        lapply(optimized_data,
+                                               function(x)x$parameters)),
+                 "predicted_values" = do.call("rbind",
+                                              lapply(optimized_data,
+                                                     function(x)x$predicted_values)))
+
+      # append to the list
+      model_estimates[i] = list(tmp)
+    }
+
+    # close the progress bar element
+    close(pb)
+
+  } else {
+
+    # warning on random seeds
+    if(length(random_seeds) > 1){
+      message("Only the first random seed will be used, please use the 'nchains' parameter
+              in BT to specify the number random initial conditions!")
+    }
+
+    # parallel process the models optimizations
+    # set ncores to number of models if specified
+    # ncores exceeds the number of models
+    if(ncores > length(models)) ncores <- length(models)
+
+    # start cluster
     cl <- snow::makeCluster(ncores)
 
     # optimize models
-    optimized_data = snow::parLapply(cl, random_seeds, function(random_seed){
+    model_estimates = snow::parLapply(cl, models, function(model){
 
-      # load library in individual workers
-      # similar the foreach .package argument
-      library(phenor)
-
-      # set random seed for a given run
-      set.seed(random_seed)
+      # select ranges
+      d = par_ranges[par_ranges$model == model,]
+      d = d[,!is.na(d[1,])]
+      d = d[,3:ncol(d)]
+      d = as.matrix(d)
 
       # optimize the model parameters using
       # GenSA algorithm
-      par = optimize_parameters(
+      par = phenor::optimize_parameters(
         par = NULL,
         data = data,
         model = models[i],
@@ -103,10 +175,6 @@ model_comparison = function(random_seeds = c(1,12,40),
         control = control
       )
 
-      # put optimial parameters in the output
-      # matrix
-      tmp_parameters = par$par
-
       # add model output using the estiamted parameters
       predicted_values = estimate_phenology(
         data = data,
@@ -115,35 +183,20 @@ model_comparison = function(random_seeds = c(1,12,40),
       )
 
       # return data
-      return(list("parameters" = tmp_parameters,
-                  "predicted_values" = predicted_values))
+      return(list("parameters" = par$par,
+                  "predicted_values" = predicted_values,
+                  "parameter_uncertainty" = par$par, # CI ??
+                  "opt_output" = par$opt_output))
     })
 
     # stop cluster
     snow::stopCluster(cl)
 
-    # collect garbage, especially unclosed connections
-    # or memory stacks
-    gc()
-
-    # progress bar for the models
-    utils::setTxtProgressBar(pb, k);
-    k = k + 1
-
-    # stuff everything in a list
-    tmp = list("parameters" = do.call("rbind",
-                                      lapply(optimized_data,
-                                             function(x)x$parameters)),
-               "predicted_values" = do.call("rbind",
-                                            lapply(optimized_data,
-                                             function(x)x$predicted_values)))
-
-    # append to the list
-    model_estimates[i] = list(tmp)
   }
 
-  # close the progress bar element
-  close(pb)
+  # collect garbage, especially unclosed connections
+  # or memory stacks
+  gc()
 
   # rename model output for clarity
   names(model_estimates) = models
@@ -151,12 +204,6 @@ model_comparison = function(random_seeds = c(1,12,40),
   # concat comparison data
   comparison = list("modelled" = model_estimates,
                     "measured" = data$transition_dates)
-
-  # check if it's a comparison between two models
-  # if so plot the arrrow graph
-  if (length(models)==2){
-
-  }
 
   # return data
   return(comparison)
