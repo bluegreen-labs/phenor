@@ -10,7 +10,7 @@
 #'
 #' \dontrun{
 #' # list all USA-NPN phenophases
-#' check_npn_phenophase(list = TRUE)
+#' check_npn_phenophases(list = TRUE)
 #'}
 
 check_npn_phenophases = function(phenophase = NULL,
