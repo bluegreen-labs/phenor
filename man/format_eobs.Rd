@@ -26,6 +26,7 @@ Returns spatial model input data from long term E-OBS modelled data.
 This data can be run by models specified in the phenor package.
 }
 \description{
+Download E-OBS data as described by:
 Haylock, M.R., N. Hofstra, A.M.G. Klein Tank, E.J. Klok, P.D.
 Jones, M. New. 2008: A European daily high-resolution gridded dataset
 of surface temperature and precipitation.

@@ -1,6 +1,7 @@
 #' Preprocessing E-OBS data as hosted by:
 #' http://www.ecad.eu/
 #'
+#' Download E-OBS data as described by:
 #' Haylock, M.R., N. Hofstra, A.M.G. Klein Tank, E.J. Klok, P.D.
 #' Jones, M. New. 2008: A European daily high-resolution gridded dataset
 #' of surface temperature and precipitation.
@@ -38,9 +39,9 @@ format_eobs = function(path = "~",
   eobs_data = lapply( c("tg","rr","elev"),function(x){
 
     # filename
-    filename = sprintf("%s_%sdeg_reg_v16.0.nc",
-                    x,
-                    resolution)
+    filename = sprintf("%s_%sdeg_reg[^/]*\\.nc",
+                       x,
+                       resolution)
 
     # if the file exist use the local file
     if (file.exists(sprintf("%s/%s", path, filename))){

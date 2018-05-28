@@ -24,7 +24,8 @@ format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
 
 \item{resolution}{resolution of the E-OBS data (0.25 or 0.5, default = 0.25)}
 
-\item{pep_data}{prefiltered subset of the merged PEP725 data obtained through merge_PEP725(), else the complete data contained in pep_path will be used}
+\item{pep_data}{prefiltered subset of the merged PEP725 data obtained through
+merge_PEP725(), else the complete data contained in pep_path will be used}
 }
 \value{
 returns a nested list of site locations, their respective

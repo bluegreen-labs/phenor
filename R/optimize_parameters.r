@@ -16,7 +16,7 @@
 #' @param upper upper limit of parameter values (function specific)
 #' @param maxit maximum number of generations to run (genoud)
 #' @param control additional optimization control parameters (default = NULL)
-#' @param ... extra arguments to pass to the function
+#' @param ... extra arguments to pass to the function, mostly BayesianTools
 #' @keywords phenology, model, optimization, simulated annealing, genoud, optim
 #' @export
 #' @examples
@@ -46,6 +46,11 @@ optimize_parameters = function(par = NULL,
          for a wrong reason.')
   }
 
+  # check if starting parameters are balanced
+  if (length(lower) != length(upper)){
+    stop('Parameter boundaries should be balanced')
+  }
+
   # convert to a flat format for speed
   # (increases speed > 20x)
   data = flat_format(data)
@@ -54,7 +59,7 @@ optimize_parameters = function(par = NULL,
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
-    optim.par = GenSA::GenSA(
+    optim_par = GenSA::GenSA(
       par = par,
       data = data,
       fn = cost,
@@ -76,7 +81,7 @@ optimize_parameters = function(par = NULL,
     if (is.null(par)){
       stop('The genoud algorithm needs defined strating parameters!')
     }
-    optim.par = rgenoud::genoud(fn = cost,
+    optim_par = rgenoud::genoud(fn = cost,
                        nvars = length(par),
                        max.generations = maxit,
                        Domains = cbind(lower,upper),
@@ -87,9 +92,36 @@ optimize_parameters = function(par = NULL,
                        ...)
   }
 
-  # other optimizers can be added here !
+  # BayesianTools
+  if (tolower(method) == "bayesiantools"){
+
+    # dangerous but necessary to get the optimizer
+    # to work within the phenor framework
+    assign("tmp_data",
+           data,
+           envir = .GlobalEnv)
+    assign("tmp_model",
+           model,
+           envir = .GlobalEnv)
+
+    # setup the bayes run
+    setup = BayesianTools::createBayesianSetup(likelihood = likelihood,
+                                 lower = c(lower, 0.01),
+                                 upper = c(upper, 30))
+
+    out = BayesianTools::runMCMC(bayesianSetup = setup,
+                                 sampler = control$sampler,
+                                 settings = control$settings)
+
+    # remove copy of data and model name
+    rm("tmp_data","tmp_model", envir = .GlobalEnv)
+
+    # correct formatting in line with other outputs
+    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP[1:length(lower)],
+                     "opt_output" = out)
+  }
 
   # return the optimization data (parameters)
   # check formatting for post-processing
-  return(optim.par)
+  return(optim_par)
 }

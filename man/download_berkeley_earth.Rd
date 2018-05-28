@@ -4,7 +4,7 @@
 \alias{download_berkeley_earth}
 \title{Download Berkeley Earth Gridded mean daily temperature data}
 \usage{
-download_berkeley_earth(path = "~", year = 2011)
+download_berkeley_earth(path = tempdir(), year = 2011)
 }
 \arguments{
 \item{path}{a path where to save the gridded data}
@@ -20,7 +20,7 @@ Download Berkeley Earth Gridded mean daily temperature data
 }
 \examples{
 
-# donwload all gridded data for year 2014
+# donwload all gridded data for year 2011
 \dontrun{
 download_berkeley_earth(year = 2011)
 }

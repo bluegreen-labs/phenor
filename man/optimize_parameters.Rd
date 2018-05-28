@@ -34,7 +34,7 @@ a RMSE or other value which needs to be minimized}
 
 \item{control}{additional optimization control parameters (default = NULL)}
 
-\item{...}{extra arguments to pass to the function}
+\item{...}{extra arguments to pass to the function, mostly BayesianTools}
 }
 \description{
 Calculates the estimated phenophases for a given set of parameters

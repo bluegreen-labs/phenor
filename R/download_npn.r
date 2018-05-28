@@ -10,9 +10,7 @@
 #' @param extent geographic coordinates constraining the output, defined
 #' as bottom left, top right c(lon1, lat1, lon2, lat2) if null returns all
 #' data (default = NULL)
-#' @param internal completes download internally in a temporary directory and
-#' merges the data subsequently using merge_pep725(), returns a nested list
-#' of tidy data. internal overrides the path command.
+#' @param internal completes download internally in a temporary directory
 #' @param path the path where to save the downloaded data
 #' @return will return a data farme for the selected species,
 #' phenophase, temporal and spatial extent or save the data to an RDS file

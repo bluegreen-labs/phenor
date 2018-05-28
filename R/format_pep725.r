@@ -16,7 +16,8 @@
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param count minimum number of acquisitions per location
 #' @param resolution resolution of the E-OBS data (0.25 or 0.5, default = 0.25)
-#' @param pep_data prefiltered subset of the merged PEP725 data obtained through merge_PEP725(), else the complete data contained in pep_path will be used
+#' @param pep_data prefiltered subset of the merged PEP725 data obtained through
+#' merge_PEP725(), else the complete data contained in pep_path will be used
 #' @return returns a nested list of site locations, their respective
 #' phenological metrics and matching environmental data as extracted from
 #' the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)
@@ -160,13 +161,15 @@ format_pep725 = function(pep_path = "~",
 
   cat("* Merging and cleaning PEP725 data files in: \n")
   cat(sprintf("  %s\n", pep_path))
-  # concat the raw PEP725 data
-  if (is.null(pep_data)){  pep_data = merge_pep725(path = pep_path)} # User may provide prefiltered merge_PEP725 dataset
+
+  # User may provide prefiltered merge_PEP725 dataset
+  if (is.null(pep_data)){  pep_data = merge_pep725(path = pep_path)}
+
   # removing out of E-OBS climate data range
   # PEP725 observations
   cat(" |_ removing data out of range of the E-OBS climate data \n")
   pep_data = pep_data[which(pep_data$year >= 1950 &
-                            pep_data$year <= max(pep_data$year)),]
+                              pep_data$year <= max(pep_data$year)),]
 
   # filtering on species
   if (is.null(species)){
@@ -186,9 +189,9 @@ format_pep725 = function(pep_path = "~",
   # for them being continuous or not !
   sites = unique(pep_data$pep_id)
   counts = unlist(lapply(sites,function(x){
-      length(which(pep_data$pep_id == x))
-      })
-    )
+    length(which(pep_data$pep_id == x))
+  })
+  )
 
   # make a selection based upon minimum number
   # of observations required per site
@@ -229,7 +232,6 @@ format_pep725 = function(pep_path = "~",
   pb = txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
-  cat(sprintf('Processing %s sites\n', sites))
 
   # process data
   validation_data = lapply(sites, function(x) {

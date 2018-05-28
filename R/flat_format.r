@@ -65,12 +65,16 @@ flat_format = function(data = NULL){
   # a long vector
   transition_dates = as.vector(do.call("c",lapply(data,function(x)x$transition)))
 
+  # concat all years
+  year = as.vector(do.call("c",lapply(data,function(x)x$year)))
+
   # recreate the validation data structure (new format)
   # but with concatted data
   flat_data = list("site" = site,
               "location" = location,
               "doy" = doy,
               "transition_dates" = transition_dates,
+              "year" = year,
               "ltm" = ltm,
               "Ti" = Ti,
               "Tmini" = Tmini,

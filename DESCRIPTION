@@ -23,12 +23,11 @@ Imports:
     sp,
     snow,
     daymetr,
-    phenocamr
+    phenocamr,
+    BayesianTools
 Suggests:
     covr,
     testthat
-Remotes:
-  khufkens/phenocamr
 License: AGPL-3
 LazyData: true
 ByteCompile: true
