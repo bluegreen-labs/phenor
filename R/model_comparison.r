@@ -62,13 +62,14 @@ model_comparison = function(random_seeds = c(1,12,40),
   # Both for loops can be parallelized,
   # to speed up comparisons.
 
-  # implement a progress bar for graphical feedback
-  # this to gauge speed limitations
-  cat("This might take a while ... \n")
-  pb = utils::txtProgressBar(min = 0, max = nr_models, style = 3)
-  k = 1
-
   if (tolower(method) != "bayesiantools"){
+
+    # implement a progress bar for graphical feedback
+    # this to gauge speed limitations
+    cat("This might take a while ... \n")
+    pb = utils::txtProgressBar(min = 0, max = nr_models, style = 3)
+    k = 1
+
     # iterate all instances
     for (i in 1:nr_models) {
 
@@ -78,12 +79,13 @@ model_comparison = function(random_seeds = c(1,12,40),
       d = d[,3:ncol(d)]
       d = as.matrix(d)
 
-      # Parallel compute model runs for the various
-      # seeds. Only do so for # seeds > 2
+      # start cluster, default is SOCK cluster
       cl <- snow::makeCluster(ncores)
 
       # optimize models
-      optimized_data = snow::parLapply(cl, random_seeds, function(random_seed){
+      optimized_data = snow::parLapply(cl,
+                                       random_seeds,
+                                       function(random_seed){
 
         # load library in individual workers
         # similar the foreach .package argument
@@ -91,6 +93,10 @@ model_comparison = function(random_seeds = c(1,12,40),
 
         # set random seed for a given run
         set.seed(random_seed)
+
+        # progress bar for the models
+        utils::setTxtProgressBar(pb, k);
+        k = k + 1
 
         # optimize the model parameters using
         # GenSA algorithm
@@ -119,10 +125,6 @@ model_comparison = function(random_seeds = c(1,12,40),
       # stop cluster
       snow::stopCluster(cl)
 
-      # progress bar for the models
-      utils::setTxtProgressBar(pb, k);
-      k = k + 1
-
       # stuff everything in a list
       tmp = list("parameters" = do.call("rbind",
                                         lapply(optimized_data,
@@ -149,9 +151,13 @@ model_comparison = function(random_seeds = c(1,12,40),
     # parallel process the models optimizations
     # set ncores to number of models if specified
     # ncores exceeds the number of models
-    if(ncores > length(models)) ncores <- length(models)
+    if(ncores > nr_models) ncores <- nr_models
 
-    # start cluster
+    # implement a progress bar for graphical feedback
+    # this to gauge speed limitations
+    cat("This might take a while ... \n")
+
+    # start cluster, default is SOCK cluster
     cl <- snow::makeCluster(ncores)
 
     # optimize models
@@ -168,7 +174,7 @@ model_comparison = function(random_seeds = c(1,12,40),
       par = phenor::optimize_parameters(
         par = NULL,
         data = data,
-        model = models[i],
+        model = model,
         method = method,
         lower = as.numeric(d[1,]),
         upper = as.numeric(d[2,]),
@@ -178,7 +184,7 @@ model_comparison = function(random_seeds = c(1,12,40),
       # add model output using the estiamted parameters
       predicted_values = estimate_phenology(
         data = data,
-        model = models[i],
+        model = model,
         par = par$par
       )
 
