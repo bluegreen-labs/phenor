@@ -105,8 +105,6 @@ model_calibration = function(model = "TT",
               "rmse" = RMSE,
               "rmse_null" = RMSE_NULL,
               "aic" = Ac,
-              "bt_output" = ifelse(tolower(method)=="bayesiantools",
-                               optim_par$bt_output,
-                               NULL))
+              "bt_output" = optim_par$bt_output)
          )
 }
