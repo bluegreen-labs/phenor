@@ -9,9 +9,10 @@
 #' @param cost the cost function to use in the optimization, it should return
 #' a RMSE or other value which needs to be minimized
 #' @param model the model name to be used in optimizing the model
-#' @param method optimization method to use
-#'    - GenSA :  Generalized Simulated Annealing algorithm (default)
+#' @param method optimization method to use (default = GenSA)
+#'    - GenSA :  Generalized Simulated Annealing algorithm
 #'    - genoud : GENetic Optimization Using Derivatives
+#'    - BayesianTools: various bayesian based optimization tools
 #' @param lower lower limit of parameter values (function specific)
 #' @param upper upper limit of parameter values (function specific)
 #' @param maxit maximum number of generations to run (genoud)
@@ -55,7 +56,7 @@ optimize_parameters = function(par = NULL,
   # (increases speed > 20x)
   data = flat_format(data)
 
-  if ( method == "GenSA" ){
+  if ( tolower(method) == "gensa" ){
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
@@ -71,7 +72,7 @@ optimize_parameters = function(par = NULL,
     )
   }
 
-  if (method == "genoud"){
+  if (tolower(method) == "genoud"){
     # optimize model parameters using the
     # GENetic Optimization Using Derivatives
     # needs more tweaking to work out of the box
@@ -118,7 +119,7 @@ optimize_parameters = function(par = NULL,
 
     # correct formatting in line with other outputs
     optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP,
-                     "opt_output" = out)
+                     "bt_output" = out)
   }
 
   # return the optimization data (parameters)

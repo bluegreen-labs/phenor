@@ -22,9 +22,10 @@ a RMSE or other value which needs to be minimized}
 
 \item{model}{the model name to be used in optimizing the model}
 
-\item{method}{optimization method to use
-- GenSA :  Generalized Simulated Annealing algorithm (default)
-- genoud : GENetic Optimization Using Derivatives}
+\item{method}{optimization method to use (default = GenSA)
+- GenSA :  Generalized Simulated Annealing algorithm
+- genoud : GENetic Optimization Using Derivatives
+- BayesianTools: various bayesian based optimization tools}
 
 \item{lower}{lower limit of parameter values (function specific)}
 

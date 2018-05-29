@@ -13,10 +13,7 @@ rmse(par, data, model, ...)
 by format_phenocam() or format_pep725(), or your own dataset adhering
 to the same data structure.}
 
-\item{model}{the model name to be used in optimizing the model
-Most models are listed in Melaas et al. 2013, additional ones
-will be added over time, preliminary list:
-1. SEQ1.3}
+\item{model}{the model name to be used in optimizing the model}
 
 \item{...}{extra arguments to pass to the function}
 }

@@ -17,7 +17,10 @@ model_calibration(model = "TT", data = phenocam_DB, method = "GenSA",
 format_modis() routines, or adhering to the general model optimization
 input format.}
 
-\item{method}{method to use during optimization (default = GenSA)}
+\item{method}{optimization method to use (default = GenSA)
+- GenSA :  Generalized Simulated Annealing algorithm
+- genoud : GENetic Optimization Using Derivatives
+- BayesianTools: various bayesian based optimization tools}
 
 \item{control}{list of control parameters to be passed to the optimizer}
 

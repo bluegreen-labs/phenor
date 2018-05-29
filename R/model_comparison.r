@@ -4,8 +4,10 @@
 #' @param random_seeds a vector with random seeds for cross validation
 #' @param models list of models to compare
 #' @param data which standard or custom dataset to use
-#' @param method which optimization method to use, GenSA or rgenoud
-#' (default = GenSA)
+#' @param method optimization method to use (default = GenSA)
+#'    - GenSA :  Generalized Simulated Annealing algorithm
+#'    - genoud : GENetic Optimization Using Derivatives
+#'    - BayesianTools: various bayesian based optimization tools
 #' @param control additional optimization control parameters
 #' (default = list(max.call = 5000, temperature = 10000))
 #' @param par_ranges location of the parameter ranges of the models
@@ -192,7 +194,7 @@ model_comparison = function(random_seeds = c(1,12,40),
       return(list("parameters" = par$par,
                   "predicted_values" = predicted_values,
                   "parameter_uncertainty" = par$par, # CI ??
-                  "opt_output" = par$opt_output))
+                  "bt_output" = par$bt_output))
     })
 
     # stop cluster

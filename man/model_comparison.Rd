@@ -19,8 +19,10 @@ model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs",
 
 \item{data}{which standard or custom dataset to use}
 
-\item{method}{which optimization method to use, GenSA or rgenoud
-(default = GenSA)}
+\item{method}{optimization method to use (default = GenSA)
+- GenSA :  Generalized Simulated Annealing algorithm
+- genoud : GENetic Optimization Using Derivatives
+- BayesianTools: various bayesian based optimization tools}
 
 \item{control}{additional optimization control parameters
 (default = list(max.call = 5000, temperature = 10000))}
