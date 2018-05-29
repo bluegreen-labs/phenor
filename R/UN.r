@@ -38,7 +38,6 @@ UN  = function(par, data){
                                        T_min = T_min,
                                        T_max = T_max)
   Rc[1:t0,] = 0
-  Sc = apply(Rc, 2, cumsum)
 
   # bell shaped temperature response
   Sc = apply(Rc, 2, cumsum)
