@@ -1,2 +1,4 @@
 theme: jekyll-theme-minimal
+title: phenor
+description: An integrated phenology modelling framework in R: Phenology modelling with phenor. Hufkens K. et al. Methods in Ecology & Evolution, 2018, 9: 1-10.
 show_downloads: true
