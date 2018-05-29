@@ -95,29 +95,29 @@ optimize_parameters = function(par = NULL,
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
-    # dangerous but necessary to get the optimizer
-    # to work within the phenor framework
-    assign("tmp_data",
-           data,
-           envir = .GlobalEnv)
-    assign("tmp_model",
-           model,
-           envir = .GlobalEnv)
+    # Set the sd metric fixed to 1/5 of the range defined
+    # by upper and lower limits. This ensures proper sampling
+    # across widely different ranges.
+    sd_range = abs(upper - lower)/5
 
-    # setup the bayes run
-    setup = BayesianTools::createBayesianSetup(likelihood = likelihood,
-                                 lower = c(lower, 0.01),
-                                 upper = c(upper, 30))
+    # setup the bayes run, no message forwarding is provided
+    # so wrap the function in a do.call
+    setup = BayesianTools::createBayesianSetup(likelihood = function(random_par){
+      do.call("likelihood",
+              list(par = random_par,
+                   data = data,
+                   model = model,
+                   sd_range = sd_range))},
+      lower = lower,
+      upper = upper)
 
+    # calculate the runs
     out = BayesianTools::runMCMC(bayesianSetup = setup,
                                  sampler = control$sampler,
                                  settings = control$settings)
 
-    # remove copy of data and model name
-    rm("tmp_data","tmp_model", envir = .GlobalEnv)
-
     # correct formatting in line with other outputs
-    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP[1:length(lower)],
+    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP,
                      "opt_output" = out)
   }
 

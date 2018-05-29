@@ -5,9 +5,6 @@
 #' by format_phenocam() or format_pep725(), or your own dataset adhering
 #' to the same data structure.
 #' @param model the model name to be used in optimizing the model
-#' Most models are listed in Melaas et al. 2013, additional ones
-#' will be added over time, preliminary list:
-#' 1. SEQ1.3
 #' @param ... extra arguments to pass to the function
 #' @return the RMSE comparing observed and estimated values
 #' @keywords phenology, model, optimization, cost function
@@ -38,16 +35,14 @@ rmse = function(par,
   }
 }
 
-#' A likelihood cost function for model optimization.
+#' A (log) likelihood cost function for model optimization.
 #'
 #' @param par a vector of parameter values, this is functions specific
 #' @param data nested data structure with validation data as returned
 #' by format_phenocam() or format_pep725(), or your own dataset adhering
 #' to the same data structure.
 #' @param model the model name to be used in optimizing the model
-#' Most models are listed in Melaas et al. 2013, additional ones
-#' will be added over time, preliminary list:
-#' 1. SEQ1.3
+#' @param sd_range standard deviation to be considered during optimization
 #' @param ... extra arguments to pass to the function
 #' @return the RMSE comparing observed and estimated values
 #' @keywords phenology, model, optimization, cost function
@@ -61,12 +56,15 @@ rmse = function(par,
 #' cost_value = likelihood(par, data, model="TTs")
 #' }
 #'
-likelihood = function(par) {
+likelihood = function(par,
+                      data,
+                      model,
+                      sd_range, ...) {
 
   # inset validity checks
-  val = tmp_data$transition_dates
-  out = do.call(tmp_model,list(data = tmp_data,
-                           par = par[1:(length(par)-1)]))
+  val = data$transition_dates
+  out = do.call(model,list(data = data,
+                           par = par))
 
   if (any(is.na(out))) {
     return(0)
@@ -75,7 +73,7 @@ likelihood = function(par) {
     # the output of the model
     singlelikelihoods = dnorm(val,
                               mean = out,
-                              sd = 1/(par[length(par)]^2),
+                              sd = sd_range,
                               log = T)
     return(sum(singlelikelihoods))
   }
