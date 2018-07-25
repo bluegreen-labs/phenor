@@ -64,7 +64,7 @@ format_modis = function(path = "~",
       start = 1980,
       end = end,
       internal = TRUE,
-      quiet = TRUE
+      silent = TRUE
     )$data)
 
     # trap sites outside daymet coverage
