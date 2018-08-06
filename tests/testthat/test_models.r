@@ -4,12 +4,11 @@
 test_that("test model runs",{
 
   # load parameter ranges
-  models = utils::read.table(sprintf("%s/extdata/parameter_ranges.csv",
+  models = unique(utils::read.table(sprintf("%s/extdata/parameter_ranges.csv",
                                          path.package("phenor")),
                                  header = TRUE,
                                  sep = ",",
-                                 stringsAsFactors = FALSE)$model
-
+                                 stringsAsFactors = FALSE)$model)
   # test models
   model_runs = try(model_comparison(random_seeds = 1,
                                     models = models,
