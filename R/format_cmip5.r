@@ -70,10 +70,10 @@ format_cmip5 = function(path = "~",
                               data[[2]])
 
     # shift the data, longitudes run from 0 - 360
-    temp_data_stack = raster::shift(temp_data_stack, x = -360)
-    min_temp = raster::shift(data[[2]], x = -360)
-    max_temp = raster::shift(data[[1]], x = -360)
-    precip = raster::shift(data[[3]], x = -360)
+    temp_data_stack = raster::shift(temp_data_stack, x = -180)
+    min_temp = raster::shift(data[[2]], x = -180)
+    max_temp = raster::shift(data[[1]], x = -180)
+    precip = raster::shift(data[[3]], x = -180)
 
     # crop data for faster processing
     temp_data_stack = raster::crop(temp_data_stack, raster::extent(extent))
