@@ -87,7 +87,7 @@ format_phenocam = function(path = "~",
       start = 1980,
       end = end,
       internal = TRUE,
-      quiet = TRUE
+      silent = TRUE
     )$data,
     silent = TRUE)
 
