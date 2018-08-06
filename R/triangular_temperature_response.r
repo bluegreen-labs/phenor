@@ -19,6 +19,12 @@ triangular_temperature_response = function(T = -10:45,
                                     T_min = 1,
                                     T_max = 15){
 
+  # sanity checks
+  if (T_opt >= T_max || T_opt <= T_min || T_max <= T_min){
+    T[] = NA
+    return(T)
+  }
+
   # find locations of rising and falling
   # part of the triangular function
   loc_rising = which(T < T_opt & T >= T_min)
