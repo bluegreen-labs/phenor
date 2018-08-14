@@ -180,7 +180,7 @@ format_npn = function(data = NULL,
     start = end,
     end = end,
     internal = TRUE,
-    quiet = TRUE
+    silent = TRUE
   ))
 
   if (inherits(daymet_test,"try-error")){
