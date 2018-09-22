@@ -28,7 +28,7 @@ format_cmip5 = function(path = "~",
                         offset = 264,
                         model = "IPSL-CM5A-MR",
                         scenario = "rcp85",
-                        extent = c(-128,-65, 24, 50),
+                        extent = c(-128, -65, 24, 50),
                         internal = TRUE){
 
   # list all netCDF files in the path
@@ -55,31 +55,22 @@ format_cmip5 = function(path = "~",
 
       # if the file exist use the local file
       if (length(filename) != 0){
-        r = raster::brick(sprintf("%s/%s", path, filename))
+        r = raster::brick(file.path(path, filename))
         return(r)
       } else {
-        stop("Required files not available!
-  Data will not be downloaded automatically due to large file sizes.
-  Please download data using the download_cmip5() function.")
+        stop("Required files not available: Check your path variable!")
       }
     })
 
+    # shift the data, longitudes run from 0 - 360
+    min_temp = rotate_cmip5(r = data[[2]], extent = extent)
+    max_temp = rotate_cmip5(r = data[[1]], extent = extent)
+    precip = rotate_cmip5(r = data[[3]], extent = extent)
+
     # stack the temperature data to take the mean
     # using stackApply()
-    temp_data_stack = raster::stack(data[[1]],
-                              data[[2]])
-
-    # shift the data, longitudes run from 0 - 360
-    temp_data_stack = raster::shift(temp_data_stack, x = -180)
-    min_temp = raster::shift(data[[2]], x = -180)
-    max_temp = raster::shift(data[[1]], x = -180)
-    precip = raster::shift(data[[3]], x = -180)
-
-    # crop data for faster processing
-    temp_data_stack = raster::crop(temp_data_stack, raster::extent(extent))
-    min_temp = raster::crop(min_temp, raster::extent(extent))
-    max_temp = raster::crop(max_temp, raster::extent(extent))
-    precip = raster::crop(precip, raster::extent(extent))
+    temp_data_stack = raster::stack(max_temp,
+                                    min_temp)
 
     # calculate mean temperature on cropped data for speed
     l = raster::nlayers(temp_data_stack)/2
@@ -117,7 +108,7 @@ format_cmip5 = function(path = "~",
                      TRUE,
                      FALSE)
 
-  # select layers to subset using this year and yday data
+  # select lay ers to subset using this year and yday data
   # account for leap years included in the NEX data
   if(leap_year){
     layers = which((years == (year - 1) & yday >= offset) |
