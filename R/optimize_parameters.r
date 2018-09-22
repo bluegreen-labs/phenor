@@ -103,24 +103,25 @@ optimize_parameters = function(par = NULL,
 
     # setup the bayes run, no message forwarding is provided
     # so wrap the function in a do.call
-    setup = BayesianTools::createBayesianSetup(likelihood = function(random_par){
-      do.call("likelihood",
-              list(par = random_par,
-                   data = data,
-                   model = model,
-                   sd_range = sd_range))},
-      lower = lower,
-      upper = upper)
+    setup = BayesianTools::createBayesianSetup(
+      likelihood = function(random_par){
+        do.call("likelihood",
+                list(par = random_par,
+                     data = data,
+                     model = model,
+                     sd_range = sd_range))},
+        lower = lower,
+        upper = upper)
 
-    # calculate the runs
-    out = BayesianTools::runMCMC(bayesianSetup = setup,
-                                 sampler = control$sampler,
-                                 settings = control$settings)
+      # calculate the runs
+      out = BayesianTools::runMCMC(bayesianSetup = setup,
+                                   sampler = control$sampler,
+                                   settings = control$settings)
 
-    # correct formatting in line with other outputs
-    optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP,
-                     "bt_output" = out)
-  }
+      # correct formatting in line with other outputs
+      optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP,
+                       "bt_output" = out)
+    }
 
   # return the optimization data (parameters)
   # check formatting for post-processing

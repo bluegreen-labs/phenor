@@ -5,8 +5,8 @@
 \title{Preprocessing E-OBS data as hosted by:
 http://www.ecad.eu/}
 \usage{
-format_eobs(path = "~", year = 2014, offset = 264, resolution = 0.25,
-  internal = TRUE)
+format_eobs(path = "~", year = 2014, offset = 264,
+  resolution = 0.25, internal = TRUE)
 }
 \arguments{
 \item{path}{a path of the gridded data netCDF files}

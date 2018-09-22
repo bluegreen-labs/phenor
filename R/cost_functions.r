@@ -24,7 +24,7 @@ rmse = function(par,
 
   # inset validity checks
   val = data$transition_dates
-  out = do.call(model,list(data = data, par = par, ...))
+  out = do.call(model, list(data = data, par = par, ...))
 
   if (any(is.na(out))) {
     return(9999)
@@ -55,7 +55,7 @@ rmse = function(par,
 #' \dontrun{
 #' cost_value = likelihood(par, data, model="TTs")
 #' }
-#'
+
 likelihood = function(par,
                       data,
                       model,
@@ -63,8 +63,8 @@ likelihood = function(par,
 
   # inset validity checks
   val = data$transition_dates
-  out = do.call(model,list(data = data,
-                           par = par))
+  out = do.call(model, list(data = data,
+                            par = par))
 
   if (any(is.na(out))) {
     return(0)

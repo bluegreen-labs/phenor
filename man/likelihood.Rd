@@ -33,7 +33,6 @@ A (log) likelihood cost function for model optimization.
 \dontrun{
 cost_value = likelihood(par, data, model="TTs")
 }
-
 }
 \keyword{cost}
 \keyword{function}

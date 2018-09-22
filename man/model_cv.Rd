@@ -5,11 +5,11 @@
 \title{Model valiadation routine to faciliate model cross-validation (k-fold or leave-one-out).}
 \usage{
 model_cv(k = 10, cv_seed = 1234, cv_set = NULL, ncores = 1,
-  random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs", "PTT", "PTTs",
-  "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b", "PA", "PAb", "PM1", "PM1b",
-  "UN", "UM1", "SGSI", "AGSI"), data = phenocam_DB, method = "GenSA",
-  control = list(max.call = 5000, temperature = 10000),
-  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
+  random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs", "PTT",
+  "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b", "PA", "PAb",
+  "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"), data = phenocam_DB,
+  method = "GenSA", control = list(max.call = 5000, temperature =
+  10000), par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
 }
 \arguments{
