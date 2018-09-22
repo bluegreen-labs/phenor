@@ -3,7 +3,7 @@
 #' Rotate NetCDF files faster than the default
 #' raster rotate() command, as data is cropped
 #' before any translations (reducing memory load)
-
+#'
 #' @param r raster layer, stack or brick
 #' @param extent vector with coordinates defining the region of interest defined
 #' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))

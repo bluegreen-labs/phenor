@@ -1,11 +1,11 @@
 Package: phenor
 Title: An R phenology modelling framework
-Version: 1.1
+Version: 1.2
 Author: Koen Hufkens <koen.hufkens@gmail.com>
 Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
 Description: Provides an R phenology modelling framework.
 Depends:
-    R (>= 3.3.1)
+    R (>= 3.4)
 Imports:
     methods,
     magrittr,
