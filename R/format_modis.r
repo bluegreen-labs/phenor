@@ -15,9 +15,9 @@
 #'}
 
 format_modis = function(path = "~",
-                         phenophase = "Increase",
-                         cycle = 1,
-                         offset = 264){
+                        phenophase = "Increase",
+                        cycle = 1,
+                        offset = 264){
 
   # helper function to process the data
   format_data = function(site, transition_files, path){

@@ -39,7 +39,7 @@ check_pep725_species = function(species = NULL,
     tolower()
 
   # combine the data in a species info data frame
-  species_info = data.frame(number,name)
+  species_info = data.frame(number, name)
 
   # provide verbose output listing all
   # species names and numbers
