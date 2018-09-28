@@ -61,11 +61,10 @@ merge_pep725 = function(path = "~"){
 
     # Catch errors on Windows systems
     # skip those files for now
-    if(inherits(error,"try-error")){
-      warning("Internal untar failed: special characters are not allowed.
+    if(inherits(error, "try-error")){
+      stop("Internal untar failed: special characters are not allowed.
                Install GNU tar to avoid this issue.
               (https://www.gnu.org/software/tar/)")
-      return(NULL)
     }
 
     # read in observation data from a particular gziped file
