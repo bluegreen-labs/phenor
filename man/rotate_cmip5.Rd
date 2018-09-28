@@ -7,7 +7,7 @@
 rotate_cmip5(r = NULL, extent = c(-74, -65, 40, 48))
 }
 \arguments{
-\item{r}{raster layer, stack or brick}
+\item{r}{CMIP5 raster layer, stack or brick}
 
 \item{extent}{vector with coordinates defining the region of interest defined
 as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))}
