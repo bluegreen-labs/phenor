@@ -98,9 +98,10 @@ format_cmip5 = function(path = "~",
   }
 
   # extract the yday and year strings
-  dates = as.Date(names(Tmini),"X%Y.%m.%d")
-  yday = as.numeric(format(dates,"%j"))
-  years = as.numeric(format(dates,"%Y"))
+  # year strings
+  layer_values = do.call("rbind",strsplit(names(Tmini),"\\."))
+  yday = as.numeric(layer_values[,2])
+  years = as.numeric(layer_values[,3])
 
   # calculate if the previous year was a leap year
   # to account for this offset
@@ -108,14 +109,14 @@ format_cmip5 = function(path = "~",
                      TRUE,
                      FALSE)
 
-  # select lay ers to subset using this year and yday data
+  # select layers to subset using this year and yday data
   # account for leap years included in the NEX data
   if(leap_year){
-    layers = which((years == (year - 1) & yday >= offset) |
-                   (years == year & yday < (offset - 1)))
+    layers = which((years == 1 & yday >= offset) |
+                   (years == 2 & yday < (offset - 1)))
   } else {
-    layers = which((years == (year - 1) & yday >= offset) |
-                     (years == year & yday < offset))
+    layers = which((years == 1 & yday >= offset) |
+                     (years == 2 & yday < offset))
   }
 
   # check if all layers are available in the dataset
