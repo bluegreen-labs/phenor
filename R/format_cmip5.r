@@ -41,7 +41,7 @@ format_cmip5 = function(path = "~",
 
   # loop over the two years needed
   # depending on the offset
-  for (i in c(year-1, year)){
+  for (i in c(year - 1, year)){
 
     # download or read data
     data = lapply(measurements, function(x){
@@ -97,11 +97,21 @@ format_cmip5 = function(path = "~",
     rm(list = c("mean_temp","min_temp","max_temp","precip"))
   }
 
+  # grab layer names
+  layer_names <- names(Tmini)
+
   # extract the yday and year strings
-  # year strings
-  layer_values = do.call("rbind",strsplit(names(Tmini),"\\."))
-  yday = as.numeric(layer_values[,2])
-  years = as.numeric(layer_values[,3])
+  # year strings, depends on how things are subset
+  # and pasted back together
+  if (grepl("layer", layer_names[1])){
+    layer_values = do.call("rbind",strsplit(layer_names, "\\."))
+    yday = as.numeric(layer_values[,2])
+    years = as.numeric(layer_values[,3])
+  } else {
+    dates = as.Date(layer_names,"X%Y.%m.%d")
+    yday = as.numeric(format(dates,"%j"))
+    years = as.numeric(format(dates,"%Y")) - year + 2
+  }
 
   # calculate if the previous year was a leap year
   # to account for this offset
