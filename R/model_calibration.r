@@ -101,10 +101,13 @@ model_calibration = function(model = "TT",
   print(summary(lm(data$transition_dates ~ out)))
 
   # return optimized parameters and stats
-  return(list("par" = optim_par$par,
-              "rmse" = RMSE,
-              "rmse_null" = RMSE_NULL,
-              "aic" = Ac,
-              "bt_output" = optim_par$bt_output)
-         )
+  return(list(
+    "model" = model,
+    "par" = optim_par$par,
+    "rmse" = RMSE,
+    "rmse_null" = RMSE_NULL,
+    "aic" = Ac,
+    "bt_output" = optim_par$bt_output
+    )
+  )
 }
