@@ -1,7 +1,9 @@
 #' Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
-#' https://nex.nasa.gov/nex/ for model projections. When downloading data for
-#' a particular year the antecedent year will be downloaded as well as the
-#' format_cmip5() routine often requires a matching dataset.
+#' https://nex.nasa.gov/nex/.
+#'
+#' When downloading data for a particular year the antecedent year will
+#' be downloaded as well as the format_cmip5() routine often requires a
+#' matching dataset.
 #'
 #' CMIP 5 models included are:
 #' ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
@@ -42,16 +44,13 @@ download_cmip5 = function(path = "~",
                           scenario = "rcp85",
                           variable = c("tasmin","tasmax","pr")){
 
-
   # data file list, on amazon S3 server (which is a bit more stable
   # than the GDDP ftp server)
-  file_list = "https://nex.nasa.gov/static/media/dataset/nex-gddp-s3-files.csv"
-
-  # get file listing of available data
-  files = read.table(file_list,
-                     sep = ',',
-                     header = TRUE,
-                     stringsAsFactors = FALSE)$s3url
+  files = read.table(
+    "https://nex.nasa.gov/static/media/dataset/nex-gddp-s3-files.csv",
+    sep = ',',
+    header = TRUE,
+    stringsAsFactors = FALSE)$s3url
 
   # selection
   selection = do.call("c",lapply(files, function(x){
