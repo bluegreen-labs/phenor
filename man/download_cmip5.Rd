@@ -3,9 +3,7 @@
 \name{download_cmip5}
 \alias{download_cmip5}
 \title{Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
-https://nex.nasa.gov/nex/ for model projections. When downloading data for
-a particular year the antecedent year will be downloaded as well as the
-format_cmip5() routine often requires a matching dataset.}
+https://nex.nasa.gov/nex/.}
 \usage{
 download_cmip5(path = "~", year = 2016, model = "MIROC5",
   scenario = "rcp85", variable = c("tasmin", "tasmax", "pr"))
@@ -27,6 +25,11 @@ nothing is returned to the R working environment, files are
 downloaded and stored on disk
 }
 \description{
+When downloading data for a particular year the antecedent year will
+be downloaded as well as the format_cmip5() routine often requires a
+matching dataset.
+}
+\details{
 CMIP 5 models included are:
 ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
 BNU-ESM, GFDL-ESM2G, MIROC5, CanESM2, GFDL-ESM2M, MPI-ESM-LR, CCSM4, INM-CM4,
