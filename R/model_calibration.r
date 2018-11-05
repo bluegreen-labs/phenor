@@ -14,7 +14,7 @@
 #' and set forth by Basler (2016)
 #' @param control list of control parameters to be passed to the optimizer
 #' @param plot TRUE / FALSE, plot model fit
-#' @param ... additional parameters to be passed to the model
+#' @param ... additional control parameters to be passed
 #' @keywords phenology, model, validation
 #' @export
 #' @examples
@@ -72,8 +72,7 @@ model_calibration = function(model = "TT",
   out = estimate_phenology(
     data = data,
     model = model,
-    par = optim_par$par,
-    ...
+    par = optim_par$par
   )
 
   # basic statistics
