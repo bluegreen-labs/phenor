@@ -82,15 +82,17 @@ optimize_parameters = function(par = NULL,
     if (is.null(par)){
       stop('The genoud algorithm needs defined strating parameters!')
     }
-    optim_par = rgenoud::genoud(fn = cost,
-                       nvars = length(par),
-                       max.generations = maxit,
-                       Domains = cbind(lower,upper),
-                       boundary.enforcement = 2,
-                       data.type.int = FALSE,
-                       data = data,
-                       model = model,
-                       ...)
+    optim_par = rgenoud::genoud(
+      fn = cost,
+      nvars = length(par),
+      max.generations = maxit,
+      Domains = cbind(lower,upper),
+      boundary.enforcement = 2,
+      data.type.int = FALSE,
+      data = data,
+      model = model,
+      ...
+    )
   }
 
   # BayesianTools
@@ -111,7 +113,9 @@ optimize_parameters = function(par = NULL,
                      model = model,
                      sd_range = sd_range))},
         lower = lower,
-        upper = upper)
+        upper = upper,
+        ...
+      )
 
       # calculate the runs
       out = BayesianTools::runMCMC(bayesianSetup = setup,
