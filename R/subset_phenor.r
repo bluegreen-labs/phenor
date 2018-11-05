@@ -35,10 +35,10 @@ subset_phenor <- function(
   }
 
   # check the class of the data
-  if(class(data) != "phenor_time_series_data"){
-    stop("The provided data is not of class 'phenor'.",
-         call. = FALSE)
-  }
+  # if(class(data) != "phenor_time_series_data"){
+  #   stop("The provided data is not of class 'phenor_timeseries_data'.",
+  #        call. = FALSE)
+  # }
 
   # check if the selection matches the length of the data
   if(length(selection) != length(data$year)){
