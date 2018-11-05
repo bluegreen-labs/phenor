@@ -30,7 +30,7 @@ and set forth by Basler (2016)}
 
 \item{plot}{TRUE / FALSE, plot model fit}
 
-\item{...}{additional parameters to be passed to the model}
+\item{...}{additional control parameters to be passed}
 }
 \description{
 Model validation routine to faciliate model development
