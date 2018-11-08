@@ -14,10 +14,11 @@
 #'
 #' \dontrun{
 #' # subset phenor formatted data
-#' subset <- subset_phenor()
+#' subset <- format_subset(data = phenocam_DB,
+#'                         selection = 1:10)
 #'}
 
-subset_phenor <- function(
+format_subset <- function(
   data,
   selection
 ){
@@ -50,6 +51,7 @@ subset_phenor <- function(
   # subset according to the data type
   subset <- lapply(data,
                    function(x) {
+
                      # if there is nothing in the
                      # list element return nothing as well
                      if (is.null(x)) {
@@ -73,6 +75,9 @@ subset_phenor <- function(
                        return(x)
                      }
                    })
+
+  # override the doy subset (should remain invariant)
+  subset$doy <- data$doy
 
   # return subset data
   return(subset)
