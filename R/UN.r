@@ -39,7 +39,7 @@ UN  = function(par, data){
                                        T_max = T_max)
   Rc[1:t0,] = 0
 
-  # bell shaped temperature response
+  # cummulative sum of temp response
   Sc = apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
@@ -56,7 +56,7 @@ UN  = function(par, data){
   # DOY meeting F_crit, subtract the forcing matrix
   # from the F_crit matrix in order to speed things up
   # only the location of transition from - to + is
-  # claculated to estimate the transition dates
+  # calculated to estimate the transition dates
   Sfc = Sf - (w * exp(f * Sc))
 
   doy = apply(Sfc, 2, function(x){
