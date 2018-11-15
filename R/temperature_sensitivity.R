@@ -69,6 +69,10 @@ temperature_sensitivity <- function(
                             par = par,
                             ... ))
 
+  # set out of range values to NA
+  t0[t0 == 9999] <- NA
+  t1[t1 == 9999] <- NA
+
   # calculate difference in doy when increasing
   # temperatures with 1 degree C
   doy_diff <- t1 - t0
