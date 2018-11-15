@@ -55,7 +55,6 @@ PM1 = function(par, data){
   # DOY of budburst criterium
   doy = apply(Rf,2, function(xt){
     doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
-    doy[is.na(doy)] = 9999
     return(doy)
   })
 

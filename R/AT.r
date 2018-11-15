@@ -45,7 +45,6 @@ AT = function(par, data){
 
   doy = apply(Sfc, 2, function(x){
     doy = data$doy[which(x > 0)[1]]
-    doy[is.na(doy)] = 9999
     return(doy)
     })
 

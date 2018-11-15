@@ -75,7 +75,6 @@ SGSI = function(par, data){
   # by cummulating the GSI hence AGSI
   doy = apply(GSI,2, function(xt){
     doy = data$doy[which(zoo::rollmean(xt, 21, na.pad = TRUE) >= F_crit)[1]]
-    doy[is.na(doy)] = 9999
     return(doy)
   })
 

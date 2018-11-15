@@ -26,7 +26,7 @@ rmse = function(par,
   val = data$transition_dates
   out = do.call(model, list(data = data, par = par, ...))
 
-  if (any(out == 9999)) {
+  if (any(is.na(out))) {
     return(9999)
   } else {
     # return the RMSE between the validation data and
@@ -66,7 +66,7 @@ likelihood = function(par,
   out = do.call(model, list(data = data,
                             par = par))
 
-  if (any(out == 9999)) {
+  if (any(is.na(out))) {
     return(0)
   } else {
     # return the RMSE between the validation data and
