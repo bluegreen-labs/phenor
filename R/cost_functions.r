@@ -67,7 +67,7 @@ likelihood = function(par,
                             par = par))
 
   if (any(is.na(out))) {
-    return(0)
+    return(-Inf)
   } else {
     # return the RMSE between the validation data and
     # the output of the model
