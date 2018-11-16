@@ -41,7 +41,6 @@ CU <- function(par, data){
   # DOY of budburst criterium
   doy = apply(Fd, 2, function(xt){
     doy = data$doy[which(xt >= F_crit)[1]]
-    doy[is.na(doy)] = 9999
     return(doy)
   })
 
