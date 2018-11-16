@@ -33,7 +33,7 @@ SM1 = function(par, data){
 
   # sanity check
   if (t0 <= t0_chill){
-    return(rep(9999,ncol(data$Ti)))
+    return(rep(NA,ncol(data$Ti)))
   }
 
   # chilling
