@@ -229,13 +229,13 @@ format_pep725 = function(pep_path = "~",
   years = as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%Y"))
 
   # track progress
-  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
 
   # process data
   validation_data = lapply(sites, function(x) {
-    setTxtProgressBar(pb, i + 1)
+    utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x,
                 offset = offset)

@@ -5,7 +5,7 @@
 \title{Pre-processing of USA-NPN data}
 \usage{
 format_npn(data = NULL, phenophase = 371, offset = 264,
-  internal = TRUE)
+  path = tempdir(), internal = TRUE)
 }
 \arguments{
 \item{data}{an USA-NPN data frame as returned by download_npn()}
@@ -13,6 +13,8 @@ format_npn(data = NULL, phenophase = 371, offset = 264,
 \item{phenophase}{a phenophase to include as validation statistic}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{path}{path where to save the generated data file}
 
 \item{internal}{return data as structured list to R workspace or write
 to RDS file (default = TRUE)}

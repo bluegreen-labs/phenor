@@ -5,8 +5,8 @@
 \title{Model validation routine to faciliate model development
 and quick validation of a (new) model.}
 \usage{
-model_calibration(model = "TT", data = phenocam_DB, method = "GenSA",
-  control = list(max.call = 2000),
+model_calibration(model = "TT", data = phenor::phenocam_DB,
+  method = "GenSA", control = list(max.call = 2000),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")), plot = TRUE, ...)
 }

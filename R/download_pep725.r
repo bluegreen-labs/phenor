@@ -40,8 +40,8 @@ download_pep725 = function(credentials = NULL,
   if(any(!file.exists(credentials) & is.null(credentials))){
     stop("Credentials file not given or does not exist, check path !")
   } else {
-    credentials = as.vector(unlist(read.table(credentials,
-                                              stringsAsFactors = FALSE)))
+    credentials = as.vector(unlist(utils::read.table(
+      credentials, stringsAsFactors = FALSE)))
     email = credentials[1]
     password = credentials[2]
   }
@@ -63,7 +63,8 @@ download_pep725 = function(credentials = NULL,
 
     # select the species of interest and pull the table listing
     # all download files
-    species_html = httr::POST("http://www.pep725.eu/data_download/data_selection.php",
+    species_html = httr::POST(
+      "http://www.pep725.eu/data_download/data_selection.php",
                               body = list(
                                 plant = number,
                                 submit1 = "Submit"),

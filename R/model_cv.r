@@ -18,33 +18,51 @@
 #' (default = list(max.call = 5000, temperature = 10000))
 #' @param par_ranges location of the parameter ranges of the models
 #' @keywords phenology, model, validation, comparison
+#' @importFrom foreach %dopar%
 #' @export
 #' @examples
 #'
 #' \dontrun{
-#'  model_CV(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") , data= phenocam_DB[c(1:10)])
+#'  model_CV(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") ,
+#'  data= phenocam_DB[c(1:10)])
 #'
 #' # will return the data of each validation and some summarizing statistics
 #' }
 
-#require(foreach)    # install.packages('foreach')
-#require(doParallel) # install.packages('doParallel')
-
-model_cv<-function( k=10,
-                    cv_seed=1234,
-                    cv_set=NULL,
-                    ncores=1,
-                    random_seeds = c(1,12,40),
-                    models = c("LIN", "TT", "TTs", "PTT",
-                               "PTTs", "M1", "M1s", "AT",
-                               "SQ", "SQb", "SM1", "SM1b",
-                               "PA","PAb","PM1","PM1b","UN",
-                               "UM1","SGSI","AGSI"),
-                    data = phenocam_DB,
-                    method = "GenSA",
-                    control = list(max.call = 5000,temperature = 10000),
-                    par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                                         path.package("phenor"))){
+model_cv<-function(
+  k = 10,
+  cv_seed = 1234,
+  cv_set = NULL,
+  ncores = 1,
+  random_seeds = c(1, 12, 40),
+  models = c(
+    "LIN",
+    "TT",
+    "TTs",
+    "PTT",
+    "PTTs",
+    "M1",
+    "M1s",
+    "AT",
+    "SQ",
+    "SQb",
+    "SM1",
+    "SM1b",
+    "PA",
+    "PAb",
+    "PM1",
+    "PM1b",
+    "UN",
+    "UM1",
+    "SGSI",
+    "AGSI"
+  ),
+  data = phenor::phenocam_DB,
+  method = "GenSA",
+  control = list(max.call = 5000, temperature = 10000),
+  par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
+                       path.package("phenor"))
+) {
 
   # get a specified subset out of flat data set
   get_cv_subset <- function(data,ids){
@@ -72,14 +90,22 @@ model_cv<-function( k=10,
     train_data<-get_cv_subset(data,c(1:n) [-cv_set[[i]]])
 
     # Estimate Parameters on training dataset
-    CVfold<-model_comparison(random_seeds, models, train_data, method, control, par_ranges)
+    CVfold<-model_comparison(
+      random_seeds,
+      models,
+      train_data,
+      method,
+      control,
+      par_ranges)
     CVfold$validation_measured<-val_data$transition_dates
 
     # estimate model output for validation data using the optimized parameters
     for (j in 1:length(models)){
-      vp<-matrix(NA,ncol = length(val_data$transition_dates),nrow=length(random_seeds))
+      vp<-matrix(NA,ncol = length(val_data$transition_dates),
+                 nrow=length(random_seeds))
       for (l in 1:length(random_seeds)){
-        out<-estimate_phenology(data = val_data,model = models[j],par = CVfold$modelled[[j]]$parameters[l,])
+        out<-estimate_phenology(data = val_data,model = models[j],
+                                par = CVfold$modelled[[j]]$parameters[l,])
         vp[l,] <- out
       }
       cv_fold$modelled[[j]]$validation_predicted_values<-vp
@@ -154,11 +180,13 @@ model_cv<-function( k=10,
                   This may still take a while...\n",ncores,k))
 
     # Use n cores for parallel CV
-    cl<-makeCluster(ncores)
+    cl<- parallel::makeCluster(ncores)
 
-    registerDoParallel()
-    on.exit(stopCluster(cl))
-    results <-foreach( i=1:k, .export=c("model_comparison","estimate_phenology")) %dopar% {fold(i)}
+    doParallel::registerDoParallel()
+    on.exit(parallel::stopCluster(cl))
+    results <- foreach::foreach( i=1:k,
+                                 .export=c("model_comparison",
+                                           "estimate_phenology")) %dopar% {fold(i)}
   }
   names(results)<-c(1:k)
 

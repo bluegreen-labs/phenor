@@ -73,7 +73,7 @@ plot_model_comparison = function(data = NULL,
   ) ^ 2, na.rm = T))
 
   # tick settings
-  par(tck = 0.03, lwd = 1.3)
+  graphics::par(tck = 0.03, lwd = 1.3)
 
   # list model names
   if (names == 'TRUE'){

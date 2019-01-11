@@ -32,7 +32,7 @@ model_comparison = function(
              "M1","M1s","AT","SQ","SQb","SM1",
              "SM1b","PA","PAb","PM1",
              "PM1b","UN","UM1","SGSI","AGSI"),
-  data = phenocam_DB,
+  data = phenor::phenocam_DB,
   method = "GenSA",
   control = list(max.call = 5000,
                  temperature = 10000),

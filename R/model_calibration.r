@@ -26,14 +26,16 @@
 #' # validation data
 #' }
 
-model_calibration = function(model = "TT",
-                            data = phenocam_DB,
-                            method = "GenSA",
-                            control = list(max.call = 2000),
-                            par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                                                 path.package("phenor")),
-                            plot = TRUE,
-                            ... ){
+model_calibration = function(
+  model = "TT",
+  data = phenor::phenocam_DB,
+  method = "GenSA",
+  control = list(max.call = 2000),
+  par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
+                       path.package("phenor")),
+  plot = TRUE,
+  ...
+  ){
 
   # convert to a flat format for speed
   data = flat_format(data)
@@ -90,14 +92,20 @@ model_calibration = function(model = "TT",
          ylab = "onset DOY Modelled",
          pch = 19,
          tck = 0.02)
-    abline(0,1)
-    legend("topleft", legend = sprintf("RMSE: %s", round(RMSE)),bty='n')
-    legend("top", legend = sprintf("RMSE NULL: %s", round(RMSE_NULL)),bty='n')
-    legend("bottomright", legend = sprintf("AICc: %s", round(Ac$AICc)),bty='n')
+    graphics::abline(0,1)
+    graphics::legend("topleft",
+                     legend = sprintf("RMSE: %s",
+                                      round(RMSE)),bty='n')
+    graphics::legend("top",
+                     legend = sprintf("RMSE NULL: %s",
+                                      round(RMSE_NULL)),bty='n')
+    graphics::legend("bottomright",
+                     legend = sprintf("AICc: %s",
+                                      round(Ac$AICc)),bty='n')
   }
 
   # print summary statistics
-  print(summary(lm(data$transition_dates ~ out)))
+  print(summary(stats::lm(data$transition_dates ~ out)))
 
   # return optimized parameters and stats
   return(list(

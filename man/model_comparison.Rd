@@ -8,8 +8,8 @@ and quick comparisons of the skill of various models.}
 model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT",
   "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b",
   "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
-  data = phenocam_DB, method = "GenSA", control = list(max.call =
-  5000, temperature = 10000),
+  data = phenor::phenocam_DB, method = "GenSA",
+  control = list(max.call = 5000, temperature = 10000),
   par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")), ncores = 1)
 }

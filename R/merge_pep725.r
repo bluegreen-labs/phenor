@@ -44,7 +44,7 @@ merge_pep725 = function(path = "~"){
 
     # check the contents of the tar.gz file
     # and only select true data files (discard README and descriptor)
-    pep_files = untar(file, list = TRUE)
+    pep_files = utils::untar(file, list = TRUE)
     pep_files = pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt", pep_files)]
 
     # extract only the true data files and station info files
@@ -55,7 +55,7 @@ merge_pep725 = function(path = "~"){
     # unzip only the selected files into the output path
     # use path.expand to deal with the fact that untar
     # does not work with relative paths
-    error = try(untar(file,
+    error = try(utils::untar(file,
                files = pep_files,
                exdir = path.expand(tmpdir)))
 

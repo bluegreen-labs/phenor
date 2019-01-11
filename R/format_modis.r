@@ -14,10 +14,12 @@
 #' modis_data = format_modis()
 #'}
 
-format_modis = function(path = "~",
-                        phenophase = "Increase",
-                        cycle = 1,
-                        offset = 264){
+format_modis = function(
+  path = "~",
+  phenophase = "Increase",
+  cycle = 1,
+  offset = 264
+  ){
 
   # helper function to process the data
   format_data = function(site, transition_files, path){
@@ -124,34 +126,34 @@ format_modis = function(path = "~",
     for (j in 1:length(years)) {
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmean
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmin..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmax..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                             (year == (years[j] - 1) & yday >= offset) |
-                               (year == years[j] &
-                                  yday < offset))$prcp..mm.day.
+                             ("year" == (years[j] - 1) & "yday" >= offset) |
+                               ("year" == years[j] &
+                                  "yday" < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                          (year == (years[j] - 1) & yday >= offset) |
-                            (year == years[j] &
-                               yday < offset))$vp..Pa.
+                          ("year" == (years[j] - 1) & "yday" >= offset) |
+                            ("year" == years[j] &
+                               "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, year == years[j])$tmean
-        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
@@ -197,13 +199,13 @@ format_modis = function(path = "~",
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
-  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
 
   # get data
   validation_data = lapply(sites, function(x) {
-    setTxtProgressBar(pb, i + 1)
+    utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x,
                 transition_files = transition_files,

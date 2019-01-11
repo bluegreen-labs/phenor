@@ -22,6 +22,8 @@ Imports:
     ncdf4,
     sp,
     snow,
+    foreach,
+    doParallel,
     daymetr,
     phenocamr,
     BayesianTools
@@ -31,4 +33,4 @@ Suggests:
 License: AGPL-3
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

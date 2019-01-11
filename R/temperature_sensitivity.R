@@ -80,6 +80,6 @@ temperature_sensitivity <- function(
   # return the raw data and summary stats for
   # convenience
   return(list(mean = mean(doy_diff, na.rm = TRUE),
-                    sd = sd(doy_diff, na.rm = TRUE),
+                    sd = stats::sd(doy_diff, na.rm = TRUE),
                     doy_diff = doy_diff))
 }

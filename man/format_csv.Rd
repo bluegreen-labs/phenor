@@ -4,8 +4,8 @@
 \alias{format_csv}
 \title{Pre-processing of CSV based data}
 \usage{
-format_csv(file = "~/Desktop/vame_phenology.csv", phenophase,
-  offset = 264, internal = TRUE)
+format_csv(file = "~/Desktop/your_phenology.csv", phenophase,
+  offset = 264, internal = TRUE, path = tempdir())
 }
 \arguments{
 \item{file}{an CSV file with phenology observation dates}
@@ -16,6 +16,8 @@ format_csv(file = "~/Desktop/vame_phenology.csv", phenophase,
 
 \item{internal}{return data as structured list to R workspace or write
 to RDS file (default = TRUE)}
+
+\item{path}{output directory for converted data}
 }
 \description{
 Combines CSV data into a format which can be ingested

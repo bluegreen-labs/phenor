@@ -12,6 +12,7 @@
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param internal return data as structured list to R workspace or write
 #' to RDS file (default = TRUE)
+#' @param path output directory for converted data
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -20,10 +21,13 @@
 #' npn_data = format_csv()
 #'}
 
-format_csv <- function(file = "~/Desktop/vame_phenology.csv",
-                       phenophase,
-                       offset = 264,
-                       internal = TRUE){
+format_csv <- function(
+  file = "~/Desktop/your_phenology.csv",
+  phenophase,
+  offset = 264,
+  internal = TRUE,
+  path = tempdir()
+  ){
 
   # helper function to process the data
   format_data = function(site){
@@ -115,34 +119,34 @@ format_csv <- function(file = "~/Desktop/vame_phenology.csv",
 
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmean
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmin..deg.c.
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmax..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$prcp..mm.day.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                             (year == (years[j] - 1) & yday >= offset) |
-                               (year == years[j] &
-                                  yday < offset))$vp..Pa.
+                             ("year" == (years[j] - 1) & "yday" >= offset) |
+                               ("year" == years[j] &
+                                  "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, year == years[j])$tmean
-        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
@@ -179,14 +183,14 @@ format_csv <- function(file = "~/Desktop/vame_phenology.csv",
   }
 
   # read in the data from csv and subset by phenological stage
-  data = read.table(file,
+  data = utils::read.table(file,
                     sep = ",",
                     header = TRUE,
                     stringsAsFactors = FALSE)
 
   # subset if a phenophase is specified
   if(!missing(phenophase)){
-    data = data[data$phenophase == stage,]
+    stop("please specify a phenophase to process")
   }
 
   # query max year as available through Daymet, lags by a year so
@@ -209,13 +213,13 @@ format_csv <- function(file = "~/Desktop/vame_phenology.csv",
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
-  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
 
   # process data
   validation_data = lapply(sites, function(x) {
-    setTxtProgressBar(pb, i + 1)
+    utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x)
   })
@@ -243,7 +247,7 @@ format_csv <- function(file = "~/Desktop/vame_phenology.csv",
     saveRDS(validation_data,
             file = sprintf("%s/phenor_vame_data_%s_%s.rds",
                            path,
-                           stage,
+                           phenophase,
                            offset))
   }
 }

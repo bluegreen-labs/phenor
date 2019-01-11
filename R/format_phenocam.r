@@ -27,12 +27,14 @@
 #' phenocam_data = format_phenocam()
 #'}
 
-format_phenocam = function(path = "~",
-                           direction = "rising",
-                           gcc_value = "gcc_90",
-                           threshold = 50,
-                           offset = 264,
-                           internal = TRUE){
+format_phenocam = function(
+  path = "~",
+  direction = "rising",
+  gcc_value = "gcc_90",
+  threshold = 50,
+  offset = 264,
+  internal = TRUE
+  ){
 
   # helper function to process the data
   format_data = function(site,
@@ -152,34 +154,34 @@ format_phenocam = function(path = "~",
     for (j in 1:length(years)) {
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmean
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmin..deg.c.
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmax..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$prcp..mm.day.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                             (year == (years[j] - 1) & yday >= offset) |
-                               (year == years[j] &
-                                  yday < offset))$vp..Pa.
+                             ("year" == (years[j] - 1) & "yday" >= offset) |
+                               ("year" == years[j] &
+                                  "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, year == years[j])$tmean
-        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
@@ -242,13 +244,13 @@ format_phenocam = function(path = "~",
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
-  pb = txtProgressBar(min = 0, max = length(sites), style = 3)
+  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
 
   # process data
   validation_data = lapply(sites, function(x) {
-    setTxtProgressBar(pb, i + 1)
+    utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x,
                 transition_files = transition_files,

@@ -9,6 +9,7 @@
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param internal return data as structured list to R workspace or write
 #' to RDS file (default = TRUE)
+#' @param path path where to save the generated data file
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
@@ -17,10 +18,13 @@
 #' npn_data = format_npn()
 #'}
 
-format_npn = function(data = NULL,
-                      phenophase = 371,
-                      offset = 264,
-                      internal = TRUE){
+format_npn = function(
+  data = NULL,
+  phenophase = 371,
+  offset = 264,
+  path = tempdir(),
+  internal = TRUE
+  ){
 
   # helper function to process the data
   format_data = function(site){
@@ -119,34 +123,34 @@ format_npn = function(data = NULL,
     for (j in 1:length(years)) {
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            (year == (years[j] - 1) & yday >= offset) |
-                              (year == years[j] &
-                                 yday < offset))$tmean
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmin..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           (year == (years[j] - 1) & yday >= offset) |
-                             (year == years[j] &
-                                yday < offset))$tmax..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                             (year == (years[j] - 1) & yday >= offset) |
-                               (year == years[j] &
-                                  yday < offset))$prcp..mm.day.
+                             ("year" == (years[j] - 1) & "yday" >= offset) |
+                               ("year" == years[j] &
+                                  "yday" < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                          (year == (years[j] - 1) & yday >= offset) |
-                            (year == years[j] &
-                               yday < offset))$vp..Pa.
+                          ("year" == (years[j] - 1) & "yday" >= offset) |
+                            ("year" == years[j] &
+                               "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, year == years[j])$tmean
-        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
@@ -226,11 +230,9 @@ format_npn = function(data = NULL,
     return(validation_data)
   } else {
     saveRDS(validation_data,
-            file = sprintf("%s/phenor_npn_data_%s_%s_%s_%s.rds",
+            file = sprintf("%s/phenor_npn_data_%s_%s.rds",
                            path,
-                           direction,
-                           gcc_value,
-                           threshold,
+                           phenophase,
                            offset))
   }
 }

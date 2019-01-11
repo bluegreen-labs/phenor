@@ -7,9 +7,10 @@
 model_cv(k = 10, cv_seed = 1234, cv_set = NULL, ncores = 1,
   random_seeds = c(1, 12, 40), models = c("LIN", "TT", "TTs", "PTT",
   "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b", "PA", "PAb",
-  "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"), data = phenocam_DB,
-  method = "GenSA", control = list(max.call = 5000, temperature =
-  10000), par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
+  "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
+  data = phenor::phenocam_DB, method = "GenSA",
+  control = list(max.call = 5000, temperature = 10000),
+  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
   path.package("phenor")))
 }
 \arguments{
@@ -46,7 +47,8 @@ Model valiadation routine to faciliate model cross-validation (k-fold or leave-o
 \examples{
 
 \dontrun{
- model_CV(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") , data= phenocam_DB[c(1:10)])
+ model_CV(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") ,
+ data= phenocam_DB[c(1:10)])
 
 # will return the data of each validation and some summarizing statistics
 }

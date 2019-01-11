@@ -8,7 +8,7 @@ with the model.}
 \usage{
 optimize_parameters(par = NULL, data = data, cost = rmse,
   model = "TT", method = "GenSA", lower = NULL, upper = NULL,
-  maxit = NULL, control = NULL, ...)
+  control = NULL, ...)
 }
 \arguments{
 \item{par}{a vector of starting parameter values (function specific)}
@@ -31,9 +31,7 @@ a RMSE or other value which needs to be minimized}
 
 \item{upper}{upper limit of parameter values (function specific)}
 
-\item{maxit}{maximum number of generations to run (genoud)}
-
-\item{control}{additional optimization control parameters (default = NULL)}
+\item{control}{optimization control parameters (default = NULL)}
 
 \item{...}{extra arguments to pass to the function, mostly BayesianTools}
 }

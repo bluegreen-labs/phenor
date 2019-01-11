@@ -15,8 +15,7 @@
 #'    - BayesianTools: various bayesian based optimization tools
 #' @param lower lower limit of parameter values (function specific)
 #' @param upper upper limit of parameter values (function specific)
-#' @param maxit maximum number of generations to run (genoud)
-#' @param control additional optimization control parameters (default = NULL)
+#' @param control optimization control parameters (default = NULL)
 #' @param ... extra arguments to pass to the function, mostly BayesianTools
 #' @keywords phenology, model, optimization, simulated annealing, genoud, optim
 #' @export
@@ -29,16 +28,17 @@
 #' # validation data
 #' }
 
-optimize_parameters = function(par = NULL,
-                               data = data,
-                               cost = rmse,
-                               model = "TT",
-                               method = "GenSA",
-                               lower = NULL,
-                               upper = NULL,
-                               maxit = NULL,
-                               control = NULL,
-                               ... ) {
+optimize_parameters <- function(
+  par = NULL,
+  data = data,
+  cost = rmse,
+  model = "TT",
+  method = "GenSA",
+  lower = NULL,
+  upper = NULL,
+  control = NULL,
+  ...
+) {
 
   # check if starting parameters are present
   if (is.null(lower) | is.null(upper)){
@@ -60,7 +60,7 @@ optimize_parameters = function(par = NULL,
     # one can opt to automatically generate starting values
     # in GenSA, this might yield better results. Set the
     # par parameter to NULL to do so.
-    optim_par = GenSA::GenSA(
+    optim_par <- GenSA::GenSA(
       par = par,
       data = data,
       fn = cost,
@@ -82,10 +82,10 @@ optimize_parameters = function(par = NULL,
     if (is.null(par)){
       stop('The genoud algorithm needs defined strating parameters!')
     }
-    optim_par = rgenoud::genoud(
+    optim_par <- rgenoud::genoud(
       fn = cost,
       nvars = length(par),
-      max.generations = maxit,
+      max.generations = control$maxit,
       Domains = cbind(lower,upper),
       boundary.enforcement = 2,
       data.type.int = FALSE,
@@ -98,10 +98,8 @@ optimize_parameters = function(par = NULL,
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
-    # Set the sd metric fixed to 1/5 of the range defined
-    # by upper and lower limits. This ensures proper sampling
-    # across widely different ranges.
-    sd_range = abs(upper - lower)/5
+    # set range
+    sd_range <- abs(upper - lower)/2
 
     # setup the bayes run, no message forwarding is provided
     # so wrap the function in a do.call
@@ -118,12 +116,12 @@ optimize_parameters = function(par = NULL,
       )
 
       # calculate the runs
-      out = BayesianTools::runMCMC(bayesianSetup = setup,
+      out <- BayesianTools::runMCMC(bayesianSetup = setup,
                                    sampler = control$sampler,
                                    settings = control$settings)
 
       # correct formatting in line with other outputs
-      optim_par = list("par" = BayesianTools::MAP(out)$parametersMAP,
+      optim_par <- list("par" = BayesianTools::MAP(out)$parametersMAP,
                        "bt_output" = out)
     }
 

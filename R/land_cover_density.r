@@ -64,7 +64,9 @@ land_cover_density = function(lc_raster = NULL,
 
   # clean up existing files, should some remain in tempdir
   # due to interupted processing
-  img_files <- list.files(tempdir(),glob2rx("fractional_land_cover_*.tif"), full.names = TRUE)
+  img_files <- list.files(tempdir(),
+                          utils::glob2rx("fractional_land_cover_*.tif"),
+                          full.names = TRUE)
   if(length(img_files)!=0) {
     file.remove(img_files)
   }
@@ -127,7 +129,7 @@ land_cover_density = function(lc_raster = NULL,
     # store data in a temporary tif file
     # (doesn't take up memory which needs to be cleared for efficiency)
     # output data
-    writeRaster(tmp_cover,
+    raster::writeRaster(tmp_cover,
                 sprintf("%s/fractional_land_cover_%02d.tif", tempdir(), i),
                 overwrite = TRUE)
 
@@ -136,9 +138,10 @@ land_cover_density = function(lc_raster = NULL,
   })
 
   # list tif files
-  fractional_cover = raster::stack(list.files(tempdir(),
-                                              glob2rx("fractional_land_cover_*.tif"),
-                                              full.names = TRUE))
+  fractional_cover = raster::stack(
+    list.files(tempdir(),
+               utils::glob2rx("fractional_land_cover_*.tif"),
+               full.names = TRUE))
 
   # assign names to the layers
   names(fractional_cover) = paste0("igbp_", lc_classes)

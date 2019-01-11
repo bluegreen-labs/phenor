@@ -34,7 +34,7 @@ CU <- function(par, data){
 
   # calculate floral induction time series
   Fd <- apply(data$Ti, 2, function(x){
-    Fi <- rollapply(x, ni, sum, align = "right", fill = 0, na.rm = TRUE)
+    Fi <- zoo::rollapply(x, ni, sum, align = "right", fill = 0, na.rm = TRUE)
     Fd <- c(rep(0,nd),Fi[1:(length(Fi) - nd)])
   })
 

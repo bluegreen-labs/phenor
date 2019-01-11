@@ -46,7 +46,7 @@ download_cmip5 = function(path = "~",
 
   # data file list, on amazon S3 server (which is a bit more stable
   # than the GDDP ftp server)
-  files = read.table(
+  files = utils::read.table(
     "https://nex.nasa.gov/static/media/dataset/nex-gddp-s3-files.csv",
     sep = ',',
     header = TRUE,
