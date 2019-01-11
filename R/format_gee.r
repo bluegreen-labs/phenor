@@ -17,7 +17,7 @@
 #'}
 
 format_gee = function(
-  path = "~",
+  path = tempdir(),
   phenophase = "Increase",
   offset = 264
   ){

@@ -6,7 +6,7 @@
 by the optimization routines etc. the original nested list is flattened
 for speed.}
 \usage{
-format_phenocam(path = "~", direction = "rising",
+format_phenocam(path = tempdir(), direction = "rising",
   gcc_value = "gcc_90", threshold = 50, offset = 264,
   internal = TRUE)
 }

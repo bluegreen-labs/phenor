@@ -10,8 +10,8 @@ model_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT",
   "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
   data = phenor::phenocam_DB, method = "GenSA",
   control = list(max.call = 5000, temperature = 10000),
-  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
-  path.package("phenor")), ncores = 1)
+  par_ranges = system.file("extdata", "parameter_ranges.csv", package =
+  "phenor", mustWork = TRUE), ncores = 1)
 }
 \arguments{
 \item{random_seeds}{a vector with random seeds for cross validation}

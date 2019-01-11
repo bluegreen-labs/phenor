@@ -4,8 +4,8 @@
 \alias{format_npn}
 \title{Pre-processing of USA-NPN data}
 \usage{
-format_npn(data = NULL, phenophase = 371, offset = 264,
-  path = tempdir(), internal = TRUE)
+format_npn(data, phenophase = 371, offset = 264, path = tempdir(),
+  internal = TRUE)
 }
 \arguments{
 \item{data}{an USA-NPN data frame as returned by download_npn()}

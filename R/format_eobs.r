@@ -29,7 +29,7 @@
 #' eobs_data = format_eobs()
 #'}
 
-format_eobs = function(path = "~",
+format_eobs = function(path = tempdir(),
                         year = 2014,
                         offset = 264,
                         resolution = 0.25,

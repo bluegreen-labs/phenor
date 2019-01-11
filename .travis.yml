@@ -1,7 +1,7 @@
 language: R
 sudo: required
 cache: packages
-warnings_are_errors: false
+warnings_are_errors: true
 
 before_install:
     - sudo apt-get install --yes udunits-bin libudunits2-dev

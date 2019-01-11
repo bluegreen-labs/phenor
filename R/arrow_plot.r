@@ -20,13 +20,15 @@
 #' arrow_plot(data = model_comparison_data)
 #'}
 
-arrow_plot = function(data = NULL,
-                      models = NULL,
-                      lwd = 1.3,
-                      length = 0.03){
+arrow_plot = function(
+  data,
+  models = NULL,
+  lwd = 1.3,
+  length = 0.03
+  ){
 
   # sanity check, as no defaults are provided
-  if (is.null(data)){
+  if (missing(data)){
     stop("no input data provided")
   }
 

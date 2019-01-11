@@ -19,12 +19,17 @@
 #'}
 
 format_npn = function(
-  data = NULL,
+  data,
   phenophase = 371,
   offset = 264,
   path = tempdir(),
   internal = TRUE
   ){
+
+  # check
+  if (missing(data)){
+    stop("No data provided")
+  }
 
   # helper function to process the data
   format_data = function(site){

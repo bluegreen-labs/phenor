@@ -21,27 +21,27 @@
 daylength = function(doy, latitude) {
 
   # set constants
-  latitude = (pi / 180) * latitude
+  latitude <- (pi / 180) * latitude
 
   # Correct for winter solistice
-  doy = doy + 11
+  doy <- doy + 11
 
   # earths ecliptic
-  j = pi / 182.625
-  axis = (pi / 180) * 23.439
+  j <- pi / 182.625
+  axis <- (pi / 180) * 23.439
 
   # calculate daylength for all days
-  dl = lapply(doy, function(x){
+  dl <- lapply(doy, function(x){
 
-    #Exposed radius part between sun's zenith and sun's circle
-    m = 1 - tan(latitude) * tan(axis * cos(j * x))
+    # Exposed radius part between sun's zenith and sun's circle
+    m <- 1 - tan(latitude) * tan(axis * cos(j * x))
 
     # sun never appears or disappears
     if (m < 0) { m = 0 }
     if (m > 2) { m = 2 }
 
     # Exposed fraction of the sun's circle
-    b = acos(1 - m) / pi
+    b <- acos(1 - m) / pi
 
     # Daylength (lat,day)
     return(b * 24)

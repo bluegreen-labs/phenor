@@ -8,7 +8,7 @@ through the python based Google Earth Engine (GEE) subset tool. This is a
 fallback method in the absence of a working version of R MODISTools.
 (https://khufkens.github.io/gee_subset/)}
 \usage{
-format_gee(path = "~", phenophase = "Increase", offset = 264)
+format_gee(path = tempdir(), phenophase = "Increase", offset = 264)
 }
 \arguments{
 \item{path}{a path to GEE provided MCD12Q2 phenology dates}

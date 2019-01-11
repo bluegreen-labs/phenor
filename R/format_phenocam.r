@@ -28,7 +28,7 @@
 #'}
 
 format_phenocam = function(
-  path = "~",
+  path = tempdir(),
   direction = "rising",
   gcc_value = "gcc_90",
   threshold = 50,

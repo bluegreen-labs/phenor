@@ -20,7 +20,7 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_berkeley_earth = function(path = "~",
+format_berkeley_earth = function(path = tempdir(),
                                  year = 2011,
                                  offset = 264,
                                  extent = c(-126, -66, 23, 54),

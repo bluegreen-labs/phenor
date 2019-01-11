@@ -12,10 +12,10 @@
 #' @examples
 #'
 #' \dontrun{
-#' tidy_pep_data = merge_pep725()
+#' tidy_pep_data <- merge_pep725()
 #'}
 
-merge_pep725 = function(path = "~"){
+merge_pep725 = function(path = tempdir()){
 
   # set encoding to circumvent messy encoding in database
   Sys.setlocale("LC_ALL", "C")

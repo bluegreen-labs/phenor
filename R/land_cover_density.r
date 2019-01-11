@@ -26,14 +26,16 @@
 #'                              dest_raster = "~/1_degree_lat_lon_map.tif")
 #' }
 
-land_cover_density = function(lc_raster = NULL,
-                              dest_raster = NULL,
-                              lc_classes = c(1,4,5,10),
-                              path = "~",
-                              internal = FALSE){
+land_cover_density = function(
+  lc_raster,
+  dest_raster,
+  lc_classes = c(1,4,5,10),
+  path = tempdir(),
+  internal = FALSE
+){
 
   # MCD12Q1 land cover class file
-  if(is.null(lc_raster)){
+  if(missing(lc_raster)){
     stop("No source raster provided.")
   } else {
     if(!class(lc_raster) != "RasterLayer"){
@@ -48,7 +50,7 @@ land_cover_density = function(lc_raster = NULL,
   }
 
   # destination raster
-  if(is.null(dest_raster)){
+  if(missing(dest_raster)){
     stop("No source raster provided.")
   } else {
     if(!class(dest_raster) != "RasterLayer"){

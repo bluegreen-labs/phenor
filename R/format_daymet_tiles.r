@@ -25,7 +25,7 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_daymet_tiles = function(path = "~",
+format_daymet_tiles = function(path = tempdir(),
                                year = 2014,
                                tile = 11935,
                                offset = 264,

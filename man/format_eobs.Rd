@@ -5,7 +5,7 @@
 \title{Preprocessing E-OBS data as hosted by:
 http://www.ecad.eu/}
 \usage{
-format_eobs(path = "~", year = 2014, offset = 264,
+format_eobs(path = tempdir(), year = 2014, offset = 264,
   resolution = 0.25, internal = TRUE)
 }
 \arguments{

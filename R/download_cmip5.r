@@ -38,11 +38,13 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-download_cmip5 = function(path = "~",
-                          year = 2016,
-                          model = "MIROC5",
-                          scenario = "rcp85",
-                          variable = c("tasmin","tasmax","pr")){
+download_cmip5 = function(
+  path = tempdir(),
+  year = 2016,
+  model = "MIROC5",
+  scenario = "rcp85",
+  variable = c("tasmin","tasmax","pr")
+  ){
 
   # data file list, on amazon S3 server (which is a bit more stable
   # than the GDDP ftp server)

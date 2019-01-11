@@ -5,8 +5,8 @@
 \title{Calculates land cover density values based upon a MODIS MCD12Q1
 land cover input map (src_raster) and a coarser destination raster.}
 \usage{
-land_cover_density(lc_raster = NULL, dest_raster = NULL,
-  lc_classes = c(1, 4, 5, 10), path = "~", internal = FALSE)
+land_cover_density(lc_raster, dest_raster, lc_classes = c(1, 4, 5, 10),
+  path = tempdir(), internal = FALSE)
 }
 \arguments{
 \item{lc_raster}{a MCD12Q1 map in epsg:4326.}

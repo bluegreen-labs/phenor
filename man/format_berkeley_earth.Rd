@@ -4,7 +4,7 @@
 \alias{format_berkeley_earth}
 \title{Preprocessing of Berkeley Earth Gridded temperature data}
 \usage{
-format_berkeley_earth(path = "~", year = 2011, offset = 264,
+format_berkeley_earth(path = tempdir(), year = 2011, offset = 264,
   extent = c(-126, -66, 23, 54), internal = TRUE)
 }
 \arguments{

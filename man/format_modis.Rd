@@ -5,7 +5,7 @@
 \title{Preprocessing of all PhenoCam data into a format which can be ingested
 by the optimization routines etc.}
 \usage{
-format_modis(path = "~", phenophase = "Increase", cycle = 1,
+format_modis(path = tempdir(), phenophase = "Increase", cycle = 1,
   offset = 264)
 }
 \arguments{

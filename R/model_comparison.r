@@ -36,8 +36,12 @@ model_comparison = function(
   method = "GenSA",
   control = list(max.call = 5000,
                  temperature = 10000),
-  par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                       path.package("phenor")),
+  par_ranges = system.file(
+    "extdata",
+    "parameter_ranges.csv",
+    package = "phenor",
+    mustWork = TRUE
+  ),
   ncores = 1
 ){
 

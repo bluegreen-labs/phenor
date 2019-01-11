@@ -32,16 +32,18 @@
 # set of parameters and data. Make sure to check the data
 # and parameter constraints. Data matrices must match.
 
-estimate_phenology = function(par,
-                              data = NULL,
-                              model = "TT",
-                              path =  ".",
-                              reproject = TRUE,
-                              ... ) {
+estimate_phenology = function(
+  par,
+  data,
+  model = "TT",
+  path =  ".",
+  reproject = TRUE,
+  ...
+  ){
 
   # if the data parameter is not null
   # run the standard procedure
-  if(!is.null(data)){
+  if(!missing(data)){
 
     # when provided with a file name,
     # load the rds file (name data)

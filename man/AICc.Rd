@@ -26,7 +26,7 @@ together with the number of model parameters used
 
 \dontrun{
 
-model_AIC = AICc(measured, predicted, k)
+model_AIC <- AICc(measured, predicted, k)
 
 }
 }

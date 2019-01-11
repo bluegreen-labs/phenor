@@ -34,14 +34,14 @@
 #'                               eobs_path = "~/eobs_data/")
 #'}
 
-format_pep725 = function(pep_path = "~",
-                         eobs_path = "~",
+format_pep725 = function(pep_path = tempdir(),
+                         eobs_path = tempdir(),
                          bbch = "11",
                          species = NULL,
                          offset = 264,
                          count = 60,
                          resolution = 0.25,
-                         pep_data = NULL){
+                         pep_data){
 
   # helper function to format the data
   # for a given site
@@ -163,7 +163,9 @@ format_pep725 = function(pep_path = "~",
   cat(sprintf("  %s\n", pep_path))
 
   # User may provide prefiltered merge_PEP725 dataset
-  if (is.null(pep_data)){  pep_data = merge_pep725(path = pep_path)}
+  if (missing(pep_data)){
+    pep_data = merge_pep725(path = pep_path)
+    }
 
   # removing out of E-OBS climate data range
   # PEP725 observations

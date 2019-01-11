@@ -4,7 +4,7 @@
 \alias{download_pep725}
 \title{Automatically download PEP725 data}
 \usage{
-download_pep725(credentials = NULL, species = 115, path = "~",
+download_pep725(credentials, species = 115, path = tempdir(),
   internal = FALSE)
 }
 \arguments{

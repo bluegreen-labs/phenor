@@ -4,19 +4,22 @@
 test_that("test model runs",{
 
   # load parameter ranges
-  models = unique(utils::read.table(sprintf("%s/extdata/parameter_ranges.csv",
-                                         path.package("phenor")),
-                                 header = TRUE,
-                                 sep = ",",
-                                 stringsAsFactors = FALSE)$model)
+  models <- unique(
+    utils::read.table(
+      system.file(
+        "extdata",
+        "parameter_ranges.csv",
+        package = "phenor",
+        mustWork = TRUE
+      ),
+      header = TRUE,
+      sep = ",",
+      stringsAsFactors = FALSE
+    )$model
+  )
+
   # test models
-  model_runs = try(model_comparison(random_seeds = 1,
-                                    models = models,
-                                    control = list(max.call = 10)))
-
-  # see if any of the runs failed
-  check = !inherits(model_runs, "try-error")
-
-  # check if no error occured
-  expect_true(check)
+  expect_output(model_comparison(random_seeds = 1,
+                                 models = models,
+                                 control = list(max.call = 1)))
 })

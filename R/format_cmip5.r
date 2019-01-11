@@ -23,7 +23,7 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_cmip5 = function(path = "~",
+format_cmip5 = function(path = tempdir(),
                         year = 2016,
                         offset = 264,
                         model = "IPSL-CM5A-MR",

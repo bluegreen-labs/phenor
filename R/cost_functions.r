@@ -26,8 +26,8 @@ rmse <- function(
   ) {
 
   # inset validity checks
-  val = data$transition_dates
-  out = do.call(model, list(data = data, par = par, ...))
+  val <- data$transition_dates
+  out <- do.call(model, list(data = data, par = par, ...))
 
   if (any(is.na(out))) {
     return(9999)
@@ -117,8 +117,8 @@ likelihood <- function(
   ) {
 
   # run model
-  val = data$transition_dates
-  out = do.call(model, list(data = data,
+  val <- data$transition_dates
+  out <- do.call(model, list(data = data,
                             par = par))
 
   # deal with the NA values

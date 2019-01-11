@@ -14,7 +14,7 @@
 #' plot(0:45, T_response, type = "l")
 #'}
 
-triangular_temperature_response = function(T = -10:45,
+triangular_temperature_response <- function(T = -10:45,
                                     T_opt = 10,
                                     T_min = 1,
                                     T_max = 15){
@@ -27,8 +27,8 @@ triangular_temperature_response = function(T = -10:45,
 
   # find locations of rising and falling
   # part of the triangular function
-  loc_rising = which(T < T_opt & T >= T_min)
-  loc_falling = which(T <= T_max & T >= T_opt)
+  loc_rising <- which(T < T_opt & T >= T_min)
+  loc_falling <- which(T <= T_max & T >= T_opt)
 
   # fill this vector according to a triangular
   # ruleset function
@@ -37,8 +37,8 @@ triangular_temperature_response = function(T = -10:45,
   T[T < T_min | T > T_max] = 0
 
   # convert temperatures
-  T[loc_rising] = (T[loc_rising] - T_min)/(T_opt - T_min)
-  T[loc_falling] = 1 - (T[loc_falling] - T_opt)/(T_max - T_opt)
+  T[loc_rising] <- (T[loc_rising] - T_min)/(T_opt - T_min)
+  T[loc_falling] <- 1 - (T[loc_falling] - T_opt)/(T_max - T_opt)
 
   # returns the converted temperature data
   return(T)

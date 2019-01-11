@@ -5,9 +5,9 @@
 \title{Preprocessing of PEP725 data into a format which can be ingested
 by the optimization routines.}
 \usage{
-format_pep725(pep_path = "~", eobs_path = "~", bbch = "11",
-  species = NULL, offset = 264, count = 60, resolution = 0.25,
-  pep_data = NULL)
+format_pep725(pep_path = tempdir(), eobs_path = tempdir(),
+  bbch = "11", species = NULL, offset = 264, count = 60,
+  resolution = 0.25, pep_data)
 }
 \arguments{
 \item{pep_path}{path to the PEP725 data (species files only)}

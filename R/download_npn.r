@@ -21,16 +21,18 @@
 #' download_npn(species = 3, internal = FALSE)
 #'}
 
-download_npn = function(species = 3,
-                        phenophase = 371,
-                        start = "2000-01-01",
-                        end = "2017-01-01",
-                        extent = NULL,
-                        internal = TRUE,
-                        path = "."){
+download_npn = function(
+  species = 3,
+  phenophase = 371,
+  start = "2000-01-01",
+  end = "2017-01-01",
+  extent = NULL,
+  internal = TRUE,
+  path = tempdir()
+  ){
 
   # request parameter for logging
-  request = "rest_test"
+  request = "phenor"
 
   # set url base
   url = "http://www.usanpn.org/npn_portal/observations/getSummarizedData.json?"

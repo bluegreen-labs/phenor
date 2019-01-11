@@ -6,7 +6,7 @@
 and a specified model (be sure to match parameter and requirements
 with the model. Wrapper around a do.call() call for convenience.}
 \usage{
-estimate_phenology(par, data = NULL, model = "TT", path = ".",
+estimate_phenology(par, data, model = "TT", path = ".",
   reproject = TRUE, ...)
 }
 \arguments{

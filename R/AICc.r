@@ -12,25 +12,26 @@
 #'
 #' \dontrun{
 #'
-#' model_AIC = AICc(measured, predicted, k)
+#' model_AIC <- AICc(measured, predicted, k)
 #'
 #' }
 
 # custom AIC function which accepts loess regressions
-AICc = function(measured, predicted, k){
+AICc <- function(measured, predicted, k){
 
   # calculate number of observations
-  n = length(measured)
+  n <- length(measured)
 
   # calculatue residual sum of squares
-  RSS = sum((measured - predicted)^2)
+  RSS <- sum((measured - predicted)^2)
 
   # AIC
-  AIC = 2*k + n * log(RSS/n)
+  AIC <- 2*k + n * log(RSS/n)
 
   # AICc
-  AICc  = AIC + (2 * k * (k + 1)) / (n - k - 1)
+  AICc <- AIC + (2 * k * (k + 1)) / (n - k - 1)
 
   # return both AIC
-  return(list("AIC"=AIC,"AICc"=AICc))
+  return(list("AIC" = AIC,
+              "AICc" = AICc))
 }

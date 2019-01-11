@@ -15,7 +15,7 @@
 #'}
 
 format_modis = function(
-  path = "~",
+  path = tempdir(),
   phenophase = "Increase",
   cycle = 1,
   offset = 264

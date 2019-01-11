@@ -5,7 +5,7 @@
 \title{Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
 (NEX-GDDP).}
 \usage{
-format_cmip5(path = "~", year = 2016, offset = 264,
+format_cmip5(path = tempdir(), year = 2016, offset = 264,
   model = "IPSL-CM5A-MR", scenario = "rcp85", extent = c(-128, -65,
   24, 50), internal = TRUE)
 }

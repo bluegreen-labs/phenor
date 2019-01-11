@@ -5,7 +5,7 @@
 \title{Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
 https://nex.nasa.gov/nex/.}
 \usage{
-download_cmip5(path = "~", year = 2016, model = "MIROC5",
+download_cmip5(path = tempdir(), year = 2016, model = "MIROC5",
   scenario = "rcp85", variable = c("tasmin", "tasmax", "pr"))
 }
 \arguments{

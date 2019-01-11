@@ -6,7 +6,7 @@
 data, with each observation a line, each column a different
 parameter value.}
 \usage{
-merge_pep725(path = "~")
+merge_pep725(path = tempdir())
 }
 \arguments{
 \item{path}{a path to the PEP725 data (either a directory containing tar.gz
@@ -25,7 +25,7 @@ parameter value.
 \examples{
 
 \dontrun{
-tidy_pep_data = merge_pep725()
+tidy_pep_data <- merge_pep725()
 }
 }
 \keyword{model,}

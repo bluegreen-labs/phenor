@@ -5,7 +5,8 @@
 \title{Automatically download USA-NPN data using the API interface}
 \usage{
 download_npn(species = 3, phenophase = 371, start = "2000-01-01",
-  end = "2017-01-01", extent = NULL, internal = TRUE, path = ".")
+  end = "2017-01-01", extent = NULL, internal = TRUE,
+  path = tempdir())
 }
 \arguments{
 \item{species}{A species to download, either specified by its

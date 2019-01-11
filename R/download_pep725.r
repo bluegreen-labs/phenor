@@ -27,17 +27,19 @@
 #'                 species = 115)
 #'}
 
-download_pep725 = function(credentials = NULL,
-                           species = 115,
-                           path = "~",
-                           internal = FALSE){
+download_pep725 = function(
+  credentials,
+  species = 115,
+  path = tempdir(),
+  internal = FALSE
+  ){
 
   # check the validity of the species, return list of
   # numbers to query or stop()
   species_numbers = check_pep725_species(species = species)
 
   # check if email / password or credential file is available
-  if(any(!file.exists(credentials) & is.null(credentials))){
+  if(any(!file.exists(credentials) & missing(credentials))){
     stop("Credentials file not given or does not exist, check path !")
   } else {
     credentials = as.vector(unlist(utils::read.table(
@@ -55,7 +57,9 @@ download_pep725 = function(credentials = NULL,
   )
 
   # login to set cookie (will not expire until end of session)
-  httr::POST("http://www.pep725.eu/login.php", body = login, encode = "form")
+  httr::POST("http://www.pep725.eu/login.php",
+             body = login,
+             encode = "form")
 
   # download data for all species number(s), will merge
   # data if internal = TRUE otherwise return NULL
