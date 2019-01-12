@@ -1,4 +1,6 @@
-#' Calculates the estimated phenophases for a given set of parameters
+#' Predicts phenophases
+#'
+#' Uses a given set of parameters
 #' and a specified model (be sure to match parameter and requirements
 #' with the model. Wrapper around a do.call() call for convenience.
 #'
@@ -32,6 +34,7 @@
 # set of parameters and data. Make sure to check the data
 # and parameter constraints. Data matrices must match.
 
+# pr_predict
 estimate_phenology = function(
   par,
   data,

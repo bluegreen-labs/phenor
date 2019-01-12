@@ -2,9 +2,7 @@
 % Please edit documentation in R/estimate_phenology.r
 \name{estimate_phenology}
 \alias{estimate_phenology}
-\title{Calculates the estimated phenophases for a given set of parameters
-and a specified model (be sure to match parameter and requirements
-with the model. Wrapper around a do.call() call for convenience.}
+\title{Predicts phenophases}
 \usage{
 estimate_phenology(par, data, model = "TT", path = ".",
   reproject = TRUE, ...)
@@ -30,7 +28,7 @@ if requested}
 returns point based or gridded estimates of a particular phenopase
 }
 \description{
-Calculates the estimated phenophases for a given set of parameters
+Uses a given set of parameters
 and a specified model (be sure to match parameter and requirements
 with the model. Wrapper around a do.call() call for convenience.
 }
