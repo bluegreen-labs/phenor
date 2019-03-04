@@ -19,17 +19,19 @@
 #' # look for alternative models on the CMIP5
 #' # downscaled data page
 #' \dontrun{
-#' cmip5_data = format_cmip5()
+#' cmip5_data <- pr_fm_cmip5()
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_cmip5 = function(path = tempdir(),
-                        year = 2016,
-                        offset = 264,
-                        model = "IPSL-CM5A-MR",
-                        scenario = "rcp85",
-                        extent = c(-128, -65, 24, 50),
-                        internal = TRUE){
+pr_fm_cmip5 <- function(
+  path = tempdir(),
+  year = 2016,
+  offset = 264,
+  model = "IPSL-CM5A-MR",
+  scenario = "rcp85",
+  extent = c(-128,-65, 24, 50),
+  internal = TRUE
+  ) {
 
   # list all netCDF files in the path
   files = list.files(path = path,

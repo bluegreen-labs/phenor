@@ -26,14 +26,16 @@
 #' \dontrun{
 #' # run with default settings netCDF E-OBS files will be
 #' # looked for in your home directory
-#' eobs_data = format_eobs()
+#' eobs_data <- pr_fm_eobs()
 #'}
 
-format_eobs = function(path = tempdir(),
-                        year = 2014,
-                        offset = 264,
-                        resolution = 0.25,
-                        internal = TRUE){
+pr_fm_eobs <- function(
+  path = tempdir(),
+  year = 2014,
+  offset = 264,
+  resolution = 0.25,
+  internal = TRUE
+  ) {
 
   # download or read data
   eobs_data = lapply( c("tg","rr","elev"),function(x){

@@ -10,12 +10,14 @@
 #'
 #' # donwload all gridded data for year 2011
 #' \dontrun{
-#' download_berkeley_earth(year = 2011)
+#' pr_dl_be(year = 2011)
 #'}
 
 # create subset of layers to calculate phenology model output on
-download_berkeley_earth = function(path = tempdir(),
-                                 year = 2011){
+pr_dl_be <- function(
+  path = tempdir(),
+  year = 2011
+  ){
 
   # set server
   server = "http://berkeleyearth.lbl.gov/auto/Global/Gridded"

@@ -107,6 +107,8 @@ shape_model_output <- function(data, doy){
     r[ r == 9999 ] <- NA
     return(r)
   } else {
+    doy[is.na(doy)] <- -9999
+    doy[is.infinite(doy)] <- -9999
     return(doy)
   }
 }

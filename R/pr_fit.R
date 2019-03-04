@@ -26,7 +26,7 @@
 #' # validation data
 #' }
 
-model_calibration = function(
+pr_fit <- function(
   model = "TT",
   data = phenor::phenocam_DB,
   method = "GenSA",
@@ -38,7 +38,7 @@ model_calibration = function(
   ){
 
   # convert to a flat format for speed
-  data = flat_format(data)
+  data = pr_flatten(data)
 
   # read in parameter ranges
   par_ranges = utils::read.table(par_ranges,
@@ -58,7 +58,7 @@ model_calibration = function(
   d = as.matrix(d)
 
   # optimize paramters
-  optim_par = optimize_parameters(
+  optim_par = pr_fit_parameters(
     par = NULL,
     data = data,
     model = model,
@@ -71,7 +71,7 @@ model_calibration = function(
 
   # estimate model output using optimized
   # parameters
-  out = estimate_phenology(
+  out = pr_predict(
     data = data,
     model = model,
     par = optim_par$par
@@ -84,37 +84,20 @@ model_calibration = function(
             predicted = out,
             k = length(optim_par$par))
 
-  # plot data if requested
-  if (plot){
-    plot(data$transition_dates,out,
-         main = paste0(model,", iterations: ", control$max.call),
-         xlab = "onset DOY Measured",
-         ylab = "onset DOY Modelled",
-         pch = 19,
-         tck = 0.02)
-    graphics::abline(0,1)
-    graphics::legend("topleft",
-                     legend = sprintf("RMSE: %s",
-                                      round(RMSE)),bty='n')
-    graphics::legend("top",
-                     legend = sprintf("RMSE NULL: %s",
-                                      round(RMSE_NULL)),bty='n')
-    graphics::legend("bottomright",
-                     legend = sprintf("AICc: %s",
-                                      round(Ac$AICc)),bty='n')
-  }
-
-  # print summary statistics
-  print(summary(stats::lm(data$transition_dates ~ out)))
-
-  # return optimized parameters and stats
-  return(list(
+  output <- list(
     "model" = model,
     "par" = optim_par$par,
+    "measured" = data$transition_dates,
+    "predicted" = out,
     "rmse" = RMSE,
     "rmse_null" = RMSE_NULL,
     "aic" = Ac,
     "bt_output" = optim_par$bt_output
-    )
   )
+
+  # assign class
+  class(output) <- "pr_fit"
+
+  # return optimized parameters and stats
+  return(output)
 }

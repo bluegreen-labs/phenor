@@ -29,7 +29,7 @@
 #' # will return the data of each validation and some summarizing statistics
 #' }
 
-model_cv<-function(
+pr_model_cv <- function(
   k = 10,
   cv_seed = 1234,
   cv_set = NULL,
@@ -116,8 +116,8 @@ model_cv<-function(
   # convert to a flat format for speed
   # The call to model_copmarison call further down will call this again;
   # but already flat datasets are ignored by the function
-  data<-flat_format(data)
-  cvindex<-c(1:length(data$transition_date))
+  data <- flat_format(data)
+  cvindex <- c(1:length(data$transition_date))
 
   # Prepare training and validation dataset indices ...
   n <- length(cvindex)
@@ -184,9 +184,10 @@ model_cv<-function(
 
     doParallel::registerDoParallel()
     on.exit(parallel::stopCluster(cl))
-    results <- foreach::foreach( i=1:k,
-                                 .export=c("model_comparison",
-                                           "estimate_phenology")) %dopar% {fold(i)}
+    results <- foreach::foreach(
+      i=1:k,
+      .export=c("model_comparison",
+                "estimate_phenology")) %dopar% {fold(i)}
   }
   names(results)<-c(1:k)
 

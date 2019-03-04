@@ -1,3 +1,5 @@
+#' Merge PEP725 data files
+#'
 #' Preprocessing of PEP725 data, merges separate files into tidy
 #' data, with each observation a line, each column a different
 #' parameter value.
@@ -12,10 +14,10 @@
 #' @examples
 #'
 #' \dontrun{
-#' tidy_pep_data <- merge_pep725()
+#' tidy_pep_data <- pr_merge_pep725()
 #'}
 
-merge_pep725 = function(path = tempdir()){
+pr_merge_pep725 = function(path = tempdir()){
 
   # set encoding to circumvent messy encoding in database
   Sys.setlocale("LC_ALL", "C")
@@ -28,7 +30,8 @@ merge_pep725 = function(path = tempdir()){
   # (no formal checks for this are in place)
   if (dir.exists(path.expand(path))){
       # list data files
-      archive_files = list.files(path, "^PEP725.*\\.tar\\.gz$", full.names = TRUE)
+      archive_files = list.files(path, "^PEP725.*\\.tar\\.gz$",
+                                 full.names = TRUE)
   } else {
     # single file
     if (file.exists(path)){
@@ -45,7 +48,8 @@ merge_pep725 = function(path = tempdir()){
     # check the contents of the tar.gz file
     # and only select true data files (discard README and descriptor)
     pep_files = utils::untar(file, list = TRUE)
-    pep_files = pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt", pep_files)]
+    pep_files = pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt",
+                                 pep_files)]
 
     # extract only the true data files and station info files
     # drop the BBCH and README data (but don't delete it - delist)

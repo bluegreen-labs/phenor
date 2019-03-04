@@ -22,29 +22,33 @@
 #' @examples
 #'
 #' \dontrun{
-#' estimate <- estimate.phenology(par,data,model)
+#' estimate <- pr_fit_parameters(par,data,model)
 #'
 #' # estimate will return the best estimated parameter set given the
 #' # validation data
 #' }
 
-optimize_parameters <- function(
+pr_fit_parameters <- function(
   par = NULL,
-  data = data,
+  data,
   cost = rmse,
   model = "TT",
   method = "GenSA",
-  lower = NULL,
-  upper = NULL,
-  control = NULL,
+  lower,
+  upper,
+  control,
   ...
 ) {
 
   # check if starting parameters are present
-  if (is.null(lower) | is.null(upper)){
-    stop('Please provide upper and lower boundaries to the parameter space.\n
-         Not defining your parameters space might yield good fits,\n
-         for a wrong reason.')
+  if (is.missing(lower) |
+      is.missing(upper) |
+      is.missing(data)  |
+      is.missing(control)){
+    stop('Please provide data, upper and lower boundaries
+          to the parameter space and control settings.
+          Not defining your parameter space might yield good fits,
+          for a wrong reason.')
   }
 
   # check if starting parameters are balanced
@@ -54,7 +58,7 @@ optimize_parameters <- function(
 
   # convert to a flat format for speed
   # (increases speed > 20x)
-  data = flat_format(data)
+  data <- flat_format(data)
 
   if ( tolower(method) == "gensa" ){
     # one can opt to automatically generate starting values
@@ -98,32 +102,33 @@ optimize_parameters <- function(
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 
-    # set range
-    sd_range <- abs(upper - lower)/2
-
     # setup the bayes run, no message forwarding is provided
     # so wrap the function in a do.call
-    setup = BayesianTools::createBayesianSetup(
+    setup <- BayesianTools::createBayesianSetup(
       likelihood = function(random_par){
         do.call("likelihood",
                 list(par = random_par,
                      data = data,
-                     model = model,
-                     sd_range = sd_range))},
-        lower = lower,
-        upper = upper,
+                     model = model
+                     ))},
+        lower = c(lower,0),
+        upper = c(upper,16),
         ...
       )
 
-      # calculate the runs
-      out <- BayesianTools::runMCMC(bayesianSetup = setup,
+    # calculate the runs
+    out <- BayesianTools::runMCMC(bayesianSetup = setup,
                                    sampler = control$sampler,
                                    settings = control$settings)
 
-      # correct formatting in line with other outputs
-      optim_par <- list("par" = BayesianTools::MAP(out)$parametersMAP,
+    # drop last value
+    bt_par <- BayesianTools::MAP(out)$parametersMAP
+    bt_par <- bt_par[1:(length(bt_par)-1)]
+
+    # correct formatting in line with other outputs
+    optim_par <- list("par" = bt_par,
                        "bt_output" = out)
-    }
+  }
 
   # return the optimization data (parameters)
   # check formatting for post-processing

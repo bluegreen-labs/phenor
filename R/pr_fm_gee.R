@@ -1,43 +1,63 @@
-#' Pre-processing of CSV based data
+#' Preprocessing of GEE data
 #'
-#' Combines CSV data into a format which can be ingested
-#' by the optimization routines. The CSV requires columns named:
-#' site, lat, lon, phenophase, year, doy
+#' Ingests MODIS phenology dates as ingested
+#' through the python based Google Earth Engine (GEE) subset tool. This is a
+#' fallback method in the absence of a working version of R MODISTools.
+#' (https://khufkens.github.io/gee_subset/)
 #'
-#' subsets of the phenophases can be made, or are ignored if
-#' not specified.
-#'
-#' @param file an CSV file with phenology observation dates
-#' @param phenophase a phenophase to include as validation statistic
+#' @param path a path to GEE provided MCD12Q2 phenology dates
+#' @param phenophase Phenological phase, Increase, Maximum,
+#' Decrease or Minimum (default = Increase)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
-#' @param internal return data as structured list to R workspace or write
-#' to RDS file (default = TRUE)
-#' @param path output directory for converted data
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
 #'
 #' \dontrun{
-#' npn_data = format_csv()
+#' modis_data = pr_fm_gee()
 #'}
 
-format_csv <- function(
-  file = "~/Desktop/your_phenology.csv",
-  phenophase,
-  offset = 264,
-  internal = TRUE,
-  path = tempdir()
+pr_fm_gee <- function(
+  path = tempdir(),
+  phenophase = "Increase",
+  offset = 264
   ){
 
   # helper function to process the data
-  format_data = function(site){
+  format_data = function(site, transition_files, path){
 
-    # throw out all data but the selected gcc value
-    df = data[data$ID == site,]
+    # define the start date of the MODIS
+    # phenology product (days since Jan. 1th 2000)
+    start_date = as.Date("2000-01-01")
 
-    # grab the location of the site by subsetting the
-    lat = df$lat
-    lon = df$long
+    # get individual sites form the filenames
+    sites = unlist(lapply(strsplit(basename(transition_files),"_"),"[[",1))
+    file = transition_files[which(sites == site)]
+
+    # merge all transition date data
+    modis_data = utils::read.table(file, header = TRUE, sep = ",")
+
+    # grab the site years from the product name
+    years = as.numeric(format(as.Date(modis_data$date),"%Y"))
+
+    # grab the location of the site
+    lat = unique(modis_data$latitude)
+    lon = unique(modis_data$longitude)
+
+    # grab the values, set NA flag and take the median
+    modis_data = modis_data[,grep(phenophase,colnames(modis_data))]
+    modis_data = unlist(by(modis_data,
+                           INDICES = list(years),
+                           stats::median, na.rm = TRUE))
+
+    # count the days from the start date, and report the DOY
+    phenophase = as.numeric(format(start_date + modis_data, "%j"))
+
+    # min and max range of the daymet data to pull
+    # -1 for min_year as we need data from the previous year for cold
+    # hardening
+    start = min(years) - 1
+    end = max(years)
 
     # download daymet data for a given site
     daymet_data = try(daymetr::download_daymet(
@@ -59,13 +79,10 @@ format_csv <- function(
     # calculate the mean daily temperature
     daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
 
-    # calculate the long term daily mean temperature
-    # and realign it so the first day will be sept 21th (doy 264)
-    # and the matching DOY vector
-    ltm = as.vector(by(daymet_data$tmean,
-                       INDICES = list(daymet_data$yday),
-                       mean,
-                       na.rm = TRUE))
+    # calculate the long term daily mean temperature and realign it so the first
+    # day will be sept 21th (doy 264) and the matching DOY vector
+    ltm = as.vector(by(daymet_data$tmean, INDICES = list(daymet_data$yday), mean))
+    ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
 
     # shift data when offset is < 365
     if (offset < 365){
@@ -75,9 +92,6 @@ format_csv <- function(
     } else {
       doy = doy_neg = 1:365
     }
-
-    # slice and dice the data
-    years = unique(df$year)
 
     # create output matrix (holding mean temp.)
     tmean = matrix(NA,
@@ -110,13 +124,6 @@ format_csv <- function(
     # for the default offset, if offset is 365 or larger
     # use the current year only
     for (j in 1:length(years)) {
-
-      # I need the preceding year for modelling
-      # purposes the first usable year is therefore 1981
-      if(years[j] == 1980){
-        return(NULL)
-      }
-
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
                             ("year" == (years[j] - 1) & "yday" >= offset) |
@@ -124,9 +131,9 @@ format_csv <- function(
                                  "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmin..deg.c.
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
@@ -134,13 +141,13 @@ format_csv <- function(
                                 "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$prcp..mm.day.
-        vpd[, j] = subset(daymet_data,
                              ("year" == (years[j] - 1) & "yday" >= offset) |
                                ("year" == years[j] &
-                                  "yday" < offset))$vp..Pa.
+                                  "yday" < offset))$prcp..mm.day.
+        vpd[, j] = subset(daymet_data,
+                          ("year" == (years[j] - 1) & "yday" >= offset) |
+                            ("year" == years[j] &
+                               "yday" < offset))$vp..Pa.
       } else {
         tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
         tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
@@ -150,28 +157,19 @@ format_csv <- function(
       }
     }
 
-    # finally select all the transition dates for model validation
-    phenophase_years = df$year
-    phenophase_doy = df$doy
-
-    # only select the first instance of a phenophase_doy
-    # currently the model frameworks do not handle multiple cycles
-    phenophase = unlist(lapply(years, function(x) {
-      phenophase_doy[which(phenophase_years == x)[1]]
-    }))
-
     # calculate daylength
     l = ncol(tmean)
     Li = daylength(doy = doy, latitude = lat)
     Li = matrix(rep(Li,l),length(Li),l)
 
-    # format and return the data
-    return(list("site" = site,
+    # recreate the validation data structure (new format)
+    # but with concatted data
+    data = list("site" = site,
                 "location" = c(lat,lon),
                 "doy" = doy_neg,
                 "ltm" = ltm,
                 "transition_dates" = phenophase,
-                "year" = unique(phenophase_years),
+                "year" = years,
                 "Ti" = as.matrix(tmean),
                 "Tmini" = as.matrix(tmin),
                 "Tmaxi" = as.matrix(tmax),
@@ -179,37 +177,23 @@ format_csv <- function(
                 "Pi" = as.matrix(precip),
                 "VPDi" = as.matrix(vpd),
                 "georeferencing" = NULL
-                ))
-  }
+    )
 
-  # read in the data from csv and subset by phenological stage
-  data = utils::read.table(file,
-                    sep = ",",
-                    header = TRUE,
-                    stringsAsFactors = FALSE)
+    # assign a class for post-processing
+    class(data) = "phenor_time_series_data"
 
-  # subset if a phenophase is specified
-  if(!missing(phenophase)){
-    stop("please specify a phenophase to process")
-  }
+    # return the formatted data
+    return(data)
+  } # end of helper function
 
-  # query max year as available through Daymet, lags by a year so
-  # subtract 1 year by default. If download fails subtract another year
-  end = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
+  #----
 
-  daymet_test = try(daymetr::download_daymet(
-    start = end,
-    end = end,
-    internal = TRUE,
-    quiet = TRUE
-  ))
-
-  if (inherits(daymet_test,"try-error")){
-    end = end - 1
-  }
+  # list all files in the referred path
+  transition_files = list.files(path,"*_MCD12Q2_gee_subset.csv",
+                                full.names = TRUE)
 
   # get individual sites form the filenames
-  sites = unique(data$ID)
+  sites = unique(unlist(lapply(strsplit(basename(transition_files),"_"),"[[",1)))
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
@@ -217,15 +201,14 @@ format_csv <- function(
   env = environment()
   i = 0
 
-  # process data
+  # get data
   validation_data = lapply(sites, function(x) {
     utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
-    format_data(site = x)
+    format_data(site = x,
+                transition_files = transition_files,
+                path = normalizePath(path))
   })
-
-  # close progress bar
-  close(pb)
 
   # rename list variables using the proper site names
   names(validation_data) = sites
@@ -233,21 +216,6 @@ format_csv <- function(
   # assign a class for post-processing
   class(validation_data) = "phenor_time_series_data"
 
-  # remove out of daymet range sites (prune sites)
-  na_loc = which(is.na(validation_data))
-  if (length(na_loc) != 0){
-    validation_data = validation_data[-na_loc]
-  }
-
   # return the formatted data
-  # either internally or saved as an rds (binary R data file)
-  if (internal){
-    return(validation_data)
-  } else {
-    saveRDS(validation_data,
-            file = sprintf("%s/phenor_vame_data_%s_%s.rds",
-                           path,
-                           phenophase,
-                           offset))
-  }
+  return(validation_data)
 }

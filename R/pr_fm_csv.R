@@ -1,62 +1,43 @@
-#' Pre-processing of USA-NPN data
+#' Pre-processing of CSV based data
 #'
-#' Combines data into a format which can be ingested
-#' by the optimization routines. Data is aggregated on an
-#' individual_id basis, rather than on the user defined site_id.
+#' Combines CSV data into a format which can be ingested
+#' by the optimization routines. The CSV requires columns named:
+#' site, lat, lon, phenophase, year, doy
 #'
-#' @param data an USA-NPN data frame as returned by download_npn()
+#' subsets of the phenophases can be made, or are ignored if
+#' not specified.
+#'
+#' @param file an CSV file with phenology observation dates
 #' @param phenophase a phenophase to include as validation statistic
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param internal return data as structured list to R workspace or write
 #' to RDS file (default = TRUE)
-#' @param path path where to save the generated data file
+#' @param path output directory for converted data
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
 #'
 #' \dontrun{
-#' npn_data = format_npn()
+#' npn_data = pr_fm_csv()
 #'}
 
-format_npn = function(
-  data,
-  phenophase = 371,
+pr_fm_csv <- function(
+  file = "~/Desktop/your_phenology.csv",
+  phenophase,
   offset = 264,
-  path = tempdir(),
-  internal = TRUE
+  internal = TRUE,
+  path = tempdir()
   ){
-
-  # check
-  if (missing(data)){
-    stop("No data provided")
-  }
 
   # helper function to process the data
   format_data = function(site){
 
-    # subset the original data
-    data_subset = data[data$individual_id == site &
-                       data$phenophase_id == phenophase,]
-
-    # if nothing in subset return NULL
-    if(nrow(data_subset)==0){
-      return(NULL)
-    }
+    # throw out all data but the selected gcc value
+    df = data[data$ID == site,]
 
     # grab the location of the site by subsetting the
-    lat = unique(data_subset$latitude)
-    lon = unique(data_subset$longitude)
-
-
-    # get mean transition dates per year by site
-    mean_doy = by(data_subset$first_yes_doy,
-                  INDICES = data_subset$first_yes_year,
-                  mean,
-                  na.rm = TRUE)
-    transition_dates = round(as.vector(mean_doy))
-
-    # get years matching transition dates
-    years = as.numeric(names(mean_doy))
+    lat = df$lat
+    lon = df$long
 
     # download daymet data for a given site
     daymet_data = try(daymetr::download_daymet(
@@ -67,11 +48,11 @@ format_npn = function(
       end = end,
       internal = TRUE,
       silent = TRUE
-    )$data)
+    )$data,
+    silent = TRUE)
 
     # trap sites outside daymet coverage
     if (inherits(daymet_data,"try-error")){
-      #cat(sprintf('Site: %s outside Daymet coverage will be pruned!\r\r', site))
       return(NULL)
     }
 
@@ -94,6 +75,9 @@ format_npn = function(
     } else {
       doy = doy_neg = 1:365
     }
+
+    # slice and dice the data
+    years = unique(df$year)
 
     # create output matrix (holding mean temp.)
     tmean = matrix(NA,
@@ -126,6 +110,13 @@ format_npn = function(
     # for the default offset, if offset is 365 or larger
     # use the current year only
     for (j in 1:length(years)) {
+
+      # I need the preceding year for modelling
+      # purposes the first usable year is therefore 1981
+      if(years[j] == 1980){
+        return(NULL)
+      }
+
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
                             ("year" == (years[j] - 1) & "yday" >= offset) |
@@ -133,9 +124,9 @@ format_npn = function(
                                  "yday" < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmin..deg.c.
+                            ("year" == (years[j] - 1) & "yday" >= offset) |
+                              ("year" == years[j] &
+                                 "yday" < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
@@ -143,13 +134,13 @@ format_npn = function(
                                 "yday" < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
+                           ("year" == (years[j] - 1) & "yday" >= offset) |
+                             ("year" == years[j] &
+                                "yday" < offset))$prcp..mm.day.
+        vpd[, j] = subset(daymet_data,
                              ("year" == (years[j] - 1) & "yday" >= offset) |
                                ("year" == years[j] &
-                                  "yday" < offset))$prcp..mm.day.
-        vpd[, j] = subset(daymet_data,
-                          ("year" == (years[j] - 1) & "yday" >= offset) |
-                            ("year" == years[j] &
-                               "yday" < offset))$vp..Pa.
+                                  "yday" < offset))$vp..Pa.
       } else {
         tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
         tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
@@ -159,18 +150,28 @@ format_npn = function(
       }
     }
 
+    # finally select all the transition dates for model validation
+    phenophase_years = df$year
+    phenophase_doy = df$doy
+
+    # only select the first instance of a phenophase_doy
+    # currently the model frameworks do not handle multiple cycles
+    phenophase = unlist(lapply(years, function(x) {
+      phenophase_doy[which(phenophase_years == x)[1]]
+    }))
+
     # calculate daylength
     l = ncol(tmean)
     Li = daylength(doy = doy, latitude = lat)
     Li = matrix(rep(Li,l),length(Li),l)
 
     # format and return the data
-    return(list("site" = as.character(site),
+    return(list("site" = site,
                 "location" = c(lat,lon),
                 "doy" = doy_neg,
                 "ltm" = ltm,
-                "transition_dates" = transition_dates,
-                "year" = years,
+                "transition_dates" = phenophase,
+                "year" = unique(phenophase_years),
                 "Ti" = as.matrix(tmean),
                 "Tmini" = as.matrix(tmin),
                 "Tmaxi" = as.matrix(tmax),
@@ -178,7 +179,18 @@ format_npn = function(
                 "Pi" = as.matrix(precip),
                 "VPDi" = as.matrix(vpd),
                 "georeferencing" = NULL
-    ))
+                ))
+  }
+
+  # read in the data from csv and subset by phenological stage
+  data = utils::read.table(file,
+                    sep = ",",
+                    header = TRUE,
+                    stringsAsFactors = FALSE)
+
+  # subset if a phenophase is specified
+  if(!missing(phenophase)){
+    stop("please specify a phenophase to process")
   }
 
   # query max year as available through Daymet, lags by a year so
@@ -189,7 +201,7 @@ format_npn = function(
     start = end,
     end = end,
     internal = TRUE,
-    silent = TRUE
+    quiet = TRUE
   ))
 
   if (inherits(daymet_test,"try-error")){
@@ -197,15 +209,13 @@ format_npn = function(
   }
 
   # get individual sites form the filenames
-  # a "site" in this case is defined as a single
-  # individual (or location) for which recurrent data is observed
-  sites = unique(data$individual_id)
+  sites = unique(data$ID)
 
   # track progress
+  cat(sprintf('Processing %s sites\n', length(sites)))
   pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
-  cat(sprintf('Processing %s individuals (sites)\n', length(sites)))
 
   # process data
   validation_data = lapply(sites, function(x) {
@@ -235,7 +245,7 @@ format_npn = function(
     return(validation_data)
   } else {
     saveRDS(validation_data,
-            file = sprintf("%s/phenor_npn_data_%s_%s.rds",
+            file = sprintf("%s/phenor_vame_data_%s_%s.rds",
                            path,
                            phenophase,
                            offset))

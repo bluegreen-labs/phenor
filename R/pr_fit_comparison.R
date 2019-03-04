@@ -20,13 +20,13 @@
 #' # estimate will return the best estimated parameter set given the
 #' # validation data
 #' \dontrun{
-#' my_comparison <- model_comparison(random_seeds = c(38,1),
+#' my_comparison <- pr_fit_compare(random_seeds = c(38,1),
 #'  models = c("TT","PTT"),
 #'  dataset = "phenocam_DB",
 #'  par_ranges = "parameter_ranges.csv")
 #' }
 
-model_comparison = function(
+pr_fit_compare <- function(
   random_seeds = c(1,12,40),
   models = c("LIN","TT","TTs","PTT","PTTs",
              "M1","M1s","AT","SQ","SQb","SM1",
@@ -108,7 +108,7 @@ model_comparison = function(
 
         # optimize the model parameters using
         # GenSA algorithm
-        par = optimize_parameters(
+        par = pr_fit_parameters(
           par = NULL,
           data = data,
           model = models[i],
@@ -119,7 +119,7 @@ model_comparison = function(
         )
 
         # add model output using the estiamted parameters
-        predicted_values = estimate_phenology(
+        predicted_values = pr_predict(
           data = data,
           model = models[i],
           par = par$par
@@ -200,7 +200,7 @@ model_comparison = function(
       # return data
       return(list("parameters" = par$par,
                   "predicted_values" = predicted_values,
-                  "parameter_uncertainty" = par$par, # CI ??
+                  "parameter_uncertainty" = par$par,
                   "bt_output" = par$bt_output))
     })
 

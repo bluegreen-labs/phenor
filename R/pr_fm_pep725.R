@@ -34,14 +34,16 @@
 #'                               eobs_path = "~/eobs_data/")
 #'}
 
-format_pep725 = function(pep_path = tempdir(),
-                         eobs_path = tempdir(),
-                         bbch = "11",
-                         species = NULL,
-                         offset = 264,
-                         count = 60,
-                         resolution = 0.25,
-                         pep_data){
+pr_fm_pep725 <- function(
+  pep_path = tempdir(),
+  eobs_path = tempdir(),
+  bbch = "11",
+  species = NULL,
+  offset = 264,
+  count = 60,
+  resolution = 0.25,
+  pep_data
+  ) {
 
   # helper function to format the data
   # for a given site

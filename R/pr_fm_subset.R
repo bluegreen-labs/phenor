@@ -18,10 +18,10 @@
 #'                         selection = 1:10)
 #'}
 
-format_subset <- function(
+pr_fm_subset <- function(
   data,
   selection
-){
+  ){
 
   # check missing parameters
   if (missing(data) | missing(selection)){

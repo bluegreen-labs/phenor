@@ -21,7 +21,7 @@
 #' download_npn(species = 3, internal = FALSE)
 #'}
 
-download_npn = function(
+pr_dl_npn <- function(
   species = 3,
   phenophase = 371,
   start = "2000-01-01",

@@ -14,16 +14,16 @@
 #'
 #' # model calibration with default parameters
 #' # phenocam_DB, "TT" to estimate a parameter set
-#' pars <- model_calibration()
+#' pars <- pr_fit()
 #'
 #' # estimate temperatue sensitivity for a particular
 #' # combination of data, parameters and model
-#' sensitivity <- temperature_sensitivity(par = pars$par,
+#' sensitivity <- pr_temp_sens(par = pars$par,
 #'  data = phenocam_DB, model = "TT")
 #'
 #' }
 
-temperature_sensitivity <- function(
+pr_temp_sens <- function(
   par,
   data,
   model,

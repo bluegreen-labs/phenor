@@ -21,15 +21,17 @@
 #' # are calculated using daymet_tmean() from
 #' # the daymetr package
 #' \dontrun{
-#' daymet_data = format_daymet_tiles()
+#' daymet_data = pr_fm_daymet_tiles()
 #'}
 
 # create subset of layers to calculate phenology model output on
-format_daymet_tiles = function(path = tempdir(),
-                               year = 2014,
-                               tile = 11935,
-                               offset = 264,
-                               internal = TRUE){
+pr_fm_daymet_tiles = function(
+  path = tempdir(),
+  year = 2014,
+  tile = 11935,
+  offset = 264,
+  internal = TRUE
+  ) {
 
   # format paths of the daymet tiles
   tmean_1 = sprintf('%s/tmean_%s_%s.tif',path, year - 1, tile)

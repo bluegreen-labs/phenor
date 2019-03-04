@@ -353,7 +353,7 @@ LIN = function(par, data, spring = c(60,151)){
 #' @examples
 #'
 #' \dontrun{
-#' estimate = TT(data = data, par = par)
+#' estimate = M1(data = data, par = par)
 #'}
 
 M1 = function(par, data){
@@ -401,7 +401,7 @@ M1 = function(par, data){
 #' @examples
 #'
 #' \dontrun{
-#' estimate = TT(data = data, par = par)
+#' estimate = M1s(data = data, par = par)
 #'}
 
 M1s = function(par, data){
@@ -470,7 +470,7 @@ null = function(data){
 #' estimate = PA(data = data, par = par)
 #'}
 
-PA = function(par, data){
+PA <- function(par, data){
 
   # exit the routine as some parameters are missing
   if (length(par) != 9){
@@ -479,34 +479,34 @@ PA = function(par, data){
 
   # extract the parameter values from the
   # par argument
-  t0 = round(par[1])
-  t0_chill = round(par[2])
-  T_base = par[3]
-  T_opt = par[4]
-  T_min = par[5]
-  T_max = par[6]
-  C_ini = par[7]
-  F_crit = par[8]
-  C_req = par[9]
+  t0 <- round(par[1])
+  t0_chill <- round(par[2])
+  T_base <- par[3]
+  T_opt <- par[4]
+  T_min <- par[5]
+  T_max <- par[6]
+  C_ini <- par[7]
+  F_crit <- par[8]
+  C_req <- par[9]
 
   # chilling
-  Rc = triangular_temperature_response(data$Ti,
+  Rc <- triangular_temperature_response(data$Ti,
                                        T_opt = T_opt,
                                        T_min = T_min,
                                        T_max = T_max)
-  Rc[1:t0_chill,] = 0
-  Sc = apply(Rc, 2, cumsum)
+  Rc[1:t0_chill,] <- 0
+  Sc <- apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
   # accumulation starts (binary choice)
-  k = C_ini + Sc * (1 - C_ini)/C_req
+  k <- C_ini + Sc * (1 - C_ini)/C_req
   k[Sc >= C_req] = 1
 
   # forcing
-  Rf = data$Ti - T_base
-  Rf[Rf < 0] = 0
-  Rf = Rf * k
-  Rf[1:t0,] = 0
+  Rf <- data$Ti - T_base
+  Rf[Rf < 0] <- 0
+  Rf <- Rf * k
+  Rf[1:t0,] <- 0
 
   # DOY of budburst criterium
   doy = apply(Rf,2, function(xt){
@@ -1035,7 +1035,7 @@ SM1b = function(par, data){
 #' estimate = SQ(data = data, par = par)
 #'}
 
-SQ = function(par, data){
+SQ <- function(par, data){
 
   # exit the routine as some parameters are missing
   if (length(par) != 8){
@@ -1044,43 +1044,44 @@ SQ = function(par, data){
 
   # extract the parameter values from the
   # par argument for readability
-  t0 = round(par[1])
-  t0_chill = round(par[2])
-  T_base = par[3]
-  T_opt = par[4]
-  T_min = par[5]
-  T_max = par[6]
-  F_crit = par[7]
-  C_req = par[8]
+  t0 <- round(par[1])
+  t0_chill <- round(par[2])
+  T_base <- par[3]
+  T_opt <- par[4]
+  T_min <- par[5]
+  T_max <- par[6]
+  F_crit <- par[7]
+  C_req <- par[8]
 
-  # sanity check
+  # sanity check t0 always comes after t0_chill
   if (t0 <= t0_chill){
-    return(rep(NA, ncol(data$Ti)))
+    return(rep(9999, ncol(data$Ti)))
   }
 
   # chilling
-  Rc = triangular_temperature_response(data$Ti,
-                                       T_opt = T_opt,
-                                       T_min = T_min,
-                                       T_max = T_max)
-  Rc[1:t0_chill,] = 0
-  Rc[t0:nrow(Rc),] = 0
-  Sc = apply(Rc, 2, cumsum)
+  Rc <- triangular_temperature_response(
+    data$Ti,
+    T_opt = T_opt,
+    T_min = T_min,
+    T_max = T_max)
+
+  Rc[1:t0_chill,] <- 0
+  Rc[t0:nrow(Rc),] <- 0
+  Sc <- apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
   # accumulation starts (binary choice)
-  k = as.numeric(Sc >= C_req)
+  k <- as.numeric(Sc >= C_req)
 
   # forcing
-  Rf = data$Ti - T_base
+  Rf <- data$Ti - T_base
   Rf[Rf < 0] = 0
-  Rf = Rf * k
-  Rf[1:t0,] = 0
+  Rf <- Rf * k
+  Rf[1:t0,] <- 0
 
   # DOY of budburst criterium
-  doy = apply(Rf,2, function(xt){
-    doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
-    return(doy)
+  doy <- apply(Rf,2, function(xt){
+    data$doy[which(cumsum(xt) >= F_crit)[1]]
   })
 
   # set export format, either a rasterLayer
@@ -1164,7 +1165,7 @@ SQb = function(par, data){
 #' estimate = TT(data = data, par = par)
 #'}
 
-TT = function(par, data ){
+TT <- function(par, data ){
 
   # exit the routine as some parameters are missing
   if (length(par) != 3){
@@ -1173,18 +1174,18 @@ TT = function(par, data ){
 
   # extract the parameter values from the
   # par argument for readability
-  t0 = round(par[1])
-  T_base = par[2]
-  F_crit = par[3]
+  t0 <- round(par[1])
+  T_base <- par[2]
+  F_crit <- par[3]
 
   # simple degree day sum setup
-  Rf = data$Ti - T_base
-  Rf[Rf < 0] = 0
-  Rf[1:t0,] = 0
+  Rf <- data$Ti - T_base
+  Rf[Rf < 0] <- 0
+  Rf[1:t0,] <- 0
 
   # DOY of budburst criterium
-  doy = apply(Rf,2, function(xt){
-    doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
+  doy <- apply(Rf,2, function(xt){
+    doy <- data$doy[which(cumsum(xt) >= F_crit)[1]]
     return(doy)
   })
 
@@ -1228,9 +1229,8 @@ TTs = function(par, data){
   Rf[1:t0,] = 0
 
   # DOY of budburst criterium
-  doy = apply(Rf,2, function(xt){
+  doy <- apply(Rf,2, function(xt){
     doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
-    return(doy)
   })
 
   # set export format, either a rasterLayer
@@ -1297,9 +1297,8 @@ UM1  = function(par, data){
   # claculated to estimate the transition dates
   Sfc = Sf - (w * exp(f * Sc))
 
-  doy = apply(Sfc, 2, function(x){
-    doy = data$doy[which(x > 0)[1]]
-    return(doy)
+  doy <- apply(Sfc, 2, function(x){
+    data$doy[which(x > 0)[1]]
   })
 
   # set export format, either a rasterLayer
@@ -1322,55 +1321,55 @@ UM1  = function(par, data){
 #' estimate = UN(data = data, par = par)
 #'}
 
-UN  = function(par, data){
+UN <- function(par, data){
 
   # exit the routine as some parameters are missing
-  if (length(par) != 8){
+  if (length(par) != 9){
     stop("model parameter(s) out of range (too many, too few)")
   }
 
   # extract the parameter values from the
   # par argument
-  t0 = round(par[1])
-  T_base = par[2]
-  T_opt = par[3]
-  T_min = par[4]
-  T_max = par[5]
-  f = par[6]
-  w = par[7]
-  C_req = par[8]
+  t0 <- round(par[1])
+  t0_chill <- round(par[2])
+  T_base <- par[3]
+  T_opt <- par[4]
+  T_min <- par[5]
+  T_max <- par[6]
+  f <- par[7]
+  w <- par[8]
+  C_req <- par[9]
 
   # chilling accumulation using the
   # bell shaped temperature response
-  Rc = triangular_temperature_response(data$Ti,
+  Rc <- triangular_temperature_response(data$Ti,
                                        T_opt = T_opt,
                                        T_min = T_min,
                                        T_max = T_max)
-  Rc[1:t0,] = 0
+  Rc[1:t0_chill,] <- 0
 
   # cummulative sum of temp response
-  Sc = apply(Rc, 2, cumsum)
+  Sc <- apply(Rc, 2, cumsum)
 
   # chilling requirement has to be met before
   # accumulation starts (binary choice)
-  k = as.numeric(Sc >= C_req)
+  k <- as.numeric(Sc >= C_req)
 
   # forcing
-  Rf = data$Ti - T_base
-  Rf[Rf < 0] = 0
+  Rf <- data$Ti - T_base
+  Rf[Rf < 0] <- 0
   Rf = Rf * k
-  Rf[1:t0,] = 0
+  Rf[1:t0,] <- 0
   Sf = apply(Rf, 2, cumsum)
 
   # DOY meeting F_crit, subtract the forcing matrix
   # from the F_crit matrix in order to speed things up
   # only the location of transition from - to + is
   # calculated to estimate the transition dates
-  Sfc = Sf - (w * exp(f * Sc))
+  Sfc <- Sf - (w * exp(f * Sc))
 
-  doy = apply(Sfc, 2, function(x){
-    doy = data$doy[which(x > 0)[1]]
-    return(doy)
+  doy <- apply(Sfc, 2, function(x){
+    doy <- data$doy[which(x > 0)[1]]
   })
 
   # set export format, either a rasterLayer
@@ -1453,10 +1452,8 @@ AGSI = function(par, data){
 
   # DOY of budburst criterium as calculated
   # by cummulating the GSI hence AGSI
-  doy = apply(GSI,2, function(xt){
-    doy = data$doy[which(cumsum(xt) >= F_crit)[1]]
-    doy[is.na(doy)] = 9999
-    return(doy)
+  doy <- apply(GSI,2, function(xt){
+    data$doy[which(cumsum(xt) >= F_crit)[1]]
   })
 
   # set export format, either a rasterLayer
@@ -1505,9 +1502,8 @@ CU <- function(par, data){
   })
 
   # DOY of budburst criterium
-  doy = apply(Fd, 2, function(xt){
-    doy = data$doy[which(xt >= F_crit)[1]]
-    return(doy)
+  doy <- apply(Fd, 2, function(xt){
+    data$doy[which(xt >= F_crit)[1]]
   })
 
   # set export format, either a rasterLayer

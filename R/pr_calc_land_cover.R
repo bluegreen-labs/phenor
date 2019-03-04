@@ -26,7 +26,7 @@
 #'                              dest_raster = "~/1_degree_lat_lon_map.tif")
 #' }
 
-land_cover_density = function(
+pr_calc_lc = function(
   lc_raster,
   dest_raster,
   lc_classes = c(1,4,5,10),

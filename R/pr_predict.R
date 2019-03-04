@@ -21,7 +21,7 @@
 #'
 #' \dontrun{
 #' # estimate will be an estimated timing of a phenophase
-#' estimate = estimate.phenology(par, data, model)
+#' estimate <- pr_predict(par, data, model)
 #'
 #' # if a path is specified and no other data all tiled
 #' # data in this directory will be processed into a map
@@ -35,7 +35,7 @@
 # and parameter constraints. Data matrices must match.
 
 # pr_predict
-estimate_phenology = function(
+pr_predict <- function(
   par,
   data,
   model = "TT",
@@ -101,8 +101,12 @@ estimate_phenology = function(
     # normal output will be lambert conformal conical,
     # if a lat-lon map is required reproject the results
     if (reproject){
-      phenor_map = raster::trim(raster::projectRaster(phenor_map,
-                                              crs = sp::CRS("+init=epsg:4326")))
+      phenor_map = raster::trim(
+        raster::projectRaster(
+          phenor_map,
+         crs = sp::CRS("+init=epsg:4326")
+         )
+      )
     }
 
     # return the map

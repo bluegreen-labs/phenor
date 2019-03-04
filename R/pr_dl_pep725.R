@@ -23,11 +23,11 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' download_pep725(credentials = "~/pep725_login.txt",
+#' pr_dl_pep725(credentials = "~/pep725_login.txt",
 #'                 species = 115)
 #'}
 
-download_pep725 = function(
+pr_dl_pep725 = function(
   credentials,
   species = 115,
   path = tempdir(),
