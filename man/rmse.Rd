@@ -2,7 +2,7 @@
 % Please edit documentation in R/cost_functions.r
 \name{rmse}
 \alias{rmse}
-\title{A Root Mean Squared Error cost function for model optimization.}
+\title{Root Mean Squared Error cost function for model optimization.}
 \usage{
 rmse(par, data, model, ...)
 }
@@ -21,7 +21,7 @@ to the same data structure.}
 the RMSE comparing observed and estimated values
 }
 \description{
-A Root Mean Squared Error cost function for model optimization.
+Root Mean Squared Error cost function for model optimization.
 }
 \examples{
 

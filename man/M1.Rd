@@ -23,7 +23,7 @@ Basler et al. 2016 (Agr. For. Meteorlogy)
 \examples{
 
 \dontrun{
-estimate = TT(data = data, par = par)
+estimate = M1(data = data, par = par)
 }
 }
 \keyword{model,}
