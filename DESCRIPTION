@@ -8,6 +8,7 @@ Depends:
     R (>= 3.4)
 Imports:
     methods,
+    cli,
     magrittr,
     xml2,
     zoo,

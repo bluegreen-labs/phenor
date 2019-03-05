@@ -35,31 +35,22 @@ pr_fit <- function(
   data = phenor::phenocam_DB,
   method = "GenSA",
   control = list(max.call = 2000),
-  par_ranges = sprintf("%s/extdata/parameter_ranges.csv",
-                       path.package("phenor")),
+  par_ranges = system.file(
+    "extdata",
+    "parameter_ranges.csv",
+    package = "phenor",
+    mustWork = TRUE
+  ),
   plot = TRUE,
   ...
   ){
 
   # convert to a flat format for speed
-  data = pr_flatten(data)
+  data <- pr_flatten(data)
 
-  # read in parameter ranges
-  par_ranges = utils::read.table(par_ranges,
-                          header = TRUE,
-                          sep = ",")
-
-  # subset the parameter range
-  if (!any(par_ranges$model == model)){
-    stop("parameters are not specified in the default parameter file.")
-  }
-
-  # extract parameter ranges is the model is available
-  # in the file provided
-  d = par_ranges[par_ranges$model == model,]
-  d = d[,!is.na(d[1,])]
-  d = d[,3:ncol(d)]
-  d = as.matrix(d)
+  # read parameter ranges
+  d <- pr_parameters(model = model,
+                     par_ranges = par_ranges)
 
   # optimize paramters
   optim_par = pr_fit_parameters(
@@ -75,16 +66,16 @@ pr_fit <- function(
 
   # estimate model output using optimized
   # parameters
-  out = pr_predict(
+  out <- pr_predict(
     data = data,
     model = model,
     par = optim_par$par
   )
 
   # basic statistics
-  RMSE_NULL = sqrt(mean((data$transition_dates - null(data)) ^ 2, na.rm = T))
-  RMSE = rmse(par = optim_par$par, data = data, model = model)
-  Ac = AICc(measured = data$transition_dates,
+  RMSE_NULL <- sqrt(mean((data$transition_dates - null(data)) ^ 2, na.rm = T))
+  RMSE <- rmse(par = optim_par$par, data = data, model = model)
+  Ac <- AICc(measured = data$transition_dates,
             predicted = out,
             k = length(optim_par$par))
 
@@ -96,7 +87,7 @@ pr_fit <- function(
     "rmse" = RMSE,
     "rmse_null" = RMSE_NULL,
     "aic" = Ac,
-    "bt_output" = optim_par$bt_output
+    "opt_out" = optim_par$opt_out
   )
 
   # assign class

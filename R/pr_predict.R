@@ -55,7 +55,7 @@ pr_predict <- function(
     }
 
     # convert to a flat format for speed
-    data <- flat_format(data = data)
+    data <- pr_flatten(data = data)
 
     # return model output
     do.call(model, list(data = data,

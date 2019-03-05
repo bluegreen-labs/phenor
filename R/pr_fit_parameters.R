@@ -43,10 +43,10 @@ pr_fit_parameters <- function(
 ) {
 
   # check if starting parameters are present
-  if (is.missing(lower) |
-      is.missing(upper) |
-      is.missing(data)  |
-      is.missing(control)){
+  if (missing(lower) |
+      missing(upper) |
+      missing(data)  |
+      missing(control)){
     stop('Please provide data, upper and lower boundaries
           to the parameter space and control settings.
           Not defining your parameter space might yield good fits,
@@ -59,8 +59,7 @@ pr_fit_parameters <- function(
   }
 
   # convert to a flat format for speed
-  # (increases speed > 20x)
-  data <- flat_format(data)
+  data <- pr_flatten(data)
 
   if ( tolower(method) == "gensa" ){
     # one can opt to automatically generate starting values
@@ -113,8 +112,8 @@ pr_fit_parameters <- function(
                      data = data,
                      model = model
                      ))},
-        lower = c(lower,0),
-        upper = c(upper,16),
+        lower = c(lower, 1),
+        upper = c(upper, 14),
         ...
       )
 
@@ -129,7 +128,7 @@ pr_fit_parameters <- function(
 
     # correct formatting in line with other outputs
     optim_par <- list("par" = bt_par,
-                       "bt_output" = out)
+                       "opt_out" = out)
   }
 
   # return the optimization data (parameters)

@@ -2,9 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{daylength}
 \alias{daylength}
-\title{Calculates day length (in hours) and the solar elevation above the
-ecliptic plane based upon latitude and a day of year, and year values.
-according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)}
+\title{Calculate daylength values}
 \usage{
 daylength(doy, latitude)
 }
@@ -17,6 +15,11 @@ daylength(doy, latitude)
 a daylength vector
 }
 \description{
+Calculates day length (in hours) and the solar elevation above the
+ecliptic plane based upon latitude and a day of year, and year values.
+according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)
+}
+\details{
 Due to heterogeneous date formats with years normalized to 365 days
 I do not apply a leap year correction.
 }

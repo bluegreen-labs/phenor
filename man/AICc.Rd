@@ -2,8 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{AICc}
 \alias{AICc}
-\title{Calculates AICc values for a set of measured and predicted values
-together with the number of model parameters used}
+\title{Calculates AICc values}
 \usage{
 AICc(measured, predicted, k)
 }
@@ -19,7 +18,7 @@ returns the AIC for measured and predicted values
 for use in model comparison and selection
 }
 \description{
-Calculates AICc values for a set of measured and predicted values
+Uses a set of measured and predicted values
 together with the number of model parameters used
 }
 \examples{

@@ -13,7 +13,7 @@
 #' estimate = AT(data = data, par = par)
 #'}
 
-AT = function(par, data){
+AT <- function(par, data){
 
   # exit the routine as some parameters are missing
   if (length(par) != 5){
@@ -1039,7 +1039,10 @@ SQ <- function(par, data){
 
   # sanity check t0 always comes after t0_chill
   if (t0 <= t0_chill){
-    return(rep(9999, ncol(data$Ti)))
+    return(
+      shape_model_output(data = data,
+                         doy = rep(NA, ncol(data$Ti)))
+    )
   }
 
   # chilling

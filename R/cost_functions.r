@@ -120,7 +120,6 @@ likelihood <- function(
 
   # split out sd range parameter
   sd_range <- par[length(par)]
-  #sd_range <- sd(data$transition_dates)
 
   # run model
   observed <- data$transition_dates

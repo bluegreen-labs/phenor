@@ -22,13 +22,13 @@
 #' # estimate will return the best estimated parameter set given the
 #' # validation data
 #' \dontrun{
-#' my_comparison <- pr_fit_compare(random_seeds = c(38,1),
+#' my_comparison <- pr_fit_comparison(random_seeds = c(38,1),
 #'  models = c("TT","PTT"),
 #'  dataset = "phenocam_DB",
 #'  par_ranges = "parameter_ranges.csv")
 #' }
 
-pr_fit_compare <- function(
+pr_fit_comparison <- function(
   random_seeds = c(1,12,40),
   models = c("LIN","TT","TTs","PTT","PTTs",
              "M1","M1s","AT","SQ","SQb","SM1",
@@ -36,7 +36,7 @@ pr_fit_compare <- function(
              "PM1b","UN","UM1","SGSI","AGSI"),
   data = phenor::phenocam_DB,
   method = "GenSA",
-  control = list(max.call = 5000,
+  control = list(max.call = 10,
                  temperature = 10000),
   par_ranges = system.file(
     "extdata",
@@ -48,7 +48,7 @@ pr_fit_compare <- function(
 ){
 
   # convert to a flat format for speed
-  data = flat_format(data)
+  data = pr_flatten(data)
 
   # load parameter ranges
   par_ranges = utils::read.table(par_ranges,
@@ -182,7 +182,7 @@ pr_fit_compare <- function(
 
       # optimize the model parameters using
       # GenSA algorithm
-      par = phenor::optimize_parameters(
+      par = phenor::pr_fit_parameters(
         par = NULL,
         data = data,
         model = model,
@@ -193,7 +193,7 @@ pr_fit_compare <- function(
       )
 
       # add model output using the estiamted parameters
-      predicted_values = estimate_phenology(
+      predicted_values = pr_predict(
         data = data,
         model = model,
         par = par$par
