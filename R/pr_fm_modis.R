@@ -1,5 +1,7 @@
-#' Preprocessing of all PhenoCam data into a format which can be ingested
-#' by the optimization routines etc.
+#' Format MODIS MCD12Q2 phenology data
+#'
+#' Relies on the MODISTools package to query data. Currently only works
+#' for areas with Daymet coverage (Northern America).
 #'
 #' @param path a path to MODISTools MCD12Q2 phenology dates
 #' @param phenophase Phenological phase, Increase, Maximum,

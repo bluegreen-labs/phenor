@@ -24,7 +24,7 @@ depending on the offset used in the generated validation data.
 \examples{
 
 \dontrun{
-estimate = AGSI(data = data, par = par)
+estimate <- AGSI(data = data, par = par)
 }
 }
 \keyword{model}

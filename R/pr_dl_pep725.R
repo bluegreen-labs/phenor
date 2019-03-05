@@ -1,4 +1,4 @@
-#' Automatically download PEP725 data
+#' Download PEP725 data
 #'
 #' Uses the httr and rvest packages to scrape the PEP725 website for
 #' phenology data. Login credentials are required so this does not
@@ -22,12 +22,13 @@
 #' @keywords phenology, model, preprocessing
 #' @export
 #' @examples
+#'
 #' \dontrun{
 #' pr_dl_pep725(credentials = "~/pep725_login.txt",
 #'                 species = 115)
 #'}
 
-pr_dl_pep725 = function(
+pr_dl_pep725 <- function(
   credentials,
   species = 115,
   path = tempdir(),

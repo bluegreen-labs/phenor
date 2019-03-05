@@ -55,7 +55,7 @@ pr_predict <- function(
     }
 
     # convert to a flat format for speed
-    data = flat_format(data = data)
+    data <- flat_format(data = data)
 
     # return model output
     do.call(model, list(data = data,
@@ -65,7 +65,7 @@ pr_predict <- function(
   } else {
 
     # list all daymet rds files
-    files = list.files(path = path,
+    files <- list.files(path = path,
                        pattern = "^phenor_daymet_.*\\.rds$",
                        full.names = TRUE)
 
@@ -78,10 +78,10 @@ pr_predict <- function(
     for (i in 1:length(files)){
 
       # load the rds file (name data)
-      data = readRDS(files[i])
+      data <- readRDS(files[i])
 
       # run the model
-      tmp = do.call(model,
+      tmp <- do.call(model,
                     list(data = data,
                          par = par,
                          ... ))
@@ -92,16 +92,16 @@ pr_predict <- function(
       # create a phenology map mosaicking all files
       # on the go into one big final map
       if (i == 1){
-        phenor_map = tmp
+        phenor_map <- tmp
       } else {
-        phenor_map = raster::mosaic(phenor_map, tmp, fun = mean)
+        phenor_map <- raster::mosaic(phenor_map, tmp, fun = mean)
       }
     }
 
     # normal output will be lambert conformal conical,
     # if a lat-lon map is required reproject the results
     if (reproject){
-      phenor_map = raster::trim(
+      phenor_map <- raster::trim(
         raster::projectRaster(
           phenor_map,
          crs = sp::CRS("+init=epsg:4326")

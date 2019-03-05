@@ -2,8 +2,7 @@
 % Please edit documentation in R/pr_fm_daymet_tiles.R
 \name{pr_fm_daymet_tiles}
 \alias{pr_fm_daymet_tiles}
-\title{Preprocessing of Daymet tiled data into a format which can be ingested
-by the models in phenor}
+\title{Formatting Daymet tiled data}
 \usage{
 pr_fm_daymet_tiles(path = tempdir(), year = 2014, tile = 11935,
   offset = 264, internal = TRUE)
@@ -27,8 +26,8 @@ are not mandatory. Depending on the models used, including only temperature
 will keep file sizes down and processing time lower.
 }
 \description{
-Preprocessing of Daymet tiled data into a format which can be ingested
-by the models in phenor
+Formats Daymet tiled data into a format which can be ingested by
+the models in phenor
 }
 \examples{
 
@@ -38,7 +37,7 @@ by the models in phenor
 # are calculated using daymet_tmean() from
 # the daymetr package
 \dontrun{
-daymet_data = pr_fm_daymet_tiles()
+daymet_data <- pr_fm_daymet_tiles()
 }
 }
 \keyword{climatology}

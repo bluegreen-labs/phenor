@@ -18,7 +18,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' arrow_plot(data = model_comparison_data)
+#' pr_plot_arrow(data = model_comparison_data)
 #'}
 
 pr_plot_arrows = function(

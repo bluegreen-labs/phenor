@@ -18,12 +18,12 @@
 #'
 #' # estimate temperatue sensitivity for a particular
 #' # combination of data, parameters and model
-#' sensitivity <- pr_temp_sens(par = pars$par,
+#' sensitivity <- pr_calc_temp_sens(par = pars$par,
 #'  data = phenocam_DB, model = "TT")
 #'
 #' }
 
-pr_temp_sens <- function(
+pr_calc_temp_sens <- function(
   par,
   data,
   model,

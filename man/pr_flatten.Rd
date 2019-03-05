@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_flatten.R
 \name{pr_flatten}
 \alias{pr_flatten}
-\title{Generates a flattened file}
+\title{Generates a flattened 'phenor' data file}
 \usage{
 pr_flatten(data = NULL)
 }

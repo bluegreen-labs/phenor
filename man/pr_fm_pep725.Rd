@@ -2,8 +2,7 @@
 % Please edit documentation in R/pr_fm_pep725.R
 \name{pr_fm_pep725}
 \alias{pr_fm_pep725}
-\title{Preprocessing of PEP725 data into a format which can be ingested
-by the optimization routines.}
+\title{Formatting PEP725 data}
 \usage{
 pr_fm_pep725(pep_path = tempdir(), eobs_path = tempdir(),
   bbch = "11", species = NULL, offset = 264, count = 60,
@@ -49,7 +48,7 @@ the E-OBS website and should be put unzipped in a single folder.
 # through phenocamr in your home directory
 # change the path to match your setup
 \dontrun{
-phenocam_data = format_pep725(pep_path = "~/pep_data/",
+phenocam_data = pr_fm_pep725(pep_path = "~/pep_data/",
                               eobs_path = "~/eobs_data/")
 }
 }

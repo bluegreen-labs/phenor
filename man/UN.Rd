@@ -23,7 +23,7 @@ Basler et al. 2016 (Agr. For. Meteorlogy)
 \examples{
 
 \dontrun{
-estimate = UN(data = data, par = par)
+estimate <- UN(data = data, par = par)
 }
 }
 \keyword{model}

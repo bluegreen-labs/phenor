@@ -1,4 +1,4 @@
-#' Automatically download USA-NPN data using the API interface
+#' Download USA-NPN data using the API interface
 #'
 #' @param species A species to download, either specified by its
 #' species number or species name. list species numbers and names with
@@ -16,6 +16,7 @@
 #' phenophase, temporal and spatial extent or save the data to an RDS file
 #' @keywords phenology, model, preprocessing
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' download_npn(species = 3, internal = FALSE)

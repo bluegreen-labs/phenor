@@ -1,4 +1,4 @@
-#' Preprocessing of Berkeley Earth Gridded temperature data
+#' Formatting of Berkeley Earth Gridded temperature data
 #'
 #' @param path a path to the gridded data, only average temperature
 #' data will be considered

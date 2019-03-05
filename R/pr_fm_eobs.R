@@ -1,14 +1,10 @@
-#' Preprocessing E-OBS data as hosted by:
-#' http://www.ecad.eu/
+#' Formatting E-OBS data
 #'
-#' Download E-OBS data as described by:
+#' Formats E-OBS data as described by:
 #' Haylock, M.R., N. Hofstra, A.M.G. Klein Tank, E.J. Klok, P.D.
 #' Jones, M. New. 2008: A European daily high-resolution gridded dataset
 #' of surface temperature and precipitation.
-#' J. Geophys. Res (Atmospheres), 113, D20119
-#'
-#' Please register before downloading data, unzip data into uncompressed
-#' netCDF files before processing.
+#' J. Geophys. Res (Atmospheres), 113, D20119, into a 'phenor' compatible list.
 #'
 #' @param path a path of the gridded data netCDF files
 #' @param year year to process (requires year - 1 to be present / downloaded)

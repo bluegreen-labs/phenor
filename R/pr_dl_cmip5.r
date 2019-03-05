@@ -8,7 +8,8 @@
 #' CMIP 5 models included are:
 #' ACCESS1-0, CSIRO-MK3-6-0, MIROC-ESM, BCC-CSM1-1, GFDL-CM3, MIROC-ESM-CHEM,
 #' BNU-ESM, GFDL-ESM2G, MIROC5, CanESM2, GFDL-ESM2M, MPI-ESM-LR, CCSM4, INM-CM4,
-#' MPI-ESM-MR, CESM1-BGC, IPSL-CM5A-LR, MRI-CGCM3, CNRM-CM5, IPSL-CM5A-MR, NorESM1-M
+#' MPI-ESM-MR, CESM1-BGC, IPSL-CM5A-LR, MRI-CGCM3, CNRM-CM5,
+#' IPSL-CM5A-MR, NorESM1-M
 #'
 #' @param path a path where to save the gridded data
 #' @param year year to process (also requests year - 1)
@@ -25,12 +26,12 @@
 #' # donwload all gridded data for year 2011 (and 2010)
 #' # and format the data correctly.
 #' \dontrun{
-#' download_cmip5(year = 2011,
+#' pr_dl_cmip5(year = 2011,
 #'                path = tempdir(),
 #'                model = "MIROC5",
 #'                scenario = "rcp85")
 #'
-#' cmip5_data = format_cmip5(path = tempdir(),
+#' cmip5_data <- pr_fm_cmip5(path = tempdir(),
 #'                           offset = 264,
 #'                           model = "MIROC5",
 #'                           scenario = "rcp85",
@@ -38,7 +39,7 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-download_cmip5 = function(
+pr_dl_cmip5 <- function(
   path = tempdir(),
   year = 2016,
   model = "MIROC5",

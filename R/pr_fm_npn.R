@@ -1,4 +1,4 @@
-#' Pre-processing of USA-NPN data
+#' Formatting USA-NPN data
 #'
 #' Combines data into a format which can be ingested
 #' by the optimization routines. Data is aggregated on an
@@ -15,7 +15,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' npn_data = format_npn()
+#' npn_data <- pr_fm_npn()
 #'}
 
 pr_fm_npn <- function(
@@ -32,10 +32,10 @@ pr_fm_npn <- function(
   }
 
   # helper function to process the data
-  format_data = function(site){
+  format_data <- function(site){
 
     # subset the original data
-    data_subset = data[data$individual_id == site &
+    data_subset <- data[data$individual_id == site &
                        data$phenophase_id == phenophase,]
 
     # if nothing in subset return NULL
@@ -44,22 +44,22 @@ pr_fm_npn <- function(
     }
 
     # grab the location of the site by subsetting the
-    lat = unique(data_subset$latitude)
-    lon = unique(data_subset$longitude)
+    lat <- unique(data_subset$latitude)
+    lon <- unique(data_subset$longitude)
 
 
     # get mean transition dates per year by site
-    mean_doy = by(data_subset$first_yes_doy,
+    mean_doy <- by(data_subset$first_yes_doy,
                   INDICES = data_subset$first_yes_year,
                   mean,
                   na.rm = TRUE)
-    transition_dates = round(as.vector(mean_doy))
+    transition_dates <- round(as.vector(mean_doy))
 
     # get years matching transition dates
-    years = as.numeric(names(mean_doy))
+    years <- as.numeric(names(mean_doy))
 
     # download daymet data for a given site
-    daymet_data = try(daymetr::download_daymet(
+    daymet_data <- try(daymetr::download_daymet(
       site = site,
       lat = lat,
       lon = lon,
@@ -76,47 +76,47 @@ pr_fm_npn <- function(
     }
 
     # calculate the mean daily temperature
-    daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
+    daymet_data$tmean <- (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
 
     # calculate the long term daily mean temperature
     # and realign it so the first day will be sept 21th (doy 264)
     # and the matching DOY vector
-    ltm = as.vector(by(daymet_data$tmean,
+    ltm <- as.vector(by(daymet_data$tmean,
                        INDICES = list(daymet_data$yday),
                        mean,
                        na.rm = TRUE))
 
     # shift data when offset is < 365
     if (offset < 365){
-      ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
-      doy_neg = c((offset - 366):-1,1:(offset - 1))
-      doy = c(offset:365,1:(offset - 1))
+      ltm <- c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy_neg <- c((offset - 366):-1,1:(offset - 1))
+      doy <- c(offset:365,1:(offset - 1))
     } else {
-      doy = doy_neg = 1:365
+      doy <- doy_neg <- 1:365
     }
 
     # create output matrix (holding mean temp.)
-    tmean = matrix(NA,
+    tmean <- matrix(NA,
                    nrow = 365,
                    ncol = length(years))
 
     # create output matrix (holding min temp.)
-    tmin = matrix(NA,
+    tmin <- matrix(NA,
                   nrow = 365,
                   ncol = length(years))
 
     # create output matrix (holding max temp.)
-    tmax = matrix(NA,
+    tmax <- matrix(NA,
                   nrow = 365,
                   ncol = length(years))
 
     # create output matrix (holding vpd)
-    vpd = matrix(NA,
+    vpd <- matrix(NA,
                  nrow = 365,
                  ncol = length(years))
 
     # create output matrix (holding precip)
-    precip = matrix(NA,
+    precip <- matrix(NA,
                     nrow = 365,
                     ncol = length(years))
 
@@ -127,42 +127,42 @@ pr_fm_npn <- function(
     # use the current year only
     for (j in 1:length(years)) {
       if (offset < 365) {
-        tmean[, j] = subset(daymet_data,
+        tmean[, j] <- subset(daymet_data,
                             ("year" == (years[j] - 1) & "yday" >= offset) |
                               ("year" == years[j] &
                                  "yday" < offset))$tmean
 
-        tmin[, j] = subset(daymet_data,
+        tmin[, j] <- subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
                              ("year" == years[j] &
                                 "yday" < offset))$tmin..deg.c.
 
-        tmax[, j] = subset(daymet_data,
+        tmax[, j] <- subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
                              ("year" == years[j] &
                                 "yday" < offset))$tmax..deg.c.
 
-        precip[, j] = subset(daymet_data,
+        precip[, j] <- subset(daymet_data,
                              ("year" == (years[j] - 1) & "yday" >= offset) |
                                ("year" == years[j] &
                                   "yday" < offset))$prcp..mm.day.
-        vpd[, j] = subset(daymet_data,
+        vpd[, j] <- subset(daymet_data,
                           ("year" == (years[j] - 1) & "yday" >= offset) |
                             ("year" == years[j] &
                                "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
+        tmean[, j] <- subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] <- subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] <- subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] <- subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] <- subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
     # calculate daylength
-    l = ncol(tmean)
-    Li = daylength(doy = doy, latitude = lat)
-    Li = matrix(rep(Li,l),length(Li),l)
+    l <- ncol(tmean)
+    Li <- daylength(doy = doy, latitude = lat)
+    Li <- matrix(rep(Li,l),length(Li),l)
 
     # format and return the data
     return(list("site" = as.character(site),
@@ -183,9 +183,9 @@ pr_fm_npn <- function(
 
   # query max year as available through Daymet, lags by a year so
   # subtract 1 year by default. If download fails subtract another year
-  end = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
+  end <- as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
 
-  daymet_test = try(daymetr::download_daymet(
+  daymet_test <- try(daymetr::download_daymet(
     start = end,
     end = end,
     internal = TRUE,
@@ -199,16 +199,16 @@ pr_fm_npn <- function(
   # get individual sites form the filenames
   # a "site" in this case is defined as a single
   # individual (or location) for which recurrent data is observed
-  sites = unique(data$individual_id)
+  sites <- unique(data$individual_id)
 
   # track progress
-  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
-  env = environment()
-  i = 0
+  pb <- utils::txtProgressBar(min = 0, max = length(sites), style = 3)
+  env <- environment()
+  i <- 0
   cat(sprintf('Processing %s individuals (sites)\n', length(sites)))
 
   # process data
-  validation_data = lapply(sites, function(x) {
+  validation_data <- lapply(sites, function(x) {
     utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x)
@@ -218,15 +218,15 @@ pr_fm_npn <- function(
   close(pb)
 
   # rename list variables using the proper site names
-  names(validation_data) = sites
+  names(validation_data) <- sites
 
   # assign a class for post-processing
-  class(validation_data) = "phenor_time_series_data"
+  class(validation_data) <- "phenor_time_series_data"
 
   # remove out of daymet range sites (prune sites)
-  na_loc = which(is.na(validation_data))
+  na_loc <- which(is.na(validation_data))
   if (length(na_loc) != 0){
-    validation_data = validation_data[-na_loc]
+    validation_data <- validation_data[-na_loc]
   }
 
   # return the formatted data

@@ -14,7 +14,7 @@
 #'
 #' \dontrun{
 #' # subset phenor formatted data
-#' subset <- format_subset(data = phenocam_DB,
+#' subset <- pr_fm_subset(data = phenocam_DB,
 #'                         selection = 1:10)
 #'}
 

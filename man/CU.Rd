@@ -23,7 +23,7 @@ Chen et al. 2017 (Journal of Ecology)
 \examples{
 
 \dontrun{
-estimate = CU(data = data, par = par)
+estimate <- CU(data = data, par = par)
 }
 }
 \keyword{forest}

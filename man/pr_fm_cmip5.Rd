@@ -2,8 +2,8 @@
 % Please edit documentation in R/pr_fm_cmip5.R
 \name{pr_fm_cmip5}
 \alias{pr_fm_cmip5}
-\title{Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
-(NEX-GDDP).}
+\title{Formatting NASA Earth Exchange Global Daily Downscaled Projections
+(NEX-GDDP)}
 \usage{
 pr_fm_cmip5(path = tempdir(), year = 2016, offset = 264,
   model = "IPSL-CM5A-MR", scenario = "rcp85", extent = c(-128, -65,
@@ -31,8 +31,8 @@ as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))}
 data structure formatted for phenor model optimization and validation
 }
 \description{
-Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
-(NEX-GDDP).
+Formatting NASA Earth Exchange Global Daily Downscaled Projections
+(NEX-GDDP)
 }
 \examples{
 # run with default settings

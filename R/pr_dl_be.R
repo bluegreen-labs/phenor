@@ -1,5 +1,7 @@
 #' Download Berkeley Earth Gridded mean daily temperature data
 #'
+#' Global mean daily temperature data.
+#'
 #' @param path a path where to save the gridded data
 #' @param year year to process (requires year - 1 to be present)
 #' @return nothing is returned to the R working environment, files are

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_dl_npn.R
 \name{pr_dl_npn}
 \alias{pr_dl_npn}
-\title{Automatically download USA-NPN data using the API interface}
+\title{Download USA-NPN data using the API interface}
 \usage{
 pr_dl_npn(species = 3, phenophase = 371, start = "2000-01-01",
   end = "2017-01-01", extent = NULL, internal = TRUE,
@@ -33,7 +33,7 @@ will return a data farme for the selected species,
 phenophase, temporal and spatial extent or save the data to an RDS file
 }
 \description{
-Automatically download USA-NPN data using the API interface
+Download USA-NPN data using the API interface
 }
 \examples{
 \dontrun{

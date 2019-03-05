@@ -23,7 +23,7 @@ in the publication so we assume December 21.
 \examples{
 
 \dontrun{
-estimate = AGSI(data = data, par = par)
+estimate <- AGSI(data = data, par = par)
 }
 }
 \keyword{model}

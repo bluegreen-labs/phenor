@@ -26,7 +26,7 @@ Basler et al. 2016 (Agr. For. Meteorlogy)
 \examples{
 
 \dontrun{
-estimate = LIN(data = data, par = par)
+estimate <- LIN(data = data, par = par)
 }
 }
 \keyword{model,}

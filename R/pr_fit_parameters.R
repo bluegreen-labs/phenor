@@ -1,3 +1,5 @@
+#' Fit parameters of a phenology model to validation data
+#'
 #' Calculates the estimated phenophases for a given set of parameters
 #' and a specified model (be sure to match parameter and requirements
 #' with the model.

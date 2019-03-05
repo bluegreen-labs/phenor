@@ -1,11 +1,8 @@
-#' Pre-processing of CSV based data
+#' Formatting of CSV based data
 #'
 #' Combines CSV data into a format which can be ingested
 #' by the optimization routines. The CSV requires columns named:
 #' site, lat, lon, phenophase, year, doy
-#'
-#' subsets of the phenophases can be made, or are ignored if
-#' not specified.
 #'
 #' @param file an CSV file with phenology observation dates
 #' @param phenophase a phenophase to include as validation statistic
@@ -18,11 +15,11 @@
 #' @examples
 #'
 #' \dontrun{
-#' npn_data = pr_fm_csv()
+#' npn_data <- pr_fm_csv()
 #'}
 
 pr_fm_csv <- function(
-  file = "~/Desktop/your_phenology.csv",
+  file = "your_phenology.csv",
   phenophase,
   offset = 264,
   internal = TRUE,

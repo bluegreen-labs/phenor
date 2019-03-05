@@ -25,7 +25,7 @@ Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 \examples{
 
 \dontrun{
-estimate = GRP(data = data, par = par)
+estimate <- GRP(data = data, par = par)
 }
 }
 \keyword{model}

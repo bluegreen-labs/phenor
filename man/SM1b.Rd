@@ -25,7 +25,7 @@ using a bell shaped chilling response
 \examples{
 
 \dontrun{
-estimate = SM1b(data = data, par = par)
+estimate <- SM1b(data = data, par = par)
 }
 }
 \keyword{model}

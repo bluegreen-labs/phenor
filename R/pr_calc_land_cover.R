@@ -1,5 +1,8 @@
-#' Calculates land cover density values based upon a MODIS MCD12Q1
-#' land cover input map (src_raster) and a coarser destination raster.
+#' Calculates land cover density
+#'
+#' Use MODIS MCD12Q1 land cover input map (src_raster) and a coarser
+#' destination raster (E-OBS, CMIP5) to calculate land cover representation
+#' of these coarser cells.
 #'
 #' The algorithm counts the number of occurences in a given pixel of
 #' the destination raster. Both maps should be in EPSG:4326.
@@ -21,12 +24,12 @@
 #' # the evergreen needleleaf class (1) and
 #' # the deciduous broadleaf classs (4)
 #' \dontrun{
-#' lc_dens = land_cover_density(lc_classes = c(1, 4),
+#' lc_dens = pr_calc_land_cover(lc_classes = c(1, 4),
 #'                              lc_raster = "~/MCD12Q1_igbp_map.tif"
 #'                              dest_raster = "~/1_degree_lat_lon_map.tif")
 #' }
 
-pr_calc_lc = function(
+pr_calc_land_cover = function(
   lc_raster,
   dest_raster,
   lc_classes = c(1,4,5,10),

@@ -1,5 +1,4 @@
-#' Preprocessing of PEP725 data into a format which can be ingested
-#' by the optimization routines.
+#' Formatting PEP725 data
 #'
 #' Some pre-processing steps are required as downloading the PEP725.
 #' So, for the species of interest download the separate zipped files.
@@ -30,7 +29,7 @@
 #' # through phenocamr in your home directory
 #' # change the path to match your setup
 #' \dontrun{
-#' phenocam_data = format_pep725(pep_path = "~/pep_data/",
+#' phenocam_data = pr_fm_pep725(pep_path = "~/pep_data/",
 #'                               eobs_path = "~/eobs_data/")
 #'}
 
@@ -47,23 +46,23 @@ pr_fm_pep725 <- function(
 
   # helper function to format the data
   # for a given site
-  format_data = function(site = site,
+  format_data <- function(site = site,
                          offset = offset){
 
     # subset the data based upon the year to evaluate
     # necessary for E-OBS data subsetting
-    pep_subset = pep_data[which(pep_data$pep_id == site),]
+    pep_subset <- pep_data[which(pep_data$pep_id == site),]
 
     # create spatial object with
-    points = sp::SpatialPoints(cbind(pep_subset$lon[1],
+    points <- sp::SpatialPoints(cbind(pep_subset$lon[1],
                                      pep_subset$lat[1]),
                   proj4string = sp::CRS(raster::projection(eobs_data[[1]])))
 
     # subset raster data (only once, then replicate data for speed)
     # [subsetting the raster data is a bottleneck]
-    tmean = raster::extract(eobs_data[[1]], points)
-    tmin = raster::extract(eobs_data[[4]], points)
-    tmax = raster::extract(eobs_data[[5]], points)
+    tmean <- raster::extract(eobs_data[[1]], points)
+    tmin <- raster::extract(eobs_data[[4]], points)
+    tmax <- raster::extract(eobs_data[[5]], points)
 
     # close to water bodies raster cells can be empty and return
     # NA, in this case set the output to NULL and remove these
@@ -71,78 +70,78 @@ pr_fm_pep725 <- function(
     if (all(is.na(tmean))){
       return(NULL)
     } else {
-      precipitation = raster::extract(eobs_data[[2]], points)
-      tmean = matrix(rep(tmean, nrow(pep_subset)),
+      precipitation <- raster::extract(eobs_data[[2]], points)
+      tmean <- matrix(rep(tmean, nrow(pep_subset)),
                            length(tmean),
                            nrow(pep_subset))
-      tmin = matrix(rep(tmin, nrow(pep_subset)),
+      tmin <- matrix(rep(tmin, nrow(pep_subset)),
                            length(tmean),
                            nrow(pep_subset))
-      tmax = matrix(rep(tmax, nrow(pep_subset)),
+      tmax <- matrix(rep(tmax, nrow(pep_subset)),
                            length(tmean),
                            nrow(pep_subset))
-      precipitation = matrix(rep(precipitation, nrow(pep_subset)),
+      precipitation <- matrix(rep(precipitation, nrow(pep_subset)),
                              length(precipitation),
                              nrow(pep_subset))
     }
 
     # calculate long term mean temperature
-    ltm = as.vector(unlist(by(tmean[which(years >= 1980),1],
+    ltm <- as.vector(unlist(by(tmean[which(years >= 1980),1],
              INDICES = yday[which(years >= 1980)],
              mean,
              na.rm = TRUE)))[1:365]
 
     # calculate lapse rate and correct temperatures
-    lapse_rate = as.vector(
+    lapse_rate <- as.vector(
       (raster::extract(eobs_data[[3]],
                        points[1]) - pep_subset$alt[1]) * 0.005)
-    tmean = rbind(tmean + lapse_rate, pep_subset$year)
-    tmin = rbind(tmin + lapse_rate, pep_subset$year)
-    tmax = rbind(tmax + lapse_rate, pep_subset$year)
-    ltm = ltm + lapse_rate
+    tmean <- rbind(tmean + lapse_rate, pep_subset$year)
+    tmin <- rbind(tmin + lapse_rate, pep_subset$year)
+    tmax <- rbind(tmax + lapse_rate, pep_subset$year)
+    ltm <- ltm + lapse_rate
 
     # now for all years create subsets for temperature
     # and precipitation (wrap this in a function and a do call)
-    Ti = apply(tmean, 2, function(x){
-      layers = which((years == (x[length(x)] - 1) & yday >= offset) |
+    Ti <- apply(tmean, 2, function(x){
+      layers <- which((years == (x[length(x)] - 1) & yday >= offset) |
                        (years == x[length(x)] & yday < offset))[1:365]
       return(x[layers])
     })
 
-    Tmini = apply(tmin, 2, function(x){
-      layers = which((years == (x[length(x)] - 1) & yday >= offset) |
+    Tmini <- apply(tmin, 2, function(x){
+      layers <- which((years == (x[length(x)] - 1) & yday >= offset) |
                        (years == x[length(x)] & yday < offset))[1:365]
       return(x[layers])
     })
 
-    Tmaxi = apply(tmax, 2, function(x){
-      layers = which((years == (x[length(x)] - 1) & yday >= offset) |
+    Tmaxi <- apply(tmax, 2, function(x){
+      layers <- which((years == (x[length(x)] - 1) & yday >= offset) |
                        (years == x[length(x)] & yday < offset))[1:365]
       return(x[layers])
     })
 
-    Pi = apply(rbind(precipitation, pep_subset$year), 2, function(x){
-      layers = which((years == (x[length(x)] - 1) & yday >= offset) |
+    Pi <- apply(rbind(precipitation, pep_subset$year), 2, function(x){
+      layers <- which((years == (x[length(x)] - 1) & yday >= offset) |
                        (years == x[length(x)] & yday < offset))[1:365]
       return(x[layers])
     })
 
     # shift data when offset is < 365
     if (offset < 365){
-      doy_neg = c((offset - 366):-1,1:(offset - 1))
-      doy = c(offset:365,1:(offset - 1))
+      doy_neg <- c((offset - 366):-1,1:(offset - 1))
+      doy <- c(offset:365,1:(offset - 1))
     } else {
-      doy = doy_neg = 1:365
+      doy <- doy_neg <- 1:365
     }
 
     # calculate daylength using the doy
-    l = ncol(Ti)
-    Li = daylength(doy = doy, latitude = pep_subset$lat[1])
-    Li = matrix(rep(Li,l),length(Li),l)
+    l <- ncol(Ti)
+    Li <- daylength(doy = doy, latitude = pep_subset$lat[1])
+    Li <- matrix(rep(Li,l),length(Li),l)
 
     # recreate the validation data structure (new format)
     # but with concatted data
-    data = list("site" = site,
+    data <- list("site" = site,
                 "location" = c(pep_subset$lat[1], pep_subset$lon[1]),
                 "doy" = doy_neg,
                 "ltm" = ltm,
@@ -161,46 +160,49 @@ pr_fm_pep725 <- function(
     return(data)
   }
 
-  cat("* Merging and cleaning PEP725 data files in: \n")
-  cat(sprintf("  %s\n", pep_path))
+  message("* Merging and cleaning PEP725 data files in: \n")
+  mesage(sprintf("  %s\n", pep_path))
 
   # User may provide prefiltered merge_PEP725 dataset
   if (missing(pep_data)){
-    pep_data = merge_pep725(path = pep_path)
+    pep_data <- merge_pep725(path = pep_path)
     }
 
   # removing out of E-OBS climate data range
   # PEP725 observations
-  cat(" |_ removing data out of range of the E-OBS climate data \n")
-  pep_data = pep_data[which(pep_data$year >= 1950 &
+  message(" |_ removing data out of range of the E-OBS climate data \n")
+  pep_data <- pep_data[which(pep_data$year >= 1950 &
                               pep_data$year <= max(pep_data$year)),]
 
   # filtering on species
   if (is.null(species)){
-    cat(" |_ including all species \n")
+    message(" |_ including all species \n")
   } else {
-    cat(sprintf(" |_ selecting species: %s \n", species))
-    pep_data = pep_data[which(pep_data$species == species),]
+    message(sprintf(" |_ selecting species: %s \n", species))
+    pep_data <- pep_data[which(pep_data$species == species),]
   }
 
   # filtering based upon bbch value (phenophase)
-  cat(sprintf(" |_ selecting phenophase: %s \n", bbch))
-  pep_data = pep_data[which(pep_data$bbch == bbch),]
+  message(sprintf(" |_ selecting phenophase: %s \n", bbch))
+  pep_data <- pep_data[which(pep_data$bbch == bbch),]
 
-  cat(sprintf(" |_ excluding sites with: < %s site years of observations \n", count))
+  message(
+    sprintf(" |_ excluding sites with: < %s site years of observations \n",
+            count)
+    )
   # count number of observations for each
   # unique pep725 site, this does not screen
   # for them being continuous or not !
-  sites = unique(pep_data$pep_id)
-  counts = unlist(lapply(sites,function(x){
+  sites <- unique(pep_data$pep_id)
+  counts <- unlist(lapply(sites,function(x){
     length(which(pep_data$pep_id == x))
   })
   )
 
   # make a selection based upon minimum number
   # of observations required per site
-  selection = sites[which(counts >= count)]
-  pep_data = pep_data[pep_data$pep_id %in% selection,]
+  selection <- sites[which(counts >= count)]
+  pep_data <- pep_data[pep_data$pep_id %in% selection,]
 
   # sanity check on what remains
   if (nrow(pep_data) == 0 ){
@@ -209,19 +211,23 @@ pr_fm_pep725 <- function(
   }
 
   # get remaining unique years and sites
-  sites = unique(pep_data$pep_id)
-  years = unique(pep_data$year)
+  sites <- unique(pep_data$pep_id)
+  years <- unique(pep_data$year)
 
   # loading E-OBS data for subsetting
-  cat(sprintf("* Extracting E-OBS climatology for %s sites\n ", length(sites)))
+  message(
+    sprintf("* Extracting E-OBS climatology for %s sites\n ", length(sites))
+    )
 
   # read E-OBS data
-  eobs_data = lapply(c("tg","rr","elev","tn","tx"),function(x){
-    # filename
-    filename=list.files(eobs_path,sprintf("%s_%sdeg_reg[^/]*\\.nc",x,resolution))
+  eobs_data <- lapply(c("tg","rr","elev","tn","tx"),function(x){
+
+    filename <- list.files(eobs_path,
+                           sprintf("%s_%sdeg_reg[^/]*\\.nc",x,resolution))
+
     # if the file exist use the local file
     if (length(filename)>0){
-      r = raster::brick(sprintf("%s/%s", eobs_path, filename))
+      r <- raster::brick(sprintf("%s/%s", eobs_path, filename))
       return(r)
     } else {
       stop('No E-OBS files found in the referred path !')
@@ -229,16 +235,16 @@ pr_fm_pep725 <- function(
   })
 
   # extract the yday and year strings and convert to numbers
-  yday = as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%j"))
-  years = as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%Y"))
+  yday <- as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%j"))
+  years <- as.numeric(format(as.Date(eobs_data[[1]]@z$Date),"%Y"))
 
   # track progress
-  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
-  env = environment()
-  i = 0
+  pb <- utils::txtProgressBar(min = 0, max = length(sites), style = 3)
+  env <- environment()
+  i <- 0
 
   # process data
-  validation_data = lapply(sites, function(x) {
+  validation_data <- lapply(sites, function(x) {
     utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x,
@@ -250,13 +256,13 @@ pr_fm_pep725 <- function(
 
   # add proper list names (this should be the same name as the
   # site name added by the format_data() helper function)
-  names(validation_data) = sites
+  names(validation_data) <- sites
 
   # assign a class for post-processing
-  class(validation_data) = "phenor_time_series_data"
+  class(validation_data) <- "phenor_time_series_data"
 
   # screen for NULL values (climate grid cells with NA - near water bodies)
-  validation_data = validation_data[!unlist(lapply(validation_data,is.null))]
+  validation_data <- validation_data[!unlist(lapply(validation_data,is.null))]
 
   # return the formatted data
   return(validation_data)

@@ -13,10 +13,10 @@
 #' check_npn_phenophases(list = TRUE)
 #'}
 
-check_npn_phenophases = function(phenophase = NULL,
+check_npn_phenophases <- function(phenophase = NULL,
                                  list = TRUE){
   # download phenophase information
-  phenophases = jsonlite::fromJSON("http://www.usanpn.org/npn_portal/phenophases/getPhenophases.json")
+  phenophases <- jsonlite::fromJSON("http://www.usanpn.org/npn_portal/phenophases/getPhenophases.json")
 
   # check if the phenophase exists, if provided
   if(!is.null(phenophase)){
@@ -32,6 +32,7 @@ check_npn_phenophases = function(phenophase = NULL,
       FALSE
     }
   } else {
+
     # if nothing is requested for filtering, just return the full list
     # and a warning
     print(phenophases)

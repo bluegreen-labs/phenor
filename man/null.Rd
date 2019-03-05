@@ -20,7 +20,7 @@ returns the mean across all validation dates
 \examples{
 
 \dontrun{
-estimate = NLL(data = data)
+estimate <- null(data = data)
 }
 }
 \keyword{model,}

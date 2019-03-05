@@ -25,7 +25,7 @@ with a sigmoidal temperature response (Kramer 1994)
 \examples{
 
 \dontrun{
-estimate = TTs(data = data, par = par)
+estimate <- TTs(data = data, par = par)
 }
 }
 \keyword{model}

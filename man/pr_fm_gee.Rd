@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_fm_gee.R
 \name{pr_fm_gee}
 \alias{pr_fm_gee}
-\title{Preprocessing of GEE data}
+\title{Formatting GEE data}
 \usage{
 pr_fm_gee(path = tempdir(), phenophase = "Increase", offset = 264)
 }
@@ -18,12 +18,13 @@ Decrease or Minimum (default = Increase)}
 Ingests MODIS phenology dates as ingested
 through the python based Google Earth Engine (GEE) subset tool. This is a
 fallback method in the absence of a working version of R MODISTools.
-(https://khufkens.github.io/gee_subset/)
+(https://khufkens.github.io/gee_subset/). Relies on Daymet data coverage,
+and is for now limited to Northern America.
 }
 \examples{
 
 \dontrun{
-modis_data = pr_fm_gee()
+modis_data <- pr_fm_gee()
 }
 }
 \keyword{model,}

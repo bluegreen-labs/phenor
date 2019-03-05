@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_dl_pep725.R
 \name{pr_dl_pep725}
 \alias{pr_dl_pep725}
-\title{Automatically download PEP725 data}
+\title{Download PEP725 data}
 \usage{
 pr_dl_pep725(credentials, species = 115, path = tempdir(),
   internal = FALSE)
@@ -35,6 +35,7 @@ and carefully read the data use policy:
 http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf
 }
 \examples{
+
 \dontrun{
 pr_dl_pep725(credentials = "~/pep725_login.txt",
                 species = 115)

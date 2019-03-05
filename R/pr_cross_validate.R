@@ -1,5 +1,8 @@
-#' Model valiadation routine to faciliate model cross-validation (k-fold or leave-one-out).
-
+#' Model cross valiadation
+#'
+#' Faciliates model cross-validation using k-fold or leave-one-out cross
+#' validation.
+#'
 #' @param k perform k-fold cross validation
 #' (set k=0 to perform a leave-one-out cross-validation)
 #' @param cv_seed a vector with random seeds for cross validation
@@ -23,13 +26,13 @@
 #' @examples
 #'
 #' \dontrun{
-#'  model_CV(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") ,
-#'  data= phenocam_DB[c(1:10)])
+#'  pr_cross_validate(k=10,CV_seed = 123, models =  c("LIN","TT","PTT") ,
+#'  data = phenocam_DB[c(1:10)])
 #'
 #' # will return the data of each validation and some summarizing statistics
 #' }
 
-pr_model_cv <- function(
+pr_cross_validate <- function(
   k = 10,
   cv_seed = 1234,
   cv_set = NULL,

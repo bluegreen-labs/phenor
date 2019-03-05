@@ -16,7 +16,7 @@ nothing is returned to the R working environment, files are
 downloaded and stored on disk
 }
 \description{
-Download Berkeley Earth Gridded mean daily temperature data
+Global mean daily temperature data.
 }
 \examples{
 

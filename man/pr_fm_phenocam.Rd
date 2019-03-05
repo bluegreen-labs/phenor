@@ -42,7 +42,7 @@ for speed.
 # through phenocamr in your home directory
 # change the path to match your setup
 \dontrun{
-phenocam_data = format_phenocam()
+phenocam_data <- pr_fm_phenocam()
 }
 }
 \keyword{model,}

@@ -2,8 +2,7 @@
 % Please edit documentation in R/pr_fm_eobs.R
 \name{pr_fm_eobs}
 \alias{pr_fm_eobs}
-\title{Preprocessing E-OBS data as hosted by:
-http://www.ecad.eu/}
+\title{Formatting E-OBS data}
 \usage{
 pr_fm_eobs(path = tempdir(), year = 2014, offset = 264,
   resolution = 0.25, internal = TRUE)
@@ -26,15 +25,11 @@ Returns spatial model input data from long term E-OBS modelled data.
 This data can be run by models specified in the phenor package.
 }
 \description{
-Download E-OBS data as described by:
+Formats E-OBS data as described by:
 Haylock, M.R., N. Hofstra, A.M.G. Klein Tank, E.J. Klok, P.D.
 Jones, M. New. 2008: A European daily high-resolution gridded dataset
 of surface temperature and precipitation.
-J. Geophys. Res (Atmospheres), 113, D20119
-}
-\details{
-Please register before downloading data, unzip data into uncompressed
-netCDF files before processing.
+J. Geophys. Res (Atmospheres), 113, D20119, into a 'phenor' compatible list.
 }
 \examples{
 

@@ -24,7 +24,7 @@
 #' # through phenocamr in your home directory
 #' # change the path to match your setup
 #' \dontrun{
-#' phenocam_data = format_phenocam()
+#' phenocam_data <- pr_fm_phenocam()
 #'}
 
 pr_fm_phenocam <- function(
@@ -37,7 +37,7 @@ pr_fm_phenocam <- function(
   ){
 
   # helper function to process the data
-  format_data = function(site,
+  format_data <- function(site,
                          transition_files,
                          path,
                          end,
@@ -47,11 +47,11 @@ pr_fm_phenocam <- function(
     # after merging, download the corresponding daymet data and create
     # the parts of the final structured list containing data for further
     # processing
-    transition_files_full = paste(path, transition_files,sep = "/")
+    transition_files_full <- paste(path, transition_files,sep = "/")
 
     # get individual sites from the filenames
-    sites = unlist(lapply(strsplit(transition_files,"_"),"[[",1))
-    files = transition_files_full[which(sites == site)]
+    sites <- unlist(lapply(strsplit(transition_files,"_"),"[[",1))
+    files <- transition_files_full[which(sites == site)]
 
     # merge all transition date data
     data = do.call("rbind", lapply(files, function(fn)
@@ -63,26 +63,26 @@ pr_fm_phenocam <- function(
     }
 
     # throw out all data but the selected gcc value
-    data = data[data$direction == direction &
+    data <- data[data$direction == direction &
                   data$gcc_value == gcc_value,
                   grep(threshold,names(data))]
 
-    transition = as.Date(data[,grep(sprintf("^transition_%s$",threshold),names(data))])
-    lower = as.Date(data[,grep(sprintf("*%s_lower*",threshold),names(data))])
-    upper = as.Date(data[,grep(sprintf("*%s_upper*",threshold),names(data))])
+    transition <- as.Date(data[,grep(sprintf("^transition_%s$",threshold),names(data))])
+    lower <- as.Date(data[,grep(sprintf("*%s_lower*",threshold),names(data))])
+    upper <- as.Date(data[,grep(sprintf("*%s_upper*",threshold),names(data))])
 
     # kick out transition dates with large uncertainties (> 30 days)
     # these are most likely false (consider it to be a parameter)
-    spread = abs(lower - upper)
-    transition = transition[spread < 30] # make parameter?
+    spread <- abs(lower - upper)
+    transition <- transition[spread < 30] # make parameter?
 
     # grab the location of the site by subsetting the
-    site_info = metadata[which(metadata$site == site),]
-    lat = site_info$lat
-    lon = site_info$lon
+    site_info <- metadata[which(metadata$site == site),]
+    lat <- site_info$lat
+    lon <- site_info$lon
 
     # download daymet data for a given site
-    daymet_data = try(daymetr::download_daymet(
+    daymet_data <- try(daymetr::download_daymet(
       site = site,
       lat = lat,
       lon = lon,
@@ -99,50 +99,50 @@ pr_fm_phenocam <- function(
     }
 
     # calculate the mean daily temperature
-    daymet_data$tmean = (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
+    daymet_data$tmean <- (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
 
     # calculate the long term daily mean temperature
     # and realign it so the first day will be sept 21th (doy 264)
     # and the matching DOY vector
-    ltm = as.vector(by(daymet_data$tmean,
+    ltm <- as.vector(by(daymet_data$tmean,
                        INDICES = list(daymet_data$yday),
                        mean,
                        na.rm = TRUE))
 
     # shift data when offset is < 365
     if (offset < 365){
-      ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
-      doy_neg = c((offset - 366):-1,1:(offset - 1))
-      doy = c(offset:365,1:(offset - 1))
+      ltm <- c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy_neg <- c((offset - 366):-1,1:(offset - 1))
+      doy <- c(offset:365,1:(offset - 1))
     } else {
-      doy = doy_neg = 1:365
+      doy <- doy_neg = 1:365
     }
 
     # slice and dice the data
-    years = unique(as.numeric(format(transition,"%Y")))
+    years <- unique(as.numeric(format(transition,"%Y")))
 
     # create output matrix (holding mean temp.)
-    tmean = matrix(NA,
+    tmean <- matrix(NA,
                    nrow = 365,
                    ncol = length(years))
 
     # create output matrix (holding min temp.)
-    tmin = matrix(NA,
+    tmin <- matrix(NA,
                   nrow = 365,
                   ncol = length(years))
 
     # create output matrix (holding max temp.)
-    tmax = matrix(NA,
+    tmax <- matrix(NA,
                   nrow = 365,
                   ncol = length(years))
 
     # create output matrix (holding vpd)
-    vpd = matrix(NA,
+    vpd <- matrix(NA,
                  nrow = 365,
                  ncol = length(years))
 
     # create output matrix (holding precip)
-    precip = matrix(NA,
+    precip <- matrix(NA,
                     nrow = 365,
                     ncol = length(years))
 
@@ -158,47 +158,47 @@ pr_fm_phenocam <- function(
                               ("year" == years[j] &
                                  "yday" < offset))$tmean
 
-        tmin[, j] = subset(daymet_data,
+        tmin[, j] <- subset(daymet_data,
                             ("year" == (years[j] - 1) & "yday" >= offset) |
                               ("year" == years[j] &
                                  "yday" < offset))$tmin..deg.c.
 
-        tmax[, j] = subset(daymet_data,
+        tmax[, j] <- subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
                              ("year" == years[j] &
                                 "yday" < offset))$tmax..deg.c.
 
-        precip[, j] = subset(daymet_data,
+        precip[, j] <- subset(daymet_data,
                            ("year" == (years[j] - 1) & "yday" >= offset) |
                              ("year" == years[j] &
                                 "yday" < offset))$prcp..mm.day.
-        vpd[, j] = subset(daymet_data,
+        vpd[, j] <- subset(daymet_data,
                              ("year" == (years[j] - 1) & "yday" >= offset) |
                                ("year" == years[j] &
                                   "yday" < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
+        tmean[, j] <- subset(daymet_data, "year" == years[j])$tmean
+        tmin[, j] <- subset(daymet_data, "year" == years[j])$tmin..deg.c.
+        tmax[, j] <- subset(daymet_data, "year" == years[j])$tmax..deg.c.
+        precip[, j] <- subset(daymet_data, "year" == years[j])$prcp..mm.day.
+        vpd[, j] <- subset(daymet_data, "year" == years[j])$vp..Pa.
       }
     }
 
     # finally select all the transition dates for model validation
-    phenophase_years = as.numeric(format(transition,"%Y"))
-    phenophase_doy = as.numeric(format(transition,"%j"))
+    phenophase_years <- as.numeric(format(transition,"%Y"))
+    phenophase_doy <- as.numeric(format(transition,"%j"))
 
     # only select the first instance of a phenophase_doy
     # currently the model frameworks do not handle multiple cycles
-    phenophase = unlist(lapply(years, function(x) {
+    phenophase <- unlist(lapply(years, function(x) {
       phenophase_doy[which(phenophase_years == x)[1]]
     }))
 
     # calculate daylength
-    l = ncol(tmean)
-    Li = daylength(doy = doy, latitude = lat)
-    Li = matrix(rep(Li,l),length(Li),l)
+    l <- ncol(tmean)
+    Li <- daylength(doy = doy, latitude = lat)
+    Li <- matrix(rep(Li,l),length(Li),l)
 
     # format and return the data
     return(list("site" = site,
@@ -218,13 +218,13 @@ pr_fm_phenocam <- function(
   }
 
   # query site list with metadata from the phenocam servers
-  metadata = jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
+  metadata <- jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
 
   # query max year as available through Daymet, lags by a year so
   # subtract 1 year by default. If download fails subtract another year
-  end = as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
+  end <- as.numeric(format(as.Date(Sys.Date()),"%Y")) - 1
 
-  daymet_test = try(daymetr::download_daymet(
+  daymet_test <- try(daymetr::download_daymet(
     start = end,
     end = end,
     internal = TRUE,
@@ -236,20 +236,20 @@ pr_fm_phenocam <- function(
   }
 
   # list all files in the referred path
-  transition_files = list.files(path,
+  transition_files <- list.files(path,
                                 "*_transition_dates.csv")
 
   # get individual sites form the filenames
-  sites = unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
+  sites <- unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
-  pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
-  env = environment()
-  i = 0
+  pb <- utils::txtProgressBar(min = 0, max = length(sites), style = 3)
+  env <- environment()
+  i <- 0
 
   # process data
-  validation_data = lapply(sites, function(x) {
+  validation_data <- lapply(sites, function(x) {
     utils::setTxtProgressBar(pb, i + 1)
     assign("i", i+1, envir = env)
     format_data(site = x,
@@ -263,15 +263,15 @@ pr_fm_phenocam <- function(
   close(pb)
 
   # rename list variables using the proper site names
-  names(validation_data) = sites
+  names(validation_data) <- sites
 
   # assign a class for post-processing
-  class(validation_data) = "phenor_time_series_data"
+  class(validation_data) <- "phenor_time_series_data"
 
   # remove out of daymet range sites (prune sites)
-  na_loc = which(is.na(validation_data))
+  na_loc <- which(is.na(validation_data))
   if (length(na_loc) != 0){
-    validation_data = validation_data[-na_loc]
+    validation_data <- validation_data[-na_loc]
   }
 
   # return the formatted data

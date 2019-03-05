@@ -2,8 +2,7 @@
 % Please edit documentation in R/pr_fit_comparison.R
 \name{pr_fit_compare}
 \alias{pr_fit_compare}
-\title{Model comparison routine to faciliate model development
-and quick comparisons of the skill of various models.}
+\title{Fit multiple models for comparison}
 \usage{
 pr_fit_compare(random_seeds = c(1, 12, 40), models = c("LIN", "TT",
   "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b",

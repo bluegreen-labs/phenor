@@ -25,7 +25,7 @@ with a sigmoidal temperature response (Kramer 1994)
 \examples{
 
 \dontrun{
-estimate = M1s(data = data, par = par)
+estimate <- M1s(data = data, par = par)
 }
 }
 \keyword{model,}

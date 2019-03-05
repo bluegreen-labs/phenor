@@ -2,8 +2,7 @@
 % Please edit documentation in R/pr_fit.R
 \name{pr_fit}
 \alias{pr_fit}
-\title{Model validation routine to faciliate model development
-and quick validation of a (new) model.}
+\title{Fit a single phenology model}
 \usage{
 pr_fit(model = "TT", data = phenor::phenocam_DB, method = "GenSA",
   control = list(max.call = 2000),
@@ -33,16 +32,19 @@ and set forth by Basler (2016)}
 \item{...}{additional control parameters to be passed}
 }
 \description{
-Model validation routine to faciliate model development
-and quick validation of a (new) model.
+General purpose model fit function, called by higher order
+pr_fit_comaprison() and pr_cross_validate() functions. In itself a wrapper
+around the pr_fit_parameter() function.
+}
+\details{
+This function together with pr_predict() is in many ways
+the core of the package.
 }
 \examples{
 
 \dontrun{
-model_calibration(model,par_ranges = "parameter_ranges.csv")
-
-# estimate will return the best estimated parameter set given the
-# validation data
+pr_fit(model,
+       par_ranges = "parameter_ranges.csv")
 }
 }
 \keyword{model,}

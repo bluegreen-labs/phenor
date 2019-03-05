@@ -1,5 +1,5 @@
-#' Preprocessing of NASA Earth Exchange Global Daily Downscaled Projections
-#' (NEX-GDDP).
+#' Formatting NASA Earth Exchange Global Daily Downscaled Projections
+#' (NEX-GDDP)
 #'
 #' @param path a path to the gridded data (original max / min temp. / precip files)
 #' @param year year to process (requires year - 1 to be present / downloaded)

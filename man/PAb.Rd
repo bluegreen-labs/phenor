@@ -25,7 +25,7 @@ using a bell shaped chilling response
 \examples{
 
 \dontrun{
-estimate = PAb(data = data, par = par)
+estimate <- PAb(data = data, par = par)
 }
 }
 \keyword{model}

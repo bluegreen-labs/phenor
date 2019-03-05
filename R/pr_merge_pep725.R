@@ -17,25 +17,25 @@
 #' tidy_pep_data <- pr_merge_pep725()
 #'}
 
-pr_merge_pep725 = function(path = tempdir()){
+pr_merge_pep725 <- function(path = tempdir()){
 
   # set encoding to circumvent messy encoding in database
   Sys.setlocale("LC_ALL", "C")
 
   # get tmp directory
-  tmpdir = tempdir()
+  tmpdir <- tempdir()
 
   # if a path to a directory is given, list all tar.gz files
   # if not, assume the linked file is a tar.gz PEP725 file
   # (no formal checks for this are in place)
   if (dir.exists(path.expand(path))){
       # list data files
-      archive_files = list.files(path, "^PEP725.*\\.tar\\.gz$",
+      archive_files <- list.files(path, "^PEP725.*\\.tar\\.gz$",
                                  full.names = TRUE)
   } else {
     # single file
     if (file.exists(path)){
-      archive_files = path
+      archive_files <- path
     } else {
       stop("File does not exist, check the filename of the archive file!")
     }
@@ -47,19 +47,19 @@ pr_merge_pep725 = function(path = tempdir()){
 
     # check the contents of the tar.gz file
     # and only select true data files (discard README and descriptor)
-    pep_files = utils::untar(file, list = TRUE)
-    pep_files = pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt",
+    pep_files <- utils::untar(file, list = TRUE)
+    pep_files <- pep_files[!grepl("^.*PEP725_BBCH.csv$|PEP725_README.txt",
                                  pep_files)]
 
     # extract only the true data files and station info files
     # drop the BBCH and README data (but don't delete it - delist)
-    data_file = pep_files[!grepl("stations", pep_files)]
-    station_file = pep_files[grepl("stations", pep_files)]
+    data_file <- pep_files[!grepl("stations", pep_files)]
+    station_file <- pep_files[grepl("stations", pep_files)]
 
     # unzip only the selected files into the output path
     # use path.expand to deal with the fact that untar
     # does not work with relative paths
-    error = try(utils::untar(file,
+    error <- try(utils::untar(file,
                files = pep_files,
                exdir = path.expand(tmpdir)))
 
@@ -72,11 +72,11 @@ pr_merge_pep725 = function(path = tempdir()){
     }
 
     # read in observation data from a particular gziped file
-    observation_data = utils::read.csv2(sprintf("%s/%s",tmpdir,data_file),
+    observation_data <- utils::read.csv2(sprintf("%s/%s",tmpdir,data_file),
                                         sep = ";",
                                         stringsAsFactors = FALSE)
 
-    station_locations = utils::read.csv2(sprintf("%s/%s",tmpdir,station_file),
+    station_locations <- utils::read.csv2(sprintf("%s/%s",tmpdir,station_file),
                                          sep = ";",
                                          stringsAsFactors = FALSE,
                                          skip = 1,
@@ -84,11 +84,11 @@ pr_merge_pep725 = function(path = tempdir()){
 
     # discard any columns > 6 (errors in NAME field)
     if(ncol(station_locations) > 6){
-      station_locations = station_locations[,-c(7:ncol(station_locations))]
+      station_locations <- station_locations[,-c(7:ncol(station_locations))]
     }
 
     # manually assign column names to avoid errors with malformed data
-    colnames(station_locations) = c("PEP_ID",
+    colnames(station_locations) <- c("PEP_ID",
                                     "National_ID",
                                     "LON",
                                     "LAT",
@@ -96,19 +96,19 @@ pr_merge_pep725 = function(path = tempdir()){
                                     "NAME")
 
     # convert to numeric and add fields
-    station_locations$LON = as.numeric(station_locations$LON)
-    station_locations$LAT = as.numeric(station_locations$LAT)
+    station_locations$LON <- as.numeric(station_locations$LON)
+    station_locations$LAT <- as.numeric(station_locations$LAT)
 
-    observation_data$country = substr(data_file,8,9)
-    observation_data$species = sub("_",
+    observation_data$country <- substr(data_file,8,9)
+    observation_data$species <- sub("_",
                                    " ",
                                    substr(data_file,11,nchar(data_file) - 4))
 
     # do a left merge to combine the observational data and the
     # station location meta-data returning basically the original
     # database structure (as a tidy file)
-    pep_data = merge(observation_data, station_locations, by = "PEP_ID")
-    names(pep_data) = tolower(names(pep_data))
+    pep_data <- merge(observation_data, station_locations, by = "PEP_ID")
+    names(pep_data) <- tolower(names(pep_data))
 
     # cleanup extracted data for good measure
     # and return the combined data frame

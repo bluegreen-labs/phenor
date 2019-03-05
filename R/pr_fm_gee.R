@@ -1,9 +1,10 @@
-#' Preprocessing of GEE data
+#' Formatting GEE data
 #'
 #' Ingests MODIS phenology dates as ingested
 #' through the python based Google Earth Engine (GEE) subset tool. This is a
 #' fallback method in the absence of a working version of R MODISTools.
-#' (https://khufkens.github.io/gee_subset/)
+#' (https://khufkens.github.io/gee_subset/). Relies on Daymet data coverage,
+#' and is for now limited to Northern America.
 #'
 #' @param path a path to GEE provided MCD12Q2 phenology dates
 #' @param phenophase Phenological phase, Increase, Maximum,
@@ -14,7 +15,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' modis_data = pr_fm_gee()
+#' modis_data <- pr_fm_gee()
 #'}
 
 pr_fm_gee <- function(

@@ -1,5 +1,7 @@
-#' Preprocessing of Daymet tiled data into a format which can be ingested
-#' by the models in phenor
+#' Formatting Daymet tiled data
+#'
+#' Formats Daymet tiled data into a format which can be ingested by
+#' the models in phenor
 #'
 #' @param path a path to tiled data
 #' @param year year to process (requires year - 1 to be present)
@@ -21,7 +23,7 @@
 #' # are calculated using daymet_tmean() from
 #' # the daymetr package
 #' \dontrun{
-#' daymet_data = pr_fm_daymet_tiles()
+#' daymet_data <- pr_fm_daymet_tiles()
 #'}
 
 # create subset of layers to calculate phenology model output on

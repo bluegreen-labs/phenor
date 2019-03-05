@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_fm_npn.R
 \name{pr_fm_npn}
 \alias{pr_fm_npn}
-\title{Pre-processing of USA-NPN data}
+\title{Formatting USA-NPN data}
 \usage{
 pr_fm_npn(data, phenophase = 371, offset = 264, path = tempdir(),
   internal = TRUE)
@@ -27,7 +27,7 @@ individual_id basis, rather than on the user defined site_id.
 \examples{
 
 \dontrun{
-npn_data = format_npn()
+npn_data <- pr_fm_npn()
 }
 }
 \keyword{model,}

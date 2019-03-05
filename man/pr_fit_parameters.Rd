@@ -2,9 +2,7 @@
 % Please edit documentation in R/pr_fit_parameters.R
 \name{pr_fit_parameters}
 \alias{pr_fit_parameters}
-\title{Calculates the estimated phenophases for a given set of parameters
-and a specified model (be sure to match parameter and requirements
-with the model.}
+\title{Fit parameters of a phenology model to validation data}
 \usage{
 pr_fit_parameters(par = NULL, data, cost = rmse, model = "TT",
   method = "GenSA", lower, upper, control, ...)

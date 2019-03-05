@@ -29,7 +29,7 @@ on the estimated phenology dates.
 \examples{
 
 \dontrun{
-arrow_plot(data = model_comparison_data)
+pr_plot_arrow(data = model_comparison_data)
 }
 }
 \keyword{comparison,}

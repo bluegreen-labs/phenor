@@ -2,10 +2,10 @@
 % Please edit documentation in R/pr_fm_csv.R
 \name{pr_fm_csv}
 \alias{pr_fm_csv}
-\title{Pre-processing of CSV based data}
+\title{Formatting of CSV based data}
 \usage{
-pr_fm_csv(file = "~/Desktop/your_phenology.csv", phenophase,
-  offset = 264, internal = TRUE, path = tempdir())
+pr_fm_csv(file = "your_phenology.csv", phenophase, offset = 264,
+  internal = TRUE, path = tempdir())
 }
 \arguments{
 \item{file}{an CSV file with phenology observation dates}
@@ -24,14 +24,10 @@ Combines CSV data into a format which can be ingested
 by the optimization routines. The CSV requires columns named:
 site, lat, lon, phenophase, year, doy
 }
-\details{
-subsets of the phenophases can be made, or are ignored if
-not specified.
-}
 \examples{
 
 \dontrun{
-npn_data = pr_fm_csv()
+npn_data <- pr_fm_csv()
 }
 }
 \keyword{model,}

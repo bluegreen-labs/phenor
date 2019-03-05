@@ -1,3 +1,5 @@
+#' Fit multiple models for comparison
+#'
 #' Model comparison routine to faciliate model development
 #' and quick comparisons of the skill of various models.
 #'
