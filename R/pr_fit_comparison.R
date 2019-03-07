@@ -203,7 +203,7 @@ pr_fit_comparison <- function(
       return(list("parameters" = par$par,
                   "predicted_values" = predicted_values,
                   "parameter_uncertainty" = par$par,
-                  "bt_output" = par$bt_output))
+                  "opt_out" = par$opt_out))
     })
 
     # stop cluster
