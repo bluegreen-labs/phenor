@@ -40,6 +40,8 @@ Unzip all files and put the respective scientific data in one folder.
 The routine requires E-OBS climate, which can be downloaded from
 the E-OBS website and should be put unzipped in a single folder.
 (http://www.ecad.eu/download/ensembles/ensembles.php).
+
+BBCH list: https://www.reterurale.it/downloads/BBCH_engl_2001.pdf
 }
 \examples{
 

@@ -20,7 +20,7 @@ check_npn_species = function(species = NULL,
                              list = TRUE){
   # download species information
   species_list <- jsonlite::fromJSON("http://www.usanpn.org/npn_portal/species/getSpecies.json")
-  species_list <- subset(species_list, select = -"species_type")
+  species_list <- species_list[,which(colnames(species_list) != "species_type")]
 
   # check if the genus exists, if provided
   if(!is.null(species)){

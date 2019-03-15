@@ -1064,7 +1064,7 @@ SQ <- function(par, data){
   Rf <- data$Ti - T_base
   Rf[Rf < 0] = 0
   Rf <- Rf * k
-  Rf[1:t0,] <- 0
+  Rf[1:t0,] <- 0 # CHECK THIS IN LITERATURE
 
   # DOY of budburst criterium
   doy <- apply(Rf,2, function(xt){

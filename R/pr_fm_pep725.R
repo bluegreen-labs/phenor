@@ -8,6 +8,8 @@
 #' the E-OBS website and should be put unzipped in a single folder.
 #' (http://www.ecad.eu/download/ensembles/ensembles.php).
 #'
+#' BBCH list: https://www.reterurale.it/downloads/BBCH_engl_2001.pdf
+#'
 #' @param pep_path path to the PEP725 data (species files only)
 #' @param eobs_path path to regular grid E-OBS data.
 #' @param bbch which phenophase (bbch) to use (default = 11)

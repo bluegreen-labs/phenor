@@ -52,7 +52,7 @@ pr_calc_temp_sens <- function(
   }
 
   # convert to a flat format (to be sure) and duplicate
-  data_t1 <- data_t0 <- flat_format(data = data)
+  data_t1 <- data_t0 <- pr_flatten(data = data)
 
   # increase all temperatur related paramters with 1 degree C
   data_t1$Ti <- data_t1$Ti + 1

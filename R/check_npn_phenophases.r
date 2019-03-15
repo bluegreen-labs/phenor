@@ -36,6 +36,6 @@ check_npn_phenophases <- function(phenophase = NULL,
     # if nothing is requested for filtering, just return the full list
     # and a warning
     print(phenophases)
-    warning("No phenophase provided for further validation.")
+    message("No phenophase provided for further validation.")
   }
 }
