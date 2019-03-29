@@ -163,11 +163,11 @@ pr_fm_pep725 <- function(
   }
 
   message("* Merging and cleaning PEP725 data files in: \n")
-  mesage(sprintf("  %s\n", pep_path))
+  message(sprintf("  %s\n", pep_path))
 
   # User may provide prefiltered merge_PEP725 dataset
   if (missing(pep_data)){
-    pep_data <- merge_pep725(path = pep_path)
+    pep_data <- pr_merge_pep725(path = pep_path)
     }
 
   # removing out of E-OBS climate data range

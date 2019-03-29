@@ -98,7 +98,7 @@ pr_dl_pep725 <- function(
       # (file.rename might not be consistent in behaviour
       # hence file.copy() / file.remove() )
       if (internal){
-        pep_data = merge_pep725(path = tmp)
+        pep_data = pr_merge_pep725(path = tmp)
         file.remove(tmp)
         return(pep_data)
       } else {

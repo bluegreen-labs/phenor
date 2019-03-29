@@ -4,10 +4,12 @@
 \alias{summary.pr_fit}
 \title{Print summary values for fit model output}
 \usage{
-\method{summary}{pr_fit}(data)
+\method{summary}{pr_fit}(object, ...)
 }
 \arguments{
-\item{data}{input data generated using the pr_fit() function}
+\item{object}{input data generated using the pr_fit() function}
+
+\item{...}{additional parameters to pass}
 }
 \value{
 a plot with fit statistics

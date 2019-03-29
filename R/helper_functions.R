@@ -224,7 +224,7 @@ triangular_temperature_response <- function(T = -10:45,
 #' Read parameter boundary values
 #'
 #' @param model a phenology model name
-#' @param path location with model parameter boundaries
+#' @param par_ranges location of the model parameter boundary file
 #' @export
 #' @examples
 #'
@@ -300,7 +300,7 @@ outlier_detection <- function(df){
     # calculate the difference in days relative to
     # the true data
     diff_days <- abs(
-      predict(lm(x$transition_dates ~ x$year)) -
+      stats::predict(stats::lm(x$transition_dates ~ x$year)) -
         x$transition_dates
     )
 

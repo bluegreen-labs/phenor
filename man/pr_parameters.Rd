@@ -10,7 +10,7 @@ pr_parameters(model, par_ranges = system.file("extdata",
 \arguments{
 \item{model}{a phenology model name}
 
-\item{path}{location with model parameter boundaries}
+\item{par_ranges}{location of the model parameter boundary file}
 }
 \description{
 Read parameter boundary values

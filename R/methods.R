@@ -1,13 +1,16 @@
 #' Plotting method for fit model output
 #'
-#' @param data input data generated using the pr_fit() function
+#' @param x input data generated using the pr_fit() function
+#' @param ... additional parameters to pass
 #' @return a plot with fit statistics
 #' @keywords phenology, model, accuracy
 #' @export
+#' @import graphics
 
 # plot data if requested
-plot.pr_fit <- function(data){
-  stopifnot(inherits(data, "pr_fit"))
+plot.pr_fit <- function(x, ...){
+  stopifnot(inherits(x, "pr_fit"))
+  data <- x
   plot(data$measured,
        data$predicted,
        main = data$model,
@@ -29,13 +32,16 @@ plot.pr_fit <- function(data){
 
 #' Print summary values for fit model output
 #'
-#' @param data input data generated using the pr_fit() function
+#' @param object input data generated using the pr_fit() function
+#' @param ... additional parameters to pass
 #' @return a plot with fit statistics
 #' @keywords phenology, model, accuracy
 #' @export
 
-summary.pr_fit <- function(data){
-  stopifnot(inherits(data, "pr_fit"))
+summary.pr_fit <- function(object, ...){
+  stopifnot(inherits(object, "pr_fit"))
+
+  data <- object
 
   # read parameter ranges
   d <- t(pr_parameters(model = data$model))

@@ -19,7 +19,7 @@ test_that("test model runs",{
   )
 
   # test models
-  expect_output(pr_fit_compare(random_seeds = 1,
+  expect_output(pr_fit_comparison(random_seeds = 1,
                                  models = models,
-                                 control = list(max.call = 1)))
+                                 control = list(max.call = 10)))
 })

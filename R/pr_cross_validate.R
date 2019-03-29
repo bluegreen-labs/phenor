@@ -88,18 +88,19 @@ pr_cross_validate <- function(
 
   # Train and validate a fold in k-fold (or LOO) CV
   fold <- function(i){
-    print(sprintf(" %s/%s",i,k))
-    val_data<-get_cv_subset(data,cv_set[[i]])
-    train_data<-get_cv_subset(data,c(1:n) [-cv_set[[i]]])
+    message(sprintf(" %s/%s",i,k))
+    val_data <- get_cv_subset(data,cv_set[[i]])
+    train_data <- get_cv_subset(data,c(1:n) [-cv_set[[i]]])
 
     # Estimate Parameters on training dataset
-    CVfold<-model_comparison(
+    CVfold <- pr_fit_comparison(
       random_seeds,
       models,
       train_data,
       method,
       control,
       par_ranges)
+
     CVfold$validation_measured<-val_data$transition_dates
 
     # estimate model output for validation data using the optimized parameters
@@ -107,11 +108,11 @@ pr_cross_validate <- function(
       vp<-matrix(NA,ncol = length(val_data$transition_dates),
                  nrow=length(random_seeds))
       for (l in 1:length(random_seeds)){
-        out<-estimate_phenology(data = val_data,model = models[j],
+        out <- pr_predict(data = val_data,model = models[j],
                                 par = CVfold$modelled[[j]]$parameters[l,])
         vp[l,] <- out
       }
-      cv_fold$modelled[[j]]$validation_predicted_values<-vp
+      cv_fold$modelled[[j]]$validation_predicted_values <- vp
     }
     return(cv_fold)
   }
@@ -119,7 +120,7 @@ pr_cross_validate <- function(
   # convert to a flat format for speed
   # The call to model_copmarison call further down will call this again;
   # but already flat datasets are ignored by the function
-  data <- flat_format(data)
+  data <- pr_flatten(data)
   cvindex <- c(1:length(data$transition_date))
 
   # Prepare training and validation dataset indices ...
@@ -135,9 +136,10 @@ pr_cross_validate <- function(
     vc <- (n - n %% k) / k
 
     if (n %% k > 0) {
-      print (
+      message(
         sprintf(
-          "%s-fold CV: Warning: %s random value(s) dropped while creating %s sets of equal size (%s values each)",
+          "%s-fold CV: Warning: %s random value(s) dropped while creating %s
+          sets of equal size (%s values each)",
           k,
           n %% k,
           k,
@@ -148,12 +150,12 @@ pr_cross_validate <- function(
     if (k == n) {
       # LEAVE-ONE-OUT
       rnd_set <- c(1:n)
-      print ("LEAVE-ONE_OUT CV")
+      message("LEAVE-ONE_OUT CV")
     } else {
       # K-FOLD
       set.seed(cv_seed)
       rnd_set <- sample(cvindex)
-      cat(sprintf("%s-FOLD CV \n", k))
+      message(sprintf("%s-FOLD CV \n", k))
     }
     cv <- rnd_set[1:(n - n %% k)]
     cv_set = list()
@@ -179,21 +181,20 @@ pr_cross_validate <- function(
 
   } else { # Parallel mode
 
-    cat(sprintf("Using %s cores to calculate the cross validation (%s sets).\n
-                  This may still take a while...\n",ncores,k))
+    message(sprintf("Using %s cores to calculate the cross validation
+(%s sets). This may still take a while...",ncores,k))
 
     # Use n cores for parallel CV
-    cl<- parallel::makeCluster(ncores)
+    cl <- parallel::makeCluster(ncores)
 
     doParallel::registerDoParallel()
     on.exit(parallel::stopCluster(cl))
     results <- foreach::foreach(
       i=1:k,
-      .export=c("model_comparison",
-                "estimate_phenology")) %dopar% {fold(i)}
+      .export=c("pr_fit_comparison",
+                "pr_predict")) %dopar% {fold(i)}
   }
   names(results)<-c(1:k)
-
 
   #Caluclate some basic stats
   cv_stat=list()

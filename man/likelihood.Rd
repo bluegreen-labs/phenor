@@ -16,8 +16,6 @@ to the same data structure.}
 \item{model}{the model name to be used in optimizing the model}
 
 \item{...}{extra arguments to pass to the function}
-
-\item{sd_range}{standard deviation to be considered during optimization}
 }
 \value{
 the RMSE comparing observed and estimated values

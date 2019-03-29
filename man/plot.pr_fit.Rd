@@ -4,10 +4,12 @@
 \alias{plot.pr_fit}
 \title{Plotting method for fit model output}
 \usage{
-\method{plot}{pr_fit}(data)
+\method{plot}{pr_fit}(x, ...)
 }
 \arguments{
-\item{data}{input data generated using the pr_fit() function}
+\item{x}{input data generated using the pr_fit() function}
+
+\item{...}{additional parameters to pass}
 }
 \value{
 a plot with fit statistics

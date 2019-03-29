@@ -24,10 +24,10 @@
 #' # through phenocamr in your home directory
 #' # change the path to match your setup
 #' \dontrun{
-#' phenocam_data <- pr_fm_phenocam()
+#' phenocam_data = pr_fm_phenocam()
 #'}
 
-pr_fm_phenocam <- function(
+pr_fm_phenocam = function(
   path = tempdir(),
   direction = "rising",
   gcc_value = "gcc_90",
@@ -54,8 +54,9 @@ pr_fm_phenocam <- function(
     files <- transition_files_full[which(sites == site)]
 
     # merge all transition date data
-    data = do.call("rbind", lapply(files, function(fn)
-      data.frame(utils::read.table(fn, header = TRUE, sep = ",") )))
+    data <- do.call("rbind", lapply(files, function(fn){
+        data.frame(utils::read.table(fn, header = TRUE, sep = ",") )
+      }))
 
     # if not transition dates exist, return NULL
     if(!any(grepl(threshold,names(data)))){
@@ -67,7 +68,8 @@ pr_fm_phenocam <- function(
                   data$gcc_value == gcc_value,
                   grep(threshold,names(data))]
 
-    transition <- as.Date(data[,grep(sprintf("^transition_%s$",threshold),names(data))])
+    transition <- as.Date(data[,grep(sprintf("^transition_%s$",threshold),
+                                     names(data))])
     lower <- as.Date(data[,grep(sprintf("*%s_lower*",threshold),names(data))])
     upper <- as.Date(data[,grep(sprintf("*%s_upper*",threshold),names(data))])
 
@@ -111,11 +113,11 @@ pr_fm_phenocam <- function(
 
     # shift data when offset is < 365
     if (offset < 365){
-      ltm <- c(ltm[offset:365],ltm[1:(offset - 1)])
-      doy_neg <- c((offset - 366):-1,1:(offset - 1))
-      doy <- c(offset:365,1:(offset - 1))
+      ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
+      doy_neg = c((offset - 366): -1, 1:(offset - 1))
+      doy = c(offset:365,1:(offset - 1))
     } else {
-      doy <- doy_neg = 1:365
+      doy = doy_neg = 1:365
     }
 
     # slice and dice the data
@@ -153,7 +155,7 @@ pr_fm_phenocam <- function(
     # use the current year only
     for (j in 1:length(years)) {
       if (offset < 365) {
-        tmean[, j] = subset(daymet_data,
+        tmean[, j] <- subset(daymet_data,
                             ("year" == (years[j] - 1) & "yday" >= offset) |
                               ("year" == years[j] &
                                  "yday" < offset))$tmean
@@ -232,7 +234,7 @@ pr_fm_phenocam <- function(
   ))
 
   if (inherits(daymet_test,"try-error")){
-    end = end - 1
+    end <- end - 1
   }
 
   # list all files in the referred path
@@ -243,7 +245,7 @@ pr_fm_phenocam <- function(
   sites <- unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))
 
   # track progress
-  cat(sprintf('Processing %s sites\n', length(sites)))
+  message(sprintf('Processing %s sites\n', length(sites)))
   pb <- utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env <- environment()
   i <- 0
@@ -251,7 +253,7 @@ pr_fm_phenocam <- function(
   # process data
   validation_data <- lapply(sites, function(x) {
     utils::setTxtProgressBar(pb, i + 1)
-    assign("i", i+1, envir = env)
+    assign("i", i + 1, envir = env)
     format_data(site = x,
                 transition_files = transition_files,
                 path = path,
@@ -271,7 +273,7 @@ pr_fm_phenocam <- function(
   # remove out of daymet range sites (prune sites)
   na_loc <- which(is.na(validation_data))
   if (length(na_loc) != 0){
-    validation_data <- validation_data[-na_loc]
+    validation_data = validation_data[-na_loc]
   }
 
   # return the formatted data
