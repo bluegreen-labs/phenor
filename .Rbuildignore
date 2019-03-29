@@ -6,3 +6,4 @@ _config.yml
 cran-comments.md
 CONDUCT.md
 LICENSE
+^.*-logo\..*$
