@@ -78,6 +78,7 @@ pr_fm_subset <- function(
 
   # override the doy subset (should remain invariant)
   subset$doy <- data$doy
+  subset$ltm <- data$ltm
 
   # return subset data
   return(subset)

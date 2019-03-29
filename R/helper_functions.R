@@ -268,4 +268,56 @@ pr_parameters <- function(
   return(d)
 }
 
+#' Outlier detection of transition dates
+#'
+#' Uses the 30-day rule (Schaber and Badeck, 2002) to remove outliers
+#' from visual observations records. This function should be considered
+#' for use with either PEP725 or USANPN data.
+#'
+#' @param df a nested list phenor formatted data file
+#'
+#' @return a nested list phenor formatted data file with outliers removed
+#' @export
 
+outlier_detection <- function(df){
+
+  # check if this is a flat file or a nested one
+  flat <- !is.null(df$site)
+
+  if(flat){
+    stop("
+ This file is flattened after formating and can't be processed.
+ If outlier detection is required, execute this step before
+ combining nested list elements!
+         ")
+  }
+
+  # Detect and remove outliers using the 30 day rule.
+  # This routine mostly applies to visual observation data
+  # in most other data streams outlier are removed with other routines.
+  out <- lapply(df, function(x){
+
+    # calculate the difference in days relative to
+    # the true data
+    diff_days <- abs(
+      predict(lm(x$transition_dates ~ x$year)) -
+        x$transition_dates
+    )
+
+    # flag all data which is further than 30 days
+    # from the linear fit as suspect (outliers)
+    # i.e. the 30 day rule
+    x$transition_dates[which(diff_days >= 30)] <- NA
+
+    s <- pr_fm_subset(x, !is.na(x$transition_dates))
+    s$site <- x$site
+    s$location <- x$location
+    return(s)
+  })
+
+  # propagate class for post-processing
+  class(out) = class(df)
+
+  # return data
+  return(out)
+}
