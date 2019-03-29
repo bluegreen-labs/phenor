@@ -94,7 +94,6 @@ cvmae <- function(
 #' by format_phenocam() or format_pep725(), or your own dataset adhering
 #' to the same data structure.
 #' @param model the model name to be used in optimizing the model
-#' @param sd_range standard deviation to be considered during optimization
 #' @param ... extra arguments to pass to the function
 #' @return the RMSE comparing observed and estimated values
 #' @keywords phenology, model, optimization, cost function
