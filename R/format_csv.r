@@ -2,7 +2,7 @@
 #'
 #' Combines CSV data into a format which can be ingested
 #' by the optimization routines. The CSV requires columns named:
-#' site, lat, lon, phenophase, year, doy
+#' ID, lat, lon, phenophase, year, doy
 #'
 #' subsets of the phenophases can be made, or are ignored if
 #' not specified.
@@ -32,12 +32,20 @@ format_csv <- function(
   # helper function to process the data
   format_data = function(site){
 
-    # throw out all data but the selected gcc value
+    # throw out all data but the selected site
     df = data[data$ID == site,]
 
-    # grab the location of the site by subsetting the
-    lat = df$lat
-    lon = df$long
+    #check for unique
+    if (length(unique(df$lat))>1){
+      stop ("individual sites span more than one latitude")
+    }
+    if (length(unique(df$long))>1){
+      stop ("individual sites span more than one longitude")
+    }
+
+    # grab the location of the site
+    lat = unique(df$lat)
+    lon = unique(df$long)
 
     # download daymet data for a given site
     daymet_data = try(daymetr::download_daymet(
@@ -119,34 +127,34 @@ format_csv <- function(
 
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmean
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmin..deg.c.
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmax..deg.c.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$prcp..mm.day.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                             ("year" == (years[j] - 1) & "yday" >= offset) |
-                               ("year" == years[j] &
-                                  "yday" < offset))$vp..Pa.
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, year == years[j])$tmean
+        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
       }
     }
 
@@ -156,7 +164,7 @@ format_csv <- function(
 
     # only select the first instance of a phenophase_doy
     # currently the model frameworks do not handle multiple cycles
-    phenophase = unlist(lapply(years, function(x) {
+    phenophase_obs = unlist(lapply(years, function(x) {
       phenophase_doy[which(phenophase_years == x)[1]]
     }))
 
@@ -170,7 +178,7 @@ format_csv <- function(
                 "location" = c(lat,lon),
                 "doy" = doy_neg,
                 "ltm" = ltm,
-                "transition_dates" = phenophase,
+                "transition_dates" = phenophase_obs,
                 "year" = unique(phenophase_years),
                 "Ti" = as.matrix(tmean),
                 "Tmini" = as.matrix(tmin),
@@ -188,9 +196,16 @@ format_csv <- function(
                     header = TRUE,
                     stringsAsFactors = FALSE)
 
+  #fail if phenophase not contained in data
+  if(!phenophase%in%data$phenophase){
+    stop(paste0("dataset does not contain any observations of the phenophase ", phenophase))
+  }
+
   # subset if a phenophase is specified
-  if(!missing(phenophase)){
+  if(missing(phenophase)){
     stop("please specify a phenophase to process")
+  }else{
+    data=data[data$phenophase==phenophase,]
   }
 
   # query max year as available through Daymet, lags by a year so
@@ -201,7 +216,7 @@ format_csv <- function(
     start = end,
     end = end,
     internal = TRUE,
-    quiet = TRUE
+    silent = TRUE
   ))
 
   if (inherits(daymet_test,"try-error")){
