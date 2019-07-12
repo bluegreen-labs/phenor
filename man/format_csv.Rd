@@ -22,7 +22,7 @@ to RDS file (default = TRUE)}
 \description{
 Combines CSV data into a format which can be ingested
 by the optimization routines. The CSV requires columns named:
-site, lat, lon, phenophase, year, doy
+ID, lat, lon, phenophase, year, doy
 }
 \details{
 subsets of the phenophases can be made, or are ignored if
