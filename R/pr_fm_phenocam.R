@@ -120,7 +120,7 @@ pr_fm_phenocam = function(
       doy = doy_neg = 1:365
     }
 
-    # slice and dice the data
+    # how many years to process
     years <- unique(as.numeric(format(transition,"%Y")))
 
     # create output matrix (holding mean temp.)
@@ -155,36 +155,19 @@ pr_fm_phenocam = function(
     # use the current year only
     for (j in 1:length(years)) {
       if (offset < 365) {
-        tmean[, j] <- subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmean
-
-        tmin[, j] <- subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmin..deg.c.
-
-        tmax[, j] <- subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmax..deg.c.
-
-        precip[, j] <- subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$prcp..mm.day.
-        vpd[, j] <- subset(daymet_data,
-                             ("year" == (years[j] - 1) & "yday" >= offset) |
-                               ("year" == years[j] &
-                                  "yday" < offset))$vp..Pa.
+        loc <- which((daymet_data$year == (years[j] - 1) &
+                       daymet_data$yday >= offset) |
+                     (daymet_data$year == years[j] &
+                      daymet_data$yday < offset))
       } else {
-        tmean[, j] <- subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] <- subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] <- subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] <- subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] <- subset(daymet_data, "year" == years[j])$vp..Pa.
+        loc <- which(daymet_data$year == years[j])
       }
+
+      tmean[, j] <- daymet_data$tmean[loc]
+      tmin[, j] <- daymet_data$tmin..deg.c.[loc]
+      tmax[, j] <- daymet_data$tmax..deg.c.[loc]
+      precip[, j] <- daymet_data$prcp..mm.day.[loc]
+      vpd[, j] <- daymet_data$vp..Pa.[loc]
     }
 
     # finally select all the transition dates for model validation
