@@ -44,7 +44,7 @@ format_modis = function(
 
     # get a selection matching phenophase and cycle criteria
     selection = apply(sapply(
-      c(sprintf("Num_Modes_%02d",cycle),phenophase),
+      c(sprintf("Num_Modes_%02d",cycle), phenophase),
       grepl,
       modis_data[,6],
       ignore.case=TRUE), 1, all)
