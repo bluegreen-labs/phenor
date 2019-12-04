@@ -52,8 +52,10 @@ AICc <- function(measured, predicted, k){
 #' a normal longitude format (-180 to 180).
 #' @export
 
-rotate_cmip5 <- function(r = NULL,
-                         extent = c(-74, -65, 40, 48)){
+rotate_cmip5 <- function(
+  r = NULL,
+  extent = c(-74, -65, 40, 48)
+  ){
 
   # duplicate the extent values
   # to swap out the longitude ones
@@ -69,11 +71,11 @@ rotate_cmip5 <- function(r = NULL,
   # check for offset
   if (extent[2] < 0){
     extent2[2] = 360 + extent[2]
-    m = raster::shift(raster::crop(r, extent2), x = -360)
+    m = raster::shift(raster::crop(r, extent2),-360)
   } else if (extent[1] < 0 & extent[2] > 0) {
     extent2[2] = 360
     extent[1] = 0
-    m = raster::mosaic(raster::shift(raster::crop(r, extent2), x = -360),
+    m = raster::mosaic(raster::shift(raster::crop(r, extent2), -360),
                        raster::crop(r, extent),fun=max)
   } else {
     m = raster::crop(r, extent)

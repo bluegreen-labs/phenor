@@ -83,7 +83,9 @@ format_modis = function(
 
     # calculate the long term daily mean temperature and realign it so the first
     # day will be sept 21th (doy 264) and the matching DOY vector
-    ltm = as.vector(by(daymet_data$tmean, INDICES = list(daymet_data$yday), mean))
+    ltm = as.vector(by(daymet_data$tmean,
+                       INDICES = list(daymet_data$yday),
+                       mean))
     ltm = c(ltm[offset:365],ltm[1:(offset - 1)])
 
     # shift data when offset is < 365
