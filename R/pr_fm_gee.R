@@ -127,34 +127,34 @@ pr_fm_gee <- function(
     for (j in 1:length(years)) {
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmean
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmin..deg.c.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmax..deg.c.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                             ("year" == (years[j] - 1) & "yday" >= offset) |
-                               ("year" == years[j] &
-                                  "yday" < offset))$prcp..mm.day.
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                          ("year" == (years[j] - 1) & "yday" >= offset) |
-                            ("year" == years[j] &
-                               "yday" < offset))$vp..Pa.
+                          (year == (years[j] - 1) & yday >= offset) |
+                            (year == years[j] &
+                               yday < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, year == years[j])$tmean
+        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
       }
     }
 

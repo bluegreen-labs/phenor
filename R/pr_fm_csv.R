@@ -30,11 +30,11 @@ pr_fm_csv <- function(
   format_data = function(site){
 
     # throw out all data but the selected gcc value
-    df = data[data$ID == site,]
+    df = data[data$ID == site & data$year != 1980,]
 
     # grab the location of the site by subsetting the
-    lat = df$lat
-    lon = df$long
+    lat = df$lat[1]
+    lon = df$lon[1]
 
     # download daymet data for a given site
     daymet_data = try(daymetr::download_daymet(
@@ -75,6 +75,7 @@ pr_fm_csv <- function(
 
     # slice and dice the data
     years = unique(df$year)
+    years = years[years != 1980 & years <= max(daymet_data$year)]
 
     # create output matrix (holding mean temp.)
     tmean = matrix(NA,
@@ -107,43 +108,36 @@ pr_fm_csv <- function(
     # for the default offset, if offset is 365 or larger
     # use the current year only
     for (j in 1:length(years)) {
-
-      # I need the preceding year for modelling
-      # purposes the first usable year is therefore 1981
-      if(years[j] == 1980){
-        return(NULL)
-      }
-
       if (offset < 365) {
         tmean[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmean
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmean
 
         tmin[, j] = subset(daymet_data,
-                            ("year" == (years[j] - 1) & "yday" >= offset) |
-                              ("year" == years[j] &
-                                 "yday" < offset))$tmin..deg.c.
+                            (year == (years[j] - 1) & yday >= offset) |
+                              (year == years[j] &
+                                 yday < offset))$tmin..deg.c.
 
         tmax[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$tmax..deg.c.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$tmax..deg.c.
 
         precip[, j] = subset(daymet_data,
-                           ("year" == (years[j] - 1) & "yday" >= offset) |
-                             ("year" == years[j] &
-                                "yday" < offset))$prcp..mm.day.
+                           (year == (years[j] - 1) & yday >= offset) |
+                             (year == years[j] &
+                                yday < offset))$prcp..mm.day.
         vpd[, j] = subset(daymet_data,
-                             ("year" == (years[j] - 1) & "yday" >= offset) |
-                               ("year" == years[j] &
-                                  "yday" < offset))$vp..Pa.
+                             (year == (years[j] - 1) & yday >= offset) |
+                               (year == years[j] &
+                                  yday < offset))$vp..Pa.
       } else {
-        tmean[, j] = subset(daymet_data, "year" == years[j])$tmean
-        tmin[, j] = subset(daymet_data, "year" == years[j])$tmin..deg.c.
-        tmax[, j] = subset(daymet_data, "year" == years[j])$tmax..deg.c.
-        precip[, j] = subset(daymet_data, "year" == years[j])$prcp..mm.day.
-        vpd[, j] = subset(daymet_data, "year" == years[j])$vp..Pa.
+        tmean[, j] = subset(daymet_data, year == years[j])$tmean
+        tmin[, j] = subset(daymet_data, year == years[j])$tmin..deg.c.
+        tmax[, j] = subset(daymet_data, year == years[j])$tmax..deg.c.
+        precip[, j] = subset(daymet_data, year == years[j])$prcp..mm.day.
+        vpd[, j] = subset(daymet_data, year == years[j])$vp..Pa.
       }
     }
 
@@ -198,7 +192,7 @@ pr_fm_csv <- function(
     start = end,
     end = end,
     internal = TRUE,
-    quiet = TRUE
+    silent = TRUE
   ))
 
   if (inherits(daymet_test,"try-error")){
