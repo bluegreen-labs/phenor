@@ -186,7 +186,7 @@ pr_fm_csv <- function(
                     stringsAsFactors = FALSE)
 
   # subset if a phenophase is specified
-  if(!missing(phenophase)){
+  if(missing(phenophase)){
     stop("please specify a phenophase to process")
   }
 
