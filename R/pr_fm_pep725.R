@@ -225,7 +225,7 @@ pr_fm_pep725 <- function(
   eobs_data <- lapply(c("tg","rr","elev","tn","tx"),function(x){
 
     filename <- list.files(eobs_path,
-                           sprintf("%s_%sdeg_reg[^/]*\\.nc",x,resolution))
+                           sprintf("%s_ens_mean_%sdeg_reg[^/]*\\.nc",x,resolution))
 
     # if the file exist use the local file
     if (length(filename)>0){

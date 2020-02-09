@@ -37,7 +37,7 @@ pr_fm_eobs <- function(
   eobs_data = lapply( c("tg","rr","elev"),function(x){
 
     # filename
-    filename = sprintf("%s_%sdeg_reg[^/]*\\.nc",
+    filename = sprintf("%s_ens_mean_%sdeg_reg[^/]*\\.nc",
                        x,
                        resolution)
 
