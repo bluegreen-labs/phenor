@@ -2,7 +2,7 @@
 #'
 #' Combines CSV data into a format which can be ingested
 #' by the optimization routines. The CSV requires columns named:
-#' ID, lat, lon, phenophase, year, doy
+#' id, lat, lon, phenophase, year, doy
 #'
 #' @param file an CSV file with phenology observation dates
 #' @param phenophase a phenophase to include as validation statistic
@@ -30,7 +30,7 @@ pr_fm_csv <- function(
   format_data = function(site){
 
     # throw out all data but the selected gcc value
-    df = data[data$ID == site & data$year != 1980,]
+    df = data[data$id == site & data$year != 1980,]
 
     # grab the location of the site by subsetting the
     lat = df$lat[1]
