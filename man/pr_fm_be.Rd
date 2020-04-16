@@ -4,8 +4,13 @@
 \alias{pr_fm_be}
 \title{Formatting of Berkeley Earth Gridded temperature data}
 \usage{
-pr_fm_be(path = tempdir(), year = 2011, offset = 264,
-  extent = c(-126, -66, 23, 54), internal = TRUE)
+pr_fm_be(
+  path = tempdir(),
+  year = 2011,
+  offset = 264,
+  extent = c(-126, -66, 23, 54),
+  internal = TRUE
+)
 }
 \arguments{
 \item{path}{a path to the gridded data, only average temperature

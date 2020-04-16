@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{PTTs}
 \alias{PTTs}
-\title{Photothermal Time model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
-with a sigmoidal temperature response (Kramer 1994)}
+\title{PhotoThermal Time model}
 \usage{
 PTTs(par, data)
 }
@@ -18,7 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Photothermal Time model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)
 }

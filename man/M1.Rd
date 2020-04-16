@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{M1}
 \alias{M1}
-\title{M1 model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{M1 model}
 \usage{
 M1(par, data)
 }
@@ -17,7 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-M1 model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{

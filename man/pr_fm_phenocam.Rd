@@ -2,13 +2,16 @@
 % Please edit documentation in R/pr_fm_phenocam.R
 \name{pr_fm_phenocam}
 \alias{pr_fm_phenocam}
-\title{Preprocessing of all PhenoCam data into a format which can be ingested
-by the optimization routines etc. the original nested list is flattened
-for speed.}
+\title{Format PhenoCam data}
 \usage{
-pr_fm_phenocam(path = tempdir(), direction = "rising",
-  gcc_value = "gcc_90", threshold = 50, offset = 264,
-  internal = TRUE)
+pr_fm_phenocam(
+  path = tempdir(),
+  direction = "rising",
+  gcc_value = "gcc_90",
+  threshold = 50,
+  offset = 264,
+  internal = TRUE
+)
 }
 \arguments{
 \item{path}{a path to 1 or 3-day PhenoCam transition date estimates
@@ -34,6 +37,10 @@ to RDS file (default = TRUE)}
 Preprocessing of all PhenoCam data into a format which can be ingested
 by the optimization routines etc. the original nested list is flattened
 for speed.
+}
+\details{
+In addition to the normal transition dates the offset in julian days
+to the previous phenophase is included as transition_dates_prior.
 }
 \examples{
 

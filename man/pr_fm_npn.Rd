@@ -4,8 +4,13 @@
 \alias{pr_fm_npn}
 \title{Formatting USA-NPN data}
 \usage{
-pr_fm_npn(data, phenophase = 371, offset = 264, path = tempdir(),
-  internal = TRUE)
+pr_fm_npn(
+  data,
+  phenophase = 371,
+  offset = 264,
+  path = tempdir(),
+  internal = TRUE
+)
 }
 \arguments{
 \item{data}{an USA-NPN data frame as returned by download_npn()}

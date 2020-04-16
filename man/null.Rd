@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{null}
 \alias{null}
-\title{Null model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
-returns the mean across all validation dates}
+\title{Null model}
 \usage{
 null(data)
 }
@@ -13,7 +11,7 @@ null(data)
 data should be formatted using flat_format()}
 }
 \description{
-Null model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 returns the mean across all validation dates
 }

@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{CU}
 \alias{CU}
-\title{CU chilling degree model
-Chen et al. 2017 (Journal of Ecology)}
+\title{CU chilling degree model}
 \usage{
 CU(par, data)
 }
@@ -17,7 +16,6 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-CU chilling degree model
 Chen et al. 2017 (Journal of Ecology)
 }
 \examples{

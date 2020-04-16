@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{M1s}
 \alias{M1s}
-\title{M1 model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
-with a sigmoidal temperature response (Kramer 1994)}
+\title{M1s model}
 \usage{
 M1s(par, data)
 }
@@ -18,7 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-M1 model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 with a sigmoidal temperature response (Kramer 1994)
 }

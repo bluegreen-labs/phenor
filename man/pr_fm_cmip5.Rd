@@ -5,9 +5,15 @@
 \title{Formatting NASA Earth Exchange Global Daily Downscaled Projections
 (NEX-GDDP)}
 \usage{
-pr_fm_cmip5(path = tempdir(), year = 2016, offset = 264,
-  model = "IPSL-CM5A-MR", scenario = "rcp85", extent = c(-128, -65,
-  24, 50), internal = TRUE)
+pr_fm_cmip5(
+  path = tempdir(),
+  year = 2016,
+  offset = 264,
+  model = "IPSL-CM5A-MR",
+  scenario = "rcp85",
+  extent = c(-128, -65, 24, 50),
+  internal = TRUE
+)
 }
 \arguments{
 \item{path}{a path to the gridded data (original max / min temp. / precip files)}

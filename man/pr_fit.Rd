@@ -4,10 +4,16 @@
 \alias{pr_fit}
 \title{Fit a single phenology model}
 \usage{
-pr_fit(model = "TT", data = phenor::phenocam_DB, method = "GenSA",
-  control = list(max.call = 2000), par_ranges = system.file("extdata",
-  "parameter_ranges.csv", package = "phenor", mustWork = TRUE),
-  plot = TRUE, ...)
+pr_fit(
+  model = "TT",
+  data = phenor::phenocam_DB,
+  method = "GenSA",
+  control = list(max.call = 2000),
+  par_ranges = system.file("extdata", "parameter_ranges.csv", package = "phenor",
+    mustWork = TRUE),
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{model}{the model name to be used in optimizing the model}

@@ -4,8 +4,17 @@
 \alias{pr_fit_parameters}
 \title{Fit parameters of a phenology model to validation data}
 \usage{
-pr_fit_parameters(par = NULL, data, cost = rmse, model = "TT",
-  method = "GenSA", lower, upper, control, ...)
+pr_fit_parameters(
+  par = NULL,
+  data,
+  cost = rmse,
+  model = "TT",
+  method = "GenSA",
+  lower,
+  upper,
+  control,
+  ...
+)
 }
 \arguments{
 \item{par}{a vector of starting parameter values (function specific)}

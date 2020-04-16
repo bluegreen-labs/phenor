@@ -4,8 +4,7 @@
 \alias{triangular_temperature_response}
 \title{Triangular temperature response function}
 \usage{
-triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1,
-  T_max = 15)
+triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1, T_max = 15)
 }
 \arguments{
 \item{T}{a vector or matrix of temperatures}

@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{DU}
 \alias{DU}
-\title{DU drought model
-Chen et al. 2017 (Journal of Ecology)}
+\title{DU drought model}
 \usage{
 DU(par, data)
 }
@@ -17,7 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-DU drought model
+Floral induction model by
 Chen et al. 2017 (Journal of Ecology)
 }
 \examples{

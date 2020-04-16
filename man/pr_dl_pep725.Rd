@@ -4,8 +4,7 @@
 \alias{pr_dl_pep725}
 \title{Download PEP725 data}
 \usage{
-pr_dl_pep725(credentials, species = 115, path = tempdir(),
-  internal = FALSE)
+pr_dl_pep725(credentials, species = 115, path = tempdir(), internal = FALSE)
 }
 \arguments{
 \item{credentials}{Text file with your PEP725 email and password credentials.

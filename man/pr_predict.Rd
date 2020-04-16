@@ -4,8 +4,7 @@
 \alias{pr_predict}
 \title{Predicts phenophases}
 \usage{
-pr_predict(par, data, model = "TT", path = ".", reproject = TRUE,
-  ...)
+pr_predict(par, data, model = "TT", path = ".", reproject = TRUE, ...)
 }
 \arguments{
 \item{par}{a vector of parameter values, this is functions specific}

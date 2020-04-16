@@ -165,6 +165,8 @@ DP <- function(par, data){
 }
 
 #' DU drought model
+#'
+#' Floral induction model by
 #' Chen et al. 2017 (Journal of Ecology)
 #'
 #' @param data input data (see reference for detailed description),
@@ -213,8 +215,9 @@ DU <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Thermal Time grassland pollen model which includes a pulse response
-#' precipitatoin trigger as defined in
+#' Thermal Time grassland pollen model
+#'
+#' Pulse response model on precipitation as defined in
 #' Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -291,7 +294,9 @@ GRP <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Linear model as defined in
+#' Linear model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -336,7 +341,9 @@ LIN <- function(par, data, spring = c(60,151)){
   shape_model_output(data = data, doy = doy)
 }
 
-#' M1 model as defined in
+#' M1 model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -382,7 +389,9 @@ M1 <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' M1 model as defined in
+#' M1s model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' with a sigmoidal temperature response (Kramer 1994)
 #'
@@ -429,7 +438,9 @@ M1s <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Null model as defined in
+#' Null model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' returns the mean across all validation dates
 #'
@@ -448,7 +459,9 @@ null <- function(data){
       length(data$transition_dates))
 }
 
-#' Parallel model as defined in
+#' Parallel model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -511,7 +524,9 @@ PA <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Parallel model as defined in
+#' Parallel model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' using a bell shaped chilling response
 #'
@@ -572,7 +587,9 @@ PAb <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Parallel M1 model as defined in
+#' Parallel M1 model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -587,7 +604,6 @@ PAb <- function(par, data){
 #' estimate <- PM1(data = data, par = par)
 #'}
 
-# Basler parallel M1 b (bell shaped curve)
 PM1 <- function(par, data){
 
   # exit the routine as some parameters are missing
@@ -636,7 +652,9 @@ PM1 <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Parallel M1 model as defined in
+#' Parallel M1 model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' using a bell shaped chilling response
 #'
@@ -652,7 +670,6 @@ PM1 <- function(par, data){
 #' estimate <- PM1(data = data, par = par)
 #'}
 
-# Basler parallel M1 b (bell shaped curve)
 PM1b <- function(par, data){
 
   # exit the routine as some parameters are missing
@@ -698,7 +715,9 @@ PM1b <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Photothermal Time model as defined in
+#' PhotoThermal Time model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -742,7 +761,9 @@ PTT <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Photothermal Time model as defined in
+#' PhotoThermal Time model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' with a sigmoidal temperature response (Kramer 1994)
 #'
@@ -789,9 +810,10 @@ PTTs <- function(par, data){
 }
 
 #' Standard growing season index model
+#'
 #' as defined by Xin et al. 2015 (Rem. Sens. Env.)
 #'
-#' No clear accumulation start dat was set in the above mentioned
+#' No clear accumulation start date was set in the above mentioned
 #' manuscript, as such we assume a start date of 21th of Dec, or 1th of Jan.
 #' depending on the offset used in the generated validation data.
 #'
@@ -872,7 +894,9 @@ SGSI <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Sequential model (M1 variant) as defined in
+#' Sequential model (M1 variant)
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -939,7 +963,9 @@ SM1 <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Sequential model (M1 variant) as defined in
+#' Sequential model (M1 variant)
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' using a bell shaped chilling response
 #'
@@ -1004,7 +1030,9 @@ SM1b <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Sequential model as defined in
+#' Sequential model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -1076,7 +1104,9 @@ SQ <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Sequential model as defined in
+#' Sequential model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' using a bell shaped chilling response
 #'
@@ -1136,7 +1166,9 @@ SQb <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Thermal Time model as defined in
+#' Thermal Time model
+#'
+#' simple growing degree day model as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -1179,7 +1211,9 @@ TT <- function(par, data ){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Thermal Time model as defined in
+#' Thermal Time model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #' with a sigmoidal temperature response (Kramer 1994)
 #'
@@ -1223,7 +1257,9 @@ TTs <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Unified M1 model as defined in
+#' Unified M1 model
+#'
+#' as defined in
 #' Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param data input data (see reference for detailed description),
@@ -1291,78 +1327,8 @@ UM1 <- function(par, data){
   shape_model_output(data = data, doy = doy)
 }
 
-#' Unified model as defined in
-#' Basler et al. 2016 (Agr. For. Meteorlogy)
+#' Accumulated growing season index model
 #'
-#' @param data input data (see reference for detailed description),
-#' data should be formatted using flat_format()
-#' @param par a vector of parameter values, this is functions specific
-#' @return raster or vector with estimated phenophase timing (in DOY)
-#' @keywords phenology, model
-#' @export
-#' @examples
-#'
-#' \dontrun{
-#' estimate <- UN(data = data, par = par)
-#'}
-
-UN <- function(par, data){
-
-  # exit the routine as some parameters are missing
-  if (length(par) != 9){
-    stop("model parameter(s) out of range (too many, too few)")
-  }
-
-  # extract the parameter values from the
-  # par argument
-  t0 <- round(par[1])
-  t0_chill <- round(par[2])
-  T_base <- par[3]
-  T_opt <- par[4]
-  T_min <- par[5]
-  T_max <- par[6]
-  f <- par[7]
-  w <- par[8]
-  C_req <- par[9]
-
-  # chilling accumulation using the
-  # bell shaped temperature response
-  Rc <- triangular_temperature_response(data$Ti,
-                                       T_opt = T_opt,
-                                       T_min = T_min,
-                                       T_max = T_max)
-  Rc[1:t0_chill,] <- 0
-
-  # cummulative sum of temp response
-  Sc <- apply(Rc, 2, cumsum)
-
-  # chilling requirement has to be met before
-  # accumulation starts (binary choice)
-  k <- as.numeric(Sc >= C_req)
-
-  # forcing
-  Rf <- data$Ti - T_base
-  Rf[Rf < 0] <- 0
-  Rf = Rf * k
-  Rf[1:t0,] <- 0
-  Sf = apply(Rf, 2, cumsum)
-
-  # DOY meeting F_crit, subtract the forcing matrix
-  # from the F_crit matrix in order to speed things up
-  # only the location of transition from - to + is
-  # calculated to estimate the transition dates
-  Sfc <- Sf - (w * exp(f * Sc))
-
-  doy <- apply(Sfc, 2, function(x){
-    data$doy[which(x > 0)[1]]
-  })
-
-  # set export format, either a rasterLayer
-  # or a vector
-  shape_model_output(data = data, doy = doy)
-}
-
-#' Accumulated growing season index model (1)
 #' as defined by Xin et al. 2015 (Rem. Sens. Env.)
 #'
 #' The starting point of accumulation is not clearly indicated
@@ -1447,6 +1413,7 @@ AGSI <- function(par, data){
 }
 
 #' CU chilling degree model
+#'
 #' Chen et al. 2017 (Journal of Ecology)
 #'
 #' @param data input data (see reference for detailed description),
@@ -1494,4 +1461,164 @@ CU <- function(par, data){
   # set export format, either a rasterLayer
   # or a vector
   shape_model_output(data = data, doy = doy)
+}
+
+#' Unified model
+#'
+#' as defined in Chuine 2000
+#'
+#' @param data input data (see reference for detailed description),
+#' data should be formatted using flat_format()
+#' @param par a vector of parameter values, this is functions specific
+#' @return raster or vector with estimated phenophase timing (in DOY)
+#' @keywords phenology, model
+#' @export
+#' @examples
+#'
+#' \dontrun{
+#' estimate <- UN(data = data, par = par)
+#'}
+
+UN <- function(par, data, plot = FALSE){
+
+  # This is an effort to reproduce the Unified Model
+  # of Chuine 2000 in full form (not simplified)
+
+  # exit the routine if parameters are missing
+  if (length(par) != 9){
+    stop("model parameter(s) out of range (too many, too few)")
+  }
+
+  CF <- function(x, a_c, b_c, c_c){
+    1/(1 + exp(a_c * (x - c_c)^2 + b_c * (x - c_c)) )
+  }
+
+  # extract the parameter values from the
+  # par argument in a more human readable form
+  tc <- round(par[1]) # doy until when to accumulate chilling days
+  a_c <- par[2] # sigmoid function chilling parameter a
+  b_c <- par[3] # sigmoid function chilling parameter b
+  c_c <- par[4] # sigmoid function chilling parameter c
+  b_f <- par[5] # sigmoid function forcing parameter b
+  c_f <- par[6] # sigmoid function forcing parameter c
+  w <- par[7] # F* parameter w
+  k <- par[8] # F* parameter k
+  C_req <- par[9] # Chilling degree threshold requirement
+  # i.e. C* whatever it is called
+
+  # chilling accumulation using the
+  # triangular shaped temperature response
+  # basically convert normal temperatures to
+  # what is called "chilling units" in the paper
+  Rc <- CF(x = data$Ti, a_c, b_c, c_c)
+
+  # Set values  < 0 to 0 (shouldn't count)
+  # set NA values to 0 (when the output of the
+  # triangular response is "empty" i.e. NA)
+  Rc[is.na(Rc)] <- 0
+  Rc[Rc < 0] <- 0
+
+  # accumulate the chilling units, this is a
+  # cummulative sum so you have all values along
+  # the time axis (this saves time / iterations)
+  Sc <- apply(Rc, 2, cumsum)
+
+  # chilling requirement has to be met before
+  # accumulation starts (binary choice) basically
+  # binary mask to be applied to the Forcing temperature
+  # data (sets anything before C_req to 0)
+  m <- apply(Sc >= C_req, 2, as.numeric)
+
+  # calculates when (row number) C_req is met
+  row_loc <- apply(m,2,function(x)which(x == 1)[1])
+
+  # if any row_loc is NA (C_req not met) or all
+  # of m == 0 (same deal / fallback to be sure)
+  # skip the rest as you won't be able to set
+  # C_tot which by default should be > C_req
+  if(any(is.na(row_loc)) | all(m == 0)){
+    return(
+      shape_model_output(
+        data = data,
+        doy = rep(9999,ncol(Sc))
+      )
+    )
+  }
+
+  # if all columns have valid values, and the associated
+  # time location (row value) check if the tc value which
+  # determines the total chilling degree day accumulation
+  # exceeds the maximum value, if not C_tot < C_req which
+  # is not allowed the total is always equal to or greater
+  # then C_req. Skip if the condition is not met
+  if (tc < max(row_loc)) {
+    return(
+      shape_model_output(
+        data = data,
+        doy = rep(9999, ncol(Sc))
+      )
+    )
+  }
+
+  # if above conditions are met
+  # select the row which defines C_tot
+  # this is non-dynamic across all sites / years
+  # (as far as I can deduce from the Chuine paper)
+  C_tot <- Sc[tc,]
+
+  # Apply the chilling mask to forcing
+  # temperature values, set anything < 0
+  # to 0 (see )
+  Rf <- data$Ti * m
+
+  # apply the unified CF function
+  # with a parameter set to 0
+  Rf <- CF(x = Rf, 0, b_f, c_f)
+
+  # cummulate the forcing values
+  Sfc <- apply(Rf, 2, cumsum)
+
+  # calculate the Forcing requirement
+  # based upon the C_tot value
+  F_req <- w * exp(k * C_tot)
+
+  # Trap invalid F* values, no need
+  # to waste additional cycles
+  if(any(is.na(F_req)) | any(is.infinite(F_req))){
+    return(
+      shape_model_output(
+        data = data,
+        doy = rep(9999,ncol(Sc))
+      )
+    )
+  }
+
+  # take the difference between the
+  # forcing matrix and one filled with
+  # the required F* values, where it
+  # exceeds 0 first is the day of
+  # leaf development
+  Sfc <- sweep(Sfc, 2, F_req, FUN="-")
+  doy <- apply(Sfc, 2, function(x){
+    data$doy[which(x > 0)[1]]
+  })
+
+  if(plot){
+    par(mfrow=c(4,1))
+    plot(Rc[,1])
+    plot(Sc[,1])
+    abline(h=C_req)
+    abline(v=tc, col = "red")
+    plot(m[,1])
+    plot(Sfc[,1])
+    abline(h=F_req[1])
+  }
+
+  # set export format, either a rasterLayer
+  # or a vector
+  return(
+    shape_model_output(
+      data = data,
+      doy = doy)
+  )
 }

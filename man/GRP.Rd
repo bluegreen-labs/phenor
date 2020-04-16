@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{GRP}
 \alias{GRP}
-\title{Thermal Time grassland pollen model which includes a pulse response
-precipitatoin trigger as defined in
-Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)}
+\title{Thermal Time grassland pollen model}
 \usage{
 GRP(par, data)
 }
@@ -18,8 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Thermal Time grassland pollen model which includes a pulse response
-precipitatoin trigger as defined in
+Pulse response model on precipitation as defined in
 Garcia-Mozo et al. 2009 (Agr. For. Meteorlogy)
 }
 \examples{

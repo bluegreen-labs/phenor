@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{TT}
 \alias{TT}
-\title{Thermal Time model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Thermal Time model}
 \usage{
 TT(par, data)
 }
@@ -17,7 +16,7 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Thermal Time model as defined in
+simple growing degree day model as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{

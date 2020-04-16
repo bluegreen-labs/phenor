@@ -4,8 +4,12 @@
 \alias{format_modis}
 \title{Format MODIS MCD12Q2 phenology data}
 \usage{
-format_modis(path = tempdir(), phenophase = "Increase", cycle = 1,
-  offset = 264)
+format_modis(
+  path = tempdir(),
+  phenophase = "Increase",
+  cycle = 1,
+  offset = 264
+)
 }
 \arguments{
 \item{path}{a path to MODISTools MCD12Q2 phenology dates}

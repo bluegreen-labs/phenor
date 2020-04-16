@@ -4,13 +4,17 @@
 \alias{pr_fit_comparison}
 \title{Fit multiple models for comparison}
 \usage{
-pr_fit_comparison(random_seeds = c(1, 12, 40), models = c("LIN", "TT",
-  "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b",
-  "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
-  data = phenor::phenocam_DB, method = "GenSA",
+pr_fit_comparison(
+  random_seeds = c(1, 12, 40),
+  models = c("LIN", "TT", "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1",
+    "SM1b", "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
+  data = phenor::phenocam_DB,
+  method = "GenSA",
   control = list(max.call = 10, temperature = 10000),
-  par_ranges = system.file("extdata", "parameter_ranges.csv", package =
-  "phenor", mustWork = TRUE), ncores = 1)
+  par_ranges = system.file("extdata", "parameter_ranges.csv", package = "phenor",
+    mustWork = TRUE),
+  ncores = 1
+)
 }
 \arguments{
 \item{random_seeds}{a vector with random seeds for cross validation}

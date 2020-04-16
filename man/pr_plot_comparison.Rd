@@ -7,8 +7,7 @@ and quick comparisons of the skill of various models. Add your model
 to the list in your branch or fork to make this work with novel model
 formulations.}
 \usage{
-pr_plot_comparison(data = NULL, ylab = "RMSE (days)", names = TRUE,
-  ...)
+pr_plot_comparison(data = NULL, ylab = "RMSE (days)", names = TRUE, ...)
 }
 \arguments{
 \item{data}{list returned by model_comparison()}

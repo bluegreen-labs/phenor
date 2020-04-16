@@ -4,9 +4,16 @@
 \alias{pr_fm_pep725}
 \title{Formatting PEP725 data}
 \usage{
-pr_fm_pep725(pep_path = tempdir(), eobs_path = tempdir(),
-  bbch = "11", species = NULL, offset = 264, count = 60,
-  resolution = 0.25, pep_data)
+pr_fm_pep725(
+  pep_path = tempdir(),
+  eobs_path = tempdir(),
+  bbch = "11",
+  species = NULL,
+  offset = 264,
+  count = 60,
+  resolution = 0.25,
+  pep_data
+)
 }
 \arguments{
 \item{pep_path}{path to the PEP725 data (species files only)}

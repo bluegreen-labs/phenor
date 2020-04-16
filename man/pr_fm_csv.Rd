@@ -4,8 +4,13 @@
 \alias{pr_fm_csv}
 \title{Formatting of CSV based data}
 \usage{
-pr_fm_csv(file = "your_phenology.csv", phenophase, offset = 264,
-  internal = TRUE, path = tempdir())
+pr_fm_csv(
+  file = "your_phenology.csv",
+  phenophase,
+  offset = 264,
+  internal = TRUE,
+  path = tempdir()
+)
 }
 \arguments{
 \item{file}{an CSV file with phenology observation dates}

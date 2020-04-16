@@ -5,8 +5,13 @@
 \title{Download NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP)
 https://nex.nasa.gov/nex/.}
 \usage{
-pr_dl_cmip5(path = tempdir(), year = 2016, model = "MIROC5",
-  scenario = "rcp85", variable = c("tasmin", "tasmax", "pr"))
+pr_dl_cmip5(
+  path = tempdir(),
+  year = 2016,
+  model = "MIROC5",
+  scenario = "rcp85",
+  variable = c("tasmin", "tasmax", "pr")
+)
 }
 \arguments{
 \item{path}{a path where to save the gridded data}

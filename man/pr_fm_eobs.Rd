@@ -4,8 +4,13 @@
 \alias{pr_fm_eobs}
 \title{Formatting E-OBS data}
 \usage{
-pr_fm_eobs(path = tempdir(), year = 2014, offset = 264,
-  resolution = 0.25, internal = TRUE)
+pr_fm_eobs(
+  path = tempdir(),
+  year = 2014,
+  offset = 264,
+  resolution = 0.25,
+  internal = TRUE
+)
 }
 \arguments{
 \item{path}{a path of the gridded data netCDF files}

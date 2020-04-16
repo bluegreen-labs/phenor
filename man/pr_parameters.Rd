@@ -4,8 +4,11 @@
 \alias{pr_parameters}
 \title{Read parameter boundary values}
 \usage{
-pr_parameters(model, par_ranges = system.file("extdata",
-  "parameter_ranges.csv", package = "phenor", mustWork = TRUE))
+pr_parameters(
+  model,
+  par_ranges = system.file("extdata", "parameter_ranges.csv", package = "phenor",
+    mustWork = TRUE)
+)
 }
 \arguments{
 \item{model}{a phenology model name}

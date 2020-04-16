@@ -4,8 +4,13 @@
 \alias{pr_calc_land_cover}
 \title{Calculates land cover density}
 \usage{
-pr_calc_land_cover(lc_raster, dest_raster, lc_classes = c(1, 4, 5, 10),
-  path = tempdir(), internal = FALSE)
+pr_calc_land_cover(
+  lc_raster,
+  dest_raster,
+  lc_classes = c(1, 4, 5, 10),
+  path = tempdir(),
+  internal = FALSE
+)
 }
 \arguments{
 \item{lc_raster}{a MCD12Q1 map in epsg:4326.}

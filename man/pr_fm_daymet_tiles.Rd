@@ -4,8 +4,13 @@
 \alias{pr_fm_daymet_tiles}
 \title{Formatting Daymet tiled data}
 \usage{
-pr_fm_daymet_tiles(path = tempdir(), year = 2014, tile = 11935,
-  offset = 264, internal = TRUE)
+pr_fm_daymet_tiles(
+  path = tempdir(),
+  year = 2014,
+  tile = 11935,
+  offset = 264,
+  internal = TRUE
+)
 }
 \arguments{
 \item{path}{a path to tiled data}

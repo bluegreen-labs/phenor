@@ -4,9 +4,15 @@
 \alias{pr_dl_npn}
 \title{Download USA-NPN data using the API interface}
 \usage{
-pr_dl_npn(species = 3, phenophase = 371, start = "2000-01-01",
-  end = "2017-01-01", extent = NULL, internal = TRUE,
-  path = tempdir())
+pr_dl_npn(
+  species = 3,
+  phenophase = 371,
+  start = "2000-01-01",
+  end = "2017-01-01",
+  extent = NULL,
+  internal = TRUE,
+  path = tempdir()
+)
 }
 \arguments{
 \item{species}{A species to download, either specified by its

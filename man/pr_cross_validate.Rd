@@ -4,14 +4,19 @@
 \alias{pr_cross_validate}
 \title{Model cross valiadation}
 \usage{
-pr_cross_validate(k = 10, cv_seed = 1234, cv_set = NULL,
-  ncores = 1, random_seeds = c(1, 12, 40), models = c("LIN", "TT",
-  "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1", "SM1b",
-  "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
-  data = phenor::phenocam_DB, method = "GenSA",
+pr_cross_validate(
+  k = 10,
+  cv_seed = 1234,
+  cv_set = NULL,
+  ncores = 1,
+  random_seeds = c(1, 12, 40),
+  models = c("LIN", "TT", "TTs", "PTT", "PTTs", "M1", "M1s", "AT", "SQ", "SQb", "SM1",
+    "SM1b", "PA", "PAb", "PM1", "PM1b", "UN", "UM1", "SGSI", "AGSI"),
+  data = phenor::phenocam_DB,
+  method = "GenSA",
   control = list(max.call = 5000, temperature = 10000),
-  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv",
-  path.package("phenor")))
+  par_ranges = sprintf("\%s/extdata/parameter_ranges.csv", path.package("phenor"))
+)
 }
 \arguments{
 \item{k}{perform k-fold cross validation
