@@ -126,4 +126,3 @@ Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M
 ## Acknowledgements
 
 This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697). Logo design elements are taken from the FontAwesome library according to [these terms](https://fontawesome.com/license).
-
