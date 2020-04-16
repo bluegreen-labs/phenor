@@ -7,3 +7,4 @@ cran-comments.md
 CONDUCT.md
 LICENSE
 ^.*-logo\..*$
+^codemeta\.json$

@@ -1,4 +1,4 @@
-# phenor <a href='https://khufkens.github.io/phenor/'><img src='phenor-logo.png' align="right" height="139" /></a>
+# phenor <img src='man/figures/logo.png' align="right" height="138.5" />
 
 [![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
 [![codecov](https://codecov.io/gh/khufkens/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/khufkens/phenor)
@@ -23,7 +23,7 @@ Keep in mind that some of the scripts will take a significant amount of time to 
 ## Installation
 
 ```diff
-- For the original package as described in the paper look at [release v1.0](https://github.com/khufkens/phenor/releases).
+- for the original package as described in the paper use release v1.0.
 ```
 
 To install the toolbox in R run the following commands in a R terminal
