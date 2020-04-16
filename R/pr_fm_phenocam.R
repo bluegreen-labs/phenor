@@ -18,6 +18,8 @@
 #' @param threshold Threshold (% of seasonal amplitude) used in estimating
 #' the phenophases (10, 25, 50) (default = 50)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
+#' @param spread maximum distance between CI of phenophase (default = 30)
+#' increase this value to include more uncertain phenophase estimates
 #' @param internal return data as structured list to R workspace or write
 #' to RDS file (default = TRUE)
 #' @keywords phenology, model, preprocessing
@@ -38,6 +40,7 @@ pr_fm_phenocam <- function(
   gcc_value = "gcc_90",
   threshold = 50,
   offset = 264,
+  spread = 30,
   internal = TRUE
 ){
 
@@ -46,7 +49,7 @@ pr_fm_phenocam <- function(
     direction,
     gcc_value,
     threshold,
-    spread = 30,
+    spread,
     reverse = FALSE){
 
     if(reverse){
@@ -105,12 +108,14 @@ pr_fm_phenocam <- function(
     data_subset <- data_selection(data = data,
                                   direction = direction,
                                   gcc_value = "gcc_90",
+                                  spread = spread,
                                   threshold = 50)
 
     data_subset_prior <- data_selection(data = data,
                                         direction = direction,
                                         gcc_value = "gcc_90",
                                         threshold = 50,
+                                        spread = spread,
                                         reverse = TRUE)
 
     transition <- do.call("rbind", lapply(data_subset, function(x){

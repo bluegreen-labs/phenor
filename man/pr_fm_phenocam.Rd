@@ -10,6 +10,7 @@ pr_fm_phenocam(
   gcc_value = "gcc_90",
   threshold = 50,
   offset = 264,
+  spread = 30,
   internal = TRUE
 )
 }
@@ -29,6 +30,9 @@ were derived either (default = gcc_90)}
 the phenophases (10, 25, 50) (default = 50)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
+
+\item{spread}{maximum distance between CI of phenophase (default = 30)
+increase this value to include more uncertain phenophase estimates}
 
 \item{internal}{return data as structured list to R workspace or write
 to RDS file (default = TRUE)}

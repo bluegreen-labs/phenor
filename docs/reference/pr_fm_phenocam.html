@@ -130,6 +130,7 @@ for speed.</p>
   <span class='kw'>gcc_value</span> <span class='kw'>=</span> <span class='st'>"gcc_90"</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>264</span>,
+  <span class='kw'>spread</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>internal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
@@ -161,6 +162,11 @@ the phenophases (10, 25, 50) (default = 50)</p></td>
     <tr>
       <th>offset</th>
       <td><p>offset of the time series in DOY (default = 264, sept 21)</p></td>
+    </tr>
+    <tr>
+      <th>spread</th>
+      <td><p>maximum distance between CI of phenophase (default = 30)
+increase this value to include more uncertain phenophase estimates</p></td>
     </tr>
     <tr>
       <th>internal</th>
