@@ -4,7 +4,7 @@
 \alias{UN}
 \title{Unified model}
 \usage{
-UN(par, data, plot = FALSE)
+UN(par, data)
 }
 \arguments{
 \item{par}{a vector of parameter values, this is functions specific}

@@ -1479,7 +1479,7 @@ CU <- function(par, data){
 #' estimate <- UN(data = data, par = par)
 #'}
 
-UN <- function(par, data, plot = FALSE){
+UN <- function(par, data){
 
   # This is an effort to reproduce the Unified Model
   # of Chuine 2000 in full form (not simplified)
@@ -1602,17 +1602,6 @@ UN <- function(par, data, plot = FALSE){
   doy <- apply(Sfc, 2, function(x){
     data$doy[which(x > 0)[1]]
   })
-
-  if(plot){
-    par(mfrow=c(4,1))
-    plot(Rc[,1])
-    plot(Sc[,1])
-    abline(h=C_req)
-    abline(v=tc, col = "red")
-    plot(m[,1])
-    plot(Sfc[,1])
-    abline(h=F_req[1])
-  }
 
   # set export format, either a rasterLayer
   # or a vector
