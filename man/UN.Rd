@@ -2,10 +2,9 @@
 % Please edit documentation in R/phenology_models.R
 \name{UN}
 \alias{UN}
-\title{Unified model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Unified model}
 \usage{
-UN(par, data)
+UN(par, data, plot = FALSE)
 }
 \arguments{
 \item{par}{a vector of parameter values, this is functions specific}
@@ -17,13 +16,12 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Unified model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
+as defined in Chuine 2000
 }
 \examples{
 
 \dontrun{
-estimate = UN(data = data, par = par)
+estimate <- UN(data = data, par = par)
 }
 }
 \keyword{model}

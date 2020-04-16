@@ -2,9 +2,9 @@
 % Please edit documentation in R/cost_functions.r
 \name{likelihood}
 \alias{likelihood}
-\title{A (log) likelihood cost function for model optimization.}
+\title{Log likelihood cost function for model optimization}
 \usage{
-likelihood(par, data, model, sd_range, ...)
+likelihood(par, data, model, ...)
 }
 \arguments{
 \item{par}{a vector of parameter values, this is functions specific}
@@ -14,8 +14,6 @@ by format_phenocam() or format_pep725(), or your own dataset adhering
 to the same data structure.}
 
 \item{model}{the model name to be used in optimizing the model}
-
-\item{sd_range}{standard deviation to be considered during optimization}
 
 \item{...}{extra arguments to pass to the function}
 }

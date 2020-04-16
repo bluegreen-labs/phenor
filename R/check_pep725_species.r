@@ -15,23 +15,23 @@
 #'
 #' @importFrom magrittr %>%
 
-check_pep725_species = function(species = NULL,
+check_pep725_species <- function(species = NULL,
                                 list = FALSE){
 
   # grab species info from the data selection page
   # this does not require a login and will be used
   # to check the validity of the selected species number
   # or name
-  data_selection = httr::GET("http://www.pep725.eu/data_download/data_selection.php")
+  data_selection <- httr::GET("http://www.pep725.eu/data_download/data_selection.php")
 
   # extract the species numbers and names from the page
-  number = xml2::read_html(data_selection) %>%
+  number <- xml2::read_html(data_selection) %>%
     rvest::html_nodes("form select") %>%
     rvest::html_children() %>%
     rvest::html_attr("value") %>%
     as.numeric()
 
-  name = xml2::read_html(data_selection) %>%
+  name <- xml2::read_html(data_selection) %>%
     rvest::html_nodes("form select") %>%
     rvest::html_children() %>%
     rvest::html_text() %>%
@@ -39,7 +39,7 @@ check_pep725_species = function(species = NULL,
     tolower()
 
   # combine the data in a species info data frame
-  species_info = data.frame(number, name)
+  species_info <- data.frame(number, name)
 
   # provide verbose output listing all
   # species names and numbers
@@ -55,7 +55,7 @@ check_pep725_species = function(species = NULL,
   # if the input is a character vector grep for results
   # this will work on partial matches as well
   if(is.character(species)){
-    numbers = species_info$number[grep(paste(tolower(species),collapse = "|"),
+    numbers <- species_info$number[grep(paste(tolower(species),collapse = "|"),
                                     species_info$name)]
     if(length(numbers)==0){
       stop("Species (number) not listed in PEP725 database!")

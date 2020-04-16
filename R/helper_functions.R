@@ -1,4 +1,6 @@
-#' Calculates AICc values for a set of measured and predicted values
+#' Calculates AICc values
+#'
+#' Uses a set of measured and predicted values
 #' together with the number of model parameters used
 #'
 #' @param measured a vector with measurement values to smooth
@@ -50,8 +52,10 @@ AICc <- function(measured, predicted, k){
 #' a normal longitude format (-180 to 180).
 #' @export
 
-rotate_cmip5 <- function(r = NULL,
-                         extent = c(-74, -65, 40, 48)){
+rotate_cmip5 <- function(
+  r = NULL,
+  extent = c(-74, -65, 40, 48)
+  ){
 
   # duplicate the extent values
   # to swap out the longitude ones
@@ -67,7 +71,7 @@ rotate_cmip5 <- function(r = NULL,
   # check for offset
   if (extent[2] < 0){
     extent2[2] = 360 + extent[2]
-    m = raster::shift(raster::crop(r, extent2), -360)
+    m = raster::shift(raster::crop(r, extent2),-360)
   } else if (extent[1] < 0 & extent[2] > 0) {
     extent2[2] = 360
     extent[1] = 0
@@ -81,9 +85,12 @@ rotate_cmip5 <- function(r = NULL,
   return(m)
 }
 
-#' (re)shape model output based upon the class of the input data
+#' Shapes model output
+#'
+#' The final output is based upon the class of the input data
 #' and valid model estimates. Mainly, reshapes data to a spatial
-#' raster format when required.
+#' raster format when required and traps NA and Inf values during
+#' optimization schemes.
 #'
 #' @param data input data generated using the format_*() functions
 #' @param doy phenophase estimates as a doy value
@@ -104,13 +111,18 @@ shape_model_output <- function(data, doy){
     raster::extent(r) <- data$georeferencing$extent
     sp::proj4string(r) <- sp::CRS(data$georeferencing$projection)
     r[] <- as.vector(doy)
-    r[ r == 9999 ] <- NA
+    r[is.infinite(r)] <- NA
     return(r)
   } else {
+    doy[is.na(doy)] <- 9999
+    doy[is.infinite(doy)] <- 9999
     return(doy)
   }
 }
 
+
+#' Calculate daylength values
+#'
 #' Calculates day length (in hours) and the solar elevation above the
 #' ecliptic plane based upon latitude and a day of year, and year values.
 #' according to H.Glarner (http://herbert.gandraxa.com/length_of_day.xml)
@@ -164,8 +176,9 @@ daylength = function(doy, latitude) {
   return(unlist(dl))
 }
 
-#' Triangular temperature response function as defined in
-#' Basler et al. 2016 (Agr. For. Meteorlogy)
+#' Triangular temperature response function
+#'
+#' As defined in: Basler et al. 2016 (Agr. For. Meteorlogy)
 #'
 #' @param T a vector or matrix of temperatures
 #' @param T_opt optimal temperature
@@ -208,4 +221,105 @@ triangular_temperature_response <- function(T = -10:45,
 
   # returns the converted temperature data
   return(T)
+}
+
+#' Read parameter boundary values
+#'
+#' @param model a phenology model name
+#' @param par_ranges location of the model parameter boundary file
+#' @export
+#' @examples
+#'
+#' T_response = triangular_temperature_response(T = 0:45)
+#' \dontrun{
+#' plot(0:45, T_response, type = "l")
+#'}
+
+pr_parameters <- function(
+  model,
+  par_ranges = system.file(
+    "extdata",
+    "parameter_ranges.csv",
+    package = "phenor",
+    mustWork = TRUE)
+  ){
+
+  if(missing(model)){
+    stop("Please provide a model name")
+  }
+
+  # read in parameter ranges
+  par_ranges = utils::read.table(par_ranges,
+                                 header = TRUE,
+                                 sep = ",")
+
+  # subset the parameter range
+  if (!any(par_ranges$model == model)){
+    stop("parameters are not specified in the default parameter file.")
+  }
+
+  # extract parameter ranges is the model is available
+  # in the file provided
+  d = par_ranges[par_ranges$model == model,]
+
+  d = d[,!is.na(d[1,])]
+  d = d[,3:ncol(d)]
+  d = as.matrix(d)
+
+  # returns the converted temperature data
+  return(d)
+}
+
+#' Outlier detection of transition dates
+#'
+#' Uses the 30-day rule (Schaber and Badeck, 2002) to remove outliers
+#' from visual observations records. This function should be considered
+#' for use with either PEP725 or USANPN data.
+#'
+#' @param df a nested list phenor formatted data file
+#'
+#' @return a nested list phenor formatted data file with outliers removed
+#' @export
+
+outlier_detection <- function(df){
+
+  # check if this is a flat file or a nested one
+  flat <- !is.null(df$site)
+
+  if(flat){
+    stop("
+ This file is flattened after formating and can't be processed.
+ If outlier detection is required, execute this step before
+ combining nested list elements!
+         ")
+  }
+
+  # Detect and remove outliers using the 30 day rule.
+  # This routine mostly applies to visual observation data
+  # in most other data streams outlier are removed with other routines.
+  out <- lapply(df, function(x){
+
+    # calculate the difference in days relative to
+    # the true data
+    diff_days <- abs(
+      stats::predict(stats::lm(x$transition_dates ~ x$year)) -
+        x$transition_dates
+    )
+
+    # flag all data which is further than 30 days
+    # from the linear fit as suspect (outliers)
+    # i.e. the 30 day rule
+    x$transition_dates[which(diff_days >= 30)] <- NA
+
+    s <- pr_fm_subset(x, !is.na(x$transition_dates))
+    s$site <- x$site
+    s$location <- x$location
+    return(s)
+  })
+
+  # propagate class for post-processing
+  class(out) = class(df)
+
+  # return data
+  return(out)
 }

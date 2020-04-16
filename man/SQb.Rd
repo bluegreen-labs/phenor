@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{SQb}
 \alias{SQb}
-\title{Sequential model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
-using a bell shaped chilling response}
+\title{Sequential model}
 \usage{
 SQb(par, data)
 }
@@ -18,14 +16,14 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Sequential model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 using a bell shaped chilling response
 }
 \examples{
 
 \dontrun{
-estimate = SQb(data = data, par = par)
+estimate <- SQb(data = data, par = par)
 }
 }
 \keyword{model}

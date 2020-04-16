@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{AGSI}
 \alias{AGSI}
-\title{Accumulated growing season index model (1)
-as defined by Xin et al. 2015 (Rem. Sens. Env.)}
+\title{Accumulated growing season index model}
 \usage{
 AGSI(par, data)
 }
@@ -17,13 +16,16 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
+as defined by Xin et al. 2015 (Rem. Sens. Env.)
+}
+\details{
 The starting point of accumulation is not clearly indicated
 in the publication so we assume December 21.
 }
 \examples{
 
 \dontrun{
-estimate = AGSI(data = data, par = par)
+estimate <- AGSI(data = data, par = par)
 }
 }
 \keyword{model}

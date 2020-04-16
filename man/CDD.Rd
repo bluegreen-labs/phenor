@@ -23,7 +23,7 @@ Jeong & Medvigny 2014 (Global Ecology & Biogeography)
 \examples{
 
 \dontrun{
-estimate = CDD(data = data, par = par)
+estimate <- CDD(data = data, par = par)
 }
 }
 \keyword{model}

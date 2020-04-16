@@ -19,15 +19,15 @@
 check_npn_species = function(species = NULL,
                              list = TRUE){
   # download species information
-  species_list = jsonlite::fromJSON("http://www.usanpn.org/npn_portal/species/getSpecies.json")
-  species_list = subset(species_list, select = -"species_type")
+  species_list <- jsonlite::fromJSON("http://www.usanpn.org/npn_portal/species/getSpecies.json")
+  species_list <- species_list[,which(colnames(species_list) != "species_type")]
 
   # check if the genus exists, if provided
   if(!is.null(species)){
 
     # find species subset results, search (grep) in both Genus species,
     # common name fields and species ID fields
-    species_subset = species_list[species_list$species_id %in% species |
+    species_subset <- species_list[species_list$species_id %in% species |
       grepl(tolower(species), tolower(paste(species_list$genus,
                                             species_list$species))) |
       grepl(tolower(species),tolower(species_list$common_name)),]

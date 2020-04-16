@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{LIN}
 \alias{LIN}
-\title{Linear model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Linear model}
 \usage{
 LIN(par, data, spring = c(60, 151))
 }
@@ -20,13 +19,13 @@ default is March, April, May or DOY 60 - 151}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Linear model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 
 \dontrun{
-estimate = LIN(data = data, par = par)
+estimate <- LIN(data = data, par = par)
 }
 }
 \keyword{model,}

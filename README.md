@@ -1,7 +1,9 @@
-# phenor <a href='https://khufkens.github.io/phenor/'><img src='phenor-logo.png' align="right" height="139" /></a>
+# phenor <img src='man/figures/logo.png' align="right" height="138.5" />
 
 [![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
 [![codecov](https://codecov.io/gh/khufkens/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/khufkens/phenor)
+<a href="https://www.buymeacoffee.com/H2wlgqCLO" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" height="21px" ></a>
+<a href="https://liberapay.com/khufkens/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="21px"></a>
 
 The phenor R package is a phenology modelling framework in R. The framework leverages measurements of vegetation phenology from four common phenology observation datasets combined with (global) retrospective and projected climate data (see below).
 
@@ -19,6 +21,10 @@ http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full) for an in depth
 Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). Some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
 
 ## Installation
+
+```diff
+- for the original package as described in the paper use release v1.0.
+```
 
 To install the toolbox in R run the following commands in a R terminal
 
@@ -44,12 +50,12 @@ Example code below shows that in few lines a modelling exercise can be set up. Y
 # The command below downloads all time series for deciduous broadleaf
 # data at the bartlett PhenoCam site and estimates the
 # phenophases.
-download_phenocam(vegetation = "DB",
+pr_dl_phenocam(vegetation = "DB",
                   site = "bartlett",
                   phenophase = TRUE)
 
 # process phenocam transition files into a consistent format
-phenocam_data = format_phenocam("/foo/bar/transition_dates/")
+phenocam_data <- pr_fm_phenocam("/foo/bar/transition_dates/")
 ```
 
 Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017) precompiled with Daymet climate variables. The file is loaded using a standard **data()** call or reference them directly (e.g. *phenocam_DB*).
@@ -67,8 +73,8 @@ The gathered data can now be used in model calibration / validation. Currently 1
 # comma separated parameter file inlcuded in the package
 # for all the included models, this file is used by default
 # in all optimization routines
-path = sprintf("%s/extdata/parameter_ranges.csv",path.package("phenor"))
-par_ranges = read.table(path,
+path <- sprintf("%s/extdata/parameter_ranges.csv",path.package("phenor"))
+par_ranges <- read.table(path,
                         header = TRUE,
                         sep = ",")
 ```
@@ -78,7 +84,7 @@ Your own model development can be done by creating similar functions which take 
 ```R
 # optimize model parameters
 set.seed(1234)
-optim.par = optimize_parameters(par = NULL,
+optim.par <- pr_fit_parameters(par = NULL,
                           data = phenocam_data,
                           cost = rmse,
                           model = "TT",
@@ -91,8 +97,7 @@ After a few minutes optimal parameters are provided. We can use these now to cal
 
 ```R
 # now run the model for all data in the nested list using the estimated parameters
-modelled = estimate_phenology(data = data,
-                              par = optim.par$par)
+modelled <- pr_predict(data = data, par = optim.par$par)
 ```
 
 Easy model calibration / validation can be achieved using the **model_calibration()** and **model_comparison()** functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters). I hope this gets you started.
@@ -104,8 +109,7 @@ The package allows you to download gridded CMIP5 forecast data from the NASA Ear
 ```R
 # running data on spatial data (determined by the class assigned by
 # various format_*() routines) will return a spatial object (raster map)
-map = estimate_phenology(data = spatial_data,
-                         par = optim.par$par)
+map <- pr_predict(data = spatial_data, par = optim.par$par)
 ```
 
 An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provided below.
@@ -121,5 +125,4 @@ Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M
 
 ## Acknowledgements
 
-This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697).Logo design elements are taken from the FontAwesome library according to [these terms](https://fontawesome.com/license).
-
+This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697). Logo design elements are taken from the FontAwesome library according to [these terms](https://fontawesome.com/license).

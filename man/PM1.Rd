@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{PM1}
 \alias{PM1}
-\title{Parallel M1 model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Parallel M1 model}
 \usage{
 PM1(par, data)
 }
@@ -17,13 +16,13 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Parallel M1 model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 
 \dontrun{
-estimate = PM1(data = data, par = par)
+estimate <- PM1(data = data, par = par)
 }
 }
 \keyword{model,}

@@ -1,4 +1,4 @@
-#' A Root Mean Squared Error cost function for model optimization.
+#' Root Mean Squared Error cost function for model optimization.
 #'
 #' @param par a vector of parameter values, this is functions specific
 #' @param data nested data structure with validation data as returned
@@ -83,7 +83,7 @@ cvmae <- function(
   }
 }
 
-#' A (log) likelihood cost function for model optimization.
+#' Log likelihood cost function for model optimization
 #'
 #' The function is aimed to be maximized, to use it with optimizers which
 #' minimize cost functions wrap the function as such:
@@ -94,7 +94,6 @@ cvmae <- function(
 #' by format_phenocam() or format_pep725(), or your own dataset adhering
 #' to the same data structure.
 #' @param model the model name to be used in optimizing the model
-#' @param sd_range standard deviation to be considered during optimization
 #' @param ... extra arguments to pass to the function
 #' @return the RMSE comparing observed and estimated values
 #' @keywords phenology, model, optimization, cost function
@@ -112,23 +111,30 @@ likelihood <- function(
   par,
   data,
   model,
-  sd_range,
   ...
   ) {
 
-  # run model
-  val <- data$transition_dates
-  out <- do.call(model, list(data = data,
-                            par = par))
+  # model parameters
+  model_par <- par[1:(length(par)) - 1]
 
-  # deal with the NA values
-  if (any(is.na(out))) {
-     return(-Inf)
-  } else {
-    singlelikelihoods <- stats::dnorm(val,
-                              mean = out,
-                              sd = sd_range,
-                              log = T)
-    return(sum(singlelikelihoods))
-  }
+  # split out sd range parameter
+  sd_range <- par[length(par)]
+
+  # run model
+  observed <- data$transition_dates
+  predicted <- do.call(
+    model,
+    list(data = data,
+         par = model_par))
+
+  # get residuals
+  residuals <- predicted - observed
+
+  # singlelikelihood
+  singlelikelihoods <- stats::dnorm(
+      residuals,
+      sd = sd_range,
+      log = TRUE)
+
+  return(sum(singlelikelihoods))
 }

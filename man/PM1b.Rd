@@ -2,9 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{PM1b}
 \alias{PM1b}
-\title{Parallel M1 model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
-using a bell shaped chilling response}
+\title{Parallel M1 model}
 \usage{
 PM1b(par, data)
 }
@@ -18,14 +16,14 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Parallel M1 model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 using a bell shaped chilling response
 }
 \examples{
 
 \dontrun{
-estimate = PM1(data = data, par = par)
+estimate <- PM1(data = data, par = par)
 }
 }
 \keyword{model}

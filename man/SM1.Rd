@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{SM1}
 \alias{SM1}
-\title{Sequential model (M1 variant) as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Sequential model (M1 variant)}
 \usage{
 SM1(par, data)
 }
@@ -17,13 +16,13 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Sequential model (M1 variant) as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 
 \dontrun{
-estimate = TT(data = data, par = par)
+estimate <- SM1(data = data, par = par)
 }
 }
 \keyword{model,}

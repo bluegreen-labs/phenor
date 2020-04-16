@@ -2,11 +2,9 @@
 % Please edit documentation in R/helper_functions.R
 \name{triangular_temperature_response}
 \alias{triangular_temperature_response}
-\title{Triangular temperature response function as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{Triangular temperature response function}
 \usage{
-triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1,
-  T_max = 15)
+triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1, T_max = 15)
 }
 \arguments{
 \item{T}{a vector or matrix of temperatures}
@@ -18,8 +16,7 @@ triangular_temperature_response(T = -10:45, T_opt = 10, T_min = 1,
 \item{T_max}{maximum viable temperature}
 }
 \description{
-Triangular temperature response function as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)
+As defined in: Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 

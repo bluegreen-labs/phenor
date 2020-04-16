@@ -2,8 +2,7 @@
 % Please edit documentation in R/phenology_models.R
 \name{PTT}
 \alias{PTT}
-\title{Photothermal Time model as defined in
-Basler et al. 2016 (Agr. For. Meteorlogy)}
+\title{PhotoThermal Time model}
 \usage{
 PTT(par, data)
 }
@@ -17,13 +16,13 @@ data should be formatted using flat_format()}
 raster or vector with estimated phenophase timing (in DOY)
 }
 \description{
-Photothermal Time model as defined in
+as defined in
 Basler et al. 2016 (Agr. For. Meteorlogy)
 }
 \examples{
 
 \dontrun{
-estimate = PTT(data = data, par = par)
+estimate <- PTT(data = data, par = par)
 }
 }
 \keyword{model}
