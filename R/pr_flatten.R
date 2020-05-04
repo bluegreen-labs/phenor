@@ -25,14 +25,14 @@ pr_flatten <- function(data){
 
   # find the doy ranges as stored in the doy slot
   # of the first site
-  doy = data[[1]]$doy
+  doy <- data[[1]]$doy
 
   # bind / calculate the photoperiod (daylength)
   # for all locations with do.call()
-  Li = do.call("cbind",lapply(data,function(x)x$Li))
+  Li <- do.call("cbind",lapply(data,function(x)x$Li))
 
   # concat sitenames into a vector using a do.call()
-  site = as.character(do.call("c",lapply(data, function(x){
+  site <- as.character(do.call("c",lapply(data, function(x){
     if(!is.null(x)){
       rep(x$site, ncol(x$Ti))
     }
@@ -40,42 +40,49 @@ pr_flatten <- function(data){
 
   # concat locations data into a matrix with the first row
   # being the latitude and the second longitude
-  location = do.call("cbind",lapply(data,function(x){
+  location <- do.call("cbind",lapply(data,function(x){
     if(!is.null(x)){
       matrix(rep(x$location, ncol(x$Ti)), 2, ncol(x$Ti))
     }
   }))
 
   # concat all temperature data in one big matrix
-  Ti = do.call("cbind",lapply(data,function(x)x$Ti))
-  Tmini = do.call("cbind",lapply(data,function(x)x$Tmini))
-  Tmaxi = do.call("cbind",lapply(data,function(x)x$Tmaxi))
+  Ti <- do.call("cbind",lapply(data,function(x)x$Ti))
+  Tmini <- do.call("cbind",lapply(data,function(x)x$Tmini))
+  Tmaxi <- do.call("cbind",lapply(data,function(x)x$Tmaxi))
 
   # concat all precip data in one big matrix
-  Pi = do.call("cbind",lapply(data,function(x)x$Pi))
+  Pi <- do.call("cbind",lapply(data,function(x)x$Pi))
 
   # concat all precip data in one big matrix
-  VPDi = do.call("cbind",lapply(data,function(x)x$VPDi))
+  VPDi <- do.call("cbind",lapply(data,function(x)x$VPDi))
 
   # long term mean
-  ltm = matrix(NA,365,length(site))
+  ltm <- matrix(NA,365,length(site))
   for (i in 1:length(site)){
-    ltm[,i] = data[[which(names(data) == site[i])]]$ltm
+    ltm[,i] <- data[[which(names(data) == site[i])]]$ltm
   }
 
-  # concat all transition dates for validatino into
+  # concat all transition dates for validation into
   # a long vector
-  transition_dates = as.vector(do.call("c",lapply(data,function(x)x$transition)))
+  transition_dates <- as.vector(do.call("c",lapply(data,function(x)x$transition_dates)))
+
+  # try to return prior dates (if available, i.e. phenocam for now)
+  transition_dates_prior <- try(as.vector(do.call("c",lapply(data,function(x)x$transition_dates_prior))))
+  if(inherits(transition_dates_prior,"try-error")){
+    transition_dates_prior <- NULL
+  }
 
   # concat all years
-  year = as.vector(do.call("c",lapply(data,function(x)x$year)))
+  year <- as.vector(do.call("c",lapply(data,function(x)x$year)))
 
   # recreate the validation data structure (new format)
   # but with concatted data
-  flat_data = list("site" = site,
+  flat_data <- list("site" = site,
               "location" = location,
               "doy" = doy,
               "transition_dates" = transition_dates,
+              "transition_dates_prior" = transition_dates_prior,
               "year" = year,
               "ltm" = ltm,
               "Ti" = Ti,
@@ -88,7 +95,7 @@ pr_flatten <- function(data){
               )
 
   # assign a class for post-processing
-  class(flat_data) = class(data)
+  class(flat_data) <- class(data)
 
   # return the formatted, faster data format
   return(flat_data)
