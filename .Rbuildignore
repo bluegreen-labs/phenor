@@ -1,10 +1,23 @@
+# docs and unit tests
 ^\.travis\.yml$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^data-raw$
+
+# R-markdown files in the root folder.
+^LICENSE$
+^CONDUCT\.md$
+^NEWS\.md$
+^README\.md$
+^contact\.md$
+^cran-comments\.md$
+^review-notes\.md$
+
+# Stuff
 ^.*\.Rproj$
+^.*\.Renviron$
 ^\.Rproj\.user$
-README.Rmd
-_config.yml
-cran-comments.md
-CONDUCT.md
-LICENSE
+^\.httr-oauth$
 ^.*-logo\..*$
 ^codemeta\.json$
