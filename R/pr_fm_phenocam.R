@@ -109,12 +109,12 @@ pr_fm_phenocam <- function(
                                   direction = direction,
                                   gcc_value = "gcc_90",
                                   spread = spread,
-                                  threshold = 50)
+                                  threshold = threshold)
 
     data_subset_prior <- data_selection(data = data,
                                         direction = direction,
                                         gcc_value = "gcc_90",
-                                        threshold = 50,
+                                        threshold = threshold,
                                         spread = spread,
                                         reverse = TRUE)
 
