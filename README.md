@@ -13,7 +13,8 @@ Phenological model calibration / validation data are derived from:
 - the transition dates derived from [PhenoCam](https://phenocam.sr.unh.edu) time series through the [phenocamr](https://github.com/khufkens/phenocamr) R package
 - the MODIS MCD12Q2 phenology product using the [MODISTools R package](http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full)
 - the [Pan European Phenology Project (PEP725)](http://www.pep725.eu/) 
-- the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/) 
+- the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/)
+- custom CSV based datasets
 
 We refer to [Hufkens et al. (2018)](
 http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). Please refer to this paper when using the package for modelling efforts. 
