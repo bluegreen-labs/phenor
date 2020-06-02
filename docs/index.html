@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">phenor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3</span>
       </span>
     </div>
 
@@ -57,7 +57,14 @@
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/bluegreen-labs/phenor">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -78,26 +85,27 @@
 <p>The package curently focusses on North America and Europe and relies heavily on <a href="https://daymet.ornl.gov/">Daymet</a> and <a href="http://www.ecad.eu/download/ensembles/download.php">E-OBS climate data</a> for underlying climate driver data in model optimization. The package supports global gridded CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the <a href="https://nex.nasa.gov/nex/projects/1356/">NASA Earth Exchange global downscaled daily projections</a>.</p>
 <p>Phenological model calibration / validation data are derived from:</p>
 <ul>
-<li>the transition dates derived from <a href="https://phenocam.sr.unh.edu">PhenoCam</a> time series through the <a href="https://github.com/khufkens/phenocamr">phenocamr</a> R package</li>
+<li>the transition dates derived from <a href="https://phenocam.sr.unh.edu">PhenoCam</a> time series through the <a href="https://github.com/bluegreen-labs/phenocamr">phenocamr</a> R package</li>
 <li>the MODIS MCD12Q2 phenology product using the <a href="http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full">MODISTools R package</a>
 </li>
 <li>the <a href="http://www.pep725.eu/">Pan European Phenology Project (PEP725)</a>
 </li>
 <li>the <a href="https://www.usanpn.org/">USA National Phenological Network (USA-NPN)</a>
 </li>
+<li>custom CSV based datasets</li>
 </ul>
-<p>We refer to <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full">Hufkens et al. (2018)</a> for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a <a href="https://github.com/khufkens/phenor_manuscript">separate github repository</a>. Please refer to this paper when using the package for modelling efforts.</p>
-<p>Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the <a href="https://github.com/khufkens/phenor_manuscript">manuscript repository</a>. Some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.</p>
+<p>We refer to <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full">Hufkens et al. (2018)</a> for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a <a href="https://github.com/bluegreen-labs/phenor_manuscript">separate github repository</a>. Please refer to this paper when using the package for modelling efforts.</p>
+<p>Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the <a href="https://github.com/bluegreen-labs/phenor_manuscript">manuscript repository</a>. Some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode diff"><code class="sourceCode diff"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="st">- for the original package as described in the paper use release v1.0.</span></a></code></pre></div>
 <p>To install the toolbox in R run the following commands in a R terminal</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(devtools)){<span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(devtools)}</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"khufkens/phenor"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"bluegreen-labs/phenor"</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(phenor)</a></code></pre></div>
 <p>Download a limited subset of the data described in Richardson et al. (2017) from github or clone the repository:</p>
-<pre><code>git clone https://github.com/khufkens/phenocam_dataset.git</code></pre>
+<pre><code>git clone https://github.com/bluegreen-labs/phenocam_dataset.git</code></pre>
 <p>or download the full dataset from the <a href="https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1511">ORNL DAAC</a>.</p>
 </div>
 <div id="use" class="section level2">
@@ -150,7 +158,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># various format_*() routines) will return a spatial object (raster map)</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">map &lt;-<span class="st"> </span><span class="kw"><a href="reference/pr_predict.html">pr_predict</a></span>(<span class="dt">data =</span> spatial_data, <span class="dt">par =</span> optim.par<span class="op">$</span>par)</a></code></pre></div>
 <p>An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provided below.</p>
-<p><img src="https://raw.githubusercontent.com/khufkens/phenor_manuscript/master/output/Figure_5_spatial_runs.png"><em>Overview map comparing various spatial outputs of the Thermal Time (TT) and Accumulated Growing Season Index (AGSI) model optimized to deciduous broadleaf and grassland PhenoCam data respectively. a) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for 1/4th degree NASA Earth Exchange (NEX) global gridded Coupled Model Intercomparison Project 5 (CMIP5) Mid-Resolution Institut Pierre Simon Laplace Climate Model 5 (IPSL-CM5A-MR) model runs using the TT model parameterized on deciduous forest PhenoCam sites. Only pixels with more than 50% deciduous broadleaf or mixed forest cover per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; b) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for NEX CMIP5 IPSL-CM5A-MR model runs using the AGSI model parameterized on grassland PhenoCam sites. Only pixels with more than 50% grassland coverage per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; c) phenor model output for 11 Daymet gridded datasets (tiles) for the year 2011.</em></p>
+<p><img src="https://raw.githubusercontent.com/bluegreen-labs/phenor_manuscript/master/output/Figure_5_spatial_runs.png"><em>Overview map comparing various spatial outputs of the Thermal Time (TT) and Accumulated Growing Season Index (AGSI) model optimized to deciduous broadleaf and grassland PhenoCam data respectively. a) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for 1/4th degree NASA Earth Exchange (NEX) global gridded Coupled Model Intercomparison Project 5 (CMIP5) Mid-Resolution Institut Pierre Simon Laplace Climate Model 5 (IPSL-CM5A-MR) model runs using the TT model parameterized on deciduous forest PhenoCam sites. Only pixels with more than 50% deciduous broadleaf or mixed forest cover per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; b) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for NEX CMIP5 IPSL-CM5A-MR model runs using the AGSI model parameterized on grassland PhenoCam sites. Only pixels with more than 50% grassland coverage per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; c) phenor model output for 11 Daymet gridded datasets (tiles) for the year 2011.</em></p>
 </div>
 </div>
 <div id="references" class="section level2">
@@ -162,13 +170,22 @@
 <div id="acknowledgements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
-<p>This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697). Logo design elements are taken from the FontAwesome library according to <a href="https://fontawesome.com/license">these terms</a>.</p>
+<p>This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697) and the Marie Skłodowska-Curie Action (H2020 grant 797668). Logo design elements are taken from the FontAwesome library according to <a href="https://fontawesome.com/license">these terms</a>.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/bluegreen-labs/phenor">https://​github.com/​bluegreen-labs/​phenor</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/bluegreen-labs/phenor/issues">https://​github.com/​bluegreen-labs/​phenor/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/AGPL-3">AGPL-3</a></li>
@@ -183,17 +200,15 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Koen Hufkens <br><small class="roles"> Maintainer </small>  </li>
+<li>Koen Hufkens <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5070-8109" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/khufkens/phenor"><img src="https://travis-ci.org/khufkens/phenor.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://codecov.io/gh/khufkens/phenor"><img src="https://codecov.io/gh/khufkens/phenor/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://www.buymeacoffee.com/H2wlgqCLO" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" height="21px"></a></li>
-<li><a href="https://liberapay.com/khufkens/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="21px"></a></li>
+<li><a href="https://travis-ci.org/bluegreen-labs/phenor"><img src="https://travis-ci.org/bluegreen-labs/phenor.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://codecov.io/gh/bluegreen-labs/phenor"><img src="https://codecov.io/gh/bluegreen-labs/phenor/branch/master/graph/badge.svg" alt="codecov"></a></li>
 </ul>
 </div>
 </div>

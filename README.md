@@ -1,25 +1,23 @@
 # phenor <img src='man/figures/logo.png' align="right" height="138.5" />
 
-[![Build Status](https://travis-ci.org/khufkens/phenor.svg?branch=master)](https://travis-ci.org/khufkens/phenor)
-[![codecov](https://codecov.io/gh/khufkens/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/khufkens/phenor)
-<a href="https://www.buymeacoffee.com/H2wlgqCLO" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" height="21px" ></a>
-<a href="https://liberapay.com/khufkens/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg" height="21px"></a>
+[![Build Status](https://travis-ci.org/bluegreen-labs/phenor.svg?branch=master)](https://travis-ci.org/bluegreen-labs/phenor)
+[![codecov](https://codecov.io/gh/bluegreen-labs/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/bluegreen-labs/phenor)
 
 The phenor R package is a phenology modelling framework in R. The framework leverages measurements of vegetation phenology from four common phenology observation datasets combined with (global) retrospective and projected climate data (see below).
 
 The package curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for underlying climate driver data in model optimization. The package supports global gridded CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the [NASA Earth Exchange global downscaled daily projections](https://nex.nasa.gov/nex/projects/1356/).
 
 Phenological model calibration / validation data are derived from:
-- the transition dates derived from [PhenoCam](https://phenocam.sr.unh.edu) time series through the [phenocamr](https://github.com/khufkens/phenocamr) R package
+- the transition dates derived from [PhenoCam](https://phenocam.sr.unh.edu) time series through the [phenocamr](https://github.com/bluegreen-labs/phenocamr) R package
 - the MODIS MCD12Q2 phenology product using the [MODISTools R package](http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full)
 - the [Pan European Phenology Project (PEP725)](http://www.pep725.eu/) 
 - the [USA National Phenological Network (USA-NPN)](https://www.usanpn.org/)
 - custom CSV based datasets
 
 We refer to [Hufkens et al. (2018)](
-http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/khufkens/phenor_manuscript). Please refer to this paper when using the package for modelling efforts. 
+http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full) for an in depth description and worked example of the phenor R package. All code used to generate the referenced publication is provided in a [separate github repository](https://github.com/bluegreen-labs/phenor_manuscript). Please refer to this paper when using the package for modelling efforts. 
 
-Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/khufkens/phenor_manuscript). Some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
+Keep in mind that some of the scripts will take a significant amount of time to finish. As such, some data generated for the manuscript is included in the [manuscript repository](https://github.com/bluegreen-labs/phenor_manuscript). Some scripts generate figures and summary statistics on precompiled datasets rather than clean runs, when available. Furthermore, due to licensing issues no PEP725 data is included and some scripts will require proper login credentials for dependent code to function properly. Similarly, a download routine is not provided for the E-OBS data as to adhere to their data sharing policy and their request to register before downloading data.
 
 ## Installation
 
@@ -31,14 +29,14 @@ To install the toolbox in R run the following commands in a R terminal
 
 ```R
 if(!require(devtools)){install.packages(devtools)}
-devtools::install_github("khufkens/phenor")
+devtools::install_github("bluegreen-labs/phenor")
 library(phenor)
 ```
 
 Download a limited subset of the data described in Richardson et al. (2017) from github or clone the repository:
 
 ```
-git clone https://github.com/khufkens/phenocam_dataset.git
+git clone https://github.com/bluegreen-labs/phenocam_dataset.git
 ```
 
 or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/dsviewer.pl?ds_id=1511).
@@ -115,7 +113,7 @@ map <- pr_predict(data = spatial_data, par = optim.par$par)
 
 An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provided below.
 
-![](https://raw.githubusercontent.com/khufkens/phenor_manuscript/master/output/Figure_5_spatial_runs.png)
+![](https://raw.githubusercontent.com/bluegreen-labs/phenor_manuscript/master/output/Figure_5_spatial_runs.png)
 *Overview map comparing various spatial outputs of the Thermal Time (TT) and Accumulated Growing Season Index (AGSI) model optimized to deciduous broadleaf and grassland PhenoCam data respectively. a) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for 1/4th degree NASA Earth Exchange (NEX) global gridded Coupled Model Intercomparison Project 5 (CMIP5) Mid-Resolution Institut Pierre Simon Laplace Climate Model 5 (IPSL-CM5A-MR) model runs using the TT model parameterized on deciduous forest PhenoCam sites. Only pixels with more than 50% deciduous broadleaf or mixed forest cover per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; b) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for NEX CMIP5 IPSL-CM5A-MR model runs using the AGSI model parameterized on grassland PhenoCam sites. Only pixels with more than 50% grassland coverage per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; c) phenor model output for 11 Daymet gridded datasets (tiles) for the year 2011.*
 
 ## References
@@ -126,4 +124,4 @@ Richardson, A.D., Hufkens, K., Milliman, T., Aubrecht, D.M., Chen, M., Gray, J.M
 
 ## Acknowledgements
 
-This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697). Logo design elements are taken from the FontAwesome library according to [these terms](https://fontawesome.com/license).
+This project was is supported by the National Science Foundation’s Macro-system Biology Program (awards EF-1065029 and EF-1702697) and the Marie Skłodowska-Curie Action (H2020 grant 797668). Logo design elements are taken from the FontAwesome library according to [these terms](https://fontawesome.com/license).

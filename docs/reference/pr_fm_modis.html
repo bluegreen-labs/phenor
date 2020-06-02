@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Citation and Authors • phenor</title>
+<title>Format MODIS MCD12Q2 phenology data — pr_fm_modis • phenor</title>
 
 <!-- favicons -->
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,13 +36,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Citation and Authors" />
+<meta property="og:title" content="Format MODIS MCD12Q2 phenology data — pr_fm_modis" />
+<meta property="og:description" content="Relies on the MODISTools package to query data. Currently only works
+for areas with Daymet coverage (Northern America)." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +65,7 @@
   </head>
 
   <body>
-    <div class="container template-citation-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -75,7 +77,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">phenor</a>
+        <a class="navbar-link" href="../index.html">phenor</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3</span>
       </span>
     </div>
@@ -83,16 +85,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -113,42 +115,58 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Citation</h1>
-      <small class="dont-index">Source: <a href='https://github.com/bluegreen-labs/phenor/blob/master/inst/CITATION'><code>inst/CITATION</code></a></small>
+    <h1>Format MODIS MCD12Q2 phenology data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bluegreen-labs/phenor/blob/master/R/pr_fm_modis.R'><code>R/pr_fm_modis.R</code></a></small>
+    <div class="hidden name"><code>pr_fm_modis.Rd</code></div>
     </div>
 
-    <p>Hufkens K, Basler D, Milliman T, Melaas EK, Richardson AD (2018).
-&ldquo;An integrated phenology modelling framework in R: modelling vegetation phenology with phenor.&rdquo;
-<em>Methods in Ecology &amp; Evolution</em>, <b>9</b>, 1-10.
-<a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full">http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full</a>. 
-</p>
-    <pre>@Article{,
-  title = {An integrated phenology modelling framework in R: modelling vegetation phenology with {phenor}},
-  author = {Koen Hufkens and David Basler and Tom Milliman and Eli K. Melaas and Andrew D. Richardson},
-  journal = {Methods in Ecology & Evolution},
-  year = {2018},
-  volume = {9},
-  pages = {1-10},
-  url = {http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12970/full},
-}</pre>
-
-    <div class="page-header">
-      <h1>Authors</h1>
+    <div class="ref-description">
+    <p>Relies on the MODISTools package to query data. Currently only works
+for areas with Daymet coverage (Northern America).</p>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Koen Hufkens</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-5070-8109' target='orcid.widget'><img src='https://members.orcid.org/sites/default/files/vector_iD_icon.svg' class='orcid' alt='ORCID'></a>
-        </p>
-      </li>
+    <pre class="usage"><span class='fu'>pr_fm_modis</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='kw'>phenophase</span> <span class='kw'>=</span> <span class='st'>"Increase"</span>, <span class='kw'>cycle</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>264</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>a path to MODISTools MCD12Q2 phenology dates</p></td>
+    </tr>
+    <tr>
+      <th>phenophase</th>
+      <td><p>Phenological phase, Increase, Maximum,
+Decrease or Minimum (default = Increase)</p></td>
+    </tr>
+    <tr>
+      <th>cycle</th>
+      <td><p>retrieve data from which cycle, 1th or 2th (default = 1)</p></td>
+    </tr>
+    <tr>
+      <th>offset</th>
+      <td><p>offset of the time series in DOY (default = 264, sept 21)</p></td>
+    </tr>
+    </table>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>modis_data</span> <span class='kw'>=</span> <span class='fu'>pr_fm_modis</span>()
+}</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
-
 </div>
-
 
 
       <footer>
