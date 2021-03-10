@@ -113,7 +113,7 @@ map <- pr_predict(data = spatial_data, par = optim.par$par)
 
 An example of NASA Earth Exchange CMIP5 output and gridded Daymet data is provided below.
 
-![](https://raw.githubusercontent.com/bluegreen-labs/phenor_manuscript/master/output/Figure_5_spatial_runs.png)
+![](https://raw.githubusercontent.com/khufkens/phenor_manuscript/master/output/Figure_5_spatial_runs.png)
 *Overview map comparing various spatial outputs of the Thermal Time (TT) and Accumulated Growing Season Index (AGSI) model optimized to deciduous broadleaf and grassland PhenoCam data respectively. a) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for 1/4th degree NASA Earth Exchange (NEX) global gridded Coupled Model Intercomparison Project 5 (CMIP5) Mid-Resolution Institut Pierre Simon Laplace Climate Model 5 (IPSL-CM5A-MR) model runs using the TT model parameterized on deciduous forest PhenoCam sites. Only pixels with more than 50% deciduous broadleaf or mixed forest cover per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; b) phenor model output of the difference in estimates of spring phenology between the year 2100 and 2011 for NEX CMIP5 IPSL-CM5A-MR model runs using the AGSI model parameterized on grassland PhenoCam sites. Only pixels with more than 50% grassland coverage per 1/4th degree pixel, using MODIS MCD12Q1 land cover data, are shown; c) phenor model output for 11 Daymet gridded datasets (tiles) for the year 2011.*
 
 ## References
