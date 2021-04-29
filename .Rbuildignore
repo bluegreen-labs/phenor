@@ -21,3 +21,4 @@
 ^\.httr-oauth$
 ^.*-logo\..*$
 ^codemeta\.json$
+^\.github$
