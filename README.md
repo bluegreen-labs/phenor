@@ -1,6 +1,6 @@
 # phenor <img src='man/figures/logo.png' align="right" height="138.5" />
 
-![Build Status](https://github.com/github/docs/actions/workflows/R-CMD-check.yml/badge.svg)
+![Build Status](https://github.com/bluegreen-labs/phenor/actions/workflows/R-CMD-check.yaml/badge.svg)
 [![codecov](https://codecov.io/gh/bluegreen-labs/phenor/branch/master/graph/badge.svg)](https://codecov.io/gh/bluegreen-labs/phenor)
 
 The phenor R package is a phenology modelling framework in R. The framework leverages measurements of vegetation phenology from four common phenology observation datasets combined with (global) retrospective and projected climate data (see below).
