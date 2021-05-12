@@ -8,6 +8,7 @@ Authors@R: c(person(
             role = c("aut", "cre"),
             comment = c(ORCID = "0000-0002-5070-8109")))
 Description: Provides an R phenology modelling framework.
+Encoding: UTF-8
 Depends:
     R (>= 3.6)
 Imports:
