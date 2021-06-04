@@ -190,7 +190,7 @@ pr_fm_csv <- function(
   }
 
   # get individual sites form the filenames
-  sites = unique(data$ID)
+  sites = unique(data$id)
 
   # track progress
   cat(sprintf('Processing %s sites\n', length(sites)))
