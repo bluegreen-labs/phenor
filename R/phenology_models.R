@@ -503,8 +503,6 @@ PA <- function(par, data){
   Rc[1:t0_chill,] <- 0
   Sc <- apply(Rc, 2, cumsum)
 
-  # chilling requirement has to be met before
-  # accumulation starts (binary choice)
   k <- C_ini + Sc * (1 - C_ini)/C_req
   k[Sc >= C_req] = 1
 
@@ -566,8 +564,6 @@ PAb <- function(par, data){
   Rc[1:t0_chill,] <- 0
   Sc <- apply(Rc,2, cumsum)
 
-  # chilling requirement has to be met before
-  # accumulation starts (binary choice)
   k <- C_ini + Sc * (1 - C_ini)/C_req
   k[Sc >= C_req] <- 1
 
@@ -631,8 +627,6 @@ PM1 <- function(par, data){
   Rc[t0:nrow(Rc),] <- 0
   Sc <- apply(Rc,2, cumsum)
 
-  # chilling requirement has to be met before
-  # accumulation starts (binary choice)
   k <- C_ini + Sc * (1 - C_ini)/C_req
   k[Sc >= C_req] <- 1
 
@@ -694,8 +688,6 @@ PM1b <- function(par, data){
   Rc[t0:nrow(Rc),] = 0
   Sc = apply(Rc,2, cumsum)
 
-  # chilling requirement has to be met before
-  # accumulation starts (binary choice)
   k = C_ini + Sc * (1 - C_ini)/C_req
   k[Sc >= C_req] = 1
 
