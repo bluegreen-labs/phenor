@@ -1,5 +1,6 @@
 # version 1.3
 
+* unit check coverage
 * R >= 3.6
 * bluegreen-labs migration
 

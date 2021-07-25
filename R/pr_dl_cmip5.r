@@ -47,6 +47,10 @@ pr_dl_cmip5 <- function(
   variable = c("tasmin","tasmax","pr")
   ){
 
+  # Provide feedback on scrapping the function
+  stop("This function has been deprecated and is replaced by instructions
+       in the vignette using the ecmwfr package!")
+
   # data file list, on amazon S3 server (which is a bit more stable
   # than the GDDP ftp server)
   files = utils::read.table(

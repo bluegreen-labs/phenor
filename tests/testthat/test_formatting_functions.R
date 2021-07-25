@@ -77,4 +77,6 @@ test_that("test formatting functions",{
     mustWork = TRUE))
   expect_type(phenocam_data, "list")
 
+  # MODISTools formatting?
+
 })
