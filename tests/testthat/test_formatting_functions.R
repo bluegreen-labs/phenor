@@ -48,4 +48,26 @@ test_that("test formatting functions",{
   l <- check_npn_species(list = TRUE)
   expect_type(l,"list")
 
+  # csv data
+  f <- data.frame(
+    id = "site1",
+    lat = 42,
+    lon = -110,
+    phenophase = "spring",
+    year = 2000,
+    doy = 120)
+
+  t <- tempfile()
+  write.table(
+    f,
+    t,
+    row.names = FALSE,
+    col.names = TRUE,
+    quote = FALSE,
+    sep = ",")
+
+  # format data
+  npn_data <- pr_fm_csv(t, phenophase = "spring")
+  expect_type(npn_data, "list")
+
 })

@@ -193,7 +193,7 @@ pr_fm_csv <- function(
   sites = unique(data$id)
 
   # track progress
-  cat(sprintf('Processing %s sites\n', length(sites)))
+  message(sprintf('Processing %s sites\n', length(sites)))
   pb = utils::txtProgressBar(min = 0, max = length(sites), style = 3)
   env = environment()
   i = 0
