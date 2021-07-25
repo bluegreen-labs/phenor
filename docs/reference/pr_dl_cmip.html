@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>phenocam_DB — phenocam_DB • phenor</title>
+<title>Download Global CMIP6 driver data — pr_dl_cmip • phenor</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,10 @@
 
 
 
-<meta property="og:title" content="phenocam_DB — phenocam_DB" />
-<meta property="og:description" content="Data structure containing budburst dates for all deciduous broadleaf
-(DB) sites included in the first PhenoCam data release. These data
-are described in detail in Richardson et al. (2017)" />
+<meta property="og:title" content="Download Global CMIP6 driver data — pr_dl_cmip" />
+<meta property="og:description" content="Data is downloaded from the Copernicus Data Store, this routine therefore
+requires a valid account with this service and your ID and key installed on
+your system using the 'ecmwfr' package." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -121,33 +121,90 @@ are described in detail in Richardson et al. (2017)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>phenocam_DB</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bluegreen-labs/phenor/blob/master/R/data.r'><code>R/data.r</code></a></small>
-    <div class="hidden name"><code>phenocam_DB.Rd</code></div>
+    <h1>Download Global CMIP6 driver data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bluegreen-labs/phenor/blob/master/R/pr_dl_cmip.R'><code>R/pr_dl_cmip.R</code></a></small>
+    <div class="hidden name"><code>pr_dl_cmip.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Data structure containing budburst dates for all deciduous broadleaf
-(DB) sites included in the first PhenoCam data release. These data
-are described in detail in Richardson et al. (2017)</p>
+    <p>Data is downloaded from the Copernicus Data Store, this routine therefore
+requires a valid account with this service and your ID and key installed on
+your system using the 'ecmwfr' package.</p>
     </div>
 
-    <pre class="usage"><span class='va'>phenocam_DB</span></pre>
+    <pre class="usage"><span class='fu'>pr_dl_cmip</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  end_year <span class='op'>=</span> <span class='fl'>2100</span>,
+  model <span class='op'>=</span> <span class='st'>"miroc6"</span>,
+  scenario <span class='op'>=</span> <span class='st'>"ssp5_8_5"</span>,
+  variable <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"daily_maximum_near_surface_air_temperature"</span>,
+    <span class='st'>"daily_minimum_near_surface_air_temperature"</span>, <span class='st'>"precipitation"</span><span class='op'>)</span>,
+  extent <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>90</span>, <span class='op'>-</span><span class='fl'>180</span>, <span class='op'>-</span><span class='fl'>90</span>, <span class='fl'>180</span><span class='op'>)</span>,
+  <span class='va'>user</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>a path where to save the gridded data</p></td>
+    </tr>
+    <tr>
+      <th>end_year</th>
+      <td><p>end year of the data queried, by default this is set to
+2100 but the dataset runs up until 2300</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>CMIP6 model data to download (character vector)</p></td>
+    </tr>
+    <tr>
+      <th>scenario</th>
+      <td><p>which RCP scenario to select for (default = "ssp5_8_5",
+or business as usual). Choose from: historical, ssp1_1_9, ssp1_2.6, ssp4_3_4,
+ssp5_3_4OS, ssp2_4_5, ssp4_6_0, ssp3_7_0,ssp5_8_5
+(consult the Copernicus documentation for further details)</p></td>
+    </tr>
+    <tr>
+      <th>variable</th>
+      <td><p>which climate variables to download, by default all required
+variables are downloaded.
+(default = c("daily_maximum_near_surface_air_temperature",
+"daily_minimum_near_surface_air_temperature",
+"precipitation"))</p></td>
+    </tr>
+    <tr>
+      <th>extent</th>
+      <td><p>vector with coordinates defining the region of interest defined
+as ymax, xmin, ymin, xmax in lat/lon (default = c( 90, -180, -90, 180))</p></td>
+    </tr>
+    <tr>
+      <th>user</th>
+      <td><p>Copernicus Data Store user ID (a number), on linux do not forget
+to set options(keyring_backend='file') if you use a file based keyring.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A structured list with 6 variables:</p><dl>
-  <dt>site</dt><dd><p>PhenoCam site name</p></dd>
-  <dt>location</dt><dd><p>geographic location</p></dd>
-  <dt>doy</dt><dd><p>DOY (1 - 365 as a vector)</p></dd>
-  <dt>transition_dates</dt><dd><p>budburst dates, as per 25 percent of the Gcc amplitude</p></dd>
-  <dt>Ti</dt><dd><p>mean daily temperature, matrix 365 rows x # site years columns</p></dd>
-  <dt>Li</dt><dd><p>daylength, matrix 365 rows x # site years columns</p></dd>
+    <p>nothing is returned to the R working environment, files are
+downloaded and stored on disk</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-</dl>
+    <p>The routine provides access to all available model runs and is a user
+friendly wrapper around a standard 'ecmwfr' call. Custom data formatting is
+possible, but herefore we refer to the 'ecmwfr' package.</p>
+<p>For a full list of the models consult the Copernicus documentation
+(&lt;https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=overview&gt;) and
+the data query tools (&lt;https://cds.climate.copernicus.eu/cdsapp#!/dataset/projections-cmip6?tab=form&gt;).</p>
 
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='st'>"bla"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,9 +31,11 @@ Imports:
     foreach,
     doParallel,
     daymetr,
+    ecmwfr,
     phenocamr,
     BayesianTools
 Suggests:
+    knitr,
     covr,
     testthat
 License: AGPL-3
