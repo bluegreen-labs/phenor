@@ -58,7 +58,7 @@ pr_dl_cmip <- function(
   }
 
   # check key
-  tryCatch(wf_get_key(
+  tryCatch(ecmwfr::wf_get_key(
     user = user,
     service = "cds"),
     finally = message(
@@ -84,7 +84,7 @@ pr_dl_cmip <- function(
       target = "download.zip"
     )
 
-    wf_request(
+    ecmwfr::wf_request(
       request = request,
       user = user,
       path = path
