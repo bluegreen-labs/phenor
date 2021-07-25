@@ -42,6 +42,7 @@ test_that("test formatting functions",{
   expect_output(check_npn_phenophases(list = TRUE))
   l <- check_npn_phenophases(phenophase = 61, list = FALSE)
   expect_type(l,"logical")
+  expect_output(check_npn_phenophases(phenophase = 61, list = TRUE))
   l <- check_npn_species(species = 3, list = TRUE)
   expect_type(l,"list")
   l <- check_npn_species(list = TRUE)

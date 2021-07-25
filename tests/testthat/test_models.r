@@ -20,9 +20,25 @@ test_that("test models",{
 
   # test models
   expect_output(pr_fit_comparison(
+    data =phenocam_DB[c(1:2)],
     random_seeds = 1,
     models = models,
     control = list(max.call = 5)))
+
+  # test models
+  expect_output(pr_fit_comparison(
+    data =  phenocam_DB[c(1:2)],
+    random_seeds = 1,
+    models = models,
+    method = "bayesiantools",
+    control = list(
+      sampler = "DEzs",
+      settings = list(
+        burnin = 10,
+        iterations = 1000)
+      )
+    )
+  )
 
   # fit model
   fit <- pr_fit(control=list(max.call = 5))
@@ -58,6 +74,7 @@ test_that("test models",{
 
   # return summary stats
   expect_message(summary(fit))
+  expect_type(plot(fit),"list")
 
   # test CV
   l <- pr_cross_validate(
@@ -67,21 +84,4 @@ test_that("test models",{
     data = phenocam_DB[c(1:2)])
 
   expect_type(l, "list")
-})
-
-
-# test all phenology models
-test_that("test Bayesiantools",{
-
-  # fit model
-  fit <- pr_fit(
-    method = "bayesiantools",
-    control = list(
-      sampler = "DEzs",
-      settings = list(
-        burnin = 10,
-        iterations = 50)
-    )
-  )
-
 })
