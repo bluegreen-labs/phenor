@@ -19,7 +19,50 @@ test_that("test model runs",{
   )
 
   # test models
-  expect_output(pr_fit_comparison(random_seeds = 1,
-                                 models = models,
-                                 control = list(max.call = 10)))
+  expect_output(pr_fit_comparison(
+    random_seeds = 1,
+    models = models,
+    control = list(max.call = 5)))
+
+  # fit model
+  fit <- pr_fit(control=list(max.call = 5))
+
+  temp_sens <- pr_calc_temp_sens(
+    par = fit$par,
+    data = phenocam_DB,
+    model = "TT")
+
+  expect_type(temp_sens, "list")
+
+  expect_error(
+    pr_calc_temp_sens(
+      par = fit$par,
+      data = phenocam_DB
+      )
+  )
+
+  expect_error(
+    pr_calc_temp_sens(
+      par = fit$par,
+      model = "TT"
+    )
+  )
+
+  expect_error(
+    pr_calc_temp_sens(
+      data = phenocam_DB,
+      model = "TT")
+  )
+
+  # return summary stats
+  expect_message(summary(fit))
+
+  # test CV
+  l <- pr_cross_validate(
+    k = 2,
+    cv_seed = 123,
+    models =  c("LIN"),
+    data = phenocam_DB[c(1:2)])
+
+  expect_type(l, "list")
 })

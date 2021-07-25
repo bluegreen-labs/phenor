@@ -1,18 +1,28 @@
 # Phenor unit tests
 
 # test all data downloads
-test_that("test data downloads",{
+test_that("test downloading functions",{
 
-  # download npn data
-  expect_output(pr_dl_npn(species = 3,
-                              path = tempdir(),
-                              internal = FALSE))
+  # NPN data
+  expect_message(
+    pr_dl_npn(species = 3,
+              internal = FALSE,
+              start = "2001-01-01",
+              end = "2001-12-31")
+  )
 
-  # download npn data internal
-  expect_output(pr_dl_npn(species = 3,
-                          internal = TRUE))
+  expect_error(
+    pr_dl_npn(species = 3,
+              internal = FALSE,
+              start = "2000-01-01",
+              end = "2000-12-31")
+  )
 
-  # download berkeley earth data
-  expect_output(pr_dl_be(year = 2011,
-                         path = tempdir()))
+  df <- pr_dl_npn(species = 3,
+                  internal = TRUE,
+                  start = "2001-01-01",
+                  end = "2001-12-31")
+
+  expect_type(df,"list")
+
 })

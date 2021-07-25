@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' download_npn(species = 3, internal = FALSE)
+#' pr_dl_npn(species = 3, internal = FALSE)
 #'}
 
 pr_dl_npn <- function(

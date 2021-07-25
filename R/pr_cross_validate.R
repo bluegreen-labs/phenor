@@ -69,7 +69,7 @@ pr_cross_validate <- function(
 
   # get a specified subset out of flat data set
   get_cv_subset <- function(data,ids){
-    CV_subset <- list(
+    cv_subset <- list(
       site = data$site[ids, drop = FALSE],
       location = data$location[, ids, drop = FALSE],
       doy = data$doy,
@@ -83,7 +83,7 @@ pr_cross_validate <- function(
       VPDi = data$VPDi[, ids, drop = FALSE],
       georeferencing = data$georeferencing[ids, drop = FALSE]
     )
-    return (CV_subset)
+    return (cv_subset)
   }
 
   # Train and validate a fold in k-fold (or LOO) CV
@@ -93,7 +93,7 @@ pr_cross_validate <- function(
     train_data <- get_cv_subset(data,c(1:n) [-cv_set[[i]]])
 
     # Estimate Parameters on training dataset
-    CVfold <- pr_fit_comparison(
+    cv_fold <- pr_fit_comparison(
       random_seeds,
       models,
       train_data,
@@ -101,7 +101,7 @@ pr_cross_validate <- function(
       control,
       par_ranges)
 
-    CVfold$validation_measured<-val_data$transition_dates
+    cv_fold$validation_measured<-val_data$transition_dates
 
     # estimate model output for validation data using the optimized parameters
     for (j in 1:length(models)){
@@ -109,7 +109,7 @@ pr_cross_validate <- function(
                  nrow=length(random_seeds))
       for (l in 1:length(random_seeds)){
         out <- pr_predict(data = val_data,model = models[j],
-                                par = CVfold$modelled[[j]]$parameters[l,])
+                                par = cv_fold$modelled[[j]]$parameters[l,])
         vp[l,] <- out
       }
       cv_fold$modelled[[j]]$validation_predicted_values <- vp
@@ -196,7 +196,7 @@ pr_cross_validate <- function(
   }
   names(results)<-c(1:k)
 
-  #Caluclate some basic stats
+  # Calculate some basic stats
   cv_stat=list()
   for (m in 1:length(models)) {
 
