@@ -38,10 +38,10 @@ the destination raster. Both maps should be in EPSG:4326.
 }
 \examples{
 
+\dontrun{
 # will return a land cover density map for
 # the evergreen needleleaf class (1) and
 # the deciduous broadleaf classs (4)
-\dontrun{
 lc_dens = pr_calc_land_cover(lc_classes = c(1, 4),
                              lc_raster = "~/MCD12Q1_igbp_map.tif"
                              dest_raster = "~/1_degree_lat_lon_map.tif")

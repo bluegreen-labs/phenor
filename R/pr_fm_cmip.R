@@ -1,7 +1,9 @@
-#' Formatting NASA Earth Exchange Global Daily Downscaled Projections
-#' (NEX-GDDP)
+#' Formatting CMIP6 data
 #'
-#' @param path a path to the gridded data (original max / min temp. / precip files)
+#' Formats CMIP6 data as downloaded through the Copernicus CDS service,
+#' using pr_dl_cmip().
+#'
+#' @param path a path to the gridded data
 #' @param year year to process (requires year - 1 to be present / downloaded)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param model which CMIP5 model to use
@@ -23,7 +25,7 @@
 #'}
 
 # create subset of layers to calculate phenology model output on
-pr_fm_cmip5 <- function(
+pr_fm_cmip <- function(
   path = tempdir(),
   year = 2016,
   offset = 264,

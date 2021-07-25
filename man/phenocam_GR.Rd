@@ -4,7 +4,8 @@
 \name{phenocam_GR}
 \alias{phenocam_GR}
 \title{phenocam_GR}
-\format{A structured list with 6 variables:
+\format{
+A structured list with 6 variables:
 \describe{
   \item{site}{PhenoCam site name}
   \item{location}{geographic location}
@@ -12,7 +13,8 @@
   \item{transition_dates}{budburst dates, as per 25 percent of the Gcc amplitude }
   \item{Ti}{mean daily temperature, matrix 365 rows x # site years columns}
   \item{Li}{daylength, matrix 365 rows x # site years columns}
-}}
+}
+}
 \usage{
 phenocam_GR
 }

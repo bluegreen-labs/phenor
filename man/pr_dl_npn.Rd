@@ -43,7 +43,7 @@ Download USA-NPN data using the API interface
 }
 \examples{
 \dontrun{
-download_npn(species = 3, internal = FALSE)
+pr_dl_npn(species = 3, internal = FALSE)
 }
 }
 \keyword{model,}
