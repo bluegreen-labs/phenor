@@ -1,7 +1,7 @@
 # Phenor unit tests
 
 # test all phenology models
-test_that("test model runs",{
+test_that("test models",{
 
   # load parameter ranges
   models <- unique(
@@ -26,6 +26,8 @@ test_that("test model runs",{
 
   # fit model
   fit <- pr_fit(control=list(max.call = 5))
+  fit_cvmae <- pr_fit(control=list(max.call = 5), cost = cvmae)
+  expect_type(fit_cvmae, "list")
 
   temp_sens <- pr_calc_temp_sens(
     par = fit$par,
@@ -65,4 +67,21 @@ test_that("test model runs",{
     data = phenocam_DB[c(1:2)])
 
   expect_type(l, "list")
+})
+
+
+# test all phenology models
+test_that("test Bayesiantools",{
+
+  # fit model
+  fit <- pr_fit(
+    method = "bayesiantools",
+    control = list(
+      sampler = "DEzs",
+      settings = list(
+        burnin = 10,
+        iterations = 50)
+    )
+  )
+
 })
