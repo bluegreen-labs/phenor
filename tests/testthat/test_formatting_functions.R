@@ -70,4 +70,11 @@ test_that("test formatting functions",{
   npn_data <- pr_fm_csv(t, phenophase = "spring")
   expect_type(npn_data, "list")
 
+  # phenocam formatting
+  phenocam_data <- pr_fm_phenocam(path = system.file(
+    "extdata",
+    package = "phenor",
+    mustWork = TRUE))
+  expect_type(phenocam_data, "list")
+
 })
