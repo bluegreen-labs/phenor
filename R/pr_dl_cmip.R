@@ -26,7 +26,7 @@
 #' "daily_minimum_near_surface_air_temperature",
 #' "precipitation"))
 #' @param extent vector with coordinates defining the region of interest defined
-#' as ymax, xmin, ymin, xmax in lat/lon (default = c( 90, -180, -90, 180))
+#' as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))
 #' @param user Copernicus Data Store user ID (a number), on linux do not forget
 #' to set options(keyring_backend='file') if you use a file based keyring.
 #'

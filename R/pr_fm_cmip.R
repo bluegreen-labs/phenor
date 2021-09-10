@@ -10,7 +10,7 @@
 #' @param scenario "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 #' while historical data covers 1950 - 2005
 #' @param extent vector with coordinates defining the region of interest defined
-#' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48)), note
+#' as xmin, xmax, ymin, ymax in lat/lon (default = c(-80, -70, 40, 50)), note
 #' that this differs from the download routine!!
 #' @param internal TRUE / FALSE, write data structure to file as RDS
 #' (default = FALSE)

@@ -27,7 +27,7 @@ pr_fm_cmip(
 while historical data covers 1950 - 2005}
 
 \item{extent}{vector with coordinates defining the region of interest defined
-as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48)), note
+as xmin, xmax, ymin, ymax in lat/lon (default = c(-80, -70, 40, 50)), note
 that this differs from the download routine!!}
 
 \item{internal}{TRUE / FALSE, write data structure to file as RDS
