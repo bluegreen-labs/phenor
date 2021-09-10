@@ -11,7 +11,7 @@ pr_dl_cmip(
   scenario = "ssp5_8_5",
   variable = c("daily_maximum_near_surface_air_temperature",
     "daily_minimum_near_surface_air_temperature", "precipitation"),
-  extent = c(90, -180, -90, 180),
+  extent = c(40, -80, 50, -70),
   user
 )
 }

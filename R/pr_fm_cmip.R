@@ -6,11 +6,12 @@
 #' @param path a path to the gridded data
 #' @param year year to process (requires year - 1 to be present / downloaded)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
-#' @param model which CMIP5 model to use
+#' @param model which CMIP6 model to use
 #' @param scenario "rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 #' while historical data covers 1950 - 2005
 #' @param extent vector with coordinates defining the region of interest defined
-#' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))
+#' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48)), note
+#' that this differs from the download routine!!
 #' @param internal TRUE / FALSE, write data structure to file as RDS
 #' (default = FALSE)
 #' @return data structure formatted for phenor model optimization and validation
@@ -18,7 +19,7 @@
 #' @export
 #' @examples
 #' # run with default settings
-#' # look for alternative models on the CMIP5
+#' # look for alternative models on the CMIP6
 #' # downscaled data page
 #' \dontrun{
 #' cmip5_data <- pr_fm_cmip()

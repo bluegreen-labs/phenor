@@ -8,9 +8,9 @@ pr_fm_cmip(
   path = tempdir(),
   year = 2016,
   offset = 264,
-  model = "IPSL-CM5A-MR",
-  scenario = "rcp85",
-  extent = c(-128, -65, 24, 50),
+  model = "MIROC6",
+  scenario = "ssp5_8_5",
+  extent = c(-80, -70, 40, 50),
   internal = TRUE
 )
 }
@@ -21,13 +21,14 @@ pr_fm_cmip(
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 
-\item{model}{which CMIP5 model to use}
+\item{model}{which CMIP6 model to use}
 
 \item{scenario}{"rcp85", "rcp45", "historical" here rcp covers 2006 - 2100
 while historical data covers 1950 - 2005}
 
 \item{extent}{vector with coordinates defining the region of interest defined
-as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))}
+as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48)), note
+that this differs from the download routine!!}
 
 \item{internal}{TRUE / FALSE, write data structure to file as RDS
 (default = FALSE)}
@@ -41,10 +42,10 @@ using pr_dl_cmip().
 }
 \examples{
 # run with default settings
-# look for alternative models on the CMIP5
+# look for alternative models on the CMIP6
 # downscaled data page
 \dontrun{
-cmip5_data <- pr_fm_cmip5()
+cmip5_data <- pr_fm_cmip()
 }
 }
 \keyword{model,}
