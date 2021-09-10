@@ -33,7 +33,8 @@ Imports:
     daymetr,
     ecmwfr,
     phenocamr,
-    BayesianTools
+    BayesianTools,
+    utils
 Suggests:
     knitr,
     covr,

@@ -100,13 +100,13 @@ pr_dl_cmip <- function(
     # unzipping data in place
     message("unzipping data!")
 
-    unzip(file.path(tempdir(),"phenor", "cmip.zip"),
+    utils::unzip(file.path(tempdir(),"phenor", "cmip.zip"),
           exdir = file.path(tempdir(), "phenor"))
 
     # copy files to final path
     files <- list.files(
       file.path(tempdir(), "phenor"),
-      pattern = glob2rx("*.nc"),
+      pattern = "*\\.nc",
       full.names = TRUE)
 
     file.copy(
