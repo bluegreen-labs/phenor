@@ -21,7 +21,7 @@
 #' # look for alternative models on the CMIP5
 #' # downscaled data page
 #' \dontrun{
-#' cmip5_data <- pr_fm_cmip5()
+#' cmip5_data <- pr_fm_cmip()
 #'}
 
 # create subset of layers to calculate phenology model output on
@@ -29,9 +29,9 @@ pr_fm_cmip <- function(
   path = tempdir(),
   year = 2016,
   offset = 264,
-  model = "IPSL-CM5A-MR",
-  scenario = "rcp85",
-  extent = c(-128,-65, 24, 50),
+  model = "MIROC6",
+  scenario = "ssp5_8_5",
+  extent = c(-80, -70, 40, 50),
   internal = TRUE
   ) {
 
@@ -43,63 +43,46 @@ pr_fm_cmip <- function(
   # measurements to include in the processing routine
   measurements = c("tasmax", "tasmin", "pr")
 
-  # loop over the two years needed
-  # depending on the offset
-  for (i in c(year - 1, year)){
-
-    # download or read data
-    data = lapply(measurements, function(x){
+  # download or read data
+  data = lapply(measurements, function(x){
 
       # filename
-      filename = files[which(grepl(i,files) &
-                       grepl(x,files) &
-                       grepl(scenario,files) &
+      filename = files[(grepl(x,files) &
+                       grepl(gsub("_","",scenario),files) &
                        grepl(toupper(model),toupper(files))
                        )]
 
       # if the file exist use the local file
       if (length(filename) != 0){
-        r = raster::brick(file.path(path, filename))
+        r = raster::brick(file.path(path, filename), varname = x)
+        layers <- c(grep(sprintf("X%s", year-1), names(r)),
+                    grep(sprintf("X%s", year), names(r)))
+        r = subset(r, layers)
         return(r)
       } else {
         stop("Required files not available: Check your path variable!")
       }
-    })
+   })
 
-    # shift the data, longitudes run from 0 - 360
-    min_temp = rotate_cmip5(r = data[[2]], extent = extent)
-    max_temp = rotate_cmip5(r = data[[1]], extent = extent)
-    precip = rotate_cmip5(r = data[[3]], extent = extent)
+  # crop the data if large files are provided this saves
+  # time and data loads
+  Tmini = raster::crop(data[[2]], extent(extent))
+  Tmaxi = raster::crop(data[[1]], extent(extent))
+  Pi = raster::crop(data[[3]], extent(extent))
 
-    # stack the temperature data to take the mean
-    # using stackApply()
-    temp_data_stack = raster::stack(max_temp,
-                                    min_temp)
+  # stack the temperature data to take the mean
+  # using stackApply()
+  temp_data_stack = raster::stack(
+    Tmaxi,
+    Tmini)
 
-    # calculate mean temperature on cropped data for speed
-    l = raster::nlayers(temp_data_stack)/2
-    mean_temp = raster::stackApply(temp_data_stack,
-                                   indices = rep(1:l,2),
-                                   fun = mean,
-                                   na.rm = TRUE)
-
-    # combine data in one big stack
-    if (year != i){
-        temp = mean_temp
-        Tmini = min_temp
-        Tmaxi = max_temp
-        Pi = precip
-    } else {
-      # combine data with previous year's
-      temp = raster::stack(temp, mean_temp)
-      Tmini = raster::stack(Tmini, min_temp)
-      Tmaxi = raster::stack(Tmaxi, max_temp)
-      Pi = raster::stack(Pi, precip)
-    }
-
-    # clear intermediate variables
-    rm(list = c("mean_temp","min_temp","max_temp","precip"))
-  }
+  message("calculating mean temperatures")
+  # calculate mean temperature on cropped data for speed
+  l = raster::nlayers(temp_data_stack)/2
+  temp = raster::stackApply(temp_data_stack,
+                                 indices = rep(1:l,2),
+                                 fun = mean,
+                                 na.rm = TRUE)
 
   # grab layer names
   layer_names <- names(Tmini)
@@ -107,15 +90,9 @@ pr_fm_cmip <- function(
   # extract the yday and year strings
   # year strings, depends on how things are subset
   # and pasted back together
-  if (grepl("layer", layer_names[1])){
-    layer_values = do.call("rbind",strsplit(layer_names, "\\."))
-    yday = as.numeric(layer_values[,2])
-    years = as.numeric(layer_values[,3])
-  } else {
-    dates = as.Date(layer_names,"X%Y.%m.%d")
-    yday = as.numeric(format(dates,"%j"))
-    years = as.numeric(format(dates,"%Y")) - year + 2
-  }
+  dates = as.Date(layer_names,"X%Y.%m.%d")
+  yday = as.numeric(format(dates,"%j"))
+  years = as.numeric(format(dates,"%Y")) - year + 2
 
   # calculate if the previous year was a leap year
   # to account for this offset
@@ -195,7 +172,7 @@ pr_fm_cmip <- function(
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_cmip5_data_%s_%s_%s.rds",
+    saveRDS(data, file = sprintf("%s/phenor_cmip_data_%s_%s_%s.rds",
                                  path,
                                  model,
                                  year,
