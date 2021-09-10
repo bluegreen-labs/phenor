@@ -49,7 +49,7 @@ pr_dl_cmip <- function(
   variable = c("daily_maximum_near_surface_air_temperature",
                "daily_minimum_near_surface_air_temperature",
                "precipitation"),
-  extent = c( 90, -180, -90, 180),
+  extent = c( 40, -80, 50, -70),
   user
   ){
 
@@ -81,18 +81,45 @@ pr_dl_cmip <- function(
       area = extent,
       date = paste0("2000-01-01/",end_year,"-12-31"),
       dataset_short_name = "projections-cmip6",
-      target = "download.zip"
+      target = "cmip.zip"
+    )
+
+    # create phenor temp dir
+    dir.create(
+      file.path(tempdir(), "phenor"),
+      showWarnings = FALSE,
+      recursive = TRUE
     )
 
     ecmwfr::wf_request(
       request = request,
       user = user,
-      path = path
+      path = file.path(tempdir(), "phenor")
     )
 
     # unzipping data in place
     message("unzipping data!")
 
+    unzip(file.path(tempdir(),"phenor", "cmip.zip"),
+          exdir = file.path(tempdir(), "phenor"))
+
+    # copy files to final path
+    files <- list.files(
+      file.path(tempdir(), "phenor"),
+      pattern = glob2rx("*.nc"),
+      full.names = TRUE)
+
+    file.copy(
+      from = files,
+      to = path,
+      overwrite = TRUE)
+
+    # clean up files in tempdir
+    file.remove(
+      list.files(file.path(tempdir(), "phenor"),
+                 "*",
+                 full.names = TRUE)
+      )
   })
 
   # feedback
