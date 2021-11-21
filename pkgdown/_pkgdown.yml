@@ -1,0 +1,17 @@
+template:
+  package: bgtemplate
+
+authors:
+  Koen Hufkens:
+    href: https://bluegreenlabs.org
+  BlueGreen Labs:
+    href: https://bluegreenlabs.org
+
+navbar:
+  structure:
+    left:  [home, intro, reference, articles, tutorials, news]
+    right: [github]
+  components:
+    twitter:
+      icon: "fab fa-twitter fa-lg"
+      href: https://twitter.com/bluegreen_labs
