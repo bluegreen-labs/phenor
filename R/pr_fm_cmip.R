@@ -131,7 +131,7 @@ pr_fm_cmip <- function(
   size <- dim(temp)
 
   # grab coordinates
-  location <- terra::xyFromCell(tmean, 1:prod(dim(tmean)[1:2]))
+  location <- terra::xyFromCell(temp, 1:prod(dim(temp)[1:2]))
 
   # create doy vector
   if (offset < length(layers)){
