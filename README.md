@@ -7,6 +7,10 @@ The phenor R package is a phenology modelling framework in R. The framework leve
 
 The package curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for underlying climate driver data in model optimization. The package supports global gridded CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the [NASA Earth Exchange global downscaled daily projections](https://nex.nasa.gov/nex/projects/1356/).
 
+```diff
+- Currently CMIP scenarios through NASA NEX are no longer functional. A solution is being worked on.
+```
+
 Phenological model calibration / validation data are derived from:
 - the transition dates derived from [PhenoCam](https://phenocam.sr.unh.edu) time series through the [phenocamr](https://github.com/bluegreen-labs/phenocamr) R package
 - the MODIS MCD12Q2 phenology product using the [MODISTools R package](http://onlinelibrary.wiley.com/doi/10.1002/ece3.1273/full)

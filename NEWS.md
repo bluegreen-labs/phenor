@@ -1,3 +1,7 @@
+# version 1.3.1
+
+* fix UN model parameter ranges (issue #35)
+
 # version 1.3
 
 * unit check coverage
