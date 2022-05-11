@@ -10,7 +10,7 @@ pr_fm_cmip(
   offset = 264,
   model = "MIROC6",
   scenario = "ssp5_8_5",
-  extent = c(40, -80, 50, -70),
+  extent = c(41, -79, 50, -69),
   internal = TRUE
 )
 }
