@@ -78,7 +78,7 @@ pr_dl_era5 <- function(
 
   ecmwfr::wf_request(
     request = request,
-    user = user,
+    user = as.character(user),
     path = file.path(tempdir(), "phenor")
   )
 
