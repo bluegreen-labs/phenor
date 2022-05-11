@@ -59,7 +59,7 @@ pr_dl_cmip <- function(
 
   # check key
   tryCatch(ecmwfr::wf_get_key(
-    user = user,
+    user = as.character(user),
     service = "cds"),
     finally = message(
     "Check your user credentials or your keyring!

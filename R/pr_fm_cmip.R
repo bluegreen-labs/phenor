@@ -32,33 +32,39 @@ pr_fm_cmip <- function(
   offset = 264,
   model = "MIROC6",
   scenario = "ssp5_8_5",
-  extent = c(-80, -70, 40, 50),
+  extent = c( 40, -80, 50, -70),
   internal = TRUE
   ) {
 
   # list all netCDF files in the path
-  files = list.files(path = path,
+  files <- list.files(path = path,
                      pattern = "*\\.nc",
                      full.names = FALSE)
 
+  print(files)
+
   # measurements to include in the processing routine
-  measurements = c("tasmax", "tasmin", "pr")
+  measurements <- c("tasmax", "tasmin", "pr")
 
   # download or read data
-  data = lapply(measurements, function(x){
+  data <- lapply(measurements, function(x){
 
       # filename
-      filename = files[(grepl(x,files) &
+      filename <- files[(grepl(x,files) &
                        grepl(gsub("_","",scenario),files) &
                        grepl(toupper(model),toupper(files))
                        )]
 
       # if the file exist use the local file
       if (length(filename) != 0){
-        r = raster::brick(file.path(path, filename), varname = x)
+        r <- terra::rast(file.path(path, filename), x)
+        dates <- terra::time(r)
+
         layers <- c(grep(sprintf("X%s", year-1), names(r)),
                     grep(sprintf("X%s", year), names(r)))
-        r = subset(r, layers)
+
+        print(layers)
+        r <- terra::subset(r, layers)
         return(r)
       } else {
         stop("Required files not available: Check your path variable!")
@@ -67,9 +73,11 @@ pr_fm_cmip <- function(
 
   # crop the data if large files are provided this saves
   # time and data loads
-  Tmini = raster::crop(data[[2]], extent(extent))
-  Tmaxi = raster::crop(data[[1]], extent(extent))
-  Pi = raster::crop(data[[3]], extent(extent))
+  Tmini <- terra::crop(data[[2]], terra::ext(extent))
+  Tmaxi <- terra::crop(data[[1]], terra::ext(extent))
+  Pi <- terra::crop(data[[3]], terra::ext(extent))
+
+  #plot(Tmini)
 
   # stack the temperature data to take the mean
   # using stackApply()

@@ -29,7 +29,7 @@ test_that("test models",{
   expect_output(pr_fit_comparison(
     data =  phenocam_DB[c(1:2)],
     random_seeds = 1,
-    models = models,
+    models = models[1:2],
     method = "bayesiantools",
     control = list(
       sampler = "DEzs",
