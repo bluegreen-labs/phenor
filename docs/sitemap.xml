@@ -163,6 +163,9 @@
     <loc>/reference/pr_dl_cmip5.html</loc>
   </url>
   <url>
+    <loc>/reference/pr_dl_era5.html</loc>
+  </url>
+  <url>
     <loc>/reference/pr_dl_npn.html</loc>
   </url>
   <url>
@@ -197,6 +200,9 @@
   </url>
   <url>
     <loc>/reference/pr_fm_eobs.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pr_fm_era5.html</loc>
   </url>
   <url>
     <loc>/reference/pr_fm_gee.html</loc>

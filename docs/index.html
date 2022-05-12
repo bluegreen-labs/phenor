@@ -45,7 +45,7 @@
         <a class="external-link hidden-md hidden-lg" href="https://bluegreenlabs.org">
           <img src="https://bluegreenlabs.org/img/logo.png" id="hexlogo" alt="bluegreen labs"></a>
         <a class="navbar-brand" href="index.html">
-           <i>phenor <small>v1.3.1</small></i>
+           <i>phenor <small>v1.3.2</small></i>
         </a>
       </div>
     </div>
@@ -90,8 +90,13 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode diff"><code class="sourceCode diff"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="st">- for the original package as described in the paper use release v1.0.</span></span></code></pre></div>
-<p>To install the toolbox in R run the following commands in a R terminal</p>
+<p>To install the latest stable release of the toolbox in R run the following commands in a R terminal</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">}</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"bluegreen-labs/phenor@v1.3.1"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bluegreen-labs/phenor" class="external-link">phenor</a></span><span class="op">)</span></code></pre></div>
+<p>The development release can be installed by running</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">}</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"bluegreen-labs/phenor"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bluegreen-labs/phenor" class="external-link">phenor</a></span><span class="op">)</span></code></pre></div>
@@ -103,7 +108,7 @@
 <h2 id="use">Use<a class="anchor" aria-label="anchor" href="#use"></a>
 </h2>
 <p>Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr package and format them correctly using <strong>format_phenocam()</strong></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The command below downloads all time series for deciduous broadleaf</span>
 <span class="co"># data at the bartlett PhenoCam site and estimates the</span>
 <span class="co"># phenophases.</span>
@@ -114,14 +119,14 @@
 <span class="co"># process phenocam transition files into a consistent format</span>
 <span class="va">phenocam_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pr_fm_phenocam.html">pr_fm_phenocam</a></span><span class="op">(</span><span class="st">"/foo/bar/transition_dates/"</span><span class="op">)</span></code></pre></div>
 <p>Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017) precompiled with Daymet climate variables. The file is loaded using a standard <strong>data()</strong> call or reference them directly (e.g. <em>phenocam_DB</em>).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load the included data using</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"phenocam_DB"</span><span class="op">)</span></code></pre></div>
 <div class="section level3">
 <h3 id="model-development-and-parameter-estimation">Model development, and parameter estimation<a class="anchor" aria-label="anchor" href="#model-development-and-parameter-estimation"></a>
 </h3>
 <p>The gathered data can now be used in model calibration / validation. Currently 17 models as described by Basler (2016) are provided in the pacakge. These models include: null, LIN, TT, TTs, PTT, PTTs, M1, M1s, PA, Pab, SM1, SM1b, SQ, SQb, UN, UM1, PM1 and PM1b models as described in Basler (2016). In addition three spring grassland (pollen) phenology models: GR, SGSI and AGSI are included as described in Garcia-Mozo et al. 2009 and Xin et al. 2015. Finally, one autumn chilling degree day model (CDD, Jeong et al. 2012) is provided. Parameter values associated with the models are provided in a separate file included in the package but can be specified separately for model development.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># comma separated parameter file inlcuded in the package</span>
 <span class="co"># for all the included models, this file is used by default</span>
 <span class="co"># in all optimization routines</span>
@@ -130,7 +135,7 @@
                         header <span class="op">=</span> <span class="cn">TRUE</span>,
                         sep <span class="op">=</span> <span class="st">","</span><span class="op">)</span></code></pre></div>
 <p>Your own model development can be done by creating similar functions which take in the described data format and parameters. Below is the function to optimize the model parameters for the <em>TT</em> (thermal time) model using Generalized Simulated Annealing (GenSA). Uppper and lower constraints to the parameter space have to be provided, and in case of GenSA initial parameters are estimated when par = NULL.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># optimize model parameters</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
 <span class="va">optim.par</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pr_fit_parameters.html">pr_fit_parameters</a></span><span class="op">(</span>par <span class="op">=</span> <span class="cn">NULL</span>,
@@ -141,7 +146,7 @@
                           lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="op">-</span><span class="fl">5</span>,<span class="fl">0</span><span class="op">)</span>,
                           upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">365</span>,<span class="fl">10</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>After a few minutes optimal parameters are provided. We can use these now to calculate our model values and some accuracy metrics.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># now run the model for all data in the nested list using the estimated parameters</span>
 <span class="va">modelled</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pr_predict.html">pr_predict</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, par <span class="op">=</span> <span class="va">optim.par</span><span class="op">$</span><span class="va">par</span><span class="op">)</span></code></pre></div>
 <p>Easy model calibration / validation can be achieved using the <strong>model_calibration()</strong> and <strong>model_comparison()</strong> functions. Which either allow for quick screening for model development, or the comparison of a suite of models (using different starting parameters). I hope this gets you started.</p>
@@ -150,7 +155,7 @@
 <h3 id="model-projections-and-spatial-data">Model projections and spatial data<a class="anchor" aria-label="anchor" href="#model-projections-and-spatial-data"></a>
 </h3>
 <p>The package allows you to download gridded CMIP5 forecast data from the NASA Earth Exchange global daily downscaled climate projections project. Hindcast data are provided for global NASA Earth Exchange, Berkeley Earth, E-OBS and gridded Daymet data (at 1/4<sup>th</sup> degree, 1 degree, 1/4<sup>th</sup> degree, 1km resolutions respectively).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># running data on spatial data (determined by the class assigned by</span>
 <span class="co"># various format_*() routines) will return a spatial object (raster map)</span>
 <span class="va">map</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pr_predict.html">pr_predict</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">spatial_data</span>, par <span class="op">=</span> <span class="va">optim.par</span><span class="op">$</span><span class="va">par</span><span class="op">)</span></code></pre></div>

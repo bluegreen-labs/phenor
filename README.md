@@ -29,7 +29,15 @@ Keep in mind that some of the scripts will take a significant amount of time to 
 - for the original package as described in the paper use release v1.0.
 ```
 
-To install the toolbox in R run the following commands in a R terminal
+To install the latest stable release of the toolbox in R run the following commands in a R terminal
+
+```R
+if(!require(devtools)){install.packages(devtools)}
+devtools::install_github("bluegreen-labs/phenor@v1.3.1")
+library(phenor)
+```
+
+The development release can be installed by running
 
 ```R
 if(!require(devtools)){install.packages(devtools)}
