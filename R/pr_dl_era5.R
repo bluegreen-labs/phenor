@@ -1,4 +1,4 @@
-#' Download Global ERA5 driver data
+#' Download Global ERA5 (land) driver data
 #'
 #' Data is downloaded from the Copernicus Data Store, this routine therefore
 #' requires a valid account with this service and your ID and key installed on
@@ -6,12 +6,16 @@
 #'
 #' The routine provides access to all available model runs and is a user
 #' friendly wrapper around a standard 'ecmwfr' call. Custom data formatting is
-#' possible, but herefore we refer to the 'ecmwfr' package.
+#' possible but we refer to the 'ecmwfr' package.
 #'
 #' @param path a path where to save the gridded data
 #' @param file filename of the file holding the final ERA5 netcdf data
 #' @param product which ERA5 product to download,
-#' @param year year of the data queried
+#' @param year year of the data queried, this can be a single year or a
+#'  list of multiple years e.g. c(2018,2019,2020). Note that you will need
+#'  data for the year of interest and the preceding year to make predictions.
+#'  When specifying one year the preceding year will be appended, when
+#'  specifying multiple years no checks are in place!!
 #' @param extent vector with coordinates defining the region of interest defined
 #' as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))
 #' @param user Copernicus Data Store user ID (a number), on linux do not forget
@@ -41,6 +45,11 @@ pr_dl_era5 <- function(
     stop("Please provide a valid Copernicus CDS user ID!")
   }
 
+  # year ranges provision
+  if(length(year) == 1){
+    year <- c(year - 1, year)
+  }
+
   # check key
   tryCatch(ecmwfr::wf_get_key(
     user = as.character(user),
@@ -55,6 +64,7 @@ pr_dl_era5 <- function(
   # product, "land" will download ERA5-land
   # ERA5 covers 1979 till present, ERA5-land
   # covers 1950 till present
+  # note: consider replacing with ecmwfr::wf_archetype()
   if(product == "era5"){
 
     # Download request for ERA5
@@ -63,7 +73,7 @@ pr_dl_era5 <- function(
       format = "netcdf",
       variable = c("2m_temperature",
                    "total_precipitation"),
-      year = c(year - 1, year),
+      year = year,
       month = c("01", "02", "03", "04", "05", "06",
                 "07", "08", "09", "10", "11", "12"),
       day = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
@@ -86,7 +96,7 @@ pr_dl_era5 <- function(
       format = "netcdf",
       variable = c("2m_temperature",
                    "total_precipitation"),
-      year = c(year - 1, year),
+      year = year,
       month = c("01", "02", "03", "04", "05", "06",
                 "07", "08", "09", "10", "11", "12"),
       day = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
@@ -102,7 +112,6 @@ pr_dl_era5 <- function(
       target = file
     )
   }
-
 
   # create phenor temp dir
   dir.create(
