@@ -56,6 +56,9 @@ pr_flatten <- function(data){
 
   # concat all precip data in one big matrix
   VPDi <- do.call("cbind",lapply(data,function(x)x$VPDi))
+                                 
+  # concat all SM data in one big matrix
+  SM <- do.call("cbind",lapply(data,function(x)x$SM))
 
   # long term mean
   ltm <- matrix(NA,365,length(site))
@@ -91,6 +94,7 @@ pr_flatten <- function(data){
               "Li" = Li,
               "Pi" = Pi,
               "VPDi" = VPDi,
+              "SM" = SM,
               "georeferencing" = NULL
               )
 
