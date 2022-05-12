@@ -4,10 +4,21 @@
 \alias{pr_dl_era5}
 \title{Download Global ERA5 driver data}
 \usage{
-pr_dl_era5(path = tempdir(), year = 2019, extent = c(40, -80, 50, -70), user)
+pr_dl_era5(
+  path = tempdir(),
+  file = "era5.nc",
+  product = "era5",
+  year = 2019,
+  extent = c(-80, -70, 40, 50),
+  user
+)
 }
 \arguments{
 \item{path}{a path where to save the gridded data}
+
+\item{file}{filename of the file holding the final ERA5 netcdf data}
+
+\item{product}{which ERA5 product to download,}
 
 \item{year}{year of the data queried}
 
@@ -34,7 +45,7 @@ possible, but herefore we refer to the 'ecmwfr' package.
 \examples{
 
 \dontrun{
-print("bla")
+print("todo")
 }
 }
 \keyword{data}

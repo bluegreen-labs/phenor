@@ -4,6 +4,9 @@
 #' using pr_dl_era5().
 #'
 #' @param path a path to the gridded data
+#' @param file a netCDF containing ERA5 data, by default this will be a
+#'  file named era5.nc. Alternatively you can point to a different file
+#'  in the path (e.g. when you downloaded multiple source files)
 #' @param year year to process (requires year - 1 to be present / downloaded)
 #' @param offset offset of the time series in DOY (default = 264, sept 21)
 #' @param extent vector with coordinates defining the region of interest defined
@@ -25,24 +28,49 @@
 # create subset of layers to calculate phenology model output on
 pr_fm_era5 <- function(
   path = tempdir(),
+  file = "era5.nc",
   year = 2016,
   offset = 264,
-  extent = c(41, -79, 50, -69),
-  internal = TRUE
+  internal = TRUE,
+  extent
   ) {
 
   # measurements to include in the processing routine
+  # might increase the number of variables later to
+  # allow for more flexible models, however most models
+  # are only driven by temperature and externally calculated
+  # daylength values
   measurements <- c("t2m", "tp")
+
+  # missing doesn't work in nested
+  # function calls, create own variable
+  crop_nc <- !missing(extent)
 
   # download or read data
   data <- lapply(measurements, function(x){
 
       # if the file exist use the local file
-      if (file.exists(file.path(path, "era5.nc"))){
-        r <- terra::rast(file.path(path, "era5.nc"), x)
+      if (file.exists(file.path(path, file))){
+
+        # load in the raster file
+        r <- terra::rast(file.path(path, file), x)
+
+        # crop data to size
+        if(crop_nc){
+          r <- try(terra::crop(r, extent))
+
+          # trap cropping errors
+          if(inherits(r, "try-error")){
+            stop("Failed cropping to your extent, please check coordinate
+                 order and ranges")
+          }
+        }
 
         # extract dates from meta-data
+        # and reformat to a year-doy format
+        # for aggregation on a daily level
         dates <- terra::time(r)
+        year_doy <- format(dates, "%Y-%j")
 
         # define start and end date
         start <- as.POSIXct(sprintf("%s-01-01", year-1), tz = "UTC")
@@ -51,33 +79,43 @@ pr_fm_era5 <- function(
         # find locations of the layers to select
         layers <- which(dates >= start & dates <= end)
 
+        # subset the layers
         # only return valid layers
         r <- terra::subset(r, layers)
 
-        # aggregate data if tp make a sum by doy and year
-        # if t2m take min max mean
+        # aggregate to a daily level for either
+        # temperature or precipitation values
+        if(x == "t2m"){
 
-        return(r)
+          # aggregate by index year_doy
+          Tmaxi <- terra::tapp(r, index = year_doy, fun = max)
+          Tmini <- terra::tapp(r, index = year_doy, fun = min)
+          temp <- terra::tapp(r, index = year_doy, fun = mean)
+
+          # add in the time stamps
+          terra::time(Tmaxi) <- unique(as.Date(dates))
+          terra::time(Tmini) <- unique(as.Date(dates))
+          terra::time(temp) <- unique(as.Date(dates))
+
+          return(list(Tmaxi, Tmini, temp))
+
+        } else {
+          Pi <- terra::tapp(r, index = year_doy, fun = sum)
+          terra::time(Pi) <- unique(as.Date(dates))
+          return(Pi)
+        }
+
       } else {
         stop("Required files not available: Check your path variable!")
       }
    })
 
-  # crop the data if large files are provided this saves
-  # time and data loads
-
-  # set order of extent element for terra
-  e <- c(
-    extent[2],
-    extent[4],
-    extent[1],
-    extent[3]
-  )
-
-  Tmini <- terra::crop(data[[2]], terra::ext(e))
-  Tmaxi <- terra::crop(data[[1]], terra::ext(e))
-  Pi <- terra::crop(data[[3]], terra::ext(e))
-  temp <- Tmaxi + Tmini / 2
+  # split out data from nested
+  # structure
+  Tmini <- data[[1]][[2]]
+  Tmaxi <- data[[1]][[1]]
+  Pi <- data[[2]]
+  temp <- data[[1]][[3]]
 
   # extract the yday and year strings
   # year strings, depends on how things are subset
@@ -108,6 +146,8 @@ pr_fm_era5 <- function(
   }
 
   # subset raster data based upon the offset chosen
+  # note this can be moved up into the processing
+  # above (more efficient probably!!)
   temp <- terra::subset(temp, layers)
   Tmini <- terra::subset(Tmini, layers)
   Tmaxi <- terra::subset(Tmaxi, layers)

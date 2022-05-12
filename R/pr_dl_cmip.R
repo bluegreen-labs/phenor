@@ -37,7 +37,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' print("bla")
+#' print("todo")
 #'}
 
 # create subset of layers to calculate phenology model output on

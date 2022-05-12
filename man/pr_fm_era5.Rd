@@ -6,25 +6,30 @@
 \usage{
 pr_fm_era5(
   path = tempdir(),
+  file = "era5.nc",
   year = 2016,
   offset = 264,
-  extent = c(41, -79, 50, -69),
-  internal = TRUE
+  internal = TRUE,
+  extent
 )
 }
 \arguments{
 \item{path}{a path to the gridded data}
 
+\item{file}{a netCDF containing ERA5 data, by default this will be a
+file named era5.nc. Alternatively you can point to a different file
+in the path (e.g. when you downloaded multiple source files)}
+
 \item{year}{year to process (requires year - 1 to be present / downloaded)}
 
 \item{offset}{offset of the time series in DOY (default = 264, sept 21)}
 
+\item{internal}{TRUE / FALSE, write data structure to file as RDS
+(default = FALSE)}
+
 \item{extent}{vector with coordinates defining the region of interest defined
 as xmin, xmax, ymin, ymax in lat/lon (default = c(-80, -70, 40, 50)), note
 that this differs from the download routine!!}
-
-\item{internal}{TRUE / FALSE, write data structure to file as RDS
-(default = FALSE)}
 }
 \value{
 data structure formatted for phenor model optimization and validation
