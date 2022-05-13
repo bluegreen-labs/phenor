@@ -82,14 +82,14 @@ pr_fm_cmip <- function(
   e <- c(
     extent[2],
     extent[4],
-    extent[1],
-    extent[3]
+    extent[3],
+    extent[1]
   )
 
-  Tmini <- terra::crop(data[[2]], terra::ext(e))
-  Tmaxi <- terra::crop(data[[1]], terra::ext(e))
+  Tmini <- terra::crop(data[[2]], terra::ext(e)) - 273.15
+  Tmaxi <- terra::crop(data[[1]], terra::ext(e)) - 273.15
   Pi <- terra::crop(data[[3]], terra::ext(e))
-  temp <- Tmaxi + Tmini / 2
+  temp <- (Tmaxi + Tmini) / 2
 
   # extract the yday and year strings
   # year strings, depends on how things are subset
@@ -153,9 +153,9 @@ pr_fm_cmip <- function(
               "location" = location,
               "doy" = doy,
               "transition_dates" = NULL,
-              "Ti" = t(terra::as.matrix(temp) - 273.15),
-              "Tmini" = t(terra::as.matrix(Tmini) - 273.15),
-              "Tmaxi" = t(terra::as.matrix(Tmaxi) - 273.15),
+              "Ti" = t(terra::as.matrix(temp)),
+              "Tmini" = t(terra::as.matrix(Tmini)),
+              "Tmaxi" = t(terra::as.matrix(Tmaxi)),
               "Li" = Li,
               "Pi" = t(terra::as.matrix(Pi)),
               "VPDi" = NULL,
