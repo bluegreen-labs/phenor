@@ -2,7 +2,7 @@
 % Please edit documentation in R/pr_dl_era5.R
 \name{pr_dl_era5}
 \alias{pr_dl_era5}
-\title{Download Global ERA5 driver data}
+\title{Download Global ERA5 (land) driver data}
 \usage{
 pr_dl_era5(
   path = tempdir(),
@@ -10,6 +10,7 @@ pr_dl_era5(
   product = "era5",
   year = 2019,
   extent = c(-80, -70, 40, 50),
+  time_out = 3600,
   user
 )
 }
@@ -20,10 +21,20 @@ pr_dl_era5(
 
 \item{product}{which ERA5 product to download,}
 
-\item{year}{year of the data queried}
+\item{year}{year of the data queried, this can be a single year or a
+list of multiple years e.g. c(2018,2019,2020). Note that you will need
+data for the year of interest and the preceding year to make predictions.
+When specifying one year the preceding year will be appended, when
+specifying multiple years no checks are in place!!}
 
 \item{extent}{vector with coordinates defining the region of interest defined
 as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))}
+
+\item{time_out}{time out in seconds before the {ecmwfr} download returns
+to the prompt retaining the request running on the CDS server.
+Data can be retrieved later from the CDS webpage once finished.
+By default the time-out is set to an 3600 seconds (1h). It is advised to
+increase this to 2 or 3 hours for larger downloads.}
 
 \item{user}{Copernicus Data Store user ID (a number), on linux do not forget
 to set options(keyring_backend='file') if you use a file based keyring.}
@@ -40,7 +51,7 @@ your system using the 'ecmwfr' package.
 \details{
 The routine provides access to all available model runs and is a user
 friendly wrapper around a standard 'ecmwfr' call. Custom data formatting is
-possible, but herefore we refer to the 'ecmwfr' package.
+possible but we refer to the 'ecmwfr' package.
 }
 \examples{
 

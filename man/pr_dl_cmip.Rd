@@ -12,6 +12,7 @@ pr_dl_cmip(
   variable = c("daily_maximum_near_surface_air_temperature",
     "daily_minimum_near_surface_air_temperature", "precipitation"),
   extent = c(40, -80, 50, -70),
+  time_out = 3600,
   user
 )
 }
@@ -36,6 +37,12 @@ variables are downloaded.
 
 \item{extent}{vector with coordinates defining the region of interest defined
 as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))}
+
+\item{time_out}{time out in seconds before the {ecmwfr} download returns
+to the prompt retaining the request running on the CDS server.
+Data can be retrieved later from the CDS webpage once finished.
+By default the time-out is set to an 3600 seconds (1h). It is advised to
+increase this to 2 or 3 hours for larger downloads.}
 
 \item{user}{Copernicus Data Store user ID (a number), on linux do not forget
 to set options(keyring_backend='file') if you use a file based keyring.}
