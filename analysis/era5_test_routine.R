@@ -1,23 +1,21 @@
-#library(phenor)
-# library(ecmwfr)
-# options(keyring_backend="file")
-# source("R/pr_dl_era5.R")
-#
-# data <- pr_dl_era5(
-#   path = "~/Desktop",
-#   user = "2088",
-#   extent = c(
-#     45,
-#     -4,
-#     42,
-#     1.2
-#     )
-#   )
-#
-# r <- terra::rast("~/Desktop/era5.nc")
-# terra::plot(r$t2m_1)
-# maps::map("world", add = TRUE)
 library(phenor)
+library(ecmwfr)
+options(keyring_backend="file")
+
+source("R/pr_dl_era5.R")
+
+data <- pr_dl_era5(
+  path = "~/Desktop",
+  user = "2088",
+  product = "land",
+  extent = c(
+    -44.73496340744479,
+    -78.4726872352846,
+    -55.766660401835935,
+    -58.49660835383497
+    )
+  )
+
 source("R/pr_fm_era5.R")
 
 data <- pr_fm_era5(
