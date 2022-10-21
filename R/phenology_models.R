@@ -30,6 +30,7 @@ AT <- function(par, data){
 
   # chilling
   Rc <- ifelse(data$Ti >= T_base, 0, 1)
+  Rc[1:t0,] <- 0
   Sc <- apply(Rc, 2, cumsum)
 
   # forcing
