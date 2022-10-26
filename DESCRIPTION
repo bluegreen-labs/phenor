@@ -39,6 +39,7 @@ Suggests:
     testthat
 Remotes:
     florianhartig/BayesianTools
+RemoteSubdir: BayesianTools
 License: AGPL-3
 LazyData: true
 ByteCompile: true
