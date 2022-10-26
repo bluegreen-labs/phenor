@@ -2,6 +2,7 @@
 ^\.travis\.yml$
 ^_pkgdown\.yml$
 ^pkgdown$
+^analysis$
 ^docs$
 ^data-raw$
 

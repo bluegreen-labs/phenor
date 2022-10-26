@@ -25,6 +25,11 @@
 #' (default = c("daily_maximum_near_surface_air_temperature",
 #' "daily_minimum_near_surface_air_temperature",
 #' "precipitation"))
+#' @param time_out time out in seconds before the {ecmwfr} download returns
+#'  to the prompt retaining the request running on the CDS server.
+#'  Data can be retrieved later from the CDS webpage once finished.
+#'  By default the time-out is set to an 3600 seconds (1h). It is advised to
+#'  increase this to 2 or 3 hours for larger downloads.
 #' @param extent vector with coordinates defining the region of interest defined
 #' as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))
 #' @param user Copernicus Data Store user ID (a number), on linux do not forget
@@ -37,7 +42,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' print("bla")
+#' print("todo")
 #'}
 
 # create subset of layers to calculate phenology model output on
@@ -50,6 +55,7 @@ pr_dl_cmip <- function(
                "daily_minimum_near_surface_air_temperature",
                "precipitation"),
   extent = c( 40, -80, 50, -70),
+  time_out = 3600,
   user
   ){
 
@@ -59,7 +65,7 @@ pr_dl_cmip <- function(
 
   # check key
   tryCatch(ecmwfr::wf_get_key(
-    user = user,
+    user = as.character(user),
     service = "cds"),
     finally = message(
     "Check your user credentials or your keyring!
@@ -94,6 +100,7 @@ pr_dl_cmip <- function(
     ecmwfr::wf_request(
       request = request,
       user = user,
+      time_out = time_out,
       path = file.path(tempdir(), "phenor")
     )
 

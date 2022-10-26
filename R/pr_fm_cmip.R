@@ -32,33 +32,43 @@ pr_fm_cmip <- function(
   offset = 264,
   model = "MIROC6",
   scenario = "ssp5_8_5",
-  extent = c(-80, -70, 40, 50),
+  extent = c(41, -79, 50, -69),
   internal = TRUE
   ) {
 
   # list all netCDF files in the path
-  files = list.files(path = path,
+  files <- list.files(path = path,
                      pattern = "*\\.nc",
                      full.names = FALSE)
 
   # measurements to include in the processing routine
-  measurements = c("tasmax", "tasmin", "pr")
+  measurements <- c("tasmax", "tasmin", "pr")
 
   # download or read data
-  data = lapply(measurements, function(x){
+  data <- lapply(measurements, function(x){
 
       # filename
-      filename = files[(grepl(x,files) &
+      filename <- files[(grepl(x,files) &
                        grepl(gsub("_","",scenario),files) &
                        grepl(toupper(model),toupper(files))
                        )]
 
       # if the file exist use the local file
       if (length(filename) != 0){
-        r = raster::brick(file.path(path, filename), varname = x)
-        layers <- c(grep(sprintf("X%s", year-1), names(r)),
-                    grep(sprintf("X%s", year), names(r)))
-        r = subset(r, layers)
+        r <- terra::rast(file.path(path, filename), x)
+
+        # extract dates from meta-data
+        dates <- terra::time(r)
+
+        # define start and end date
+        start <- as.POSIXct(sprintf("%s-01-01", year-1), tz = "UTC")
+        end <- as.POSIXct(sprintf("%s-12-31", year), tz = "UTC")
+
+        # find locations of the layers to select
+        layers <- which(dates >= start & dates <= end)
+
+        # only return valid layers
+        r <- terra::subset(r, layers)
         return(r)
       } else {
         stop("Required files not available: Check your path variable!")
@@ -67,33 +77,26 @@ pr_fm_cmip <- function(
 
   # crop the data if large files are provided this saves
   # time and data loads
-  Tmini = raster::crop(data[[2]], extent(extent))
-  Tmaxi = raster::crop(data[[1]], extent(extent))
-  Pi = raster::crop(data[[3]], extent(extent))
 
-  # stack the temperature data to take the mean
-  # using stackApply()
-  temp_data_stack = raster::stack(
-    Tmaxi,
-    Tmini)
+  # set order of extent element for terra
+  e <- c(
+    extent[2],
+    extent[4],
+    extent[3],
+    extent[1]
+  )
 
-  message("calculating mean temperatures")
-  # calculate mean temperature on cropped data for speed
-  l = raster::nlayers(temp_data_stack)/2
-  temp = raster::stackApply(temp_data_stack,
-                                 indices = rep(1:l,2),
-                                 fun = mean,
-                                 na.rm = TRUE)
-
-  # grab layer names
-  layer_names <- names(Tmini)
+  Tmini <- terra::crop(data[[2]], terra::ext(e)) - 273.15
+  Tmaxi <- terra::crop(data[[1]], terra::ext(e)) - 273.15
+  Pi <- terra::crop(data[[3]], terra::ext(e))
+  temp <- (Tmaxi + Tmini) / 2
 
   # extract the yday and year strings
   # year strings, depends on how things are subset
   # and pasted back together
-  dates = as.Date(layer_names,"X%Y.%m.%d")
-  yday = as.numeric(format(dates,"%j"))
-  years = as.numeric(format(dates,"%Y")) - year + 2
+  dates <- terra::time(Tmini)
+  yday <- as.numeric(format(dates,"%j"))
+  years <- as.numeric(format(dates,"%Y")) - year + 2
 
   # calculate if the previous year was a leap year
   # to account for this offset
@@ -116,23 +119,19 @@ pr_fm_cmip <- function(
    stop("The selected dataset does not cover your data range!")
   }
 
-  # subset raster data
-  temp = raster::subset(temp, layers)
-  Tmini = raster::subset(Tmini, layers)
-  Tmaxi = raster::subset(Tmaxi, layers)
-  Pi = raster::subset(Pi, layers)
+  # subset raster data based upon the offset chosen
+  temp <- terra::subset(temp, layers)
+  Tmini <- terra::subset(Tmini, layers)
+  Tmaxi <- terra::subset(Tmaxi, layers)
+  Pi <- terra::subset(Pi, layers)
 
   # extract georeferencing info to be passed along
-  ext = raster::extent(temp)
-  proj = raster::projection(temp)
-  size = dim(temp)
+  ext <- terra::ext(temp)
+  proj <- terra::crs(temp, proj = TRUE)
+  size <- dim(temp)
 
   # grab coordinates
-  location = sp::SpatialPoints(
-    sp::coordinates(temp),
-    proj4string = sp::CRS(proj))
-  location = t(sp::spTransform(location,
-                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
+  location <- terra::xyFromCell(temp, 1:prod(dim(temp)[1:2]))
 
   # create doy vector
   if (offset < length(layers)){
@@ -142,11 +141,11 @@ pr_fm_cmip <- function(
   }
 
   # create daylength matrix
-  Li = lapply(location[1,],
+  Li <- lapply(location[,2],
               FUN = function(x){
                   daylength(doy = doy, latitude = x)
                 })
-  Li = t(do.call("rbind", Li))
+  Li <- t(do.call("rbind", Li))
 
   # recreate the validation data structure (new format)
   # but with concatted data
@@ -154,13 +153,13 @@ pr_fm_cmip <- function(
               "location" = location,
               "doy" = doy,
               "transition_dates" = NULL,
-              "Ti" = t(raster::as.matrix(temp)) - 273.15,
-              "Tmini" = t(raster::as.matrix(Tmini)) - 273.15,
-              "Tmaxi" = t(raster::as.matrix(Tmaxi)) - 273.15,
+              "Ti" = t(terra::as.matrix(temp)),
+              "Tmini" = t(terra::as.matrix(Tmini)),
+              "Tmaxi" = t(terra::as.matrix(Tmaxi)),
               "Li" = Li,
-              "Pi" = t(raster::as.matrix(Pi)),
+              "Pi" = t(terra::as.matrix(Pi)),
               "VPDi" = NULL,
-              "georeferencing" = list("extent" = ext,
+              "georeferencing" = list("extent" = as.vector(ext),
                                       "projection" = proj,
                                       "size" = size)
   )

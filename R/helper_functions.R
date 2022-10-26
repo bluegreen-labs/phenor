@@ -105,7 +105,7 @@ rotate_cmip5 <- function(
 #'}
 
 shape_model_output <- function(data, doy){
-  if(class(data) == "phenor_map_data"){
+  if(methods::is(data, "phenor_map_data")){
     r = raster::raster(nrows = data$georeferencing$size[1],
                        ncols = data$georeferencing$size[2])
     raster::extent(r) <- data$georeferencing$extent

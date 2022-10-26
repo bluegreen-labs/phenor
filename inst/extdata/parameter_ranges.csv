@@ -1,5 +1,5 @@
 #,"Parameter ranges (adapted from Hufkens et al., 2018)",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-#,Unused values left blank,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,Unused values left blank Note: time values t0 / t0_chill are rows in a 1:365 data matrix NOT DOY,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 model,boundary,t0,t0_chill,T_base,T_opt,T_min,T_max,a,b,c,d,e,f,g,w,C_ini,F_crit,C_req,P_crit,L_crit,D_crit,VPD_min,VPD_max,L_min,L_max,k,P_base,P_ini,P_req,T_req,SM_base,SM_req,SM_ini,cdd_thres,T_thres
 AGSI,lower,,,,,-15,0,,,,,,,,,,0,,,,,0,2000,8,10,,,,,,,,,,

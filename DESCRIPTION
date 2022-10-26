@@ -1,6 +1,6 @@
 Package: phenor
 Title: An R phenology modelling framework
-Version: 1.3
+Version: 1.3.2
 Authors@R: c(person(
             family = "Hufkens",
             given = "Koen",
@@ -13,7 +13,6 @@ Depends:
     R (>= 3.6)
 Imports:
     methods,
-    cli,
     magrittr,
     xml2,
     zoo,
@@ -25,6 +24,7 @@ Imports:
     rvest,
     jsonlite,
     raster,
+    terra,
     ncdf4,
     sp,
     snow,
@@ -32,7 +32,6 @@ Imports:
     doParallel,
     daymetr,
     ecmwfr,
-    phenocamr,
     BayesianTools,
     utils
 Suggests:
@@ -42,6 +41,6 @@ Suggests:
 License: AGPL-3
 LazyData: true
 ByteCompile: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://github.com/bluegreen-labs/phenor
 BugReports: https://github.com/bluegreen-labs/phenor/issues
