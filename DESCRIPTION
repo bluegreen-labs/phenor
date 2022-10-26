@@ -32,12 +32,13 @@ Imports:
     doParallel,
     daymetr,
     ecmwfr,
-    BayesianTools,
     utils
 Suggests:
     knitr,
     covr,
     testthat
+Remotes:
+    florianhartig/BayesianTools
 License: AGPL-3
 LazyData: true
 ByteCompile: true
