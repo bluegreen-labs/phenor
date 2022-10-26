@@ -18,16 +18,12 @@ test_that("test models",{
     )$model
   )
 
-  # test models
-  expect_output(pr_fit_comparison(
-    data =phenocam_DB[c(1:2)],
-    random_seeds = 1,
-    models = models,
-    control = list(max.call = 5)))
+  # subset models ignore new ones Alison
+  models <- models[!grepl("W",models)]
 
   # test models
   expect_output(pr_fit_comparison(
-    data =  phenocam_DB[c(1:2)],
+    data = phenocam_DB[c(1:2)],
     random_seeds = 1,
     models = models[1:2],
     method = "bayesiantools",
@@ -37,6 +33,15 @@ test_that("test models",{
         burnin = 10,
         iterations = 1000)
       )
+    )
+  )
+
+  # test models
+  expect_output(pr_fit_comparison(
+    data =  phenocam_DB[c(1:2)],
+    random_seeds = 1,
+    models = models[1:2],
+    control = list(max.call = 5)
     )
   )
 

@@ -268,7 +268,7 @@ pr_fm_phenocam <- function(
   }
 
   # query site list with metadata from the phenocam servers
-  metadata <- jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
+  metadata <- jsonlite::fromJSON("https://phenocam.nau.edu/webcam/network/siteinfo/")
 
   # query max year as available through Daymet, lags by a year so
   # subtract 1 year by default. If download fails subtract another year
@@ -286,8 +286,14 @@ pr_fm_phenocam <- function(
   }
 
   # list all files in the referred path
-  transition_files <- list.files(path,
-                                 "*_transition_dates.csv")
+  transition_files <- list.files(
+    path,
+    "*_transition_dates.csv")
+
+  # warning on no transition files
+  if(length(transition_files) == 0){
+    stop("No transition files found in this path, check your path!")
+  }
 
   # get individual sites form the filenames
   sites <- unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))

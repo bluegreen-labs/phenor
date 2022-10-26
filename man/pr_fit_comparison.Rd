@@ -37,7 +37,7 @@ pr_fit_comparison(
 system specific and defaults to 1 threat (default = 1)}
 }
 \description{
-Model comparison routine to faciliate model development
+Model comparison routine to facilitate model development
 and quick comparisons of the skill of various models.
 }
 \examples{

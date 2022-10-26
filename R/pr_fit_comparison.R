@@ -1,6 +1,6 @@
 #' Fit multiple models for comparison
 #'
-#' Model comparison routine to faciliate model development
+#' Model comparison routine to facilitate model development
 #' and quick comparisons of the skill of various models.
 #'
 #' @param random_seeds a vector with random seeds for cross validation
@@ -100,6 +100,7 @@ pr_fit_comparison <- function(
         # load library in individual workers
         # similar the foreach .package argument
         library(phenor)
+        library(BayesianTools)
 
         # set random seed for a given run
         set.seed(random_seed)
@@ -120,7 +121,7 @@ pr_fit_comparison <- function(
           control = control
         )
 
-        # add model output using the estiamted parameters
+        # add model output using the estimated parameters
         predicted_values = pr_predict(
           data = data,
           model = models[i],
