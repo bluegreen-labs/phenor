@@ -93,14 +93,15 @@ pr_fit_comparison <- function(
       cl <- snow::makeCluster(ncores)
 
       # optimize models
-      optimized_data = snow::parLapply(cl,
-                                       random_seeds,
-                                       function(random_seed){
+      optimized_data = snow::parLapply(
+        cl,
+        random_seeds,
+        function(random_seed) {
 
         # load library in individual workers
         # similar the foreach .package argument
-        library(phenor)
-        library(BayesianTools)
+        #library(phenor)
+        #library(BayesianTools)
 
         # set random seed for a given run
         set.seed(random_seed)
@@ -111,7 +112,7 @@ pr_fit_comparison <- function(
 
         # optimize the model parameters using
         # GenSA algorithm
-        par = pr_fit_parameters(
+        par = phenor::pr_fit_parameters(
           par = NULL,
           data = data,
           model = models[i],
@@ -122,15 +123,18 @@ pr_fit_comparison <- function(
         )
 
         # add model output using the estimated parameters
-        predicted_values = pr_predict(
+        predicted_values = phenor::pr_predict(
           data = data,
           model = models[i],
           par = par$par
         )
 
         # return data
-        return(list("parameters" = par$par,
-                    "predicted_values" = predicted_values))
+        return(
+          list("parameters" = par$par,
+               "predicted_values" = predicted_values
+               )
+          )
       })
 
       # stop cluster
