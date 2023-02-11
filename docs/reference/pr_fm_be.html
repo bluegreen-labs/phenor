@@ -58,13 +58,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_fm_be</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  year <span class="op">=</span> <span class="fl">2011</span>,
-  offset <span class="op">=</span> <span class="fl">264</span>,
-  extent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">126</span>, <span class="op">-</span><span class="fl">66</span>, <span class="fl">23</span>, <span class="fl">54</span><span class="op">)</span>,
-  internal <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_fm_be</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  year <span class="op">=</span> <span class="fl">2011</span>,</span>
+<span>  offset <span class="op">=</span> <span class="fl">264</span>,</span>
+<span>  extent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">126</span>, <span class="op">-</span><span class="fl">66</span>, <span class="fl">23</span>, <span class="fl">54</span><span class="op">)</span>,</span>
+<span>  internal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -72,27 +72,36 @@
     <dl><dt>path</dt>
 <dd><p>a path to the gridded data, only average temperature
 data will be considered</p></dd>
+
+
 <dt>year</dt>
 <dd><p>year to process (requires year - 1 to be present)</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>offset of the time series in DOY (default = 264, sept 21)</p></dd>
+
+
 <dt>extent</dt>
 <dd><p>geographic coordinates constraining the output, defined
 as bottom left, top right c(lon1, lat1, lon2, lat2) (default =
 c(-126, -66, 23, 54))</p></dd>
+
+
 <dt>internal</dt>
 <dd><p>return results as an R variable or save as an RDS file</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># run with default settings</span></span>
-<span class="r-in"><span class="co"># extracts values of the referenced publication</span></span>
-<span class="r-in"><span class="co"># see github README</span></span>
-<span class="r-in"><span class="va">be_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_be</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># run with default settings</span></span></span>
+<span class="r-in"><span><span class="co"># extracts values of the referenced publication</span></span></span>
+<span class="r-in"><span><span class="co"># see github README</span></span></span>
+<span class="r-in"><span><span class="va">be_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_be</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

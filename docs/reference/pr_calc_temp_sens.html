@@ -58,41 +58,50 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_calc_temp_sens</span><span class="op">(</span><span class="va">par</span>, <span class="va">data</span>, <span class="va">model</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_calc_temp_sens</span><span class="op">(</span><span class="va">par</span>, <span class="va">data</span>, <span class="va">model</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>par</dt>
 <dd><p>a vector of parameter values, this is functions specific</p></dd>
+
+
 <dt>data</dt>
 <dd><p>a nested list of data formatted using one of the format_*()
 functions</p></dd>
+
+
 <dt>model</dt>
 <dd><p>the model name to be used in optimizing the model</p></dd>
+
+
 <dt>...</dt>
 <dd><p>extra arguments to pass to the function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>returns a temperature sensitivity as days per degree celsius</p>
+    
+
+<p>returns a temperature sensitivity as days per degree celsius</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># model calibration with default parameters</span></span>
-<span class="r-in"><span class="co"># phenocam_DB, "TT" to estimate a parameter set</span></span>
-<span class="r-in"><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="pr_fit.html">pr_fit</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># estimate temperatue sensitivity for a particular</span></span>
-<span class="r-in"><span class="co"># combination of data, parameters and model</span></span>
-<span class="r-in"><span class="va">sensitivity</span> <span class="op">&lt;-</span> <span class="fu">pr_calc_temp_sens</span><span class="op">(</span>par <span class="op">=</span> <span class="va">pars</span><span class="op">$</span><span class="va">par</span>,</span>
-<span class="r-in"> data <span class="op">=</span> <span class="va">phenocam_DB</span>, model <span class="op">=</span> <span class="st">"TT"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># model calibration with default parameters</span></span></span>
+<span class="r-in"><span><span class="co"># phenocam_DB, "TT" to estimate a parameter set</span></span></span>
+<span class="r-in"><span><span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="pr_fit.html">pr_fit</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># estimate temperatue sensitivity for a particular</span></span></span>
+<span class="r-in"><span><span class="co"># combination of data, parameters and model</span></span></span>
+<span class="r-in"><span><span class="va">sensitivity</span> <span class="op">&lt;-</span> <span class="fu">pr_calc_temp_sens</span><span class="op">(</span>par <span class="op">=</span> <span class="va">pars</span><span class="op">$</span><span class="va">par</span>,</span></span>
+<span class="r-in"><span> data <span class="op">=</span> <span class="va">phenocam_DB</span>, model <span class="op">=</span> <span class="st">"TT"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

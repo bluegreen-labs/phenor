@@ -62,21 +62,26 @@ before any translations (reducing memory load)</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rotate_cmip5</span><span class="op">(</span>r <span class="op">=</span> <span class="cn">NULL</span>, extent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">74</span>, <span class="op">-</span><span class="fl">65</span>, <span class="fl">40</span>, <span class="fl">48</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rotate_cmip5</span><span class="op">(</span>r <span class="op">=</span> <span class="cn">NULL</span>, extent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">74</span>, <span class="op">-</span><span class="fl">65</span>, <span class="fl">40</span>, <span class="fl">48</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>r</dt>
 <dd><p>CMIP5 raster layer, stack or brick</p></dd>
+
+
 <dt>extent</dt>
 <dd><p>vector with coordinates defining the region of interest defined
 as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns raster data in the same format (layer, stack, brick) as
-the input, but rotated from a climatologica longitude (0 - 360) format to
+    
+
+<p>Returns raster data in the same format (layer, stack, brick) as
+the input, but rotated from a climatological longitude (0 - 360) format to
 a normal longitude format (-180 to 180).</p>
     </div>
 
