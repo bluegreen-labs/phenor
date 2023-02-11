@@ -62,41 +62,58 @@ Unzip all files and put the respective scientific data in one folder.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_fm_pep725</span><span class="op">(</span>
-  pep_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  eobs_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  bbch <span class="op">=</span> <span class="st">"11"</span>,
-  species <span class="op">=</span> <span class="cn">NULL</span>,
-  offset <span class="op">=</span> <span class="fl">264</span>,
-  count <span class="op">=</span> <span class="fl">60</span>,
-  resolution <span class="op">=</span> <span class="fl">0.25</span>,
-  <span class="va">pep_data</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_fm_pep725</span><span class="op">(</span></span>
+<span>  pep_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  eobs_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  bbch <span class="op">=</span> <span class="st">"11"</span>,</span>
+<span>  species <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  offset <span class="op">=</span> <span class="fl">264</span>,</span>
+<span>  count <span class="op">=</span> <span class="fl">60</span>,</span>
+<span>  resolution <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  <span class="va">pep_data</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pep_path</dt>
 <dd><p>path to the PEP725 data (species files only)</p></dd>
+
+
 <dt>eobs_path</dt>
 <dd><p>path to regular grid E-OBS data.</p></dd>
+
+
 <dt>bbch</dt>
 <dd><p>which phenophase (bbch) to use (default = 11)</p></dd>
+
+
 <dt>species</dt>
 <dd><p>species to select from merged PEP725 file</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>offset of the time series in DOY (default = 264, sept 21)</p></dd>
+
+
 <dt>count</dt>
 <dd><p>minimum number of acquisitions per location</p></dd>
+
+
 <dt>resolution</dt>
 <dd><p>resolution of the E-OBS data (0.25 or 0.5, default = 0.25)</p></dd>
+
+
 <dt>pep_data</dt>
 <dd><p>prefiltered subset of the merged PEP725 data obtained through
 merge_PEP725(), else the complete data contained in pep_path will be used</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>returns a nested list of site locations, their respective
+    
+
+<p>returns a nested list of site locations, their respective
 phenological metrics and matching environmental data as extracted from
 the E-OBS product (corrected for altitude using a lapse rate of 5C/km.)</p>
     </div>
@@ -110,15 +127,15 @@ the E-OBS website and should be put unzipped in a single folder.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># run with default settings</span></span>
-<span class="r-in"><span class="co"># looks for transition date files derived</span></span>
-<span class="r-in"><span class="co"># through phenocamr in your home directory</span></span>
-<span class="r-in"><span class="co"># change the path to match your setup</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">phenocam_data</span> <span class="op">=</span> <span class="fu">pr_fm_pep725</span><span class="op">(</span>pep_path <span class="op">=</span> <span class="st">"~/pep_data/"</span>,</span>
-<span class="r-in">                              eobs_path <span class="op">=</span> <span class="st">"~/eobs_data/"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run with default settings</span></span></span>
+<span class="r-in"><span><span class="co"># looks for transition date files derived</span></span></span>
+<span class="r-in"><span><span class="co"># through phenocamr in your home directory</span></span></span>
+<span class="r-in"><span><span class="co"># change the path to match your setup</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">phenocam_data</span> <span class="op">=</span> <span class="fu">pr_fm_pep725</span><span class="op">(</span>pep_path <span class="op">=</span> <span class="st">"~/pep_data/"</span>,</span></span>
+<span class="r-in"><span>                              eobs_path <span class="op">=</span> <span class="st">"~/eobs_data/"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

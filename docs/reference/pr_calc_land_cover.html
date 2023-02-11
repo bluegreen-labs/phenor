@@ -62,31 +62,40 @@ of these coarser cells.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_calc_land_cover</span><span class="op">(</span>
-  <span class="va">lc_raster</span>,
-  <span class="va">dest_raster</span>,
-  lc_classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,
-  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  internal <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_calc_land_cover</span><span class="op">(</span></span>
+<span>  <span class="va">lc_raster</span>,</span>
+<span>  <span class="va">dest_raster</span>,</span>
+<span>  lc_classes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  internal <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>lc_raster</dt>
 <dd><p>a MCD12Q1 map in epsg:4326.</p></dd>
+
+
 <dt>dest_raster</dt>
 <dd><p>area to calculate the statistics for, with a coarser
 resolution than the 500m MCD12Q1 data</p></dd>
+
+
 <dt>lc_classes</dt>
 <dd><p>land cover classes to calculate the statistics for.
 only IGBP classes (1 - 16) are supported. Takes a vector e.g. c(1, 4)</p></dd>
+
+
 <dt>path</dt>
 <dd><p>path to output your generated data to if not outputting
 it to the R console / workspace, default = "~"</p></dd>
+
+
 <dt>internal</dt>
 <dd><p>TRUE / FALSE, if true no files are written to disk and
 a raster stack is returned to the R command line</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>

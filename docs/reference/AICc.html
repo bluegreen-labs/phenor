@@ -60,32 +60,39 @@ together with the number of model parameters used</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">AICc</span><span class="op">(</span><span class="va">measured</span>, <span class="va">predicted</span>, <span class="va">k</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">AICc</span><span class="op">(</span><span class="va">measured</span>, <span class="va">predicted</span>, <span class="va">k</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>measured</dt>
 <dd><p>a vector with measurement values to smooth</p></dd>
+
+
 <dt>predicted</dt>
 <dd><p>a vector with dates / time steps</p></dd>
+
+
 <dt>k</dt>
 <dd><p>optional values to weigh the loess fit with</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>returns the AIC for measured and predicted values
+    
+
+<p>returns the AIC for measured and predicted values
 for use in model comparison and selection</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">model_AIC</span> <span class="op">&lt;-</span> <span class="fu">AICc</span><span class="op">(</span><span class="va">measured</span>, <span class="va">predicted</span>, <span class="va">k</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model_AIC</span> <span class="op">&lt;-</span> <span class="fu">AICc</span><span class="op">(</span><span class="va">measured</span>, <span class="va">predicted</span>, <span class="va">k</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

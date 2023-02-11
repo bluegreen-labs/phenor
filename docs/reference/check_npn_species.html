@@ -58,7 +58,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">check_npn_species</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, list <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_npn_species</span><span class="op">(</span>species <span class="op">=</span> <span class="cn">NULL</span>, list <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,22 +68,27 @@
 Will search in both Genus species and common name fields and will match
 any term within those fields. The search relies on regular expressions so
 this can be used to be more specific.</p></dd>
+
+
 <dt>list</dt>
 <dd><p>List all species numbers and names as verbose output</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a validated list of species numbers, if not a warning is thrown
+    
+
+<p>a validated list of species numbers, if not a warning is thrown
 and any depended routines halted.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># list all USA-NPN phenophases</span></span>
-<span class="r-in"><span class="fu">check_npn_species</span><span class="op">(</span>species <span class="op">=</span> <span class="fl">3</span>, list <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># list all USA-NPN phenophases</span></span></span>
+<span class="r-in"><span><span class="fu">check_npn_species</span><span class="op">(</span>species <span class="op">=</span> <span class="fl">3</span>, list <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

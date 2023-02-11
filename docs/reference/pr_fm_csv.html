@@ -62,36 +62,45 @@ id, lat, lon, phenophase, year, doy</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_fm_csv</span><span class="op">(</span>
-  file <span class="op">=</span> <span class="st">"your_phenology.csv"</span>,
-  <span class="va">phenophase</span>,
-  offset <span class="op">=</span> <span class="fl">264</span>,
-  internal <span class="op">=</span> <span class="cn">TRUE</span>,
-  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_fm_csv</span><span class="op">(</span></span>
+<span>  file <span class="op">=</span> <span class="st">"your_phenology.csv"</span>,</span>
+<span>  <span class="va">phenophase</span>,</span>
+<span>  offset <span class="op">=</span> <span class="fl">264</span>,</span>
+<span>  internal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>an CSV file with phenology observation dates</p></dd>
+
+
 <dt>phenophase</dt>
 <dd><p>a phenophase to include as validation statistic</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>offset of the time series in DOY (default = 264, sept 21)</p></dd>
+
+
 <dt>internal</dt>
 <dd><p>return data as structured list to R workspace or write
 to RDS file (default = TRUE)</p></dd>
+
+
 <dt>path</dt>
 <dd><p>output directory for converted data</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">npn_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_csv</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">npn_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_csv</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>

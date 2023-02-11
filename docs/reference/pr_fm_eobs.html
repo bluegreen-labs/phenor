@@ -66,44 +66,55 @@ J. Geophys. Res (Atmospheres), 113, D20119, into a 'phenor' compatible list.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pr_fm_eobs</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
-  year <span class="op">=</span> <span class="fl">2014</span>,
-  offset <span class="op">=</span> <span class="fl">264</span>,
-  resolution <span class="op">=</span> <span class="fl">0.25</span>,
-  internal <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pr_fm_eobs</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  year <span class="op">=</span> <span class="fl">2014</span>,</span>
+<span>  offset <span class="op">=</span> <span class="fl">264</span>,</span>
+<span>  resolution <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  internal <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>a path of the gridded data netCDF files</p></dd>
+
+
 <dt>year</dt>
 <dd><p>year to process (requires year - 1 to be present / downloaded)</p></dd>
+
+
 <dt>offset</dt>
 <dd><p>offset of the time series in DOY (default = 264, sept 21)</p></dd>
+
+
 <dt>resolution</dt>
 <dd><p>0.25 or 0.50 degree data, only the normal rectangular data
 will be processed not the polar variety.
 calculation overhead</p></dd>
+
+
 <dt>internal</dt>
 <dd><p>TRUE / FALSE, write data structure to file or not (as .rds)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns spatial model input data from long term E-OBS modelled data.
+    
+
+<p>Returns spatial model input data from long term E-OBS modelled data.
 This data can be run by models specified in the phenor package.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># run with default settings netCDF E-OBS files will be</span></span>
-<span class="r-in"><span class="co"># looked for in your home directory</span></span>
-<span class="r-in"><span class="va">eobs_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_eobs</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># run with default settings netCDF E-OBS files will be</span></span></span>
+<span class="r-in"><span><span class="co"># looked for in your home directory</span></span></span>
+<span class="r-in"><span><span class="va">eobs_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_eobs</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
