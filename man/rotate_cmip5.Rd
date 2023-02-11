@@ -14,7 +14,7 @@ as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))}
 }
 \value{
 Returns raster data in the same format (layer, stack, brick) as
-the input, but rotated from a climatologica longitude (0 - 360) format to
+the input, but rotated from a climatological longitude (0 - 360) format to
 a normal longitude format (-180 to 180).
 }
 \description{

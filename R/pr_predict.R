@@ -94,19 +94,18 @@ pr_predict <- function(
       if (i == 1){
         phenor_map <- tmp
       } else {
-        phenor_map <- raster::mosaic(phenor_map, tmp, fun = mean)
+        phenor_map <- terra::mosaic(phenor_map, tmp, fun = mean)
       }
     }
 
     # normal output will be lambert conformal conical,
     # if a lat-lon map is required reproject the results
     if (reproject){
-      phenor_map <- raster::trim(
-        raster::projectRaster(
+      phenor_map <-
+        terra::project(
           phenor_map,
-         crs = sp::CRS("+init=epsg:4326")
+          "EPSG:4326"
          )
-      )
     }
 
     # return the map
