@@ -1556,15 +1556,14 @@ UN <- function(par, data){
   # (as far as I can deduce from the Chuine paper)
   C_tot <- Sc[tc,]
 
-  # Apply the chilling mask to forcing
-  # temperature values, set anything < 0
-  # to 0 (see )
-  Rf <- data$Ti * m
-
   # apply the unified CF function
   # with a parameter set to 0
-  Rf <- CF(x = Rf, 0, b_f, c_f)
+  Rf <- CF(x = data$Ti, 0, b_f, c_f)
 
+  # Apply the chilling mask to forcing
+  # temperature values
+  Rf <- Rf  * m
+                   
   # cummulate the forcing values
   Sfc <- apply(Rf, 2, cumsum)
 
