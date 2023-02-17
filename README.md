@@ -51,7 +51,7 @@ or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/
 
 ## Use
 
-Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr package and format them correctly using **format_phenocam()**
+Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr package and format them correctly using **pr_fm_phenocam()**
 
 ```R
 # The command below downloads all time series for deciduous broadleaf
