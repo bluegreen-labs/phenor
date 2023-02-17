@@ -3,6 +3,7 @@
 * provisional CMIP6 support
 * provisional ERA5 (land) support
 * updated daymet support (terra migration)
+* Fix to UN model
 
 # version 1.3.1
 
