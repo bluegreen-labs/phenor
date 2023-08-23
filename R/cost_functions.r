@@ -124,8 +124,11 @@ likelihood <- function(
   observed <- data$transition_dates
   predicted <- do.call(
     model,
-    list(data = data,
-         par = model_par))
+    list(
+      data = data,
+      par = model_par
+      )
+    )
 
   # get residuals
   residuals <- predicted - observed
@@ -134,7 +137,8 @@ likelihood <- function(
   singlelikelihoods <- stats::dnorm(
       residuals,
       sd = sd_range,
-      log = TRUE)
+      log = TRUE
+      )
 
   return(sum(singlelikelihoods))
 }
