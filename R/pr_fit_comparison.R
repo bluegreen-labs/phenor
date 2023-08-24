@@ -171,13 +171,11 @@ pr_fit_comparison <- function(
 
     # implement a progress bar for graphical feedback
     # this to gauge speed limitations
-    cat("This might take a while ... \n")
-
-    # start cluster, default is SOCK cluster
-    cl <- snow::makeCluster(ncores)
+    message("This might take a while ... \n")
+    message("only chains run parallel ... \n")
 
     # optimize models
-    model_estimates = snow::parLapply(cl, models, function(model){
+    model_estimates = lapply(models, function(model){
 
       # select ranges
       d = par_ranges[par_ranges$model == model,]
@@ -187,7 +185,7 @@ pr_fit_comparison <- function(
 
       # optimize the model parameters using
       # GenSA algorithm
-      par = phenor::pr_fit_parameters(
+      par = try(phenor::pr_fit_parameters(
         par = NULL,
         data = data,
         model = model,
@@ -195,7 +193,11 @@ pr_fit_comparison <- function(
         lower = as.numeric(d[1,]),
         upper = as.numeric(d[2,]),
         control = control
-      )
+      ))
+
+      if(inherits("try-error", par)) {
+        return(NULL)
+      }
 
       # add model output using the estiamted parameters
       predicted_values = pr_predict(
@@ -213,10 +215,6 @@ pr_fit_comparison <- function(
           )
         )
     })
-
-    # stop cluster
-    snow::stopCluster(cl)
-
   }
 
   # collect garbage, especially unclosed connections
