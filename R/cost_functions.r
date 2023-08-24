@@ -140,5 +140,5 @@ likelihood <- function(
       log = TRUE
       )
 
-  return(sum(singlelikelihoods))
+  return(sum(singlelikelihoods, na.rm = TRUE))
 }
