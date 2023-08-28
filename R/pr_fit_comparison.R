@@ -195,7 +195,7 @@ pr_fit_comparison <- function(
         control = control
       ))
 
-      if(inherits("try-error", par)) {
+      if(inherits(par, "try-error")) {
         return(NULL)
       }
 
