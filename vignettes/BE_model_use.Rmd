@@ -67,6 +67,5 @@ output <- pr_predict(
 ```
 
 ```{r}
-
-
+plot(output)
 ```

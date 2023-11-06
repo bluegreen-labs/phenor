@@ -29,10 +29,12 @@ test_that("test downloading functions",{
 
 test_that("test formatting functions",{
 
-  df <- pr_dl_npn(species = 3,
-                  internal = TRUE,
-                  start = "2001-01-01",
-                  end = "2001-12-31")
+  df <- pr_dl_npn(
+    species = 3,
+    internal = TRUE,
+    start = "2001-01-01",
+    end = "2001-12-31"
+    )
 
   df <- pr_fm_npn(df)
 
