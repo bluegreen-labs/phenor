@@ -1,6 +1,6 @@
 Package: phenor
 Title: An R phenology Modelling Framework
-Version: 1.3.2
+Version: 1.4
 Authors@R: c(person(
                family = "Hufkens",
                given = "Koen",
