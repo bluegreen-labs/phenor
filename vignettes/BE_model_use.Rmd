@@ -1,0 +1,72 @@
+---
+title: "Berkeley Earth data use"
+author: "Koen Hufkens"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Berkeley Earth data use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+set.seed(1234)
+```
+
+
+Download the BE global daily gridded data from this page:
+
+https://berkeleyearth.org/data/
+
+You will only need the TAVG product. Note that due to missing parameters such as precipitation some models might not be usable for upscaling using this dataset. Always consider the scope of your work within the context of the available training data and spatial scaling context.
+
+```{r}
+# download the data
+pr_dl_be(
+  path = tempdir(),
+  year = 2021
+)
+```
+
+```{r}
+# format the data for a model run
+source(here::here("R/pr_fm_be.R"))
+be_data <- pr_fm_be(
+  path = "~/Downloads/", #tempdir(),
+  year = 2021
+)
+```
+
+
+```{r eval = FALSE}
+# load the included data using
+data("phenocam_DB")
+
+# optimize model parameters
+# using daymet data for training
+optim.par <- pr_fit(
+  data = phenocam_DB,
+  cost = rmse,
+  model = "TT",
+  method = "GenSA"
+)
+```
+
+```{r}
+output <- pr_predict(
+  optim.par$par,
+  data = be_data,
+  model = "TT"
+  )
+
+```
+
+```{r}
+
+
+```

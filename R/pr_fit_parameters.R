@@ -77,29 +77,6 @@ pr_fit_parameters <- function(
     )
   }
 
-  if (tolower(method) == "genoud"){
-    # optimize model parameters using the
-    # GENetic Optimization Using Derivatives
-    # needs more tweaking to work out of the box
-    # on most models
-
-    # stop if no starting parameters are provided
-    if (is.null(par)){
-      stop('The genoud algorithm needs defined strating parameters!')
-    }
-    optim_par <- rgenoud::genoud(
-      fn = cost,
-      nvars = length(par),
-      max.generations = control$maxit,
-      Domains = cbind(lower,upper),
-      boundary.enforcement = 2,
-      data.type.int = FALSE,
-      data = data,
-      model = model,
-      ...
-    )
-  }
-
   # BayesianTools
   if (tolower(method) == "bayesiantools"){
 

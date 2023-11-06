@@ -22,7 +22,6 @@ Imports:
     stats,
     GenSA,
     BayesianTools,
-    rgenoud,
     httr,
     rvest,
     jsonlite,
