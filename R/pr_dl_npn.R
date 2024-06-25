@@ -36,10 +36,10 @@ pr_dl_npn <- function(
   request = "phenor"
 
   # set url base
-  url = "http://www.usanpn.org/npn_portal/observations/getSummarizedData.json?"
+  url <- "http://www.usanpn.org/npn_portal/observations/getSummarizedData.json?"
 
   # formulate the query
-  query = list(species_id = species,
+  query <- list(species_id = species,
                phenophase_id = phenophase,
                start_date = start,
                end_date = end,
@@ -50,12 +50,14 @@ pr_dl_npn <- function(
                request_src = request)
 
   # download data using httr
-  data = httr::GET(url,
-                   query = query,
-                   httr::progress())
+  data <- httr::GET(
+    url,
+    query = query,
+    httr::progress()
+    )
 
   # convert data to a clean data frame
-  data = as.data.frame(jsonlite::fromJSON(httr::content(data, as = "text")))
+  data <- as.data.frame(jsonlite::fromJSON(httr::content(data, as = "text")))
 
   # check if the data is valid (contains data)
   # if so return the data frame or write to disk for later processing
@@ -67,7 +69,7 @@ pr_dl_npn <- function(
 
       # sprintf doesn't deal well with NULL
       if(is.null(phenophase)){
-        phenophase = "NA"
+        phenophase <- "NA"
       }
 
       # write data to file as R data file

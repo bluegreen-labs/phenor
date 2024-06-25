@@ -4,19 +4,6 @@ options(keyring_backend="file")
 
 source("R/pr_dl_era5.R")
 
-# ERA5 example
-pr_dl_era5(
-  path = "~/Desktop",
-  user = "2088",
-  product = "era5",
-  extent = c(
-    50.73149477111302,
-    -7.08887567473501,
-    40.365567456020266,
-    12.748594284373073
-    )
-  )
-
 # ERA5-land example
 pr_dl_era5(
   path = "~/Desktop",

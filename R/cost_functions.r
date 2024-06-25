@@ -87,7 +87,7 @@ cvmae <- function(
 #'
 #' The function is aimed to be maximized, to use it with optimizers which
 #' minimize cost functions wrap the function as such:
-#' `cost = function(...){abs(likelihood(...))}`
+#' `cost = function(...)\{abs(likelihood(...))\}`
 #'
 #' @param par a vector of parameter values, this is functions specific
 #' @param data nested data structure with validation data as returned

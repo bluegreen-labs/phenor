@@ -25,7 +25,7 @@
 #' (default = c("daily_maximum_near_surface_air_temperature",
 #' "daily_minimum_near_surface_air_temperature",
 #' "precipitation"))
-#' @param time_out time out in seconds before the {ecmwfr} download returns
+#' @param time_out time out in seconds before the \{ecmwfr\} download returns
 #'  to the prompt retaining the request running on the CDS server.
 #'  Data can be retrieved later from the CDS webpage once finished.
 #'  By default the time-out is set to an 3600 seconds (1h). It is advised to

@@ -22,10 +22,10 @@ pr_dl_be <- function(
   ){
 
   # set server
-  server = "http://berkeleyearth.lbl.gov/auto/Global/Gridded"
+  server <- "https://berkeley-earth-temperature.s3.us-west-1.amazonaws.com/Global/Gridded"
 
   # set the decadal splits
-  split = seq(1880,as.numeric(format(Sys.Date(),"%Y")),10)
+  split <- seq(1880,as.numeric(format(Sys.Date(),"%Y")),10)
 
   # download 2 files if on split decade
   if (year %in% split){

@@ -16,7 +16,9 @@
 #' # run with default settings
 #' # extracts values of the referenced publication
 #' # see github README
-#' be_data <- pr_fm_be()
+#' be_data <- pr_fm_be(
+#'  path = "/your/path",
+#'  year = 2010)
 #'}
 
 # create subset of layers to calculate phenology model output on
@@ -27,6 +29,13 @@ pr_fm_be <- function(
   extent = c(-126,-66, 23, 54),
   internal = TRUE
   ) {
+
+  # crop data if necessary, no checks yet
+  if (!is.null(extent)){
+    if(length(extent) != 4){
+      stop("not enough coordinate points to properly crop data!")
+    }
+  }
 
   # download all data if it doesn't exist
   pr_dl_be(path = path, year = year)
@@ -48,21 +57,28 @@ pr_fm_be <- function(
 
   # grab raster data from netcdf files, with the climatology
   # the long term mean and delta the differences
-  climatology <- raster::brick(sprintf("%s/%s",path,filenames[1]),
-                              varname = "climatology")
-  delta <- do.call("stack",
+  be_raster <- terra::rast(file.path(path,filenames[1]))
+  be_raster <- terra::crop(be_raster, terra::ext(extent))
+
+  climatology <- terra::subset(
+    be_raster, grepl("climatology", names(be_raster)))
+
+  delta <- do.call("c",
                   lapply(filenames, FUN = function(x){
-                    raster::brick(sprintf("%s/%s",path,x),
-                                  varname = "temperature")}))
+                    r <- terra::rast(file.path(path,x))
+                    r <- terra::crop(r, terra::ext(extent))
+                    terra::subset(r, grepl("temperature",names(r)))
+                    })
+                  )
 
   # get date elements from netcdf files
   years <- do.call("c",lapply(filenames,FUN = function(x){
-    nc <- ncdf4::nc_open(sprintf("%s/%s",path,x))
+    nc <- ncdf4::nc_open(file.path(path, x))
     ncdf4::ncvar_get(nc,"year")
   }))
 
   yday <- do.call("c",lapply(filenames,FUN = function(x){
-    nc <- ncdf4::nc_open(sprintf("%s/%s",path,x))
+    nc <- ncdf4::nc_open(file.path(path, x))
     ncdf4::ncvar_get(nc,"day_of_year")
   }))
 
@@ -77,17 +93,7 @@ pr_fm_be <- function(
   }
 
   # subset raster data, do this before cropping to make things faster
-  delta <- raster::subset(delta, layers)
-
-  # crop data if necessary, no checks yet
-  if (!is.null(extent)){
-    if(length(extent)==4){
-      climatology = raster::crop(climatology, raster::extent(extent))
-      delta = raster::crop(delta, raster::extent(extent))
-    } else {
-      stop("not enough coordinate points to properly crop data!")
-    }
-  }
+  delta <- terra::subset(delta, layers)
 
   # shift data when offset is < 365
   if (offset < length(layers)){
@@ -98,26 +104,28 @@ pr_fm_be <- function(
 
   # calculate absolute temperatures not differences
   # with the mean
-  temperature <- raster::stackApply(raster::stack(delta, climatology),
-                                   indices = c(doy,1:length(layers)),
-                                   fun = sum )
+  temperature <- terra::tapp(
+    c(delta, climatology),
+    index = c(doy,1:length(layers)),
+    fun = sum
+    )
+
+  # fill values
   temperature[temperature == 0] <- NA
 
+  # grab coordinates
+  cells <- terra::cells(be_raster$land_mask)
+  location <- t(terra::xyFromCell(be_raster$land_mask, cells)[,2:1])
+
   # convert temperature data to matrix
-  Ti <- t(raster::as.matrix(temperature))
+  Ti <- t(terra::as.matrix(temperature))
 
   # extract georeferencing info to be passed along
-  ext <- raster::extent(temperature)
-  proj <- raster::projection(temperature)
+  ext <- terra::ext(temperature)
+  proj <- terra::crs(temperature)
   size <- dim(temperature)
 
   cat("calculating daylength \n")
-
-  # grab coordinates
-  location <- sp::SpatialPoints(sp::coordinates(temperature),
-                               proj4string = sp::CRS(proj))
-  location <- t(sp::spTransform(location,
-                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
 
   # create doy vector
   if (offset < length(layers)){
@@ -134,7 +142,7 @@ pr_fm_be <- function(
   Li <- t(do.call("rbind",Li))
 
   # recreate the validation data structure (new format)
-  # but with concatted data
+  # but with contacted data
   data <- list("site" = NULL,
               "location" = location,
               "doy" = doy,
