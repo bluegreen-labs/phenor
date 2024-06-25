@@ -15,9 +15,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(phenor)
 set.seed(1234)
 ```
-
 
 Download the BE global daily gridded data from this page:
 
@@ -25,19 +25,20 @@ https://berkeleyearth.org/data/
 
 You will only need the TAVG product. Note that due to missing parameters such as precipitation some models might not be usable for upscaling using this dataset. Always consider the scope of your work within the context of the available training data and spatial scaling context.
 
-```{r}
+```{r eval = FALSE}
 # download the data
+# need to call two years
+# to bridge two years
 pr_dl_be(
   path = tempdir(),
   year = 2021
 )
 ```
 
-```{r}
+```{r eval = FALSE}
 # format the data for a model run
-source(here::here("R/pr_fm_be.R"))
 be_data <- pr_fm_be(
-  path = "~/Downloads/", #tempdir(),
+  path = tempdir(),
   year = 2021
 )
 ```
@@ -57,15 +58,14 @@ optim.par <- pr_fit(
 )
 ```
 
-```{r}
+```{r eval = FALSE}
 output <- pr_predict(
   optim.par$par,
   data = be_data,
   model = "TT"
   )
-
 ```
 
-```{r}
+```{r eval = FALSE}
 plot(output)
 ```

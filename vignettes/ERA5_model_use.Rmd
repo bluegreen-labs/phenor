@@ -25,7 +25,7 @@ options(keyring_backend="file")
 
 ERA5 data can be used to train, evaluate and forecast phenology models (using CMIP routines). The data used in the download sections is ERA5 land which is re-analysis data at a 10km resolution.
 
-```{r}
+```{r eval = FALSE}
 # ERA5 example
 pr_dl_era5(
   path = "~/Desktop",
