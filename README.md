@@ -56,13 +56,18 @@ Example code below shows that in few lines a modelling exercise can be set up. Y
 ```R
 # The command below downloads all time series for deciduous broadleaf
 # data at the bartlett PhenoCam site and estimates the
-# phenophases.
-pr_dl_phenocam(vegetation = "DB",
-                  site = "bartlett",
-                  phenophase = TRUE)
+# phenophases. By default data are downloaded into tempdir() (the
+# temporary directory)
+library(phenocamr)
+phenocamr::download_phenocam(
+  veg_type = "DB",
+  roi_id = "1000",
+  site = "bartlett",
+  phenophase = TRUE
+  )
 
 # process phenocam transition files into a consistent format
-phenocam_data <- pr_fm_phenocam("/foo/bar/transition_dates/")
+phenocam_data <- pr_fm_phenocam(tempdir())
 ```
 
 Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017) precompiled with Daymet climate variables. The file is loaded using a standard **data()** call or reference them directly (e.g. *phenocam_DB*).
