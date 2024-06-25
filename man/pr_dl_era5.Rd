@@ -30,7 +30,7 @@ specifying multiple years no checks are in place!!}
 \item{extent}{vector with coordinates defining the region of interest defined
 as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))}
 
-\item{time_out}{time out in seconds before the {ecmwfr} download returns
+\item{time_out}{time out in seconds before the \{ecmwfr\} download returns
 to the prompt retaining the request running on the CDS server.
 Data can be retrieved later from the CDS webpage once finished.
 By default the time-out is set to an 3600 seconds (1h). It is advised to

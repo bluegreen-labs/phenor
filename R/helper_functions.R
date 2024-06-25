@@ -38,13 +38,13 @@ AICc <- function(measured, predicted, k){
               "AICc" = AICc))
 }
 
-#' Rotate CMIP5 NetCDF data cubes
+#' Rotate CMIP NetCDF data cubes
 #'
 #' Rotate NetCDF files faster than the default
 #' raster rotate() command, as data is cropped
 #' before any translations (reducing memory load)
 #'
-#' @param r CMIP5 raster layer, stack or brick
+#' @param r CMIP raster layer, stack or brick
 #' @param extent vector with coordinates defining the region of interest defined
 #' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))
 #' @return Returns raster data in the same format (layer, stack, brick) as
@@ -52,7 +52,7 @@ AICc <- function(measured, predicted, k){
 #' a normal longitude format (-180 to 180).
 #' @export
 
-rotate_cmip5 <- function(
+rotate_cmip <- function(
   r = NULL,
   extent = c(-74, -65, 40, 48)
   ){
