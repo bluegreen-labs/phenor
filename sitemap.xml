@@ -10,6 +10,15 @@
     <loc>/LICENSE-text.html</loc>
   </url>
   <url>
+    <loc>/articles/BE_model_use.html</loc>
+  </url>
+  <url>
+    <loc>/articles/ERA5_model_use.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -136,9 +145,6 @@
     <loc>/reference/phenocam_GR.html</loc>
   </url>
   <url>
-    <loc>/reference/phenor.html</loc>
-  </url>
-  <url>
     <loc>/reference/plot.pr_fit.html</loc>
   </url>
   <url>
@@ -190,9 +196,6 @@
     <loc>/reference/pr_fm_daymet_tiles.html</loc>
   </url>
   <url>
-    <loc>/reference/pr_fm_eobs.html</loc>
-  </url>
-  <url>
     <loc>/reference/pr_fm_era5.html</loc>
   </url>
   <url>
@@ -232,7 +235,7 @@
     <loc>/reference/rmse.html</loc>
   </url>
   <url>
-    <loc>/reference/rotate_cmip5.html</loc>
+    <loc>/reference/rotate_cmip.html</loc>
   </url>
   <url>
     <loc>/reference/shape_model_output.html</loc>

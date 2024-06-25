@@ -23,7 +23,7 @@ your system using the 'ecmwfr' package."><meta property="og:image" content="/log
         <a class="external-link hidden-md hidden-lg" href="https://bluegreenlabs.org">
           <img src="https://bluegreenlabs.org/img/logo.png" id="hexlogo" alt="bluegreen labs"></a>
         <a class="navbar-brand" href="../index.html">
-           <i>phenor <small>v1.3.2</small></i>
+           <i>phenor <small>v1.4</small></i>
         </a>
       </div>
     </div>
@@ -32,6 +32,19 @@ your system using the 'ecmwfr' package."><meta property="og:image" content="/log
       <ul class="nav navbar-nav navbar-right"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/BE_model_use.html">Berkeley Earth data use</a>
+    </li>
+    <li>
+      <a href="../articles/ERA5_model_use.html">ERA5 data use</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -101,7 +114,7 @@ as ymax, xmin, ymin, xmax in lat/lon (default = c( 40, -80, 50, -70))</p></dd>
 
 
 <dt>time_out</dt>
-<dd><p>time out in seconds before the ecmwfr download returns
+<dd><p>time out in seconds before the {ecmwfr} download returns
 to the prompt retaining the request running on the CDS server.
 Data can be retrieved later from the CDS webpage once finished.
 By default the time-out is set to an 3600 seconds (1h). It is advised to
