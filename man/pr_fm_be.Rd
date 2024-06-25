@@ -35,7 +35,9 @@ Formatting of Berkeley Earth Gridded temperature data
 # run with default settings
 # extracts values of the referenced publication
 # see github README
-be_data <- pr_fm_be()
+be_data <- pr_fm_be(
+ path = "/your/path",
+ year = 2010)
 }
 }
 \keyword{model,}

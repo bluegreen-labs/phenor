@@ -44,6 +44,6 @@ Remotes:
 License: AGPL-3
 LazyData: true
 ByteCompile: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/bluegreen-labs/phenor
 BugReports: https://github.com/bluegreen-labs/phenor/issues
