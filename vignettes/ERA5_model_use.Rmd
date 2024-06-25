@@ -20,7 +20,6 @@ library(ecmwfr)
 options(keyring_backend="file")
 
 # side load small ERA5 dataset (if feasible within CRAN footprint)
-
 ```
 
 ERA5 data can be used to train, evaluate and forecast phenology models (using CMIP routines). The data used in the download sections is ERA5 land which is re-analysis data at a 10km resolution.
@@ -64,7 +63,7 @@ data <- pr_fm_era5(
 )
 ```
 
-```{r}
+```{r eval = FALSE}
 # load the included data using
 data("phenocam_DB")
 
