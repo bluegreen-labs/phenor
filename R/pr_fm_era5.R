@@ -200,11 +200,10 @@ pr_fm_era5 <- function(
   if (internal){
     return(data)
   } else {
-    saveRDS(data, file = sprintf("%s/phenor_cmip_data_%s_%s_%s.rds",
-                                 path,
-                                 model,
-                                 year,
-                                 scenario))
+    saveRDS(
+      data,
+      file = sprintf("%s/phenor_era5_data_%s.rds", path, year)
+    )
     # clean up
     gc()
   }

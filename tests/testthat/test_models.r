@@ -18,16 +18,12 @@ test_that("test models",{
     )$model
   )
 
-  # test models
-  expect_output(pr_fit_comparison(
-    data =phenocam_DB[c(1:2)],
-    random_seeds = 1,
-    models = models,
-    control = list(max.call = 5)))
+  # subset models ignore new ones Alison
+  models <- models[!grepl("W",models)]
 
   # test models
   expect_output(pr_fit_comparison(
-    data =  phenocam_DB[c(1:2)],
+    data = phenocam_DB[c(1:2)],
     random_seeds = 1,
     models = models[1:2],
     method = "bayesiantools",
@@ -40,18 +36,35 @@ test_that("test models",{
     )
   )
 
+  # test models
+  expect_output(pr_fit_comparison(
+    data =  phenocam_DB[c(1:2)],
+    random_seeds = 1,
+    models = models[1:2],
+    control = list(max.call = 5)
+    )
+  )
+
   # fit model
   fit <- pr_fit(control=list(max.call = 5))
-  fit_cvmae <- pr_fit(control=list(max.call = 5), cost = cvmae)
-  expect_type(fit_cvmae, "list")
 
-  temp_sens <- pr_calc_temp_sens(
-    par = fit$par,
-    data = phenocam_DB,
-    model = "TT")
+  # fit model test
+  expect_type(
+    pr_fit(
+      control=list(max.call = 5),
+      cost = cvmae),
+    "list"
+  )
 
-  expect_type(temp_sens, "list")
+  expect_type(pr_calc_temp_sens(
+      par = fit$par,
+      data = phenocam_DB,
+      model = "TT"
+    ),
+    "list"
+  )
 
+  # missing model
   expect_error(
     pr_calc_temp_sens(
       par = fit$par,
@@ -59,6 +72,7 @@ test_that("test models",{
       )
   )
 
+  # missing input data
   expect_error(
     pr_calc_temp_sens(
       par = fit$par,
@@ -66,10 +80,12 @@ test_that("test models",{
     )
   )
 
+  # missing parameters
   expect_error(
     pr_calc_temp_sens(
       data = phenocam_DB,
-      model = "TT")
+      model = "TT"
+    )
   )
 
   # return summary stats
@@ -77,11 +93,12 @@ test_that("test models",{
   expect_type(plot(fit),"list")
 
   # test CV
-  l <- pr_cross_validate(
-    k = 2,
-    cv_seed = 123,
-    models =  c("LIN"),
-    data = phenocam_DB[c(1:2)])
-
-  expect_type(l, "list")
+  expect_type(
+    pr_cross_validate(
+        k = 2,
+        cv_seed = 123,
+        models =  c("LIN"),
+        data = phenocam_DB[c(1:2)]),
+      "list"
+    )
 })

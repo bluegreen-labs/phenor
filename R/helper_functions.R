@@ -38,21 +38,21 @@ AICc <- function(measured, predicted, k){
               "AICc" = AICc))
 }
 
-#' Rotate CMIP5 NetCDF data cubes
+#' Rotate CMIP NetCDF data cubes
 #'
 #' Rotate NetCDF files faster than the default
 #' raster rotate() command, as data is cropped
 #' before any translations (reducing memory load)
 #'
-#' @param r CMIP5 raster layer, stack or brick
+#' @param r CMIP raster layer, stack or brick
 #' @param extent vector with coordinates defining the region of interest defined
 #' as xmin, xmax, ymin, ymax in lat/lon (default = c(-74,-65, 40, 48))
 #' @return Returns raster data in the same format (layer, stack, brick) as
-#' the input, but rotated from a climatologica longitude (0 - 360) format to
+#' the input, but rotated from a climatological longitude (0 - 360) format to
 #' a normal longitude format (-180 to 180).
 #' @export
 
-rotate_cmip5 <- function(
+rotate_cmip <- function(
   r = NULL,
   extent = c(-74, -65, 40, 48)
   ){
@@ -106,10 +106,13 @@ rotate_cmip5 <- function(
 
 shape_model_output <- function(data, doy){
   if(methods::is(data, "phenor_map_data")){
-    r = raster::raster(nrows = data$georeferencing$size[1],
-                       ncols = data$georeferencing$size[2])
-    raster::extent(r) <- data$georeferencing$extent
-    sp::proj4string(r) <- sp::CRS(data$georeferencing$projection)
+    r <- terra::rast(
+      nrows = data$georeferencing$size[1],
+      ncols = data$georeferencing$size[2]
+      )
+
+    terra::ext(r) <- data$georeferencing$extent
+    terra::crs(r) <- data$georeferencing$projection
     r[] <- as.vector(doy)
     r[is.infinite(r)] <- NA
     return(r)

@@ -159,6 +159,12 @@ pr_fm_phenocam <- function(
     # calculate the mean daily temperature
     daymet_data$tmean <- (daymet_data$tmax..deg.c. + daymet_data$tmin..deg.c.)/2
 
+    # calculate saturated VP (based on temp)
+    vps <- 0.611 * exp((17.502*daymet_data$tmean)/(daymet_data$tmean+240.97))
+
+    #calculate VPD
+    daymet_data$vpd <- vps - (daymet_data$vp..Pa./1000)
+
     # calculate the long term daily mean temperature
     # and realign it so the first day will be sept 21th (doy 264)
     # and the matching DOY vector
@@ -241,7 +247,7 @@ pr_fm_phenocam <- function(
       tmin[, j] <- daymet_data$tmin..deg.c.[loc]
       tmax[, j] <- daymet_data$tmax..deg.c.[loc]
       precip[, j] <- daymet_data$prcp..mm.day.[loc]
-      vpd[, j] <- daymet_data$vp..Pa.[loc]
+      vpd[, j] <- daymet_data$vpd[loc]
     }
 
     # calculate daylength
@@ -268,7 +274,7 @@ pr_fm_phenocam <- function(
   }
 
   # query site list with metadata from the phenocam servers
-  metadata <- jsonlite::fromJSON("https://phenocam.sr.unh.edu/webcam/network/siteinfo/")
+  metadata <- jsonlite::fromJSON("https://phenocam.nau.edu/webcam/network/siteinfo/")
 
   # query max year as available through Daymet, lags by a year so
   # subtract 1 year by default. If download fails subtract another year
@@ -286,8 +292,14 @@ pr_fm_phenocam <- function(
   }
 
   # list all files in the referred path
-  transition_files <- list.files(path,
-                                 "*_transition_dates.csv")
+  transition_files <- list.files(
+    path,
+    "*_transition_dates.csv")
+
+  # warning on no transition files
+  if(length(transition_files) == 0){
+    stop("No transition files found in this path, check your path!")
+  }
 
   # get individual sites form the filenames
   sites <- unique(unlist(lapply(strsplit(transition_files,"_"),"[[",1)))

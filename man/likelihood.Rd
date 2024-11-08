@@ -23,7 +23,7 @@ the RMSE comparing observed and estimated values
 \description{
 The function is aimed to be maximized, to use it with optimizers which
 minimize cost functions wrap the function as such:
-`cost = function(...){abs(likelihood(...))}`
+`cost = function(...)\{abs(likelihood(...))\}`
 }
 \examples{
 

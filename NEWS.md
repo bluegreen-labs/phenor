@@ -1,7 +1,18 @@
+# version 1.4
+
+* CRAN release
+* removed rgenoud support
+* removed E-OBS support
+* fix VP issue
+* increase code coverage
+* remaining {terra} and {sf} conversions
+
 # version 1.3.2
 
 * provisional CMIP6 support
 * provisional ERA5 (land) support
+* updated daymet support (terra migration)
+* Fix to UN model
 
 # version 1.3.1
 

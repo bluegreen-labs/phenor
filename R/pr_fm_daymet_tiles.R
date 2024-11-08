@@ -46,12 +46,13 @@ pr_fm_daymet_tiles = function(
   # MOVE INTO A FUNCTION !!
   # process the temperature data
   if (file.exists(tmean_1) & file.exists(tmean_2) ) {
-    tmean_1 = raster::stack(tmean_1)
-    tmean_2 = raster::stack(tmean_2)
-    tmean_subset = daymetr::daymet_grid_offset(raster::stack(tmean_1,tmean_2),
-                                 offset = offset)
-    tmean_subset_brick = raster::trim(raster::brick(tmean_subset))
-    Ti = t(raster::as.matrix(tmean_subset_brick))
+    tmean_1 = terra::rast(tmean_1)
+    tmean_2 = terra::rast(tmean_2)
+    tmean_subset = daymetr::daymet_grid_offset(
+      c(tmean_1,tmean_2),
+      offset = offset
+      )
+    Ti = t(terra::as.matrix(terra::trim(tmean_subset)))
   } else {
     stop("No average daily temperature files are found\n
          please generate these files first using daymet_tmean()\n
@@ -60,12 +61,13 @@ pr_fm_daymet_tiles = function(
 
   # process the precipitation data
   if(file.exists(prcp_1) & file.exists(prcp_2)){
-    prcp_1 = raster::stack(prcp_1)
-    prcp_2 = raster::stack(prcp_2)
-    prcp_subset = daymetr::daymet_grid_offset(raster::stack(prcp_1,prcp_2),
-                                offset = offset)
-    prcp_subset_brick = raster::trim(raster::brick(prcp_subset))
-    Pi = t(raster::as.matrix(prcp_subset_brick))
+    prcp_1 = terra::rast(prcp_1)
+    prcp_2 = terra::rast(prcp_2)
+    prcp_subset = daymetr::daymet_grid_offset(
+      c(prcp_1,prcp_2),
+      offset = offset
+      )
+    Pi = t(terra::as.matrix(terra::trim(prcp_subset)))
   } else {
     warning("Correct precipitation files are not provided, will return NULL.")
     Pi = NULL
@@ -73,27 +75,34 @@ pr_fm_daymet_tiles = function(
 
   # process the VPD data
   if(file.exists(vp_1) & file.exists(vp_2)){
-    vp_1 = raster::stack(vp_1)
-    vp_2 = raster::stack(vp_2)
-    vp_subset = daymetr::daymet_grid_offset(raster::stack(vp_1,vp_2),
-                              offset = offset)
-    vp_subset_brick = raster::trim(raster::brick(vp_subset))
-    VPDi = t(raster::as.matrix(vp_subset_brick))
+    vp_1 = terra::rast(vp_1)
+    vp_2 = terra::rast(vp_2)
+    vp_subset = daymetr::daymet_grid_offset(
+      c(vp_1,vp_2),
+      offset = offset
+      )
+    VPDi = t(terra::as.matrix(terra::trim(vp_subset)))
   } else {
     warning("Correct vapour pressure files are not provided, will return NULL.")
     VPDi = NULL
   }
 
   # extract georeferencing info to be passed along
-  ext = raster::extent(tmean_subset_brick)
-  proj = raster::projection(tmean_subset_brick)
-  size = dim(tmean_subset_brick)
+  ext = terra::ext(tmean_subset)
+  proj = terra::crs(tmean_subset, proj = TRUE)
+  size = dim(tmean_subset)
 
   # grab coordinates
-  location = sp::SpatialPoints(sp::coordinates(tmean_subset_brick),
-                           proj4string = sp::CRS(proj))
-  location = t(sp::spTransform(location,
-                               sp::CRS("+init=epsg:4326"))@coords[,2:1])
+  location = sp::SpatialPoints(
+    sp::coordinates(
+      raster::raster(tmean_subset)),
+      proj4string = sp::CRS(proj)
+    )
+  location = t(
+    sp::spTransform(
+      location,
+      sp::CRS("+init=epsg:4326"))@coords[,2:1]
+    )
 
   # create doy vector
   if (offset < 365){

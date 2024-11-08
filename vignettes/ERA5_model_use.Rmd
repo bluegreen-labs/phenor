@@ -1,0 +1,91 @@
+---
+title: "ERA5 data use"
+author: "Koen Hufkens"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ERA5 data use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(phenor)
+library(ecmwfr)
+options(keyring_backend="file")
+
+# side load small ERA5 dataset (if feasible within CRAN footprint)
+```
+
+ERA5 data can be used to train, evaluate and forecast phenology models (using CMIP routines). The data used in the download sections is ERA5 land which is re-analysis data at a 10km resolution.
+
+```{r eval = FALSE}
+# ERA5 example
+pr_dl_era5(
+  path = "~/Desktop",
+  user = "2088",
+  product = "era5",
+  extent = c(
+    50.73149477111302,
+    -7.08887567473501,
+    40.365567456020266,
+    12.748594284373073
+    )
+  )
+
+# ERA5-land example
+pr_dl_era5(
+  path = "~/Desktop",
+  user = "2088",
+  product = "land",
+  file = "era5-land.nc",
+  extent = c(
+    48.345183009475015,
+    4.782986565238425,
+    45.64153500799514,
+    11.44515031394129
+  )
+)
+```
+
+
+```{r eval = FALSE}
+# format ERA5 data for upscaling
+data <- pr_fm_era5(
+  path = "~/Desktop/",
+  file = "era5-land.nc",
+  year = 2019
+)
+```
+
+```{r eval = FALSE}
+# load the included data using
+data("phenocam_DB")
+
+# optimize model parameters
+# using daymet data for training
+set.seed(1234)
+optim.par <- pr_fit(
+  data = phenocam_DB,
+  cost = rmse,
+  model = "TT",
+  method = "GenSA"
+)
+
+output <- pr_predict(
+  optim.par$par,
+  data = data,
+  model = "TT"
+  )
+
+raster::plot(output)
+maps::map("world", add = TRUE)
+```
+
+
+

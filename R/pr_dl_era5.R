@@ -16,7 +16,7 @@
 #'  data for the year of interest and the preceding year to make predictions.
 #'  When specifying one year the preceding year will be appended, when
 #'  specifying multiple years no checks are in place!!
-#' @param time_out time out in seconds before the {ecmwfr} download returns
+#' @param time_out time out in seconds before the \{ecmwfr\} download returns
 #'  to the prompt retaining the request running on the CDS server.
 #'  Data can be retrieved later from the CDS webpage once finished.
 #'  By default the time-out is set to an 3600 seconds (1h). It is advised to

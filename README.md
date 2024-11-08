@@ -5,11 +5,7 @@
 
 The phenor R package is a phenology modelling framework in R. The framework leverages measurements of vegetation phenology from four common phenology observation datasets combined with (global) retrospective and projected climate data (see below).
 
-The package curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for underlying climate driver data in model optimization. The package supports global gridded CMIP5 forecasts for RCP4.5 and RCP8.5 climate change scenarios using the [NASA Earth Exchange global downscaled daily projections](https://nex.nasa.gov/nex/projects/1356/).
-
-```diff
-- Currently CMIP scenarios through NASA NEX are no longer functional. A solution is being worked on.
-```
+The package curently focusses on North America and Europe and relies heavily on [Daymet](https://daymet.ornl.gov/) and [E-OBS climate data](http://www.ecad.eu/download/ensembles/download.php) for underlying climate driver data in model optimization. The package supports global gridded CMIP6 forecasts scenarios using the ECMWF Copernicus CDS service.
 
 Phenological model calibration / validation data are derived from:
 - the transition dates derived from [PhenoCam](https://phenocam.sr.unh.edu) time series through the [phenocamr](https://github.com/bluegreen-labs/phenocamr) R package
@@ -26,22 +22,22 @@ Keep in mind that some of the scripts will take a significant amount of time to 
 ## Installation
 
 ```diff
-- for the original package as described in the paper use release v1.0.
+- for the original package as described in the paper use release v1.0. Note that CMIP5 via NASA NEX has been deprecated in this release
 ```
 
 To install the latest stable release of the toolbox in R run the following commands in a R terminal
 
 ```R
-if(!require(devtools)){install.packages(devtools)}
-devtools::install_github("bluegreen-labs/phenor@v1.3.1")
+if(!require(remotes)){install.packages("remotes")}
+remotes::install_github("bluegreen-labs/phenor@v1.3.1")
 library(phenor)
 ```
 
 The development release can be installed by running
 
 ```R
-if(!require(devtools)){install.packages(devtools)}
-devtools::install_github("bluegreen-labs/phenor")
+if(!require(remotes)){install.packages("remotes")}
+remotes::install_github("bluegreen-labs/phenor")
 library(phenor)
 ```
 
@@ -55,18 +51,23 @@ or download the full dataset from the [ORNL DAAC](https://daac.ornl.gov/cgi-bin/
 
 ## Use
 
-Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr package and format them correctly using **format_phenocam()**
+Example code below shows that in few lines a modelling exercise can be set up. You can either download your own data using the phenocamr package and format them correctly using **pr_fm_phenocam()**
 
 ```R
 # The command below downloads all time series for deciduous broadleaf
 # data at the bartlett PhenoCam site and estimates the
-# phenophases.
-pr_dl_phenocam(vegetation = "DB",
-                  site = "bartlett",
-                  phenophase = TRUE)
+# phenophases. By default data are downloaded into tempdir() (the
+# temporary directory)
+library(phenocamr)
+phenocamr::download_phenocam(
+  veg_type = "DB",
+  roi_id = "1000",
+  site = "bartlett",
+  phenophase = TRUE
+  )
 
 # process phenocam transition files into a consistent format
-phenocam_data <- pr_fm_phenocam("/foo/bar/transition_dates/")
+phenocam_data <- pr_fm_phenocam(tempdir())
 ```
 
 Alternatively you can use the included data which consists of 370 site years of deciduous broadleaf forest sites as included in PhenoCam 1.0 dataset (Richardson et al. 2017) precompiled with Daymet climate variables. The file is loaded using a standard **data()** call or reference them directly (e.g. *phenocam_DB*).

@@ -87,7 +87,7 @@ cvmae <- function(
 #'
 #' The function is aimed to be maximized, to use it with optimizers which
 #' minimize cost functions wrap the function as such:
-#' `cost = function(...){abs(likelihood(...))}`
+#' `cost = function(...)\{abs(likelihood(...))\}`
 #'
 #' @param par a vector of parameter values, this is functions specific
 #' @param data nested data structure with validation data as returned
@@ -124,8 +124,11 @@ likelihood <- function(
   observed <- data$transition_dates
   predicted <- do.call(
     model,
-    list(data = data,
-         par = model_par))
+    list(
+      data = data,
+      par = model_par
+      )
+    )
 
   # get residuals
   residuals <- predicted - observed
@@ -134,7 +137,8 @@ likelihood <- function(
   singlelikelihoods <- stats::dnorm(
       residuals,
       sd = sd_range,
-      log = TRUE)
+      log = TRUE
+      )
 
-  return(sum(singlelikelihoods))
+  return(sum(singlelikelihoods, na.rm = TRUE))
 }

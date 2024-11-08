@@ -41,7 +41,7 @@ pr_calc_land_cover = function(
   if(missing(lc_raster)){
     stop("No source raster provided.")
   } else {
-    if(!class(lc_raster) != "RasterLayer"){
+    if(!inherits(lc_raster,"RasterLayer")){
       if(is.character(lc_raster)){
         if(!file.exists(deparse(substitute(lc_raster)))){
           stop("No source raster provided.")
@@ -56,7 +56,7 @@ pr_calc_land_cover = function(
   if(missing(dest_raster)){
     stop("No source raster provided.")
   } else {
-    if(!class(dest_raster) != "RasterLayer"){
+    if(!inherits(dest_raster,"RasterLayer")){
       if(is.character(dest_raster)){
         if(!file.exists(deparse(substitute(dest_raster)))){
           stop("No source raster provided.")
