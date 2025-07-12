@@ -79,6 +79,9 @@ pr_flatten <- function(data){
   # concat all years
   year <- as.vector(do.call("c",lapply(data,function(x)x$year)))
 
+  # concat all SOS transition dates
+  SOS_dates <- as.vector(do.call("c",lapply(data,function(x)x$SOS_dates)))
+
   # recreate the validation data structure (new format)
   # but with concatted data
   flat_data <- list("site" = site,
@@ -95,6 +98,7 @@ pr_flatten <- function(data){
               "Pi" = Pi,
               "VPDi" = VPDi,
               "SM" = SM,
+              "SOS_dates" = SOS_dates,
               "georeferencing" = NULL
               )
 
