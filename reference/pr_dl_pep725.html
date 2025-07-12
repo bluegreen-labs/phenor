@@ -6,7 +6,7 @@ register here for access to the data:
 http://www.pep725.eu/data_download/registration.php
 and carefully read the data use policy:
 http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf"><meta property="og:image" content="/logo.png"><meta name="twitter:card" content="summary"></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -39,7 +39,7 @@ http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf"><meta property="o
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -55,20 +55,20 @@ http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf"><meta property="o
         <li>
   <a href="https://github.com/bluegreen-labs/phenor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download PEP725 data</h1>
-    <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/phenor/blob/HEAD/R/pr_dl_pep725.R" class="external-link"><code>R/pr_dl_pep725.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/phenor/blob/master/R/pr_dl_pep725.R" class="external-link"><code>R/pr_dl_pep725.R</code></a></small>
     <div class="hidden name"><code>pr_dl_pep725.Rd</code></div>
     </div>
 
@@ -88,23 +88,25 @@ http://www.pep725.eu/downloads/PEP_725_Data_Policy_201012.pdf</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>credentials</dt>
+
+
+<dl><dt id="arg-credentials">credentials<a class="anchor" aria-label="anchor" href="#arg-credentials"></a></dt>
 <dd><p>Text file with your PEP725 email and password credentials.
 The credentials file is a file which lists your email and
 password on two separate lines (in this order).</p></dd>
 
 
-<dt>species</dt>
+<dt id="arg-species">species<a class="anchor" aria-label="anchor" href="#arg-species"></a></dt>
 <dd><p>A species to download, either specified by its
 species number or species name. list species numbers and names with
 check_pep725_species(list = TRUE)</p></dd>
 
 
-<dt>path</dt>
+<dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>the path where to save the downloaded data</p></dd>
 
 
-<dt>internal</dt>
+<dt id="arg-internal">internal<a class="anchor" aria-label="anchor" href="#arg-internal"></a></dt>
 <dd><p>completes download internally in a temporary directory and
 merges the data subsequently using merge_pep725(), returns a nested list
 of tidy data. internal overrides the path command.</p></dd>
@@ -112,18 +114,16 @@ of tidy data. internal overrides the path command.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>will return csv files of PEP725 data for the selected species</p>
+    <p>will return csv files of PEP725 data for the selected species</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">pr_dl_pep725</span><span class="op">(</span>credentials <span class="op">=</span> <span class="st">"~/pep725_login.txt"</span>,</span></span>
 <span class="r-in"><span>                species <span class="op">=</span> <span class="fl">115</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -170,10 +170,10 @@ of tidy data. internal overrides the path command.</p></dd>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

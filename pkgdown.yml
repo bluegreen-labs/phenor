@@ -1,8 +1,7 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   BE_model_use: BE_model_use.html
   ERA5_model_use: ERA5_model_use.html
-last_built: 2024-06-25T07:33Z
-
+last_built: 2025-07-12T11:51Z

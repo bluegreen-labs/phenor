@@ -1,249 +1,85 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/BE_model_use.html</loc>
-  </url>
-  <url>
-    <loc>/articles/ERA5_model_use.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AGSI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AICc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CDD.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CU.html</loc>
-  </url>
-  <url>
-    <loc>/reference/DP.html</loc>
-  </url>
-  <url>
-    <loc>/reference/DU.html</loc>
-  </url>
-  <url>
-    <loc>/reference/GRP.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LIN.html</loc>
-  </url>
-  <url>
-    <loc>/reference/M1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/M1s.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PA.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PAb.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PM1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PM1b.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PTT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/PTTs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SGSI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SM1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SM1b.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SQ.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SQb.html</loc>
-  </url>
-  <url>
-    <loc>/reference/TT.html</loc>
-  </url>
-  <url>
-    <loc>/reference/TTs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/UM1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/UN.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_npn_phenophases.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_npn_species.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_pep725_species.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cvmae.html</loc>
-  </url>
-  <url>
-    <loc>/reference/daylength.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/likelihood.html</loc>
-  </url>
-  <url>
-    <loc>/reference/null.html</loc>
-  </url>
-  <url>
-    <loc>/reference/outlier_detection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/phenocam_DB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/phenocam_DB_autumn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/phenocam_EN.html</loc>
-  </url>
-  <url>
-    <loc>/reference/phenocam_GR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.pr_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_calc_land_cover.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_calc_temp_sens.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_cross_validate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_dl_be.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_dl_cmip.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_dl_era5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_dl_npn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_dl_pep725.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fit_comparison.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fit_parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_flatten.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_be.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_cmip.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_csv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_daymet_tiles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_era5.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_gee.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_modis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_npn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_pep725.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_phenocam.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_fm_subset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_merge_pep725.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_parameters.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_plot_arrows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_plot_comparison.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pr_predict.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rmse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rotate_cmip.html</loc>
-  </url>
-  <url>
-    <loc>/reference/shape_model_output.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.pr_fit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/triangular_temperature_response.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONDUCT.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/BE_model_use.html</loc></url>
+<url><loc>/articles/ERA5_model_use.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/AGSI.html</loc></url>
+<url><loc>/reference/AICc.html</loc></url>
+<url><loc>/reference/AT.html</loc></url>
+<url><loc>/reference/CDD.html</loc></url>
+<url><loc>/reference/CU.html</loc></url>
+<url><loc>/reference/DP.html</loc></url>
+<url><loc>/reference/DU.html</loc></url>
+<url><loc>/reference/GRP.html</loc></url>
+<url><loc>/reference/LIN.html</loc></url>
+<url><loc>/reference/M1.html</loc></url>
+<url><loc>/reference/M1s.html</loc></url>
+<url><loc>/reference/PA.html</loc></url>
+<url><loc>/reference/PAb.html</loc></url>
+<url><loc>/reference/PM1.html</loc></url>
+<url><loc>/reference/PM1b.html</loc></url>
+<url><loc>/reference/PTT.html</loc></url>
+<url><loc>/reference/PTTs.html</loc></url>
+<url><loc>/reference/SGSI.html</loc></url>
+<url><loc>/reference/SM1.html</loc></url>
+<url><loc>/reference/SM1b.html</loc></url>
+<url><loc>/reference/SQ.html</loc></url>
+<url><loc>/reference/SQb.html</loc></url>
+<url><loc>/reference/TT.html</loc></url>
+<url><loc>/reference/TTs.html</loc></url>
+<url><loc>/reference/UM1.html</loc></url>
+<url><loc>/reference/UN.html</loc></url>
+<url><loc>/reference/check_npn_phenophases.html</loc></url>
+<url><loc>/reference/check_npn_species.html</loc></url>
+<url><loc>/reference/check_pep725_species.html</loc></url>
+<url><loc>/reference/cvmae.html</loc></url>
+<url><loc>/reference/daylength.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/likelihood.html</loc></url>
+<url><loc>/reference/null.html</loc></url>
+<url><loc>/reference/outlier_detection.html</loc></url>
+<url><loc>/reference/phenocam_DB.html</loc></url>
+<url><loc>/reference/phenocam_DB_autumn.html</loc></url>
+<url><loc>/reference/phenocam_EN.html</loc></url>
+<url><loc>/reference/phenocam_GR.html</loc></url>
+<url><loc>/reference/plot.pr_fit.html</loc></url>
+<url><loc>/reference/pr_calc_land_cover.html</loc></url>
+<url><loc>/reference/pr_calc_temp_sens.html</loc></url>
+<url><loc>/reference/pr_cross_validate.html</loc></url>
+<url><loc>/reference/pr_dl_be.html</loc></url>
+<url><loc>/reference/pr_dl_cmip.html</loc></url>
+<url><loc>/reference/pr_dl_era5.html</loc></url>
+<url><loc>/reference/pr_dl_npn.html</loc></url>
+<url><loc>/reference/pr_dl_pep725.html</loc></url>
+<url><loc>/reference/pr_fit.html</loc></url>
+<url><loc>/reference/pr_fit_comparison.html</loc></url>
+<url><loc>/reference/pr_fit_parameters.html</loc></url>
+<url><loc>/reference/pr_flatten.html</loc></url>
+<url><loc>/reference/pr_fm_be.html</loc></url>
+<url><loc>/reference/pr_fm_cmip.html</loc></url>
+<url><loc>/reference/pr_fm_csv.html</loc></url>
+<url><loc>/reference/pr_fm_daymet_tiles.html</loc></url>
+<url><loc>/reference/pr_fm_era5.html</loc></url>
+<url><loc>/reference/pr_fm_gee.html</loc></url>
+<url><loc>/reference/pr_fm_modis.html</loc></url>
+<url><loc>/reference/pr_fm_npn.html</loc></url>
+<url><loc>/reference/pr_fm_pep725.html</loc></url>
+<url><loc>/reference/pr_fm_phenocam.html</loc></url>
+<url><loc>/reference/pr_fm_subset.html</loc></url>
+<url><loc>/reference/pr_merge_pep725.html</loc></url>
+<url><loc>/reference/pr_parameters.html</loc></url>
+<url><loc>/reference/pr_plot_arrows.html</loc></url>
+<url><loc>/reference/pr_plot_comparison.html</loc></url>
+<url><loc>/reference/pr_predict.html</loc></url>
+<url><loc>/reference/rmse.html</loc></url>
+<url><loc>/reference/rotate_cmip.html</loc></url>
+<url><loc>/reference/shape_model_output.html</loc></url>
+<url><loc>/reference/summary.pr_fit.html</loc></url>
+<url><loc>/reference/triangular_temperature_response.html</loc></url>
 </urlset>
+

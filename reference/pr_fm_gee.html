@@ -4,7 +4,7 @@ through the python based Google Earth Engine (GEE) subset tool. This is a
 fallback method in the absence of a working version of R MODISTools.
 (https://khufkens.github.io/gee_subset/). Relies on Daymet data coverage,
 and is for now limited to Northern America."><meta property="og:image" content="/logo.png"><meta name="twitter:card" content="summary"></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -37,7 +37,7 @@ and is for now limited to Northern America."><meta property="og:image" content="
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -53,20 +53,20 @@ and is for now limited to Northern America."><meta property="og:image" content="
         <li>
   <a href="https://github.com/bluegreen-labs/phenor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Formatting GEE data</h1>
-    <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/phenor/blob/HEAD/R/pr_fm_gee.R" class="external-link"><code>R/pr_fm_gee.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/bluegreen-labs/phenor/blob/master/R/pr_fm_gee.R" class="external-link"><code>R/pr_fm_gee.R</code></a></small>
     <div class="hidden name"><code>pr_fm_gee.Rd</code></div>
     </div>
 
@@ -84,16 +84,18 @@ and is for now limited to Northern America.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>path</dt>
+
+
+<dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>a path to GEE provided MCD12Q2 phenology dates</p></dd>
 
 
-<dt>phenophase</dt>
+<dt id="arg-phenophase">phenophase<a class="anchor" aria-label="anchor" href="#arg-phenophase"></a></dt>
 <dd><p>Phenological phase, Increase, Maximum,
 Decrease or Minimum (default = Increase)</p></dd>
 
 
-<dt>offset</dt>
+<dt id="arg-offset">offset<a class="anchor" aria-label="anchor" href="#arg-offset"></a></dt>
 <dd><p>offset of the time series in DOY (default = 264, sept 21)</p></dd>
 
 </dl></div>
@@ -101,9 +103,9 @@ Decrease or Minimum (default = Increase)</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">modis_data</span> <span class="op">&lt;-</span> <span class="fu">pr_fm_gee</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,10 +152,10 @@ Decrease or Minimum (default = Increase)</p></dd>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
